@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import TerritoryPage from '@/components/TerritoryPage';
+import { getTerritoryContent } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'GOALVERSE — QOOBIX',
@@ -8,11 +9,16 @@ export const metadata: Metadata = {
 };
 
 export default function GoalversePage() {
+  const page = getTerritoryContent('goalverse');
+
   return (
     <TerritoryPage
-      eyebrow="Territory"
-      title="GOALVERSE"
-      body="The anti-coaching chamber of QOOBIX. GOALVERSE mocks goal worship, motivation clichés, productivity theatre, hard-work myths, hustle culture, and the industry that keeps telling people to optimise their lives before asking whether the goal was worth having in the first place."
+      eyebrow={page.eyebrow}
+      title={page.title}
+      description={page.description}
+      content={page.content}
+      button={page.button}
+      showStoreLink={page.showStoreLink === 'true'}
     />
   );
 }
