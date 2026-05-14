@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import type { HomeContent } from '@/lib/content-types';
@@ -176,19 +177,21 @@ export default function HomePage({ content, territories }: HomePageProps) {
                   href="/goalverse"
                   className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
                   style={{
-                    borderColor: 'var(--border)',
-                    background: 'var(--panel)'
+                    borderColor: 'rgba(232, 90, 42, 0.55)',
+                    color: '#E85A2A',
+                    background: 'transparent'
                   }}
                 >
-                  Enter the GOALVERSE path
+                  Enter the Goalverse path
                 </Link>
 
                 <Link
                   href="/punkia"
                   className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
                   style={{
-                    borderColor: 'var(--border)',
-                    background: 'var(--panel)'
+                    borderColor: 'rgba(232, 90, 42, 0.55)',
+                    color: '#E85A2A',
+                    background: 'transparent'
                   }}
                 >
                   Enter the Punkia path
@@ -196,7 +199,12 @@ export default function HomePage({ content, territories }: HomePageProps) {
 
                 <Link
                   href="/proteus"
-                  className="qoobix-focus inline-flex justify-center rounded-xl bg-[#E85A2A] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+                  className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+                  style={{
+                    borderColor: 'rgba(232, 90, 42, 0.55)',
+                    color: '#E85A2A',
+                    background: 'transparent'
+                  }}
                 >
                   Meet Proteus
                 </Link>
@@ -243,7 +251,12 @@ export default function HomePage({ content, territories }: HomePageProps) {
 
               <Link
                 href={territory.href}
-                className="qoobix-focus mt-6 inline-flex rounded-xl bg-[#E85A2A] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+                className="qoobix-focus mt-6 inline-flex rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+                style={{
+                  borderColor: 'rgba(232, 90, 42, 0.55)',
+                  color: '#E85A2A',
+                  background: 'transparent'
+                }}
               >
                 {territory.button}
               </Link>
@@ -276,7 +289,12 @@ export default function HomePage({ content, territories }: HomePageProps) {
             href="https://siendamedia.com"
             target="_blank"
             rel="noreferrer noopener"
-            className="qoobix-focus mt-8 inline-flex rounded-xl bg-[#E85A2A] px-6 py-4 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5"
+            className="qoobix-focus mt-8 inline-flex rounded-xl border px-6 py-4 text-sm font-semibold transition hover:-translate-y-0.5"
+            style={{
+              borderColor: 'rgba(232, 90, 42, 0.55)',
+              color: '#E85A2A',
+              background: 'transparent'
+            }}
           >
             {content.bridgeButton}
           </a>
@@ -302,6 +320,77 @@ export default function HomePage({ content, territories }: HomePageProps) {
           <p>{content.aboutParagraphOne}</p>
           <p>{content.aboutParagraphTwo}</p>
           <p>{content.aboutParagraphThree}</p>
+        </div>
+      </section>
+
+      <section className="relative mx-auto w-full max-w-5xl px-5 py-16 sm:px-8 lg:px-10">
+        <div
+          className="rounded-3xl border p-7 text-center sm:p-10"
+          style={{
+            borderColor: 'var(--border)',
+            background: 'var(--panel)',
+            boxShadow: '0 24px 80px var(--shadow)'
+          }}
+        >
+          <p
+            className="text-xs font-semibold uppercase tracking-[0.3em]"
+            style={{ color: '#E85A2A' }}
+          >
+            {content.logoBridgeEyebrow}
+          </p>
+
+          <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
+            {content.logoBridgeTitle}
+          </h2>
+
+          <p
+            className="mx-auto mt-5 max-w-2xl text-base leading-8"
+            style={{ color: 'var(--muted)' }}
+          >
+            {content.logoBridgeDescription}
+          </p>
+
+          <div className="mt-9 grid gap-5 sm:grid-cols-2">
+            <a
+              href="https://goalverse.app"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="qoobix-focus flex min-h-36 items-center justify-center rounded-2xl border p-7 transition hover:-translate-y-0.5"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--panel-strong)'
+              }}
+              aria-label="Open Goalverse in a new tab"
+            >
+              <Image
+                src="/goalverse-logo.png"
+                alt="Goalverse"
+                width={260}
+                height={120}
+                className="h-auto max-h-24 w-auto max-w-full object-contain"
+              />
+            </a>
+
+            <a
+              href="https://punkia.com"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="qoobix-focus flex min-h-36 items-center justify-center rounded-2xl border p-7 transition hover:-translate-y-0.5"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--panel-strong)'
+              }}
+              aria-label="Open Punkia in a new tab"
+            >
+              <Image
+                src="/punkia-logo.png"
+                alt="Punkia"
+                width={260}
+                height={120}
+                className="h-auto max-h-24 w-auto max-w-full object-contain"
+              />
+            </a>
+          </div>
         </div>
       </section>
     </main>
