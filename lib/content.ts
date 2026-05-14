@@ -67,8 +67,9 @@ export function getTerritoryContent(slug: string): TerritoryContent {
     eyebrow: parsed.data.eyebrow,
     title: parsed.data.title,
     description: parsed.data.description,
-    button: parsed.data.button,
-    showStoreLink: parsed.data.showStoreLink ?? 'true',
+    cardButton: parsed.data.cardButton,
+    pageButton: parsed.data.pageButton,
+    showStoreLink: parsed.data.showStoreLink ?? 'false',
     content: parsed.content
   };
 }
@@ -103,7 +104,7 @@ export function getTerritoryCards() {
     return {
       title: territory.title,
       description: territory.description,
-      button: territory.button,
+      button: territory.cardButton,
       href: `/${slug}`
     };
   });
