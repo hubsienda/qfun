@@ -34,6 +34,22 @@ export default function HomePage({ content, territories }: HomePageProps) {
 
   const isCorrect = selectedAnswer === content.correctAnswer;
 
+  const diagnosis = isCorrect
+    ? {
+        response: content.correctResponse,
+        diagnosis: content.correctDiagnosis,
+        myth: content.correctDetectedMyth,
+        reality: content.correctRealityCheck,
+        antidote: content.correctRecommendedAntidote
+      }
+    : {
+        response: content.wrongResponse,
+        diagnosis: content.wrongDiagnosis,
+        myth: content.wrongDetectedMyth,
+        reality: content.wrongRealityCheck,
+        antidote: content.wrongRecommendedAntidote
+      };
+
   function approachCube() {
     document
       .getElementById('proteus-encounter')
@@ -71,6 +87,17 @@ export default function HomePage({ content, territories }: HomePageProps) {
             style={{ color: 'var(--muted)' }}
           >
             {content.heroDescription}
+          </p>
+
+          <p
+            className="mt-5 max-w-xl rounded-2xl border p-4 text-base leading-8"
+            style={{
+              color: 'var(--foreground)',
+              borderColor: 'rgba(232, 90, 42, 0.32)',
+              background: 'rgba(232, 90, 42, 0.07)'
+            }}
+          >
+            {content.heroPurpose}
           </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -168,9 +195,55 @@ export default function HomePage({ content, territories }: HomePageProps) {
                   : 'rgba(0, 0, 0, 0.04)'
               }}
             >
-              <p className="text-lg leading-8">
-                {isCorrect ? content.correctResponse : content.wrongResponse}
-              </p>
+              <p className="text-lg leading-8">{diagnosis.response}</p>
+
+              <div
+                className="mt-6 grid gap-4 rounded-2xl border p-5"
+                style={{
+                  borderColor: 'var(--border)',
+                  background: 'var(--panel)'
+                }}
+              >
+                <div>
+                  <p
+                    className="text-xs font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: '#E85A2A' }}
+                  >
+                    {content.diagnosisLabel}
+                  </p>
+                  <p className="mt-2 text-base leading-7">{diagnosis.diagnosis}</p>
+                </div>
+
+                <div>
+                  <p
+                    className="text-xs font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: '#E85A2A' }}
+                  >
+                    {content.detectedMythLabel}
+                  </p>
+                  <p className="mt-2 text-base leading-7">{diagnosis.myth}</p>
+                </div>
+
+                <div>
+                  <p
+                    className="text-xs font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: '#E85A2A' }}
+                  >
+                    {content.realityCheckLabel}
+                  </p>
+                  <p className="mt-2 text-base leading-7">{diagnosis.reality}</p>
+                </div>
+
+                <div>
+                  <p
+                    className="text-xs font-semibold uppercase tracking-[0.24em]"
+                    style={{ color: '#E85A2A' }}
+                  >
+                    {content.recommendedAntidoteLabel}
+                  </p>
+                  <p className="mt-2 text-base leading-7">{diagnosis.antidote}</p>
+                </div>
+              </div>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
@@ -182,7 +255,7 @@ export default function HomePage({ content, territories }: HomePageProps) {
                     background: 'transparent'
                   }}
                 >
-                  Enter the Goalverse path
+                  {content.goalversePathButton}
                 </Link>
 
                 <Link
@@ -194,7 +267,7 @@ export default function HomePage({ content, territories }: HomePageProps) {
                     background: 'transparent'
                   }}
                 >
-                  Enter the Punkia path
+                  {content.punkiaPathButton}
                 </Link>
 
                 <Link
@@ -206,8 +279,20 @@ export default function HomePage({ content, territories }: HomePageProps) {
                     background: 'transparent'
                   }}
                 >
-                  Meet Proteus
+                  {content.proteusPathButton}
                 </Link>
+
+                <a
+                  href="#antidotes"
+                  className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+                  style={{
+                    borderColor: 'var(--border)',
+                    color: 'var(--foreground)',
+                    background: 'var(--panel)'
+                  }}
+                >
+                  {content.futureAntidotesButton}
+                </a>
               </div>
             </div>
           ) : null}
@@ -265,7 +350,10 @@ export default function HomePage({ content, territories }: HomePageProps) {
         </div>
       </section>
 
-      <section className="relative mx-auto w-full max-w-5xl px-5 py-16 sm:px-8 lg:px-10">
+      <section
+        id="antidotes"
+        className="relative mx-auto w-full max-w-5xl scroll-mt-10 px-5 py-16 sm:px-8 lg:px-10"
+      >
         <div
           className="rounded-3xl border p-7 text-center sm:p-10"
           style={{
