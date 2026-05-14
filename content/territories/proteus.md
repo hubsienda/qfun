@@ -2,7 +2,7 @@
 eyebrow: Inside Da QOOBIX
 title: Proteus
 description: The ever-changing intelligence inside Da QOOBIX. Proteus asks unpleasant questions, detects fashionable nonsense, and occasionally produces something useful before returning to mockery.
-button: Return to Da QOOBIX
+button: Proteus
 showStoreLink: false
 ---
 
