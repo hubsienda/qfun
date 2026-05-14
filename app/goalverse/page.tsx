@@ -3,7 +3,7 @@ import TerritoryPage from '@/components/TerritoryPage';
 import { getTerritoryContent } from '@/lib/content';
 
 export const metadata: Metadata = {
-  title: 'GOALVERSE — QOOBIX',
+  title: 'Goalverse — QOOBIX',
   description:
     'The anti-coaching chamber of QOOBIX. Not sport. Not motivation. Not another shrine to goals.'
 };
@@ -17,7 +17,7 @@ export default function GoalversePage() {
       title={page.title}
       description={page.description}
       content={page.content}
-      button={page.button}
+      button="Return to Da QOOBIX"
       showStoreLink={page.showStoreLink === 'true'}
     />
   );
