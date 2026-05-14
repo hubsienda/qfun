@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import type { HomeContent } from '@/lib/content';
+import type { HomeContent } from '@/lib/content-types';
 
 type AnswerKey = 'A' | 'B' | 'C' | 'D';
 
@@ -250,12 +250,7 @@ export default function HomePage({ content, territories }: HomePageProps) {
 
                 <Link
                   href={territory.href}
-                  className="qoobix-focus mt-6 inline-flex rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-                  style={{
-                    borderColor: 'rgba(232, 90, 42, 0.45)',
-                    color: '#E85A2A',
-                    background: 'rgba(232, 90, 42, 0.08)'
-                  }}
+                  className="qoobix-focus mt-6 inline-flex rounded-xl bg-[#E85A2A] px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
                 >
                   {territory.button}
                 </Link>
