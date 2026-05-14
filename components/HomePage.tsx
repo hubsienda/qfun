@@ -373,6 +373,13 @@ export default function HomePage({ content, territories }: HomePageProps) {
             {content.bridgeDescription}
           </p>
 
+          <p
+            className="mx-auto mt-4 max-w-2xl text-base leading-8"
+            style={{ color: 'var(--foreground)' }}
+          >
+            {content.bridgeExtraLine}
+          </p>
+
           <a
             href="https://siendamedia.com"
             target="_blank"
@@ -409,6 +416,18 @@ export default function HomePage({ content, territories }: HomePageProps) {
           <p>{content.aboutParagraphTwo}</p>
           <p>{content.aboutParagraphThree}</p>
         </div>
+
+        <Link
+          href="/proteus"
+          className="qoobix-focus mt-8 inline-flex rounded-xl border px-6 py-4 text-sm font-semibold transition hover:-translate-y-0.5"
+          style={{
+            borderColor: 'rgba(232, 90, 42, 0.55)',
+            color: '#E85A2A',
+            background: 'transparent'
+          }}
+        >
+          {content.aboutButton}
+        </Link>
       </section>
 
       <section className="relative mx-auto w-full max-w-5xl px-5 py-16 sm:px-8 lg:px-10">
