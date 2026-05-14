@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import TerritoryPage from '@/components/TerritoryPage';
+import { getTerritoryContent } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Punkia — QOOBIX',
@@ -8,11 +9,16 @@ export const metadata: Metadata = {
 };
 
 export default function PunkiaPage() {
+  const page = getTerritoryContent('punkia');
+
   return (
     <TerritoryPage
-      eyebrow="Territory"
-      title="Punkia"
-      body="Satirical field reports from civilisation’s nonsense engine. Punkia mocks corporate fog, AI theatre, LinkedIn rituals, fake innovation, meritocracy myths, management language, productivity cults, and institutional absurdity."
+      eyebrow={page.eyebrow}
+      title={page.title}
+      description={page.description}
+      content={page.content}
+      button={page.button}
+      showStoreLink={page.showStoreLink === 'true'}
     />
   );
 }
