@@ -2,7 +2,7 @@
 eyebrow: Territory
 title: Punkia
 description: A satirical territory for corporate fog, AI theatre, LinkedIn rituals, fake innovation, meritocracy myths, business language, and organised modern absurdity.
-button: Return to Da QOOBIX
+button: Punkia
 showStoreLink: true
 ---
 
