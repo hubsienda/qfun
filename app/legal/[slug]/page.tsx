@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -59,8 +60,20 @@ export default async function LegalPage({ params }: LegalPageProps) {
             boxShadow: '0 30px 90px var(--shadow)'
           }}
         >
+          <Link
+            href="/legal"
+            className="qoobix-focus inline-flex rounded-xl border px-4 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
+            style={{
+              borderColor: 'rgba(232, 90, 42, 0.55)',
+              color: '#E85A2A',
+              background: 'transparent'
+            }}
+          >
+            Back to Legal index
+          </Link>
+
           <p
-            className="text-xs font-semibold uppercase tracking-[0.3em]"
+            className="mt-8 text-xs font-semibold uppercase tracking-[0.3em]"
             style={{ color: '#E85A2A' }}
           >
             Effective date: {page.effectiveDate}
