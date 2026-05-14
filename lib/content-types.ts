@@ -30,6 +30,9 @@ export type HomeContent = {
   aboutParagraphOne: string;
   aboutParagraphTwo: string;
   aboutParagraphThree: string;
+  logoBridgeEyebrow: string;
+  logoBridgeTitle: string;
+  logoBridgeDescription: string;
 };
 
 export type TerritoryContent = {
