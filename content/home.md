@@ -25,4 +25,7 @@ aboutTitle: Proteus is the intelligence inside Da QOOBIX.
 aboutParagraphOne: It changes shape, asks inconvenient questions, detects nonsense, crushes fashionable myths, and recommends the occasional antidote.
 aboutParagraphTwo: It is not here to motivate you.
 aboutParagraphThree: It is here to make the comfortable answer feel embarrassed.
+logoBridgeEyebrow: Connected territories
+logoBridgeTitle: Two doors outside the cube.
+logoBridgeDescription: Goalverse and Punkia are connected territories. They live beyond QOOBIX, but Proteus keeps an eye on them. Naturally, it denies emotional attachment.
 ---
