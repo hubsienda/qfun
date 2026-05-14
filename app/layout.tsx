@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import CookiePrivacyBanner from '@/components/CookiePrivacyBanner';
+import ScrollToTop from '@/components/ScrollToTop';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -43,7 +45,11 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookiePrivacyBanner />
+        <ScrollToTop />
+      </body>
     </html>
   );
 }
