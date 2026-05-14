@@ -48,6 +48,7 @@ export type HomeContent = {
 
   bridgeTitle: string;
   bridgeDescription: string;
+  bridgeExtraLine: string;
   bridgeButton: string;
 
   aboutEyebrow: string;
@@ -55,6 +56,7 @@ export type HomeContent = {
   aboutParagraphOne: string;
   aboutParagraphTwo: string;
   aboutParagraphThree: string;
+  aboutButton: string;
 
   logoBridgeEyebrow: string;
   logoBridgeTitle: string;
