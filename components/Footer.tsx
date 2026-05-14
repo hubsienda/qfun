@@ -1,9 +1,6 @@
 import Link from 'next/link';
-import { getAllLegalPages } from '@/lib/content';
 
 export default function Footer() {
-  const legalPages = getAllLegalPages();
-
   return (
     <footer
       className="mx-auto mt-14 w-full max-w-7xl px-5 pb-8 pt-10 text-sm sm:px-8 lg:px-10"
@@ -38,39 +35,34 @@ export default function Footer() {
           >
             Sienda Media
           </a>
+
           <Link
             href="/goalverse"
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
-            GOALVERSE
+            Goalverse
           </Link>
+
           <Link
             href="/punkia"
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
             Punkia
           </Link>
+
           <Link
             href="/proteus"
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
             Proteus
           </Link>
+
           <Link
             href="/legal"
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
             Legal
           </Link>
-          {legalPages.slice(0, 2).map((page) => (
-            <Link
-              key={page.slug}
-              href={`/legal/${page.slug}`}
-              className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
-            >
-              {page.title}
-            </Link>
-          ))}
         </nav>
       </div>
     </footer>
