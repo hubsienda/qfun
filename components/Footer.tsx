@@ -11,7 +11,11 @@ export default function Footer() {
         style={{ borderColor: 'var(--border)' }}
       >
         <p>
-          QOOBIX by{' '}
+          QOOBIX with{' '}
+          <span aria-label="love" role="img" style={{ color: '#E85A2A' }}>
+            ♥
+          </span>{' '}
+          by{' '}
           <a
             href="https://sienda.co.uk"
             target="_blank"
@@ -44,13 +48,6 @@ export default function Footer() {
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
             Punkia
-          </Link>
-
-          <Link
-            href="/proteus"
-            className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
-          >
-            Proteus
           </Link>
 
           <Link
