@@ -45,7 +45,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="qoobix-focus inline-flex h-10 items-center gap-2 rounded-full border px-3 text-sm transition hover:-translate-y-0.5"
+      className="qoobix-focus inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-sm transition hover:-translate-y-0.5"
       style={{
         borderColor: 'var(--border)',
         background: 'var(--panel)',
