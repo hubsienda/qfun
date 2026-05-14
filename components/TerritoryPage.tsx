@@ -72,8 +72,9 @@ export default function TerritoryPage({
                 rel="noreferrer noopener"
                 className="qoobix-focus inline-flex justify-center rounded-xl border px-6 py-4 text-sm font-semibold transition hover:-translate-y-0.5"
                 style={{
-                  borderColor: 'var(--border)',
-                  background: 'var(--panel)'
+                  borderColor: 'rgba(232, 90, 42, 0.55)',
+                  color: '#E85A2A',
+                  background: 'transparent'
                 }}
               >
                 Visit Sienda Media
