@@ -2,8 +2,9 @@
 eyebrow: "Territory"
 title: "Punkia"
 description: "A satirical territory for corporate fog, AI theatre, LinkedIn rituals, fake innovation, meritocracy myths, business language, and organised modern absurdity. For people who have heard “strategic alignment” and wondered where the actual decision went to die."
-button: "Enter through QOOBIX"
-showStoreLink: "true"
+cardButton: "Check it out"
+pageButton: "Enter through QOOBIX"
+showStoreLink: "false"
 ---
 
 Punkia mocks corporate fog, AI theatre, LinkedIn rituals, fake innovation, management language, meritocracy myths, productivity cults, and institutional absurdity.
