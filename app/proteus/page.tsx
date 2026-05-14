@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import TerritoryPage from '@/components/TerritoryPage';
+import { getTerritoryContent } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Proteus — QOOBIX',
@@ -8,11 +9,16 @@ export const metadata: Metadata = {
 };
 
 export default function ProteusPage() {
+  const page = getTerritoryContent('proteus');
+
   return (
     <TerritoryPage
-      eyebrow="Inside Da QOOBIX"
-      title="Proteus"
-      body="Proteus is the ever-changing intelligence inside Da QOOBIX. It asks counterintuitive questions, crushes comfortable myths, and occasionally recommends useful antidotes before returning to its natural state of elegant disapproval."
+      eyebrow={page.eyebrow}
+      title={page.title}
+      description={page.description}
+      content={page.content}
+      button={page.button}
+      showStoreLink={page.showStoreLink === 'true'}
     />
   );
 }
