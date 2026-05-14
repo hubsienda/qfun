@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'QOOBIX — Da QOOBIX, managed by Proteus',
+  title: 'Da QOOBIX',
   description:
     'A satirical intelligence platform for crushing myths, detecting nonsense, and finding the occasional antidote.',
   icons: {
