@@ -18,7 +18,7 @@ export default function TerritoryPage({
   description,
   content,
   button,
-  showStoreLink = true
+  showStoreLink = false
 }: TerritoryPageProps) {
   return (
     <div className="qoobix-shell">
@@ -60,7 +60,12 @@ export default function TerritoryPage({
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href="/"
-              className="qoobix-focus inline-flex justify-center rounded-xl bg-[#E85A2A] px-6 py-4 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5"
+              className="qoobix-focus inline-flex justify-center rounded-xl border px-6 py-4 text-sm font-semibold transition hover:-translate-y-0.5"
+              style={{
+                borderColor: 'rgba(232, 90, 42, 0.55)',
+                color: '#E85A2A',
+                background: 'transparent'
+              }}
             >
               {button}
             </Link>
