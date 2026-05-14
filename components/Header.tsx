@@ -29,7 +29,7 @@ export default function Header() {
 
       <div className="flex items-center justify-end gap-3">
         <nav
-          className="hidden items-center gap-1 rounded-full border px-2 py-2 md:flex"
+          className="hidden items-center gap-1 rounded-xl border px-2 py-2 md:flex"
           style={{
             borderColor: 'var(--border)',
             background: 'var(--panel)'
@@ -43,7 +43,7 @@ export default function Header() {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="qoobix-focus rounded-full px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
+                className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
               >
                 {item.label}
               </a>
@@ -51,7 +51,7 @@ export default function Header() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="qoobix-focus rounded-full px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
+                className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
               >
                 {item.label}
               </Link>
