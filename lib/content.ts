@@ -1,59 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import type {
+  HomeContent,
+  LegalPageContent,
+  ParsedMarkdown,
+  TerritoryContent
+} from '@/lib/content-types';
 
 const contentRoot = path.join(process.cwd(), 'content');
-
-export type ParsedMarkdown = {
-  data: Record<string, string>;
-  content: string;
-};
-
-export type HomeContent = {
-  heroEyebrow: string;
-  heroTitle: string;
-  heroLine: string;
-  heroDescription: string;
-  heroButton: string;
-  heroSupport: string;
-  encounterEyebrow: string;
-  encounterTitle: string;
-  question: string;
-  answerA: string;
-  answerB: string;
-  answerC: string;
-  answerD: string;
-  correctAnswer: string;
-  correctResponse: string;
-  wrongResponse: string;
-  territoriesEyebrow: string;
-  territoriesTitle: string;
-  bridgeTitle: string;
-  bridgeDescription: string;
-  bridgeButton: string;
-  aboutEyebrow: string;
-  aboutTitle: string;
-  aboutParagraphOne: string;
-  aboutParagraphTwo: string;
-  aboutParagraphThree: string;
-};
-
-export type TerritoryContent = {
-  slug: string;
-  eyebrow: string;
-  title: string;
-  description: string;
-  button: string;
-  showStoreLink: string;
-  content: string;
-};
-
-export type LegalPageContent = {
-  slug: string;
-  title: string;
-  description: string;
-  effectiveDate: string;
-  content: string;
-};
 
 function readFile(relativePath: string) {
   return fs.readFileSync(path.join(contentRoot, relativePath), 'utf8');
