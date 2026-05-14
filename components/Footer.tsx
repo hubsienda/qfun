@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { getAllLegalPages } from '@/lib/content';
 
 export default function Footer() {
+  const legalPages = getAllLegalPages();
+
   return (
     <footer
       className="mx-auto mt-14 w-full max-w-7xl px-5 pb-8 pt-10 text-sm sm:px-8 lg:px-10"
@@ -10,7 +13,21 @@ export default function Footer() {
         className="flex flex-col gap-5 border-t pt-7 md:flex-row md:items-center md:justify-between"
         style={{ borderColor: 'var(--border)' }}
       >
-        <p>QOOBIX by Sienda Ltd</p>
+        <p>
+          QOOBIX with{' '}
+          <span aria-label="love" role="img" style={{ color: '#E85A2A' }}>
+            ♥
+          </span>{' '}
+          by{' '}
+          <a
+            href="https://sienda.co.uk"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
+          >
+            Sienda Ltd
+          </a>
+        </p>
 
         <nav className="flex flex-wrap gap-x-5 gap-y-3" aria-label="Footer">
           <a
@@ -40,17 +57,20 @@ export default function Footer() {
             Proteus
           </Link>
           <Link
-            href="#"
+            href="/legal"
             className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
           >
             Legal
           </Link>
-          <Link
-            href="#"
-            className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
-          >
-            Privacy
-          </Link>
+          {legalPages.slice(0, 2).map((page) => (
+            <Link
+              key={page.slug}
+              href={`/legal/${page.slug}`}
+              className="qoobix-focus rounded-md transition hover:text-[#E85A2A]"
+            >
+              {page.title}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>
