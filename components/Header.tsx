@@ -2,13 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ThemeToggle from '@/components/ThemeToggle';
 
-const navItems = [
-  { label: 'GOALVERSE', href: '/goalverse' },
-  { label: 'Punkia', href: '/punkia' },
-  { label: 'Products', href: 'https://siendamedia.com', external: true },
-  { label: 'About Proteus', href: '/proteus' }
-];
-
 export default function Header() {
   return (
     <header className="relative z-30 mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-5 sm:px-8 lg:px-10">
@@ -36,28 +29,24 @@ export default function Header() {
           }}
           aria-label="Main navigation"
         >
-          {navItems.map((item) =>
-            item.external ? (
-              <a
-                key={item.label}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
-              >
-                {item.label}
-              </Link>
-            )
-          )}
+          <Link
+            href="/proteus"
+            className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
+          >
+            About Proteus
+          </Link>
         </nav>
+
+        <Link
+          href="/proteus"
+          className="qoobix-focus inline-flex rounded-xl border px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10 md:hidden"
+          style={{
+            borderColor: 'var(--border)',
+            background: 'var(--panel)'
+          }}
+        >
+          Proteus
+        </Link>
 
         <ThemeToggle />
       </div>
