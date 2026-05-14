@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -48,7 +49,7 @@ export default function HomePage() {
   function approachCube() {
     document
       .getElementById('proteus-encounter')
-      ?.scrollIntoView({ behaviour: 'smooth', block: 'start' } as ScrollIntoViewOptions);
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   return (
@@ -345,5 +346,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-import { useState } from 'react';
