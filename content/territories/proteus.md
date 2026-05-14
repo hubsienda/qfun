@@ -1,7 +1,7 @@
 ---
 eyebrow: "Inside Da QOOBIX"
 title: "Proteus"
-description: "The ever-changing intelligence inside Da QOOBIX."
+description: "The ever-changing intelligence inside Da QOOBIX. Not a mentor. Not a coach. More like a diagnostic instrument with a grudge."
 button: "Approach da QOOBIX"
 showStoreLink: "false"
 ---
