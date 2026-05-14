@@ -68,7 +68,8 @@ export type TerritoryContent = {
   eyebrow: string;
   title: string;
   description: string;
-  button: string;
+  cardButton: string;
+  pageButton: string;
   showStoreLink: string;
   content: string;
 };
