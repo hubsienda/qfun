@@ -2,8 +2,9 @@
 eyebrow: "Territory"
 title: "Goalverse"
 description: "The anti-coaching territory of QOOBIX. It mocks goal worship, productivity theatre, motivation clichés, success myths, hard-work fairy tales, hustle culture, and the nonsense sold as personal transformation. For people who suspect “work harder” is sometimes just bad advice wearing gym clothes."
-button: "Enter through QOOBIX"
-showStoreLink: "true"
+cardButton: "Check it out"
+pageButton: "Enter through QOOBIX"
+showStoreLink: "false"
 ---
 
 Goalverse mocks goal worship, motivation clichés, productivity theatre, hard-work myths, hustle culture, mindset slogans, and the industry that keeps telling people to optimise their lives before asking whether the goal was worth having in the first place.
