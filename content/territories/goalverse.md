@@ -1,8 +1,8 @@
 ---
 eyebrow: "Territory"
 title: "Goalverse"
-description: "The anti-coaching territory of QOOBIX."
-button: "Enter the Goalverse path inside Da QOOBIX"
+description: "The anti-coaching territory of QOOBIX. It mocks goal worship, productivity theatre, motivation clichés, success myths, hard-work fairy tales, hustle culture, and the nonsense sold as personal transformation. For people who suspect “work harder” is sometimes just bad advice wearing gym clothes."
+button: "Enter through QOOBIX"
 showStoreLink: "true"
 ---
 
