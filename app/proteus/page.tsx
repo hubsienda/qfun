@@ -17,7 +17,7 @@ export default function ProteusPage() {
       title={page.title}
       description={page.description}
       content={page.content}
-      button={page.button}
+      button={page.pageButton}
       showStoreLink={page.showStoreLink === 'true'}
     />
   );
