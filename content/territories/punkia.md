@@ -1,8 +1,8 @@
 ---
 eyebrow: "Territory"
 title: "Punkia"
-description: "Satirical field reports from civilisation’s nonsense engine."
-button: "Enter the Punkia path inside Da QOOBIX"
+description: "A satirical territory for corporate fog, AI theatre, LinkedIn rituals, fake innovation, meritocracy myths, business language, and organised modern absurdity. For people who have heard “strategic alignment” and wondered where the actual decision went to die."
+button: "Enter through QOOBIX"
 showStoreLink: "true"
 ---
 
