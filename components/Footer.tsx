@@ -11,11 +11,7 @@ export default function Footer() {
         style={{ borderColor: 'var(--border)' }}
       >
         <p>
-          QOOBIX with{' '}
-          <span aria-label="love" role="img" style={{ color: '#E85A2A' }}>
-            ♥
-          </span>{' '}
-          by{' '}
+          QOOBIX by{' '}
           <a
             href="https://sienda.co.uk"
             target="_blank"
