@@ -6,21 +6,21 @@ import Header from '@/components/Header';
 export const metadata: Metadata = {
   title: 'Da Trove | QOOBIX',
   description:
-    'Subscribe to access free QOOBIX, Goalverse, and Punkia antidotes: checklists, decoders, field notes, and myth-crushing material.'
+    'Subscribe to access Da Trove: a growing folder of free QOOBIX, Goalverse, Punkia, and Proteus antidotes, checklists, decoders, field notes, and myth-crushing material.'
 };
 
 const troveItems = [
   {
     title: 'Goalverse',
-    text: 'The Motivational Contamination Checklist — for detecting goal worship, discipline theatre, hustle fog, and self-improvement residue.'
+    text: 'Free anti-coaching material for detecting motivational contamination, goal worship, discipline theatre, hustle fog, and self-improvement residue.'
   },
   {
     title: 'Punkia',
-    text: 'The Corporate Fog Decoder — for translating workplace phrases before they reproduce in the meeting calendar.'
+    text: 'Free corporate-fog material for translating workplace phrases before they reproduce in the meeting calendar.'
   },
   {
-    title: 'QOOBIX / Proteus',
-    text: 'Future myth-crushing notes, diagnostics, and strange little instruments for inspecting fashionable nonsense.'
+    title: 'Proteus / QOOBIX',
+    text: 'Future myth-crushing notes, strange diagnostics, and small tools for inspecting fashionable nonsense before someone turns it into a webinar.'
   }
 ];
 
@@ -52,7 +52,7 @@ export default function TrovePage() {
             className="mx-auto mt-6 max-w-2xl text-xl leading-8 sm:text-2xl"
             style={{ color: 'var(--foreground)' }}
           >
-            Free antidotes from QOOBIX, Goalverse, and Punkia.
+            Free antidotes from QOOBIX, Goalverse, Punkia, and Proteus.
           </p>
 
           <div
@@ -60,10 +60,16 @@ export default function TrovePage() {
             style={{ color: 'var(--muted)' }}
           >
             <p>
-              Enter your email and receive access to the free decontamination
-              folder: checklists, decoders, field notes, phrasebooks, and other
-              small instruments for removing nonsense before it reproduces in
-              your calendar.
+              Enter your email and receive access to Da Trove: a growing folder
+              of free myth-crushing material, satirical field notes, checklists,
+              decoders, mini-guides, and other small instruments for detecting
+              nonsense before it reproduces in your calendar.
+            </p>
+
+            <p>
+              Inside today, you will find free material from Goalverse and
+              Punkia. More antidotes will be added over time, because the fog is
+              industrious and sadly not planning retirement.
             </p>
 
             <p>
@@ -129,9 +135,9 @@ export default function TrovePage() {
             className="mt-6 text-center text-sm leading-7"
             style={{ color: 'var(--muted)' }}
           >
-            Your email is used to send the free materials and occasional QOOBIX,
-            Goalverse, and Punkia updates. You can unsubscribe at any time. No
-            motivational fog will be intentionally transmitted.
+            Your email is used to send access to Da Trove and occasional QOOBIX,
+            Goalverse, Punkia, and Proteus updates. You can unsubscribe at any
+            time. No motivational fog will be intentionally transmitted.
           </p>
         </section>
       </main>
