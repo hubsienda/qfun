@@ -1,0 +1,735 @@
+{
+  "id": "punkia",
+  "title": "Punkia",
+  "shortTitle": "Punkia",
+  "description": "The corporate-fog chamber of QOOBIX, built to diagnose alignment loops, dashboard possession, AI theatre, meeting addiction, family-culture guilt, meritocracy residue, and management language that has lost contact with oxygen.",
+  "intro": {
+    "eyebrow": "Punkia chamber",
+    "title": "Corporate fog exposure scan",
+    "body": "Proteus has entered the meeting room wearing protective gloves. Punkia will inspect alignment phrases, dashboards, AI claims, family-culture guilt, fake agility, and other airborne nonsense before it learns your job title.",
+    "startButton": "Begin Punkia scan"
+  },
+  "tags": [
+    {
+      "id": "corporateFog",
+      "label": "Corporate Fog"
+    },
+    {
+      "id": "alignmentLoop",
+      "label": "Alignment Loop"
+    },
+    {
+      "id": "dashboardPossession",
+      "label": "Dashboard Possession"
+    },
+    {
+      "id": "aiTheatre",
+      "label": "AI Theatre"
+    },
+    {
+      "id": "ownershipGap",
+      "label": "Ownership Gap"
+    },
+    {
+      "id": "meetingAddiction",
+      "label": "Meeting Addiction"
+    },
+    {
+      "id": "familyCultureGuilt",
+      "label": "Family-Culture Guilt"
+    },
+    {
+      "id": "meritocracyMyth",
+      "label": "Meritocracy Myth"
+    }
+  ],
+  "products": {
+    "free": {
+      "title": "The Corporate Fog Decoder",
+      "label": "Free fog filter",
+      "url": "/trove",
+      "copy": "A free decoder for translating workplace phrases before they reproduce in the meeting calendar and start asking for stakeholder input."
+    },
+    "paid": {
+      "title": "The Corporate Fog Phrasebook",
+      "label": "Full antidote",
+      "url": "https://siendamedia.com",
+      "copy": "A sharper phrasebook for people who have heard too many strategic sentences and would like reality to re-enter the building."
+    }
+  },
+  "questions": [
+    {
+      "id": "q01_alignment_fog",
+      "question": "When someone says “let’s align”, what is often happening in fog conditions?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Everyone understands the plan.",
+          "tagWeights": {
+            "corporateFog": 1,
+            "alignmentLoop": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "The decision is already clear.",
+          "tagWeights": {
+            "alignmentLoop": 1,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Nobody wants to own the decision yet.",
+          "tagWeights": {
+            "alignmentLoop": 3,
+            "ownershipGap": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "The organisation has achieved spiritual harmony.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "alignmentLoop": 2
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. The decision has entered witness protection.",
+      "defaultWrongReaction": "Comfortable answer detected. Punkia has placed it in a jar labelled “sounds professional, does nothing”.",
+      "realityCheck": "Alignment without ownership is just group fog. A useful alignment conversation ends with a decision, an owner, a deadline, and something that changes outside the room.",
+      "practicalMove": "Ask: “Who owns the decision, what changes after this meeting, and what deadline exists outside the slide deck?”"
+    },
+    {
+      "id": "q02_dashboard_worship",
+      "question": "What is a dashboard most likely to become in a confused organisation?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "A clarity machine.",
+          "tagWeights": {
+            "dashboardPossession": 1,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "A decision engine.",
+          "tagWeights": {
+            "dashboardPossession": 1,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "A shrine to numbers nobody acts on.",
+          "tagWeights": {
+            "dashboardPossession": 3,
+            "corporateFog": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "A rectangle of salvation.",
+          "tagWeights": {
+            "dashboardPossession": 3,
+            "aiTheatre": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. The dashboard is driving. The adult appears to have left the vehicle.",
+      "defaultWrongReaction": "Not quite. The rectangle is glowing, but nobody has proved it can make a decision.",
+      "realityCheck": "A dashboard is useful only when someone acts on the signal. Otherwise it is wallpaper with percentages.",
+      "practicalMove": "For each metric, ask: “What decision does this change, who acts on it, and what happens if it moves?”"
+    },
+    {
+      "id": "q03_ai_theatre",
+      "question": "What is the clearest sign of AI theatre?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The word intelligence appears before the use case.",
+          "tagWeights": {
+            "aiTheatre": 3,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Someone built a useful automation.",
+          "tagWeights": {
+            "aiTheatre": 1,
+            "dashboardPossession": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "The team knows what error looks like.",
+          "tagWeights": {
+            "aiTheatre": 1,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "The demo contains fewer adjectives than results.",
+          "tagWeights": {
+            "aiTheatre": 1,
+            "corporateFog": 1
+          }
+        }
+      ],
+      "correctAnswerId": "a",
+      "defaultCorrectReaction": "Correct. A pitch deck just became nervous.",
+      "defaultWrongReaction": "AI theatre detected. The machine may be real; the claim has already ordered smoke effects.",
+      "realityCheck": "AI is useful when it improves a defined task with measurable trade-offs. AI theatre starts when the vocabulary grows faster than the mechanism.",
+      "practicalMove": "Ask: “What job does this do, what does it replace or improve, how do we measure error, and who is responsible when it fails?”"
+    },
+    {
+      "id": "q04_fake_agility",
+      "question": "What is fake agility?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Changing priorities because evidence changed.",
+          "tagWeights": {
+            "alignmentLoop": 1,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Moving quickly without deciding what matters.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "alignmentLoop": 2,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Having short meetings.",
+          "tagWeights": {
+            "meetingAddiction": 2,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "Using sticky notes with emotional confidence.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "meetingAddiction": 1
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. Agility without priorities is panic with ceremonies.",
+      "defaultWrongReaction": "Not quite. Punkia has found a sprint board and no adult supervision.",
+      "realityCheck": "Agility is not constant motion. It is the ability to change direction because evidence justified the change.",
+      "practicalMove": "Ask: “What priority remains stable, what evidence would change it, and what work must stop?”"
+    },
+    {
+      "id": "q05_circle_back",
+      "question": "What does “let’s circle back” often mean when oxygen is low?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "We have a clear next step.",
+          "tagWeights": {
+            "meetingAddiction": 1,
+            "alignmentLoop": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "The issue has matured beautifully.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "meetingAddiction": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "We are postponing discomfort and calling it process.",
+          "tagWeights": {
+            "meetingAddiction": 3,
+            "ownershipGap": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "The circle has operational excellence.",
+          "tagWeights": {
+            "corporateFog": 3,
+            "alignmentLoop": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. The circle has no exit and has requested budget.",
+      "defaultWrongReaction": "Not quite. The phrase has begun reproducing in the calendar.",
+      "realityCheck": "Some follow-ups are useful. But circle-back language often hides a missing owner, unclear decision, or fear of saying no.",
+      "practicalMove": "Ask: “What specific question remains open, who will answer it, and when will a decision be made?”"
+    },
+    {
+      "id": "q06_transparency_theatre",
+      "question": "What is transparency theatre?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Sharing useful information with the right people.",
+          "tagWeights": {
+            "corporateFog": 1,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Announcing openness while hiding the actual constraints.",
+          "tagWeights": {
+            "corporateFog": 3,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Publishing a dashboard.",
+          "tagWeights": {
+            "dashboardPossession": 2,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "Using glass meeting rooms.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "meetingAddiction": 1
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. The window is large. The truth is still in storage.",
+      "defaultWrongReaction": "Not quite. Transparency is not the same as making fog visible.",
+      "realityCheck": "Transparency matters only when people can see the relevant facts, constraints, trade-offs, and decision logic.",
+      "practicalMove": "Ask: “What information is missing, what decision does it affect, and who is allowed to act on it?”"
+    },
+    {
+      "id": "q07_family_culture",
+      "question": "When a workplace says “we are like a family”, what should be inspected first?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The love.",
+          "tagWeights": {
+            "familyCultureGuilt": 2,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "The boundaries.",
+          "tagWeights": {
+            "familyCultureGuilt": 3,
+            "ownershipGap": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "The office furniture.",
+          "tagWeights": {
+            "corporateFog": 1,
+            "meetingAddiction": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "The family crest.",
+          "tagWeights": {
+            "familyCultureGuilt": 2,
+            "meritocracyMyth": 1
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. Family language often arrives just before unpaid emotional labour.",
+      "defaultWrongReaction": "Careful. The word family has entered the room holding a timesheet and avoiding eye contact.",
+      "realityCheck": "Workplaces can be humane without pretending employment is kinship. Family language often blurs boundaries around time, loyalty, disagreement, and compensation.",
+      "practicalMove": "Ask: “What does this expectation require, is it paid, is it optional, and what boundary protects the employee?”"
+    },
+    {
+      "id": "q08_ownership_without_authority",
+      "question": "What is ownership without authority?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Empowerment.",
+          "tagWeights": {
+            "ownershipGap": 1,
+            "meritocracyMyth": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Leadership development.",
+          "tagWeights": {
+            "ownershipGap": 2,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Blame in a motivational costume.",
+          "tagWeights": {
+            "ownershipGap": 3,
+            "familyCultureGuilt": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "A growth opportunity with teeth.",
+          "tagWeights": {
+            "ownershipGap": 2,
+            "meritocracyMyth": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. Ownership without authority is blame in a motivational costume.",
+      "defaultWrongReaction": "Not quite. The responsibility has arrived. The power is still in another building.",
+      "realityCheck": "Accountability only works when authority, resources, information, and decision rights are aligned with the responsibility.",
+      "practicalMove": "Ask: “What decisions can I make, what resources can I use, and who removes blockers when authority is missing?”"
+    },
+    {
+      "id": "q09_meritocracy",
+      "question": "What does meritocracy mythology usually forget?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Luck, networks, timing, bias, inherited advantage, and the plumbing.",
+          "tagWeights": {
+            "meritocracyMyth": 3,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "That everyone is trying their best.",
+          "tagWeights": {
+            "familyCultureGuilt": 1,
+            "meritocracyMyth": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "That winners deserve nicer chairs.",
+          "tagWeights": {
+            "meritocracyMyth": 2,
+            "corporateFog": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "That performance reviews are sacred texts.",
+          "tagWeights": {
+            "meritocracyMyth": 2,
+            "dashboardPossession": 1
+          }
+        }
+      ],
+      "correctAnswerId": "a",
+      "defaultCorrectReaction": "Correct. The ladder was not equally placed, but the poster was very inspiring.",
+      "defaultWrongReaction": "Not quite. The myth is wearing polished shoes and pretending the floor is level.",
+      "realityCheck": "Merit matters, but outcomes are shaped by context, access, visibility, timing, incentives, bias, and power.",
+      "practicalMove": "Ask: “What hidden advantages, constraints, or selection effects shaped this outcome before we call it pure merit?”"
+    },
+    {
+      "id": "q10_useless_meetings",
+      "question": "What does a useful meeting leave behind?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "A sense of togetherness.",
+          "tagWeights": {
+            "meetingAddiction": 2,
+            "familyCultureGuilt": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "A longer meeting.",
+          "tagWeights": {
+            "meetingAddiction": 3,
+            "alignmentLoop": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "A decision, owner, deadline, or cancelled next meeting.",
+          "tagWeights": {
+            "meetingAddiction": 3,
+            "ownershipGap": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "A beautiful slide with four arrows.",
+          "tagWeights": {
+            "corporateFog": 2,
+            "dashboardPossession": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. A useful meeting leaves a footprint in reality.",
+      "defaultWrongReaction": "Incorrect. The meeting has survived and is now seeking a recurring slot.",
+      "realityCheck": "A meeting is useful only if it changes knowledge, decisions, ownership, timing, or action.",
+      "practicalMove": "Before accepting a meeting, ask for the decision needed, the owner, the preparation, and the desired output."
+    }
+  ],
+  "diagnoses": [
+    {
+      "id": "corporateFog",
+      "tag": "corporateFog",
+      "title": "Corporate Fog Exposure",
+      "severityLabel": "Oxygen reduction event",
+      "proteusVerdict": "You have been exposed to language that sounds professional while quietly removing the point.",
+      "whatItMeans": "This diagnosis suggests that vague business phrasing may be replacing clear decisions, owners, trade-offs, and next actions.",
+      "realMechanism": "Corporate fog works because vague language protects status, avoids conflict, and lets everyone leave the room feeling aligned with something nobody could describe under oath.",
+      "practicalMove": "Ask: “What does this mean in observable terms, who owns it, and what changes after we say it?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder can help translate the phrase before it breeds in the meeting calendar.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook goes deeper into business language that has lost contact with oxygen.",
+      "shareLine": "Corporate fog is what happens when language gets promoted and meaning is made redundant."
+    },
+    {
+      "id": "alignmentLoop",
+      "tag": "alignmentLoop",
+      "title": "Alignment Loop Infection",
+      "severityLabel": "Decision avoidance cycle",
+      "proteusVerdict": "The organisation may be aligning because nobody wants to touch the decision without gloves.",
+      "whatItMeans": "This diagnosis suggests that repeated alignment conversations are being used to postpone ownership, risk, or disagreement.",
+      "realMechanism": "Alignment loops feel collaborative while deferring the uncomfortable moment when someone must decide, prioritise, say no, or accept consequences.",
+      "practicalMove": "Ask: “Are we aligning on information, decision rights, priority, or accountability? Which one is unresolved?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder helps spot when alignment has become a hamster wheel with catering.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook gives language for ending circular alignment rituals without setting fire to the room.",
+      "shareLine": "Alignment without ownership is just group fog with minutes."
+    },
+    {
+      "id": "dashboardPossession",
+      "tag": "dashboardPossession",
+      "title": "Dashboard Possession",
+      "severityLabel": "Metric shrine formation",
+      "proteusVerdict": "The numbers are glowing. Unfortunately, nobody appears to be driving.",
+      "whatItMeans": "This diagnosis suggests that metrics, dashboards, and reports may be admired more than acted upon.",
+      "realMechanism": "Dashboards create the feeling of control because visibility looks like management. But visibility without action is surveillance of confusion.",
+      "practicalMove": "For every metric, define the decision it changes, the threshold that triggers action, and the person responsible for responding.",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder helps distinguish useful metrics from decorative numerology.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook examines dashboard worship and other rectangles of salvation.",
+      "shareLine": "The data is driving. The driver has left the vehicle."
+    },
+    {
+      "id": "aiTheatre",
+      "tag": "aiTheatre",
+      "title": "AI Theatre Susceptibility",
+      "severityLabel": "Demo smoke exposure",
+      "proteusVerdict": "The AI claim may contain more lighting than mechanism.",
+      "whatItMeans": "This diagnosis suggests that AI language is being used to inflate a feature, decorate a pitch, or avoid explaining the actual workflow.",
+      "realMechanism": "AI theatre works because novelty, fear, and vague technical language create a temporary authority fog around weak use cases.",
+      "practicalMove": "Ask: “What task improves, what evidence proves it, what errors matter, and who is accountable when the machine invents confidence?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder can help identify whether the AI claim has a job or merely a costume.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook includes sharper tools for deflating AI theatre without becoming the office pessimist.",
+      "shareLine": "AI theatre begins when the vocabulary grows faster than the use case."
+    },
+    {
+      "id": "ownershipGap",
+      "tag": "ownershipGap",
+      "title": "Ownership Gap",
+      "severityLabel": "Responsibility-authority mismatch",
+      "proteusVerdict": "Responsibility has arrived wearing a badge. Authority is still on annual leave.",
+      "whatItMeans": "This diagnosis suggests that someone is being held accountable for outcomes without the power, resources, information, or decision rights required to affect them.",
+      "realMechanism": "Ownership gaps survive because they let organisations distribute blame while keeping real control elsewhere.",
+      "practicalMove": "Ask: “What decisions can this owner actually make, what resources can they access, and who removes blockers?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder helps spot when ownership is just blame with better shoes.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook gives sharper translations for accountability language that forgot authority.",
+      "shareLine": "Ownership without authority is blame in a motivational costume."
+    },
+    {
+      "id": "meetingAddiction",
+      "tag": "meetingAddiction",
+      "title": "Meeting Addiction",
+      "severityLabel": "Calendar swelling",
+      "proteusVerdict": "The organisation may be using meetings as emotional support furniture.",
+      "whatItMeans": "This diagnosis suggests that meetings are being used to avoid decisions, simulate momentum, or share anxiety in scheduled rectangles.",
+      "realMechanism": "Meetings multiply when ownership, inputs, decision criteria, and consequences are unclear. The calendar becomes a terrarium for avoidance.",
+      "practicalMove": "Before meeting, require a purpose, decision, owner, preparation, and expected output. If none exists, cancel the ceremony.",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder can help identify meetings that are just fog with attendance.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook gives phrases for escaping recurring rituals without needing a fake emergency.",
+      "shareLine": "A useful meeting leaves a footprint in reality."
+    },
+    {
+      "id": "familyCultureGuilt",
+      "tag": "familyCultureGuilt",
+      "title": "Family-Culture Guilt Event",
+      "severityLabel": "Boundary erosion",
+      "proteusVerdict": "The word family has appeared near labour expectations. Punkia has deployed a boundary net.",
+      "whatItMeans": "This diagnosis suggests that emotional language may be used to soften, hide, or normalise unreasonable expectations.",
+      "realMechanism": "Family-culture guilt works by replacing contractual clarity with loyalty pressure. It makes boundaries feel like betrayal.",
+      "practicalMove": "Ask: “Is this expectation paid, optional, time-limited, and reasonable? What boundary protects the person being asked?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder helps translate affectionate workplace language before it starts eating weekends.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook dissects family culture, loyalty pressure, and emotional invoice camouflage.",
+      "shareLine": "If work is family, ask who controls the inheritance."
+    },
+    {
+      "id": "meritocracyMyth",
+      "tag": "meritocracyMyth",
+      "title": "Meritocracy Myth Residue",
+      "severityLabel": "Fairness theatre",
+      "proteusVerdict": "The success story may have omitted the scaffolding, the luck, and several inconvenient doors.",
+      "whatItMeans": "This diagnosis suggests that outcomes may be explained as pure merit while ignoring access, timing, bias, capital, networks, visibility, or inherited advantage.",
+      "realMechanism": "Meritocracy myths are comforting because they make success look clean and failure look deserved. Reality is messier and less obedient.",
+      "practicalMove": "Ask: “What hidden advantage, selection effect, constraint, or structural factor shaped this result before we call it merit?”",
+      "freeAntidoteCopy": "Free fog filter: The Corporate Fog Decoder helps identify fairness theatre before it becomes policy.",
+      "paidAntidoteCopy": "Full antidote: The Corporate Fog Phrasebook translates meritocracy myths without removing all hope, only the propaganda.",
+      "shareLine": "The ladder was not equally placed, but the poster was very inspiring."
+    }
+  ],
+  "fragments": {
+    "openingLines": [
+      "Proteus has entered the meeting room wearing protective gloves.",
+      "Punkia has detected a sentence with too many adjectives and no owner.",
+      "The fog is dense today. Excellent hunting conditions.",
+      "A dashboard is glowing in the corner. Nobody has touched reality yet.",
+      "Proteus has found a strategy deck nesting in the ventilation system.",
+      "Punkia has deployed the corporate fog net.",
+      "A meeting has reproduced. Please remain calm.",
+      "The room smells faintly of alignment and unresolved authority.",
+      "Proteus is checking whether the phrase means anything or merely has confidence.",
+      "A stakeholder has been mentioned. Nobody knows why.",
+      "Punkia has detected ceremonial urgency.",
+      "The business language has lost oxygen. We are entering carefully.",
+      "A slide has appeared with four arrows and no decision.",
+      "Proteus is listening for ownership. So far, only vibes.",
+      "The organisation has achieved fog density suitable for consultancy.",
+      "A sentence just said transformation and asked for budget.",
+      "Punkia is inspecting the meeting calendar for signs of life.",
+      "The dashboard has opened one eye.",
+      "Proteus has found strategic alignment under the carpet.",
+      "A corporate phrase has begun moulting. Diagnosis required."
+    ],
+    "correctReactions": [
+      "Correct. The decision has entered witness protection.",
+      "Correct. The dashboard is driving. The adult appears to have left the vehicle.",
+      "Correct. A nearby consultant has dropped its laser pointer.",
+      "Correct. The fog briefly lost structural integrity.",
+      "Correct. Punkia has found the owner-shaped hole.",
+      "Correct. The meeting has been asked to justify its existence.",
+      "Correct. A phrase has been forced to produce meaning.",
+      "Correct. The slide deck is sweating through its gradients.",
+      "Correct. The data has stopped pretending to be action.",
+      "Correct. The AI claim has removed its theatre mask.",
+      "Correct. The alignment loop has been interrupted before spawning.",
+      "Correct. Boundaries have re-entered the building.",
+      "Correct. Meritocracy mythology has been asked for receipts.",
+      "Correct. The corporate fog has been tagged and released into a controlled environment.",
+      "Correct. The decision now has nowhere to hide.",
+      "Correct. The rectangle of salvation has been downgraded to a chart.",
+      "Correct. The phrase sounded expensive, but you inspected the plumbing.",
+      "Correct. Punkia salutes, which is mostly sarcasm with posture.",
+      "Correct. The calendar trembles.",
+      "Correct. A meeting has lost its claim to immortality."
+    ],
+    "wrongReactions": [
+      "Comfortable answer detected. Punkia has placed it in a jar labelled “sounds professional, does nothing”.",
+      "Not quite. The fog has applauded your answer, which is a bad sign.",
+      "Incorrect. The meeting has survived and is now requesting a follow-up.",
+      "Not quite. That answer has strong slide-deck energy.",
+      "Wrong. The dashboard is still glowing and nobody is steering.",
+      "Not quite. The phrase escaped meaning again.",
+      "Incorrect. Alignment has reproduced in the walls.",
+      "Wrong. The AI theatre troupe has taken a bow.",
+      "Not quite. Family language has begun eating a boundary.",
+      "Incorrect. The decision remains hidden behind a potted plant.",
+      "Not quite. You may have mistaken visibility for clarity.",
+      "Wrong. The organisation has promoted fog to operating model.",
+      "Not quite. The calendar has swollen by thirty minutes.",
+      "Incorrect. Ownership has been assigned without the matching keys.",
+      "Wrong. The meritocracy poster has worked on you briefly.",
+      "Not quite. The phrase has a badge but no mechanism.",
+      "Incorrect. Punkia recommends oxygen and a named owner.",
+      "Wrong. The business noun has become airborne.",
+      "Not quite. The meeting minutes have achieved sentience.",
+      "Incorrect. This answer may require a workshop to recover."
+    ],
+    "transitionLines": [
+      "Punkia is now separating meaning from the upholstery.",
+      "The fog sample has been placed under a rude microscope.",
+      "Proteus is checking whether anyone owns the decision.",
+      "A phrase is being forced to name its mechanism.",
+      "The chamber is translating polish into consequences.",
+      "Punkia has located the gap between responsibility and power.",
+      "The dashboard is being asked what decision it changes.",
+      "The meeting has been weighed against reality. It is underperforming.",
+      "Proteus is inspecting the claim for oxygen content.",
+      "The corporate sentence is being detained for questioning.",
+      "A myth has been isolated. It requested a steering committee.",
+      "The fog is thinning. Several chairs are implicated.",
+      "Punkia is converting vague agreement into diagnostic evidence.",
+      "The phrase looked strategic. The scan will determine whether it was alive.",
+      "The chamber has found a next move. The meeting may not survive."
+    ],
+    "softSalesLines": [
+      "If this diagnosis felt familiar, the antidote is not far away.",
+      "Free fog filter available in Da Trove. Punkia has wiped the handle.",
+      "The Corporate Fog Decoder is waiting in Da Trove with a small torch.",
+      "The full antidote lives at Sienda Media, where phrases are translated before they bite.",
+      "If the meeting keeps reproducing, the phrasebook may help.",
+      "Proteus is not forcing you to buy it. It is merely watching the meeting reproduce and reaching for a net.",
+      "The free decoder helps identify fog before it becomes a culture initiative.",
+      "The full phrasebook goes deeper, where the nouns have formed committees.",
+      "If the sentence sounded expensive and meant nothing, there is material for this.",
+      "Da Trove contains the free fog filter. Sienda Media contains sharper instruments.",
+      "The decoder is for early fog exposure. The phrasebook is for established infestations.",
+      "If this felt like recognition rather than entertainment, the antidote may be relevant.",
+      "The free material is available. The paid material is for deeper corporate decontamination.",
+      "Punkia recommends tools, not transformation theatre.",
+      "If your calendar has symptoms, the antidote is waiting."
+    ],
+    "tryAnotherChamberLines": [
+      "Inspect another chamber before the fog learns your name.",
+      "If the toxin is motivational, Goalverse should see it.",
+      "If the nonsense is personal ambition wearing gym clothes, try Goalverse.",
+      "If nobody can name the toxin, send it to Proteus mixed diagnostic.",
+      "If the phrase involves hustle, discipline, or mindset, Goalverse has gloves.",
+      "If the business fog is only part of the infection, ask Proteus to widen the scan.",
+      "If the problem is a borrowed goal, leave Punkia and enter Goalverse.",
+      "If the system is absurd but the goal is also suspicious, inspect both chambers.",
+      "If the meeting produced self-improvement residue, cross-contamination is likely.",
+      "If the nonsense has no department, Proteus mixed diagnostic is waiting."
+    ],
+    "closingStings": [
+      "Please name the owner before the sentence reproduces.",
+      "The fog has been wounded, not defeated.",
+      "A meeting has been denied eternal life.",
+      "The dashboard remains on probation.",
+      "Please do not confuse visibility with adult supervision.",
+      "The decision has been asked to leave witness protection.",
+      "Punkia recommends oxygen, ownership, and fewer arrows.",
+      "The phrase has been translated. It is smaller now.",
+      "If alignment persists for more than four meetings, consult reality.",
+      "The AI theatre curtain has fallen. The smoke machine is still billing.",
+      "Family language should be stored away from unpaid weekends.",
+      "The calendar swelling may reduce with direct questions.",
+      "The organisation may experience temporary clarity.",
+      "Please dispose of decorative metrics responsibly.",
+      "The meeting has left a footprint. For once.",
+      "Meritocracy residue remains. Wash hands after handling.",
+      "The owner-shaped hole has been marked in orange.",
+      "Corporate fog may return under a new initiative name.",
+      "Punkia has concluded the scan and frightened a dashboard.",
+      "Reality has re-entered the room. Some stakeholders look pale."
+    ]
+  }
+}
