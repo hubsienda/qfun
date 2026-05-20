@@ -30,22 +30,22 @@ export default function Header() {
           aria-label="Main navigation"
         >
           <Link
-            href="/proteus"
+            href="/about"
             className="qoobix-focus rounded-lg px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10"
           >
-            About Proteus
+            About
           </Link>
         </nav>
 
         <Link
-          href="/proteus"
+          href="/about"
           className="qoobix-focus inline-flex rounded-xl border px-3 py-2 text-sm transition hover:bg-black/5 dark:hover:bg-white/10 md:hidden"
           style={{
             borderColor: 'var(--border)',
             background: 'var(--panel)'
           }}
         >
-          Proteus
+          About
         </Link>
 
         <ThemeToggle />
