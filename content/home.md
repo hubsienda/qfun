@@ -1,13 +1,30 @@
 ---
-heroEyebrow: "Managed by Proteus"
+heroEyebrow: "The cube is open"
 heroTitle: "Da QOOBIX"
 heroLine: "Managed by Proteus, the algorithm that refuses to flatter you."
 heroDescription: "A satirical intelligence cube for crushing myths, detecting nonsense, and recommending the occasional antidote."
-heroPurpose: "QOOBIX turns myths about work, business, goals, AI, productivity, and modern success culture into sharp satirical journeys — each one pointing towards a practical antidote. The joke is not decoration. It is the delivery system."
 heroButton: "Approach da QOOBIX"
+troveButton: "Enter Da Trove"
 heroSupport: "Correct answers open doors. Comfortable answers attract commentary."
 
-encounterEyebrow: "First Proteus encounter"
+showEyebrow: "Start the show"
+showTitle: "Proteus has detected a visitor. This is rarely a neutral event."
+showDescription: "Before the cube opens, we must identify the contamination."
+chamberQuestion: "What kind of nonsense has entered your ventilation system?"
+
+goalverseChamberTitle: "Goalverse"
+goalverseChamberDescription: "Goal worship, discipline theatre, productivity guilt, hard-work myths, mindset leakage, and self-improvement fog."
+goalverseChamberButton: "Enter Goalverse chamber"
+
+punkiaChamberTitle: "Punkia"
+punkiaChamberDescription: "Corporate fog, AI theatre, fake innovation, LinkedIn rituals, meetings, dashboards, and management language with poor oxygen levels."
+punkiaChamberButton: "Enter Punkia chamber"
+
+proteusChamberTitle: "Proteus mixed diagnostic"
+proteusChamberDescription: "For when something smells expensive, strategic, motivational, or suspicious, but nobody can name the toxin."
+proteusChamberButton: "Begin mixed diagnostic"
+
+encounterEyebrow: "Goalverse chamber"
 encounterTitle: "Proteus asks:"
 question: "What is the most dangerous kind of goal?"
 answerA: "A difficult one."
@@ -28,6 +45,18 @@ wrongDetectedMyth: "The problem is probably effort, discipline, or deadlines."
 wrongRealityCheck: "Sometimes the real problem is that the goal was borrowed, vain, vague, socially rewarded, or never worth having. Adding discipline to a bad goal is like fitting racing tyres to a shopping trolley."
 wrongRecommendedAntidote: "Enter the Goalverse path before the fog spreads."
 
+punkiaResponse: "Corporate fog detected. Proteus has opened a window and frightened three consultants."
+punkiaDiagnosis: "Moderate exposure to organised ambiguity."
+punkiaDetectedMyth: "If language sounds strategic enough, the decision underneath must be intelligent."
+punkiaRealityCheck: "Some phrases do not clarify work. They anaesthetise it. “Alignment” often means nobody wants to admit who actually decides."
+punkiaRecommendedAntidote: "Enter the Punkia path before the meeting reproduces."
+
+proteusResponse: "Unclassified nonsense detected. Proteus has placed it on a tray and is refusing to touch it without gloves."
+proteusDiagnosis: "Mixed myth contamination."
+proteusDetectedMyth: "If something sounds expensive, urgent, innovative, or transformational, it must contain wisdom."
+proteusRealityCheck: "Many impressive claims are just anxiety wearing polished shoes. The first useful act is not believing the packaging."
+proteusRecommendedAntidote: "Meet Proteus and let the cube decide which myth deserves humiliation first."
+
 diagnosisLabel: "Diagnosis"
 detectedMythLabel: "Detected myth"
 realityCheckLabel: "Reality check"
@@ -38,22 +67,8 @@ punkiaPathButton: "Enter the Punkia path"
 proteusPathButton: "Meet Proteus"
 futureAntidotesButton: "See future antidotes"
 
-territoriesEyebrow: "Territories"
-territoriesTitle: "Three doors. None entirely safe."
-
 bridgeTitle: "Recommended antidotes are sold separately. Obviously."
-bridgeDescription: "QOOBIX points towards satirical field manuals, anti-coaching workbooks, corporate nonsense guides, AI-hype antidotes, printable artefacts, and future personalised diagnostics — all sold through Sienda Media, our online store."
-bridgeExtraLine: "The products are funny because the myths deserve laughter. They are useful because the damage is real."
-bridgeButton: "Visit Sienda Media"
-
-aboutEyebrow: "About Proteus"
-aboutTitle: "Proteus is the intelligence inside Da QOOBIX."
-aboutParagraphOne: "It changes shape, asks inconvenient questions, detects nonsense, crushes fashionable myths, and recommends the occasional antidote."
-aboutParagraphTwo: "It is not here to motivate you. It is here to make the comfortable answer feel embarrassed."
-aboutParagraphThree: "It has read too many pitch decks, coaching books, LinkedIn posts, productivity slogans, and AI claims. This has not improved its opinion of civilisation."
-aboutButton: "Check Proteus"
-
-logoBridgeEyebrow: "Connected territories"
-logoBridgeTitle: "Two doors outside da QOOBIX"
-logoBridgeDescription: "Goalverse and Punkia are connected territories. They live beyond QOOBIX, but Proteus keeps an eye on them. Naturally, it denies emotional attachment."
+bridgeDescription: "QOOBIX points towards satirical field manuals, anti-coaching checklists, corporate fog decoders, and other practical instruments for detecting nonsense before it reproduces in your calendar."
+bridgeTroveButton: "Enter Da Trove"
+bridgeStoreButton: "Visit Sienda Media"
 ---
