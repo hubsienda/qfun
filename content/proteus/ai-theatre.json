@@ -1,0 +1,735 @@
+{
+  "id": "ai-theatre",
+  "title": "Proteus Diagnostic",
+  "shortTitle": "Proteus",
+  "description": "The Proteus diagnostic chamber for detecting AI theatre, automation fog, prompt worship, data mysticism, agentic overclaiming, fake intelligence, and expensive confusion wearing a login screen.",
+  "intro": {
+    "eyebrow": "Proteus diagnostic",
+    "title": "AI theatre exposure scan",
+    "body": "Proteus has opened the AI claim with gloves and a long sigh. This chamber is not anti-AI. It is anti-bullshit wearing AI perfume. Answer carefully; the gradient is already nervous.",
+    "startButton": "Begin Proteus scan"
+  },
+  "tags": [
+    {
+      "id": "aiTheatre",
+      "label": "AI Theatre"
+    },
+    {
+      "id": "automationBeforeThought",
+      "label": "Automation Before Thought"
+    },
+    {
+      "id": "promptWorship",
+      "label": "Prompt Worship"
+    },
+    {
+      "id": "dataMysticism",
+      "label": "Data Mysticism"
+    },
+    {
+      "id": "agenticFog",
+      "label": "Agentic Fog"
+    },
+    {
+      "id": "businessModelCostume",
+      "label": "Business Model Costume"
+    },
+    {
+      "id": "workflowFog",
+      "label": "Workflow Fog"
+    },
+    {
+      "id": "humanReviewGap",
+      "label": "Human Review Gap"
+    }
+  ],
+  "products": {
+    "free": {
+      "title": "AI Theatre Warning Card",
+      "label": "Free warning card",
+      "url": "/trove",
+      "copy": "A compact warning card for spotting AI theatre, prompt worship, automation fog, and chatbot claims before they enter the budget meeting wearing a cape."
+    },
+    "paid": {
+      "title": "The AI Theatre Detector",
+      "label": "Full detector",
+      "url": "https://siendamedia.com",
+      "copy": "A sharper detector for distinguishing useful AI from scalable nonsense, fake automation, workflow fog, and expensive claims that collapse when asked to name the process."
+    }
+  },
+  "questions": [
+    {
+      "id": "q01_ai_powered_claim",
+      "question": "What does “AI-powered” prove by itself?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The product is intelligent.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "businessModelCostume": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "The workflow is clear.",
+          "tagWeights": {
+            "workflowFog": 2,
+            "automationBeforeThought": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Someone used a fashionable adjective.",
+          "tagWeights": {
+            "aiTheatre": 3,
+            "businessModelCostume": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "The future has arrived wearing a gradient.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "businessModelCostume": 2
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. “AI-powered” proves an adjective has been deployed. Further evidence is required.",
+      "defaultWrongReaction": "Comfortable answer detected. Proteus has placed it beside the pitch deck and stepped back slowly.",
+      "realityCheck": "AI can be useful, but the label alone says nothing about the task, workflow, risk, error rate, output quality, or business value.",
+      "practicalMove": "Ask: “What exactly does the AI do, what improves, how is it measured, and what happens when it is wrong?”"
+    },
+    {
+      "id": "q02_confused_process",
+      "question": "What is the most dangerous thing about adding AI to a confused process?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "It becomes too intelligent.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "agenticFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "It becomes too expensive.",
+          "tagWeights": {
+            "businessModelCostume": 1,
+            "automationBeforeThought": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "It automates confusion faster.",
+          "tagWeights": {
+            "automationBeforeThought": 3,
+            "workflowFog": 2
+          }
+        },
+        {
+          "id": "d",
+          "text": "It asks to attend meetings.",
+          "tagWeights": {
+            "agenticFog": 2,
+            "aiTheatre": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. Automation is not a priest. It does not bless the mess before multiplying it.",
+      "defaultWrongReaction": "Not quite. The mess remains a mess, only now it has throughput and a vendor invoice.",
+      "realityCheck": "AI can accelerate clear work. It can also industrialise unclear work, bad inputs, weak decisions, and broken handoffs.",
+      "practicalMove": "Before adding AI, write the process in plain human steps: task, input, output, decision, reviewer, risk, and stop condition. If that list is fog, do not automate it yet."
+    },
+    {
+      "id": "q03_before_buying",
+      "question": "Before buying or building an AI tool, what should be named first?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The model.",
+          "tagWeights": {
+            "promptWorship": 1,
+            "aiTheatre": 2
+          }
+        },
+        {
+          "id": "b",
+          "text": "The task, input, output, risk, and human reviewer.",
+          "tagWeights": {
+            "workflowFog": 3,
+            "humanReviewGap": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "The logo.",
+          "tagWeights": {
+            "businessModelCostume": 3,
+            "aiTheatre": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "The inspirational launch post.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "businessModelCostume": 2
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. The logo can wait in the corridor with the launch post and its emotional gradient.",
+      "defaultWrongReaction": "Incorrect. Proteus has detected procurement theatre forming around an unnamed task.",
+      "realityCheck": "A tool cannot be judged until the task, input, output, risk, review point, and success measure are clear.",
+      "practicalMove": "Write one sentence: “This AI will take this input, perform this task, produce this output, be reviewed by this person, and fail safely in this way.”"
+    },
+    {
+      "id": "q04_prompt_worship",
+      "question": "What is prompt worship?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Writing clear instructions.",
+          "tagWeights": {
+            "promptWorship": 1,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Believing the magic words can rescue an unclear task.",
+          "tagWeights": {
+            "promptWorship": 3,
+            "workflowFog": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "Using examples to guide output.",
+          "tagWeights": {
+            "promptWorship": 1,
+            "humanReviewGap": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "Calling a prompt a strategy because the font was serious.",
+          "tagWeights": {
+            "promptWorship": 2,
+            "aiTheatre": 2
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. A prompt is not a business process with incense.",
+      "defaultWrongReaction": "Not quite. Proteus has detected a small altar forming near the text box.",
+      "realityCheck": "Prompts help when the task is clear. They cannot replace domain judgement, workflow design, data quality, review criteria, or accountability.",
+      "practicalMove": "Before improving the prompt, improve the task definition: audience, purpose, source material, constraints, evaluation criteria, and human reviewer."
+    },
+    {
+      "id": "q05_data_quality",
+      "question": "What happens when weak data enters a confident AI system?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The system becomes wiser.",
+          "tagWeights": {
+            "dataMysticism": 2,
+            "aiTheatre": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "The data is purified by innovation.",
+          "tagWeights": {
+            "dataMysticism": 3,
+            "businessModelCostume": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "The mess may return wearing better grammar.",
+          "tagWeights": {
+            "dataMysticism": 3,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "The dashboard starts glowing.",
+          "tagWeights": {
+            "dataMysticism": 2,
+            "aiTheatre": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. Bad data with good grammar is still bad data, only now it sounds employable.",
+      "defaultWrongReaction": "Not quite. Proteus has detected data mysticism and a suspicious glow near the spreadsheet.",
+      "realityCheck": "AI outputs inherit the quality, bias, gaps, and ambiguity of the inputs. Fluency can hide bad source material extremely well.",
+      "practicalMove": "Check data source, freshness, completeness, bias, duplicates, missing fields, and known failure cases before trusting the output."
+    },
+    {
+      "id": "q06_hallucination_verification",
+      "question": "What is the safest response to a confident AI answer in a high-stakes task?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "Admire the confidence.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "humanReviewGap": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "Paste it directly into reality.",
+          "tagWeights": {
+            "humanReviewGap": 3,
+            "automationBeforeThought": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "Verify against reliable sources and known rules.",
+          "tagWeights": {
+            "humanReviewGap": 3,
+            "dataMysticism": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "Ask it to sound more authoritative.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "promptWorship": 1
+          }
+        }
+      ],
+      "correctAnswerId": "c",
+      "defaultCorrectReaction": "Correct. Confidence is not evidence. It is merely posture with punctuation.",
+      "defaultWrongReaction": "Incorrect. The answer may be fluent, wrong, and already wearing a tie.",
+      "realityCheck": "AI systems can produce plausible errors. Fluency lowers suspicion, which makes verification more important, not less.",
+      "practicalMove": "Define which outputs require verification, what source verifies them, who reviews them, and what risk level blocks use."
+    },
+    {
+      "id": "q07_agents_autonomy",
+      "question": "What should trigger caution when someone says the AI agent will handle it?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "The word agent.",
+          "tagWeights": {
+            "agenticFog": 2,
+            "aiTheatre": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "No clear boundary, permission, stop condition, or human escalation.",
+          "tagWeights": {
+            "agenticFog": 3,
+            "humanReviewGap": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "The demo has a progress bar.",
+          "tagWeights": {
+            "agenticFog": 1,
+            "businessModelCostume": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "It uses the word autonomous with a straight face.",
+          "tagWeights": {
+            "agenticFog": 2,
+            "aiTheatre": 2
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. A model is not a manager. It should not be left alone with the steering wheel and a quarterly budget.",
+      "defaultWrongReaction": "Not quite. Proteus has found autonomy fog and a small liability hiding under the roadmap.",
+      "realityCheck": "Agentic systems are risky when scope, permissions, failure modes, escalation rules, and accountability are undefined.",
+      "practicalMove": "Define the agent boundary: what it may do, what it may never do, when it stops, when it asks, and who owns the result."
+    },
+    {
+      "id": "q08_ai_replacing_judgement",
+      "question": "When should AI not replace human judgement?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "When consequences are serious and context matters.",
+          "tagWeights": {
+            "humanReviewGap": 3,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "When humans are bored.",
+          "tagWeights": {
+            "automationBeforeThought": 2,
+            "businessModelCostume": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "When the output sounds very polished.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "humanReviewGap": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "When the vendor says trust the system.",
+          "tagWeights": {
+            "aiTheatre": 2,
+            "agenticFog": 1
+          }
+        }
+      ],
+      "correctAnswerId": "a",
+      "defaultCorrectReaction": "Correct. Delegation is not abandonment with a nicer interface.",
+      "defaultWrongReaction": "Incorrect. Proteus has detected judgement outsourcing and a faint smell of liability.",
+      "realityCheck": "AI can support judgement, but high-stakes, context-heavy, ethical, legal, financial, medical, or reputational decisions require accountable human review.",
+      "practicalMove": "Classify decisions by risk. For high-risk outputs, require human review, source checking, documented reasoning, and a clear owner."
+    },
+    {
+      "id": "q09_pseudo_dashboard_intelligence",
+      "question": "What is pseudo-intelligence in an AI dashboard?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "A useful signal connected to a decision.",
+          "tagWeights": {
+            "dataMysticism": 1,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "A metric that looks clever but changes nothing.",
+          "tagWeights": {
+            "dataMysticism": 2,
+            "aiTheatre": 2,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "c",
+          "text": "A chart with tasteful colours.",
+          "tagWeights": {
+            "businessModelCostume": 1,
+            "dataMysticism": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "A prediction that has met reality.",
+          "tagWeights": {
+            "humanReviewGap": 1,
+            "dataMysticism": 1
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. The chart has achieved decorative intelligence.",
+      "defaultWrongReaction": "Not quite. The dashboard is glowing, but the decision is still missing.",
+      "realityCheck": "Metrics, scores, and predictions are useful only when they connect to decisions, thresholds, actions, and verification.",
+      "practicalMove": "For every AI score or dashboard signal, write the decision it changes, the threshold for action, and the review method."
+    },
+    {
+      "id": "q10_business_model_costume",
+      "question": "When is AI probably a business model costume?",
+      "answers": [
+        {
+          "id": "a",
+          "text": "When it improves a known task with measured results.",
+          "tagWeights": {
+            "businessModelCostume": 1,
+            "workflowFog": 1
+          }
+        },
+        {
+          "id": "b",
+          "text": "When the product is ordinary but the pitch says autonomous intelligence five times.",
+          "tagWeights": {
+            "businessModelCostume": 3,
+            "aiTheatre": 2
+          }
+        },
+        {
+          "id": "c",
+          "text": "When users understand the workflow.",
+          "tagWeights": {
+            "workflowFog": 1,
+            "humanReviewGap": 1
+          }
+        },
+        {
+          "id": "d",
+          "text": "When error handling is boring and clear.",
+          "tagWeights": {
+            "humanReviewGap": 1,
+            "automationBeforeThought": 1
+          }
+        }
+      ],
+      "correctAnswerId": "b",
+      "defaultCorrectReaction": "Correct. The business model has arrived wearing an AI cape and asking for a valuation.",
+      "defaultWrongReaction": "Not quite. Proteus has found an ordinary workflow inside a theatrical costume.",
+      "realityCheck": "AI is not a business model by itself. Value comes from solving a real problem with a clear workflow, buyer, cost structure, and measurable improvement.",
+      "practicalMove": "Ask: “What customer problem exists without the AI language, what changes for the user, and why would anyone pay after the novelty expires?”"
+    }
+  ],
+  "diagnoses": [
+    {
+      "id": "aiTheatre",
+      "tag": "aiTheatre",
+      "title": "AI Theatre Exposure",
+      "severityLabel": "Gradient smoke inhalation",
+      "proteusVerdict": "The claim may contain more spectacle than mechanism. Proteus has checked behind the curtain and found adjectives nesting.",
+      "whatItMeans": "This diagnosis suggests that AI language is being used to inflate perceived value, hide weak workflow thinking, or make ordinary automation sound like a visiting deity.",
+      "realMechanism": "AI theatre works because novelty, fear, and technical vagueness create temporary authority. People stop asking what the system actually does because the demo has sparkles.",
+      "practicalMove": "Ask: “What does the system do, what input does it need, what output does it produce, how is it checked, and what specific result improves?”",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help identify claims where the adjective is doing more work than the system.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector goes deeper into pitch fog, fake intelligence, and business claims wearing AI perfume.",
+      "shareLine": "AI theatre begins when the vocabulary grows faster than the use case."
+    },
+    {
+      "id": "automationBeforeThought",
+      "tag": "automationBeforeThought",
+      "title": "Automation Before Thought",
+      "severityLabel": "Scalable confusion risk",
+      "proteusVerdict": "You may be trying to automate a process that has not yet earned the dignity of being understood.",
+      "whatItMeans": "This diagnosis suggests that automation is being added before the task, workflow, handoffs, exceptions, and ownership are clear.",
+      "realMechanism": "Automation amplifies whatever already exists. If the process is fog, automation produces faster fog with better uptime.",
+      "practicalMove": "Before adding AI, write the process in plain human steps: task, input, output, decision, reviewer, risk, and stop condition. If that list is fog, do not automate it yet.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help catch automation fever before it multiplies the mess.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector helps inspect processes before someone adds a bot and calls it transformation.",
+      "shareLine": "Automation is not a priest. It does not bless the mess before multiplying it."
+    },
+    {
+      "id": "promptWorship",
+      "tag": "promptWorship",
+      "title": "Prompt-Worship Irritation",
+      "severityLabel": "Text-box superstition",
+      "proteusVerdict": "A prompt may have been promoted beyond its competence. Proteus has removed the incense.",
+      "whatItMeans": "This diagnosis suggests that prompt quality is being treated as a substitute for task clarity, domain knowledge, workflow design, or review criteria.",
+      "realMechanism": "Prompt worship is attractive because it turns a systems problem into a sentence problem. That feels cheaper until reality returns with invoices.",
+      "practicalMove": "Before improving the prompt, define the task, source material, output standard, audience, constraints, examples, failure modes, and review method.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help distinguish useful prompting from text-box religion.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector examines when prompts help and when they become decorative control panels.",
+      "shareLine": "A prompt is not a process. It is an instruction looking for adult supervision."
+    },
+    {
+      "id": "dataMysticism",
+      "tag": "dataMysticism",
+      "title": "Data Mysticism",
+      "severityLabel": "Spreadsheet aura event",
+      "proteusVerdict": "The data may be glowing because nobody has checked whether it is clean, complete, current, or meaningful.",
+      "whatItMeans": "This diagnosis suggests that data is being treated as automatically authoritative because it is numerical, technical, or inconvenient to inspect.",
+      "realMechanism": "Data mysticism works because numbers feel objective even when the collection process, definitions, gaps, bias, duplicates, and context are a compost heap.",
+      "practicalMove": "Check source, definition, age, missing fields, duplication, bias, collection method, and known failure cases before asking AI to make it sound clever.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card helps identify data mysticism before it receives a dashboard.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector includes sharper checks for data quality, fake certainty, and metric theatre.",
+      "shareLine": "Bad data with good grammar is still bad data, only now it sounds employable."
+    },
+    {
+      "id": "agenticFog",
+      "tag": "agenticFog",
+      "title": "Agentic Fog Event",
+      "severityLabel": "Autonomy overclaim",
+      "proteusVerdict": "An agent has been mentioned without boundaries. Proteus has hidden the steering wheel.",
+      "whatItMeans": "This diagnosis suggests that autonomy claims are being made without clear permissions, limits, escalation rules, stop conditions, or accountability.",
+      "realMechanism": "Agentic fog appears when people confuse multi-step automation with judgement, responsibility, or safe delegation.",
+      "practicalMove": "Define what the agent may do, what it may never do, what it can spend or change, when it must stop, when it must ask, and who owns the result.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help spot agent claims that need a leash, a map, and an adult.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector examines agentic claims before the bot wanders into operations wearing confidence.",
+      "shareLine": "A model is not a manager. Do not leave it alone with the steering wheel and a quarterly budget."
+    },
+    {
+      "id": "businessModelCostume",
+      "tag": "businessModelCostume",
+      "title": "Business Model Costume Alert",
+      "severityLabel": "Valuation fancy dress",
+      "proteusVerdict": "The business model may be ordinary, but it has put on an AI cape and is asking to be treated as destiny.",
+      "whatItMeans": "This diagnosis suggests that AI is being used to decorate positioning rather than solve a real customer problem with measurable value.",
+      "realMechanism": "Business model costumes work because the market rewards novelty signals until buyers ask what the product actually changes.",
+      "practicalMove": "Strip the AI language away. Ask what customer problem remains, who pays, what improves, what cost is removed, and why the user returns after curiosity fades.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card helps detect when the business model is mostly costume.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector goes deeper into AI-wrapped offers, fake differentiation, and novelty inflation.",
+      "shareLine": "A chatbot placed near a business problem does not automatically become a strategy."
+    },
+    {
+      "id": "workflowFog",
+      "tag": "workflowFog",
+      "title": "Workflow Fog",
+      "severityLabel": "Process invisibility",
+      "proteusVerdict": "The workflow may be missing, unclear, or hiding behind enthusiasm. Proteus has requested a map and received vibes.",
+      "whatItMeans": "This diagnosis suggests that the actual human process is not understood well enough to automate, improve, or delegate safely.",
+      "realMechanism": "Workflow fog survives because teams talk about tools before naming the work, the handoffs, the exception cases, and the boring parts where failure breeds.",
+      "practicalMove": "Map the current workflow with steps, inputs, outputs, decisions, exceptions, owners, tools, delays, and failure points before choosing AI.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help reveal whether the workflow exists or is merely implied by slides.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector helps expose workflow fog before technology makes it expensive.",
+      "shareLine": "If the human workflow is fog, AI will industrialise the fog."
+    },
+    {
+      "id": "humanReviewGap",
+      "tag": "humanReviewGap",
+      "title": "Human Review Gap",
+      "severityLabel": "Accountability leakage",
+      "proteusVerdict": "The system may produce outputs nobody is properly responsible for checking. A liability has put on soft shoes.",
+      "whatItMeans": "This diagnosis suggests that review, verification, escalation, and ownership are missing or too vague for the risk level involved.",
+      "realMechanism": "Human review gaps appear when organisations want speed from AI but quietly hope accountability will remain theoretical.",
+      "practicalMove": "Classify output risk. Define who reviews it, what they check, what source verifies it, what errors block use, and who owns the final decision.",
+      "freeAntidoteCopy": "Free warning card: AI Theatre Warning Card can help catch review gaps before polished errors escape.",
+      "paidAntidoteCopy": "Full detector: The AI Theatre Detector examines human review, verification, and accountability before the system starts sounding sure.",
+      "shareLine": "Fluent output without review is just confidence looking for a victim."
+    }
+  ],
+  "fragments": {
+    "openingLines": [
+      "Proteus has opened the AI claim with gloves and a long sigh.",
+      "The cube has detected a chatbot standing suspiciously close to a business model.",
+      "An AI adjective has entered the chamber and is refusing to explain itself.",
+      "Proteus is checking whether the demo contains a mechanism or only theatre smoke.",
+      "The gradient is glowing. This is not yet evidence.",
+      "An automation claim has begun multiplying near the workflow.",
+      "Proteus has found a prompt being worshipped by a small committee.",
+      "The AI claim smells expensive and under-specified.",
+      "A model has been asked to do management. Proteus is concerned for everyone involved.",
+      "The chamber is now scanning for scalable nonsense.",
+      "A dashboard has started pretending to be intelligence.",
+      "Proteus has detected data mysticism in the ventilation.",
+      "An agent has appeared without boundaries. Hide the budget.",
+      "The system says it is autonomous. The liability is looking for an exit.",
+      "The claim contains the word intelligent. Reality has asked for supporting documents.",
+      "Proteus is separating useful automation from business theatre.",
+      "A chatbot has entered the room wearing a strategic costume.",
+      "The workflow is foggy. The AI wants to industrialise it.",
+      "A launch post is forming. The use case remains missing.",
+      "Proteus has activated the detector. Please keep all adjectives visible."
+    ],
+    "correctReactions": [
+      "Correct. Automation is not a priest. It does not bless the mess before multiplying it.",
+      "Correct. “AI-powered” proves an adjective has been deployed. Further evidence is required.",
+      "Correct. The chatbot has been returned to its actual job description.",
+      "Correct. A gradient has lost legal authority.",
+      "Correct. Proteus has located the workflow-shaped hole.",
+      "Correct. The model is no longer being treated as a manager.",
+      "Correct. The demo has been separated from the mechanism.",
+      "Correct. The data shrine has been asked for cleaning records.",
+      "Correct. The agent has been fitted with boundaries.",
+      "Correct. The prompt altar has been dismantled.",
+      "Correct. The claim survived contact with process reality.",
+      "Correct. The business model has removed its AI cape.",
+      "Correct. Human review has re-entered the building.",
+      "Correct. The loading spinner is no longer being mistaken for thought.",
+      "Correct. The system has been asked what it actually improves.",
+      "Correct. A polished error has been denied entry.",
+      "Correct. Proteus has approved this act of sceptical hygiene.",
+      "Correct. The automation has been told to wait until the mess is understood.",
+      "Correct. The AI theatre curtain has fallen briefly.",
+      "Correct. The use case has been rescued from the adjective swamp."
+    ],
+    "wrongReactions": [
+      "Comfortable answer detected. Proteus has placed it beside the pitch deck and stepped back slowly.",
+      "Not quite. The adjective has escaped and is now inflating the budget.",
+      "Incorrect. The chatbot is standing too close to a serious decision.",
+      "Wrong. The workflow remains foggy and is asking for automation.",
+      "Not quite. The demo smoke has entered your bloodstream.",
+      "Incorrect. Proteus has detected prompt incense.",
+      "Wrong. The model is not a manager, priest, lawyer, accountant, or adult.",
+      "Not quite. The dashboard is glowing, but nobody is thinking.",
+      "Incorrect. The data is wearing a mystical hat.",
+      "Wrong. Autonomy without boundaries is just risk with a progress bar.",
+      "Not quite. The business model is still wearing the costume.",
+      "Incorrect. Human review has been replaced with vibes.",
+      "Wrong. The claim sounds future-shaped but process-empty.",
+      "Not quite. The loading spinner is not a strategy.",
+      "Incorrect. Fluency has been mistaken for truth.",
+      "Wrong. The system may be clever, but the workflow is still a shed full of raccoons.",
+      "Not quite. The output is polished, but so are many traps.",
+      "Incorrect. Proteus has detected scalable confusion.",
+      "Wrong. The AI perfume is strong, but the mechanism remains missing.",
+      "Not quite. The future has arrived wearing a gradient and no operating procedure."
+    ],
+    "transitionLines": [
+      "Proteus is now separating useful automation from theatrical fog.",
+      "The claim is being inspected for task, input, output, risk, and adult supervision.",
+      "The adjective has been detained pending evidence.",
+      "The workflow is being asked to step into the light.",
+      "The model is being checked for boundaries and not vibes.",
+      "Proteus is translating the demo into consequences.",
+      "The data has been asked where it came from and why it looks nervous.",
+      "A prompt has been removed from ceremonial status.",
+      "The business model is being stripped of decorative intelligence.",
+      "The dashboard is being asked what decision it changes.",
+      "The chamber is checking whether the output can survive verification.",
+      "The agent has been asked to show its permissions.",
+      "Proteus is examining whether speed is helping or merely accelerating the mess.",
+      "The claim is now being weighed against reality. It has requested a delay.",
+      "The detector has found a next move. The launch post may not enjoy it."
+    ],
+    "softSalesLines": [
+      "If this diagnosis produced a small budgetary chill, the detector is being prepared.",
+      "Free warning card available in Da Trove. Proteus has placed it near the smoke machine.",
+      "The AI Theatre Warning Card helps identify claims before they become procurement folklore.",
+      "The full detector lives at Sienda Media, where AI perfume is tested for actual mechanism.",
+      "If the claim still glows after inspection, further tools may be required.",
+      "Proteus is not anti-AI. It is anti-expensive fog with a login screen.",
+      "The warning card is for early exposure. The full detector is for established theatre.",
+      "If your workflow has symptoms, the antidote is not far away.",
+      "Da Trove contains the free warning card. Sienda Media contains sharper instruments.",
+      "The free card helps catch theatre before it gets a quarterly budget.",
+      "The full detector goes deeper, where the autonomous claims keep their nest.",
+      "If this felt like recognition rather than entertainment, the detector may be useful.",
+      "The free material is available. The paid material is for deeper AI decontamination.",
+      "Proteus recommends tools, not miracles. AI has enough unpaid mythology already.",
+      "If the chatbot is standing near a business model, consider the warning card."
+    ],
+    "tryAnotherChamberLines": [
+      "Inspect another chamber before the fog learns to generate slides.",
+      "If the toxin is corporate rather than technical, Punkia should examine it.",
+      "If the nonsense smells like motivation, Goalverse has gloves.",
+      "If the issue is a borrowed ambition wearing AI perfume, inspect Goalverse.",
+      "If the claim came from a meeting and not a model, Punkia may be responsible.",
+      "If the dashboard started the problem, Punkia should be notified.",
+      "If the fog involves hustle, discipline, or mindset, leave AI theatre and enter Goalverse.",
+      "If the nonsense has no obvious species, keep it in Proteus diagnostic.",
+      "If the phrase contains alignment and AI, cross-contamination is likely.",
+      "If the chatbot is innocent but the organisation is guilty, try Punkia."
+    ],
+    "closingStings": [
+      "Please define the workflow before the chatbot becomes management.",
+      "The AI claim has been inspected. It is smaller now.",
+      "The gradient may remain, but its authority has been reduced.",
+      "Automation should wait until the process stops leaking.",
+      "The model has been returned to tool status.",
+      "Please do not leave the steering wheel with a probability distribution.",
+      "The business model has been asked to remove the costume.",
+      "Human review is not optional simply because the output has nice grammar.",
+      "The prompt has been demoted from religion to instruction.",
+      "Data mysticism remains possible. Wash hands after dashboards.",
+      "The agent must not wander without a leash, a map, and someone legally awake.",
+      "The demo is over. The workflow still needs evidence.",
+      "Proteus recommends fewer adjectives and more stop conditions.",
+      "The AI theatre curtain has fallen. The smoke machine is still billing.",
+      "Please verify before the hallucination becomes policy.",
+      "The chatbot is not a strategy. It is a tool standing near a problem.",
+      "The output may be fluent. Fluency is not innocence.",
+      "A useful AI system should reduce fog, not distribute it at scale.",
+      "The future has arrived. It still needs a checklist.",
+      "Proteus has concluded the scan and confiscated three adjectives."
+    ]
+  }
+}
