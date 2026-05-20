@@ -1,201 +1,18 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import type { HomeContent } from '@/lib/content-types';
-
-type AnswerKey = 'A' | 'B' | 'C' | 'D';
-type Chamber = 'goalverse' | 'punkia' | 'proteus';
+import QoobixDiagnostic from '@/components/QoobixDiagnostic';
+import type { DiagnosticPath } from '@/lib/diagnostics';
 
 type HomePageProps = {
-  content: HomeContent;
+  diagnosticPaths: DiagnosticPath[];
 };
 
-export default function HomePage({ content }: HomePageProps) {
-  const [selectedChamber, setSelectedChamber] = useState<Chamber | null>(null);
-  const [selectedAnswer, setSelectedAnswer] = useState<AnswerKey | null>(null);
-
-  const answers: Array<{
-    key: AnswerKey;
-    text: string;
-  }> = [
-    { key: 'A', text: content.answerA },
-    { key: 'B', text: content.answerB },
-    { key: 'C', text: content.answerC },
-    { key: 'D', text: content.answerD }
-  ];
-
-  const isCorrect = selectedAnswer === content.correctAnswer;
-
-  const goalverseDiagnosis = isCorrect
-    ? {
-        response: content.correctResponse,
-        diagnosis: content.correctDiagnosis,
-        myth: content.correctDetectedMyth,
-        reality: content.correctRealityCheck,
-        antidote: content.correctRecommendedAntidote
-      }
-    : {
-        response: content.wrongResponse,
-        diagnosis: content.wrongDiagnosis,
-        myth: content.wrongDetectedMyth,
-        reality: content.wrongRealityCheck,
-        antidote: content.wrongRecommendedAntidote
-      };
-
-  const punkiaDiagnosis = {
-    response: content.punkiaResponse,
-    diagnosis: content.punkiaDiagnosis,
-    myth: content.punkiaDetectedMyth,
-    reality: content.punkiaRealityCheck,
-    antidote: content.punkiaRecommendedAntidote
-  };
-
-  const proteusDiagnosis = {
-    response: content.proteusResponse,
-    diagnosis: content.proteusDiagnosis,
-    myth: content.proteusDetectedMyth,
-    reality: content.proteusRealityCheck,
-    antidote: content.proteusRecommendedAntidote
-  };
-
+export default function HomePage({ diagnosticPaths }: HomePageProps) {
   function approachCube() {
     document
-      .getElementById('chambers')
+      .getElementById('qoobix-diagnostic-engine')
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function chooseChamber(chamber: Chamber) {
-    setSelectedChamber(chamber);
-    setSelectedAnswer(null);
-
-    window.setTimeout(() => {
-      document
-        .getElementById('active-diagnostic')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 80);
-  }
-
-  function DiagnosisCard({
-    diagnosis
-  }: {
-    diagnosis: {
-      response: string;
-      diagnosis: string;
-      myth: string;
-      reality: string;
-      antidote: string;
-    };
-  }) {
-    return (
-      <div
-        className="mt-8 rounded-2xl border p-5"
-        style={{
-          borderColor: 'rgba(232, 90, 42, 0.42)',
-          background: 'rgba(232, 90, 42, 0.08)'
-        }}
-      >
-        <p className="text-lg leading-8">{diagnosis.response}</p>
-
-        <div
-          className="mt-6 grid gap-4 rounded-2xl border p-5"
-          style={{
-            borderColor: 'var(--border)',
-            background: 'var(--panel)'
-          }}
-        >
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.24em]"
-              style={{ color: '#E85A2A' }}
-            >
-              {content.diagnosisLabel}
-            </p>
-            <p className="mt-2 text-base leading-7">{diagnosis.diagnosis}</p>
-          </div>
-
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.24em]"
-              style={{ color: '#E85A2A' }}
-            >
-              {content.detectedMythLabel}
-            </p>
-            <p className="mt-2 text-base leading-7">{diagnosis.myth}</p>
-          </div>
-
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.24em]"
-              style={{ color: '#E85A2A' }}
-            >
-              {content.realityCheckLabel}
-            </p>
-            <p className="mt-2 text-base leading-7">{diagnosis.reality}</p>
-          </div>
-
-          <div>
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.24em]"
-              style={{ color: '#E85A2A' }}
-            >
-              {content.recommendedAntidoteLabel}
-            </p>
-            <p className="mt-2 text-base leading-7">{diagnosis.antidote}</p>
-          </div>
-        </div>
-
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <Link
-            href="/goalverse"
-            className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-            style={{
-              borderColor: 'rgba(232, 90, 42, 0.55)',
-              color: '#E85A2A',
-              background: 'transparent'
-            }}
-          >
-            {content.goalversePathButton}
-          </Link>
-
-          <Link
-            href="/punkia"
-            className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-            style={{
-              borderColor: 'rgba(232, 90, 42, 0.55)',
-              color: '#E85A2A',
-              background: 'transparent'
-            }}
-          >
-            {content.punkiaPathButton}
-          </Link>
-
-          <Link
-            href="/proteus"
-            className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-            style={{
-              borderColor: 'rgba(232, 90, 42, 0.55)',
-              color: '#E85A2A',
-              background: 'transparent'
-            }}
-          >
-            {content.proteusPathButton}
-          </Link>
-
-          <a
-            href="#antidotes"
-            className="qoobix-focus inline-flex justify-center rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-            style={{
-              borderColor: 'var(--border)',
-              color: 'var(--foreground)',
-              background: 'var(--panel)'
-            }}
-          >
-            {content.futureAntidotesButton}
-          </a>
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -210,25 +27,26 @@ export default function HomePage({ content }: HomePageProps) {
               background: 'rgba(232, 90, 42, 0.08)'
             }}
           >
-            {content.heroEyebrow}
+            The cube is open
           </p>
 
           <h1 className="text-4xl font-semibold tracking-[-0.055em] sm:text-5xl lg:text-6xl">
-            {content.heroTitle}
+            Da QOOBIX
           </h1>
 
           <p
             className="mt-5 max-w-xl text-lg leading-8 sm:text-xl"
             style={{ color: 'var(--muted)' }}
           >
-            {content.heroLine}
+            Managed by Proteus, the algorithm that refuses to flatter you.
           </p>
 
           <p
             className="mt-5 max-w-xl text-base leading-8"
             style={{ color: 'var(--muted)' }}
           >
-            {content.heroDescription}
+            A satirical intelligence cube for crushing myths, detecting
+            nonsense, and recommending the occasional antidote.
           </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -237,7 +55,7 @@ export default function HomePage({ content }: HomePageProps) {
               onClick={approachCube}
               className="qoobix-focus inline-flex items-center justify-center rounded-xl bg-[#E85A2A] px-6 py-4 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:shadow-xl"
             >
-              {content.heroButton}
+              Approach da QOOBIX
             </button>
 
             <Link
@@ -249,12 +67,12 @@ export default function HomePage({ content }: HomePageProps) {
                 background: 'transparent'
               }}
             >
-              {content.troveButton}
+              Enter Da Trove
             </Link>
           </div>
 
           <p className="mt-5 max-w-md text-sm leading-6" style={{ color: 'var(--muted)' }}>
-            {content.heroSupport}
+            Correct answers open doors. Comfortable answers attract commentary.
           </p>
         </div>
 
@@ -274,231 +92,7 @@ export default function HomePage({ content }: HomePageProps) {
         </div>
       </section>
 
-      <section
-        id="chambers"
-        className="relative mx-auto w-full max-w-7xl scroll-mt-10 px-5 py-16 sm:px-8 lg:px-10"
-      >
-        <div className="mx-auto max-w-3xl text-center">
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.3em]"
-            style={{ color: '#E85A2A' }}
-          >
-            {content.showEyebrow}
-          </p>
-
-          <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
-            {content.showTitle}
-          </h2>
-
-          <p
-            className="mx-auto mt-5 max-w-2xl text-base leading-8 sm:text-lg"
-            style={{ color: 'var(--muted)' }}
-          >
-            {content.showDescription}
-          </p>
-
-          <p className="mt-7 text-xl font-semibold tracking-[-0.03em]">
-            {content.chamberQuestion}
-          </p>
-        </div>
-
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          <article
-            className="rounded-3xl border p-6 transition hover:-translate-y-1 sm:p-7"
-            style={{
-              borderColor: 'var(--border)',
-              background: 'var(--panel)',
-              boxShadow: '0 20px 70px var(--shadow)'
-            }}
-          >
-            <h3 className="text-2xl font-semibold tracking-[-0.04em]">
-              {content.goalverseChamberTitle}
-            </h3>
-
-            <p
-              className="mt-4 min-h-36 text-base leading-7"
-              style={{ color: 'var(--muted)' }}
-            >
-              {content.goalverseChamberDescription}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => chooseChamber('goalverse')}
-              className="qoobix-focus mt-6 inline-flex rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-              style={{
-                borderColor: 'rgba(232, 90, 42, 0.55)',
-                color: '#E85A2A',
-                background: 'transparent'
-              }}
-            >
-              {content.goalverseChamberButton}
-            </button>
-          </article>
-
-          <article
-            className="rounded-3xl border p-6 transition hover:-translate-y-1 sm:p-7"
-            style={{
-              borderColor: 'var(--border)',
-              background: 'var(--panel)',
-              boxShadow: '0 20px 70px var(--shadow)'
-            }}
-          >
-            <h3 className="text-2xl font-semibold tracking-[-0.04em]">
-              {content.punkiaChamberTitle}
-            </h3>
-
-            <p
-              className="mt-4 min-h-36 text-base leading-7"
-              style={{ color: 'var(--muted)' }}
-            >
-              {content.punkiaChamberDescription}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => chooseChamber('punkia')}
-              className="qoobix-focus mt-6 inline-flex rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-              style={{
-                borderColor: 'rgba(232, 90, 42, 0.55)',
-                color: '#E85A2A',
-                background: 'transparent'
-              }}
-            >
-              {content.punkiaChamberButton}
-            </button>
-          </article>
-
-          <article
-            className="rounded-3xl border p-6 transition hover:-translate-y-1 sm:p-7"
-            style={{
-              borderColor: 'var(--border)',
-              background: 'var(--panel)',
-              boxShadow: '0 20px 70px var(--shadow)'
-            }}
-          >
-            <h3 className="text-2xl font-semibold tracking-[-0.04em]">
-              {content.proteusChamberTitle}
-            </h3>
-
-            <p
-              className="mt-4 min-h-36 text-base leading-7"
-              style={{ color: 'var(--muted)' }}
-            >
-              {content.proteusChamberDescription}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => chooseChamber('proteus')}
-              className="qoobix-focus mt-6 inline-flex rounded-xl border px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5"
-              style={{
-                borderColor: 'rgba(232, 90, 42, 0.55)',
-                color: '#E85A2A',
-                background: 'transparent'
-              }}
-            >
-              {content.proteusChamberButton}
-            </button>
-          </article>
-        </div>
-      </section>
-
-      {selectedChamber ? (
-        <section
-          id="active-diagnostic"
-          className="relative mx-auto w-full max-w-5xl scroll-mt-10 px-5 py-16 sm:px-8 lg:px-10"
-        >
-          <div
-            className="rounded-3xl border p-5 shadow-2xl sm:p-8 lg:p-10"
-            style={{
-              borderColor: 'var(--border)',
-              background: 'var(--panel-strong)',
-              boxShadow: '0 30px 90px var(--shadow)'
-            }}
-          >
-            {selectedChamber === 'goalverse' ? (
-              <>
-                <p
-                  className="text-xs font-semibold uppercase tracking-[0.3em]"
-                  style={{ color: '#E85A2A' }}
-                >
-                  {content.encounterEyebrow}
-                </p>
-
-                <h2 className="mt-5 text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
-                  {content.encounterTitle}
-                </h2>
-
-                <p className="mt-4 text-lg leading-8 sm:text-xl">
-                  {content.question}
-                </p>
-
-                <div className="mt-8 grid gap-3">
-                  {answers.map((answer) => {
-                    const isSelected = selectedAnswer === answer.key;
-
-                    return (
-                      <button
-                        key={answer.key}
-                        type="button"
-                        onClick={() => setSelectedAnswer(answer.key)}
-                        className="qoobix-focus rounded-xl border px-5 py-4 text-left text-base leading-7 transition hover:-translate-y-0.5"
-                        style={{
-                          borderColor: isSelected ? '#E85A2A' : 'var(--border)',
-                          background: isSelected
-                            ? 'rgba(232, 90, 42, 0.12)'
-                            : 'rgba(255, 255, 255, 0.03)',
-                          color: 'var(--foreground)'
-                        }}
-                      >
-                        <span className="font-semibold">{answer.key}.</span>{' '}
-                        {answer.text}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {selectedAnswer ? <DiagnosisCard diagnosis={goalverseDiagnosis} /> : null}
-              </>
-            ) : null}
-
-            {selectedChamber === 'punkia' ? (
-              <>
-                <p
-                  className="text-xs font-semibold uppercase tracking-[0.3em]"
-                  style={{ color: '#E85A2A' }}
-                >
-                  Punkia chamber
-                </p>
-
-                <h2 className="mt-5 text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
-                  Corporate fog sample detected.
-                </h2>
-
-                <DiagnosisCard diagnosis={punkiaDiagnosis} />
-              </>
-            ) : null}
-
-            {selectedChamber === 'proteus' ? (
-              <>
-                <p
-                  className="text-xs font-semibold uppercase tracking-[0.3em]"
-                  style={{ color: '#E85A2A' }}
-                >
-                  Proteus mixed diagnostic
-                </p>
-
-                <h2 className="mt-5 text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
-                  Unclassified nonsense approaching the cube.
-                </h2>
-
-                <DiagnosisCard diagnosis={proteusDiagnosis} />
-              </>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
+      <QoobixDiagnostic paths={diagnosticPaths} />
 
       <section
         id="antidotes"
@@ -513,14 +107,17 @@ export default function HomePage({ content }: HomePageProps) {
           }}
         >
           <h2 className="text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
-            {content.bridgeTitle}
+            Recommended antidotes are sold separately. Obviously.
           </h2>
 
           <p
             className="mx-auto mt-5 max-w-2xl text-base leading-8 sm:text-lg"
             style={{ color: 'var(--muted)' }}
           >
-            {content.bridgeDescription}
+            QOOBIX points towards satirical field manuals, anti-coaching
+            checklists, corporate fog decoders, AI-theatre warnings, and
+            practical instruments for detecting nonsense before it reproduces in
+            your calendar.
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
@@ -533,7 +130,7 @@ export default function HomePage({ content }: HomePageProps) {
                 background: 'transparent'
               }}
             >
-              {content.bridgeTroveButton}
+              Enter Da Trove
             </Link>
 
             <a
@@ -547,7 +144,7 @@ export default function HomePage({ content }: HomePageProps) {
                 background: 'transparent'
               }}
             >
-              {content.bridgeStoreButton}
+              Visit Sienda Media
             </a>
           </div>
         </div>
