@@ -10,7 +10,7 @@
     "lint": "eslint"
   },
   "engines": {
-    "node": "22.x"
+    "node": "24.x"
   },
   "dependencies": {
     "next": "16.2.4",
