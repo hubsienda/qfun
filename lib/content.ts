@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type {
+  AboutContent,
   HomeContent,
   LegalPageContent,
   ParsedMarkdown,
@@ -59,6 +60,16 @@ export function getHomeContent(): HomeContent {
   return parsed.data as HomeContent;
 }
 
+export function getAboutContent(): AboutContent {
+  const parsed = parseMarkdown(readFile('about.md'));
+
+  return {
+    title: parsed.data.title,
+    description: parsed.data.description,
+    content: parsed.content
+  };
+}
+
 export function getTerritoryContent(slug: string): TerritoryContent {
   const parsed = parseMarkdown(readFile(`territories/${slug}.md`));
 
@@ -95,17 +106,4 @@ export function getAllLegalPages(): LegalPageContent[] {
     .map((file) => file.replace(/\.md$/, ''))
     .map((slug) => getLegalPage(slug))
     .sort((a, b) => a.title.localeCompare(b.title));
-}
-
-export function getTerritoryCards() {
-  return ['goalverse', 'punkia', 'proteus'].map((slug) => {
-    const territory = getTerritoryContent(slug);
-
-    return {
-      title: territory.title,
-      description: territory.description,
-      button: territory.cardButton,
-      href: `/${slug}`
-    };
-  });
 }
