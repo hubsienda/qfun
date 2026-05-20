@@ -1,0 +1,734 @@
+{
+"id": "goalverse",
+"title": "Goalverse",
+"shortTitle": "Goalverse",
+"description": "The anti-coaching chamber of QOOBIX, built to detect motivational contamination, borrowed goals, hustle fog, discipline theatre, mindset leakage, and other productivity infections before they start breeding in your calendar.",
+"intro": {
+"eyebrow": "Goalverse chamber",
+"title": "Motivational contamination scan",
+"body": "Proteus will inspect your relationship with goals, effort, discipline, routines, failure, dreams, and other socially approved ways of marching confidently into fog. Answer honestly. The cube already suspects something.",
+"startButton": "Begin Goalverse scan"
+},
+"tags": [
+{
+"id": "borrowedAmbition",
+"label": "Borrowed Ambition"
+},
+{
+"id": "hustleFog",
+"label": "Hustle Fog"
+},
+{
+"id": "disciplineTheatre",
+"label": "Discipline Theatre"
+},
+{
+"id": "mindsetLeakage",
+"label": "Mindset Leakage"
+},
+{
+"id": "routineWorship",
+"label": "Routine Worship"
+},
+{
+"id": "failureRomance",
+"label": "Failure Romance"
+},
+{
+"id": "comfortZonePanic",
+"label": "Comfort-Zone Panic"
+},
+{
+"id": "dreamDelusion",
+"label": "Dream Delusion"
+}
+],
+"products": {
+"free": {
+"title": "The Motivational Contamination Checklist",
+"label": "Free dose",
+"url": "/trove",
+"copy": "A quick decontamination tool for spotting goal worship, hustle fog, discipline theatre, and self-improvement residue before they start charging rent in your head."
+},
+"paid": {
+"title": "The Mini Field Guide to Motivational Contamination",
+"label": "Full antidote",
+"url": "[https://siendamedia.com](https://siendamedia.com)",
+"copy": "A sharper field guide for people who have begun to suspect that much of personal development is fog with better lighting."
+}
+},
+"questions": [
+{
+"id": "q01_borrowed_goal",
+"question": "What is the most dangerous kind of goal?",
+"answers": [
+{
+"id": "a",
+"text": "A difficult one.",
+"tagWeights": {
+"comfortZonePanic": 2,
+"disciplineTheatre": 1
+}
+},
+{
+"id": "b",
+"text": "A long-term one.",
+"tagWeights": {
+"routineWorship": 1,
+"dreamDelusion": 1
+}
+},
+{
+"id": "c",
+"text": "One without a deadline.",
+"tagWeights": {
+"disciplineTheatre": 2,
+"hustleFog": 1
+}
+},
+{
+"id": "d",
+"text": "One inherited from people you do not actually respect.",
+"tagWeights": {
+"borrowedAmbition": 3,
+"dreamDelusion": 1
+}
+}
+],
+"correctAnswerId": "d",
+"defaultCorrectReaction": "Correct. Disturbing, is it not? The productivity industry has just pretended not to hear that.",
+"defaultWrongReaction": "Comfortable answer detected. Proteus has placed it in a drawer labelled plausible until inspected.",
+"realityCheck": "A goal can be hard, measurable, scheduled, and completely wrong. A beautifully organised bad idea is still a bad idea, only now it owns a calendar.",
+"practicalMove": "Before increasing effort, ask: Is this goal mine, useful, evidence-connected, and worth the cost?"
+},
+{
+"id": "q02_hard_work",
+"question": "When hard work produces no result, what should you inspect first?",
+"answers": [
+{
+"id": "a",
+"text": "Your alarm clock.",
+"tagWeights": {
+"routineWorship": 2,
+"hustleFog": 1
+}
+},
+{
+"id": "b",
+"text": "Your discipline.",
+"tagWeights": {
+"disciplineTheatre": 2,
+"hustleFog": 2
+}
+},
+{
+"id": "c",
+"text": "Your leverage, feedback, and demand.",
+"tagWeights": {
+"hustleFog": 3,
+"disciplineTheatre": 1
+}
+},
+{
+"id": "d",
+"text": "Your motivational wallpaper.",
+"tagWeights": {
+"mindsetLeakage": 2,
+"routineWorship": 1
+}
+}
+],
+"correctAnswerId": "c",
+"defaultCorrectReaction": "Correct. A hamster also works hard. It has cardio, discipline, and no business model.",
+"defaultWrongReaction": "Proteus has detected the old superstition that sweat automatically becomes strategy.",
+"realityCheck": "Hard work compounds only when direction, feedback, leverage, demand, timing, and positioning are not actively sabotaging it.",
+"practicalMove": "Before doing more, identify what signal the work is producing, who values it, and what feedback proves it is moving anything real."
+},
+{
+"id": "q03_discipline_theatre",
+"question": "What is discipline theatre?",
+"answers": [
+{
+"id": "a",
+"text": "Looking organised while avoiding the decision that matters.",
+"tagWeights": {
+"disciplineTheatre": 3,
+"borrowedAmbition": 1
+}
+},
+{
+"id": "b",
+"text": "Using a planner with excellent margins.",
+"tagWeights": {
+"routineWorship": 2,
+"disciplineTheatre": 1
+}
+},
+{
+"id": "c",
+"text": "Having a strict routine.",
+"tagWeights": {
+"routineWorship": 2,
+"disciplineTheatre": 2
+}
+},
+{
+"id": "d",
+"text": "Doing difficult things because difficulty is holy.",
+"tagWeights": {
+"hustleFog": 2,
+"failureRomance": 1
+}
+}
+],
+"correctAnswerId": "a",
+"defaultCorrectReaction": "Correct. The clipboard has been confiscated for suspicious behaviour.",
+"defaultWrongReaction": "Not quite. Proteus has seen productivity systems used as decorative curtains for avoidance.",
+"realityCheck": "Discipline is useful when it serves a meaningful direction. Discipline theatre is when the ritual replaces the reason.",
+"practicalMove": "Name the one decision your routine is helping you avoid, then make that decision smaller, testable, and scheduled."
+},
+{
+"id": "q04_mindset",
+"question": "What does mindset is everything usually forget?",
+"answers": [
+{
+"id": "a",
+"text": "Reality.",
+"tagWeights": {
+"mindsetLeakage": 2,
+"dreamDelusion": 1
+}
+},
+{
+"id": "b",
+"text": "Rent.",
+"tagWeights": {
+"mindsetLeakage": 2,
+"hustleFog": 1
+}
+},
+{
+"id": "c",
+"text": "Incentives.",
+"tagWeights": {
+"mindsetLeakage": 2,
+"borrowedAmbition": 1
+}
+},
+{
+"id": "d",
+"text": "All of the above, plus several invoices.",
+"tagWeights": {
+"mindsetLeakage": 3,
+"dreamDelusion": 1
+}
+}
+],
+"correctAnswerId": "d",
+"defaultCorrectReaction": "Correct. Mindset is not everything. Anyone saying that should be asked to pay rent using optimism.",
+"defaultWrongReaction": "Partial fog detected. Mindset matters, yes. So do incentives, bills, markets, bodies, timing, and gravity.",
+"realityCheck": "Mindset can affect behaviour, but it does not suspend economics, incentives, health, skill gaps, bad offers, or structural reality.",
+"practicalMove": "Separate attitude problems from mechanism problems. Ask what must be true in the world, not only what you must believe in your head."
+},
+{
+"id": "q05_morning_routine",
+"question": "What is the main danger of worshipping morning routines?",
+"answers": [
+{
+"id": "a",
+"text": "You may become unbearable before breakfast.",
+"tagWeights": {
+"routineWorship": 2,
+"mindsetLeakage": 1
+}
+},
+{
+"id": "b",
+"text": "You may confuse accessories with causality.",
+"tagWeights": {
+"routineWorship": 3,
+"dreamDelusion": 1
+}
+},
+{
+"id": "c",
+"text": "You may buy too many notebooks.",
+"tagWeights": {
+"routineWorship": 2,
+"disciplineTheatre": 1
+}
+},
+{
+"id": "d",
+"text": "You may wake up early and still be wrong.",
+"tagWeights": {
+"routineWorship": 2,
+"hustleFog": 1
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. Morning routines do not create success. They create mornings with accessories.",
+"defaultWrongReaction": "A nearby candle has been lit. Proteus is concerned this may become a ritual.",
+"realityCheck": "A routine can support useful work, but copying visible habits from successful people does not reproduce their context, leverage, timing, or market.",
+"practicalMove": "Keep only the routine elements that measurably improve energy, focus, or output. Discard the ceremonial garnish."
+},
+{
+"id": "q06_comfort_zone",
+"question": "What is often hiding behind comfort-zone panic?",
+"answers": [
+{
+"id": "a",
+"text": "A useful challenge.",
+"tagWeights": {
+"comfortZonePanic": 1,
+"hustleFog": 1
+}
+},
+{
+"id": "b",
+"text": "A bad idea wearing a brave costume.",
+"tagWeights": {
+"comfortZonePanic": 3,
+"dreamDelusion": 1
+}
+},
+{
+"id": "c",
+"text": "The fear of growth.",
+"tagWeights": {
+"comfortZonePanic": 2,
+"mindsetLeakage": 1
+}
+},
+{
+"id": "d",
+"text": "The universe testing your commitment.",
+"tagWeights": {
+"dreamDelusion": 2,
+"failureRomance": 1
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. Not every bruise is a breakthrough.",
+"defaultWrongReaction": "Careful. Some discomfort is growth. Some discomfort is a warning label written by your nervous system in capital letters.",
+"realityCheck": "Leaving comfort can be useful, but discomfort alone does not validate a decision. Pain is not proof of direction.",
+"practicalMove": "Before calling discomfort growth, ask what evidence suggests the risk is useful, reversible, and connected to a real objective."
+},
+{
+"id": "q07_consistency",
+"question": "What happens when consistency has no direction?",
+"answers": [
+{
+"id": "a",
+"text": "You build character.",
+"tagWeights": {
+"disciplineTheatre": 2,
+"failureRomance": 1
+}
+},
+{
+"id": "b",
+"text": "You become very reliable at going nowhere.",
+"tagWeights": {
+"disciplineTheatre": 3,
+"hustleFog": 1
+}
+},
+{
+"id": "c",
+"text": "The results arrive eventually.",
+"tagWeights": {
+"hustleFog": 2,
+"dreamDelusion": 1
+}
+},
+{
+"id": "d",
+"text": "The algorithm rewards you.",
+"tagWeights": {
+"mindsetLeakage": 1,
+"routineWorship": 2
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. A treadmill is consistent. It is also extremely committed to staying in the same room.",
+"defaultWrongReaction": "Proteus has detected faith in repetition without evidence. The spreadsheet is sweating.",
+"realityCheck": "Consistency only becomes powerful when it is attached to a direction, a feedback loop, and a mechanism that can improve.",
+"practicalMove": "Define the result your consistency is supposed to affect, then check weekly whether the action is changing that result."
+},
+{
+"id": "q08_failure_romance",
+"question": "What is the problem with romanticising failure?",
+"answers": [
+{
+"id": "a",
+"text": "Failure is always bad.",
+"tagWeights": {
+"failureRomance": 1,
+"comfortZonePanic": 1
+}
+},
+{
+"id": "b",
+"text": "It can turn a useful lesson into a personality brand.",
+"tagWeights": {
+"failureRomance": 3,
+"dreamDelusion": 1
+}
+},
+{
+"id": "c",
+"text": "It discourages courage.",
+"tagWeights": {
+"comfortZonePanic": 2,
+"mindsetLeakage": 1
+}
+},
+{
+"id": "d",
+"text": "It makes motivational speakers emotional near spotlights.",
+"tagWeights": {
+"failureRomance": 2,
+"hustleFog": 1
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. At some point, the lesson may be the hole.",
+"defaultWrongReaction": "Proteus has detected the incense of heroic suffering. Please open a window.",
+"realityCheck": "Failure can teach, but only if examined honestly. Repeating failure and calling it a journey is not learning. It is branding with bruises.",
+"practicalMove": "After failure, write what changed in your next action. If nothing changes, you did not extract a lesson; you merely framed the damage."
+},
+{
+"id": "q09_dreams",
+"question": "When does a dream become dangerous?",
+"answers": [
+{
+"id": "a",
+"text": "When it is too big.",
+"tagWeights": {
+"dreamDelusion": 1,
+"comfortZonePanic": 1
+}
+},
+{
+"id": "b",
+"text": "When it demands belief but refuses evidence.",
+"tagWeights": {
+"dreamDelusion": 3,
+"mindsetLeakage": 1
+}
+},
+{
+"id": "c",
+"text": "When other people doubt it.",
+"tagWeights": {
+"dreamDelusion": 2,
+"borrowedAmbition": 1
+}
+},
+{
+"id": "d",
+"text": "When it requires planning.",
+"tagWeights": {
+"disciplineTheatre": 1,
+"comfortZonePanic": 1
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. Dreams are lovely. Gravity still has office hours.",
+"defaultWrongReaction": "Dream fog detected. Proteus has requested a sample of evidence and a small bucket.",
+"realityCheck": "A dream becomes useful when it meets constraints, evidence, skills, demand, and steps. Until then, it is a pleasant weather system.",
+"practicalMove": "Convert the dream into one testable assumption. Then test it before building a shrine."
+},
+{
+"id": "q10_survivorship",
+"question": "What is the main problem with copying success stories?",
+"answers": [
+{
+"id": "a",
+"text": "They are always fake.",
+"tagWeights": {
+"dreamDelusion": 1,
+"comfortZonePanic": 1
+}
+},
+{
+"id": "b",
+"text": "They often hide timing, luck, leverage, context, and the bodies in the statistical basement.",
+"tagWeights": {
+"borrowedAmbition": 2,
+"dreamDelusion": 2
+}
+},
+{
+"id": "c",
+"text": "They make you jealous.",
+"tagWeights": {
+"borrowedAmbition": 1,
+"mindsetLeakage": 1
+}
+},
+{
+"id": "d",
+"text": "They require too much work.",
+"tagWeights": {
+"hustleFog": 1,
+"comfortZonePanic": 1
+}
+}
+],
+"correctAnswerId": "b",
+"defaultCorrectReaction": "Correct. Survivorship bias has entered the room wearing a founder hoodie.",
+"defaultWrongReaction": "Proteus has detected biography worship. Please stop licking the case study.",
+"realityCheck": "Success stories usually compress complexity into a clean myth. They highlight visible actions and omit hidden conditions.",
+"practicalMove": "When studying a success story, identify what cannot be copied: timing, network, capital, category, luck, distribution, or prior advantage."
+}
+],
+"diagnoses": [
+{
+"id": "borrowedAmbition",
+"tag": "borrowedAmbition",
+"title": "Borrowed Ambition Syndrome",
+"severityLabel": "Identity contamination",
+"proteusVerdict": "You may be polishing a goal that entered your life through someone else's applause system.",
+"whatItMeans": "This diagnosis suggests that the goal may not be yours in any meaningful sense. It may be inherited, socially rewarded, impressive to strangers, or useful mainly as a costume.",
+"realMechanism": "Borrowed ambition works because social approval feels like evidence. It is not evidence. It is often just noise wearing perfume.",
+"practicalMove": "Before increasing effort, ask: Is this goal mine, useful, evidence-connected, and worth the cost? If any answer smells evasive, reduce commitment and run a smaller test.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help identify whether the goal is yours or merely visiting with luggage.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination goes deeper into borrowed goals, false status signals, and ambition laundering.",
+"shareLine": "A borrowed goal is still a burden, even when it arrives wearing applause."
+},
+{
+"id": "hustleFog",
+"tag": "hustleFog",
+"title": "Hustle Fog Exposure",
+"severityLabel": "Effort without oxygen",
+"proteusVerdict": "You may be trying to solve a mechanism problem by adding sweat. Proteus has seen hamsters attempt similar strategy.",
+"whatItMeans": "This diagnosis suggests that hard work may be substituting for leverage, feedback, demand, positioning, or actual commercial sense.",
+"realMechanism": "Hustle fog is seductive because effort feels moral. But markets, audiences, systems, and customers do not pay extra because you suffered attractively.",
+"practicalMove": "Before doing more work, identify the bottleneck: demand, offer, message, channel, skill, feedback, timing, or trust. Then work on the bottleneck, not your guilt.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help separate useful effort from treadmill worship.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination examines hustle myths and the places where effort goes to die quietly.",
+"shareLine": "Hard work without leverage is just cardio with invoices."
+},
+{
+"id": "disciplineTheatre",
+"tag": "disciplineTheatre",
+"title": "Discipline Theatre",
+"severityLabel": "Ritualised avoidance",
+"proteusVerdict": "Your system may look impressive while quietly protecting you from the decision that matters.",
+"whatItMeans": "This diagnosis suggests that planning, tracking, scheduling, and routine may be functioning as theatre rather than traction.",
+"realMechanism": "Discipline theatre turns preparation into emotional insulation. The ritual provides relief because it feels like progress without demanding proof.",
+"practicalMove": "Name the one decision your organisation system is helping you avoid. Make it smaller, testable, and time-boxed. Then act before buying another notebook.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can detect when discipline has become scenery.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination investigates productivity rituals, planning addiction, and the stationery-industrial complex.",
+"shareLine": "A measurable bad idea is still a bad idea, only now it owns a spreadsheet."
+},
+{
+"id": "mindsetLeakage",
+"tag": "mindsetLeakage",
+"title": "Mindset Leakage",
+"severityLabel": "Optimism escaping containment",
+"proteusVerdict": "You may be using belief as a substitute for mechanism. The invoices remain unconvinced.",
+"whatItMeans": "This diagnosis suggests that mindset language may be hiding practical constraints, missing incentives, weak offers, poor timing, or other realities with inconvenient shoes.",
+"realMechanism": "Mindset matters, but it is not a crowbar for every locked door. Some doors require keys, money, demand, skill, permission, or not walking into the wrong building.",
+"practicalMove": "Separate belief problems from mechanism problems. Write down what must change in the external world, then identify the next observable test.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help spot when optimism is leaking into places where evidence should be.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination dissects mindset absolutism without asking you to manifest rent.",
+"shareLine": "Mindset is not everything. Try paying the electricity bill with confidence."
+},
+{
+"id": "routineWorship",
+"tag": "routineWorship",
+"title": "Routine Worship Event",
+"severityLabel": "Ceremonial productivity",
+"proteusVerdict": "A ritual may have disguised itself as a result. Proteus is confiscating the candle.",
+"whatItMeans": "This diagnosis suggests that routines, morning habits, tools, or rituals may be receiving credit for outcomes they did not cause.",
+"realMechanism": "Routines can support useful work, but copying visible habits from successful people does not copy their timing, leverage, category, network, or market.",
+"practicalMove": "Keep only routine elements that measurably improve energy, focus, output, or recovery. Remove anything that exists mainly for identity decoration.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can identify whether your routine is support equipment or a tiny domestic religion.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination pokes morning mythology until the accessories fall off.",
+"shareLine": "Morning routines do not create success. They create mornings with accessories."
+},
+{
+"id": "failureRomance",
+"tag": "failureRomance",
+"title": "Failure Romance Contamination",
+"severityLabel": "Heroic bruise inflation",
+"proteusVerdict": "You may be turning pain into branding before extracting the lesson. Proteus has requested fewer speeches and more changes.",
+"whatItMeans": "This diagnosis suggests that failure may be getting treated as inherently noble rather than conditionally educational.",
+"realMechanism": "Failure teaches only when examined and translated into different behaviour. Otherwise it becomes a scrapbook of avoidable damage.",
+"practicalMove": "After a failure, write one behaviour, assumption, or constraint that must change. If nothing changes, do not call it learning. Call it repetition with lighting.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help distinguish useful lessons from inspirational bruise collecting.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination examines why not every wound deserves a keynote.",
+"shareLine": "Not every bruise is a breakthrough."
+},
+{
+"id": "comfortZonePanic",
+"tag": "comfortZonePanic",
+"title": "Comfort-Zone Panic",
+"severityLabel": "Discomfort misclassification",
+"proteusVerdict": "You may be mistaking alarm bells for growth music. The orchestra is worried.",
+"whatItMeans": "This diagnosis suggests that discomfort may be getting treated as proof that an action is valuable, brave, or necessary.",
+"realMechanism": "Comfort-zone language often collapses useful challenge and reckless nonsense into the same heroic soup.",
+"practicalMove": "Before leaving a comfort zone, define the upside, downside, reversibility, evidence, and learning value. Courage without calibration is just drama in shoes.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help classify discomfort before it becomes expensive.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination explains why panic is not automatically a compass.",
+"shareLine": "Discomfort is not proof of growth. Sometimes it is your brain pointing at a cliff."
+},
+{
+"id": "dreamDelusion",
+"tag": "dreamDelusion",
+"title": "Dream Delusion",
+"severityLabel": "Evidence deficiency",
+"proteusVerdict": "A dream has entered the chamber without paperwork. Proteus is withholding applause.",
+"whatItMeans": "This diagnosis suggests that a dream may be demanding loyalty before earning contact with reality.",
+"realMechanism": "Dreams are emotionally convincing because they provide identity before evidence. That makes them pleasant and dangerous.",
+"practicalMove": "Translate the dream into one testable assumption. Test it cheaply. Let evidence upgrade or evict it.",
+"freeAntidoteCopy": "Free dose: The Motivational Contamination Checklist can help determine whether the dream has a mechanism or merely excellent lighting.",
+"paidAntidoteCopy": "Full antidote: The Mini Field Guide to Motivational Contamination examines dream fog, belief inflation, and ambition without traction.",
+"shareLine": "Dreams are lovely. Gravity still has office hours."
+}
+],
+"fragments": {
+"openingLines": [
+"Proteus has detected a visitor. This is rarely a neutral event.",
+"The cube has opened one eye. Please avoid sudden motivational slogans.",
+"Goalverse chamber active. Nearby affirmations are advised to remain silent.",
+"Proteus is preparing the fog lamp. The motivational weather looks suspicious.",
+"A goal has entered the room carrying luggage. Proteus wants to know who packed it.",
+"The scan begins. Please place all borrowed ambitions in the tray.",
+"Proteus smells productivity guilt. It is pretending not to enjoy this.",
+"The cube is listening. Do not attempt to impress it with your morning routine.",
+"A motivational phrase just moved behind the curtain. Proteus has noticed.",
+"Goal worship residue detected on the premises.",
+"The chamber is now checking whether your ambition belongs to you or to a passing applause machine.",
+"Proteus has sharpened a question. This may sting briefly and improve visibility.",
+"Please remain calm while the cube inspects your relationship with effort.",
+"The air contains traces of hustle fog. Ventilation may be required.",
+"Proteus has found a planner, three excuses, and a suspiciously confident deadline.",
+"The scan will begin after Proteus finishes glaring at the word mindset.",
+"A self-improvement slogan has been found under the carpet. It is not cooperating.",
+"Welcome to Goalverse. The exits are clearly marked, unlike most life plans.",
+"Proteus is calibrating the nonsense detector. Early readings are emotionally expensive.",
+"The cube requests honesty. Motivational theatre will be composted."
+],
+"correctReactions": [
+"Correct. Disturbing, is it not? The productivity industry has just pretended not to hear that.",
+"Correct. Proteus nods once, which is basically a parade.",
+"Correct. A small coaching funnel has wilted nearby.",
+"Correct. The fog has briefly lost confidence.",
+"Correct. Proteus has stopped tapping the glass. For now.",
+"Correct. That answer had a pulse and evidence.",
+"Correct. Someone has just cancelled a webinar in fear.",
+"Correct. The cube accepts this offering of clarity.",
+"Correct. A motivational poster has been turned to face the wall.",
+"Correct. Proteus has marked you as temporarily resistant to nonsense.",
+"Correct. The slogan has been punctured and is losing air.",
+"Correct. Reality has entered the chat without a lanyard.",
+"Correct. The discipline theatre lobby has gone quiet.",
+"Correct. Your answer survived contact with mechanism.",
+"Correct. Proteus has filed this under uncommon sanity.",
+"Correct. A hamster has been released from strategic comparison duty.",
+"Correct. The spreadsheet has stopped pretending to be wisdom.",
+"Correct. One myth has been denied planning permission.",
+"Correct. The fog machine has coughed.",
+"Correct. Please enjoy this brief encounter with useful discomfort."
+],
+"wrongReactions": [
+"Comfortable answer detected. Proteus has placed it in a drawer labelled sounds plausible until inspected.",
+"Not quite. The fog has found a chair and made itself comfortable.",
+"Incorrect. A motivational slogan just clapped politely.",
+"Wrong chamber pressure. Proteus recommends immediate ventilation.",
+"Not quite. That answer has the texture of a coaching caption.",
+"Careful. That answer has been seen near a productivity webinar.",
+"Incorrect. The cube has requested a second opinion from reality.",
+"Wrong. Proteus has detected optimism wearing a lanyard.",
+"Not quite. The answer sounds useful from a distance, like many expensive mistakes.",
+"Incorrect. The fog machine has been encouraged. This is unfortunate.",
+"Not quite. Discipline theatre applauds from the cheap seats.",
+"Wrong. A calendar has gained confidence for no reason.",
+"Incorrect. The slogan remains inflated.",
+"Not quite. Proteus has labelled this response motivationally edible but nutritionally empty.",
+"Wrong. The hamster remains overworked and strategically unsupported.",
+"Not quite. Reality has raised one eyebrow.",
+"Incorrect. That answer brought accessories but no mechanism.",
+"Wrong. Proteus has detected imported ambition residue.",
+"Not quite. The answer may be socially acceptable, which is often the first warning sign.",
+"Incorrect. The cube is not angry, just diagnostically disappointed."
+],
+"transitionLines": [
+"The diagnosis is forming. Please keep your hands away from the fog.",
+"Proteus is now separating evidence from decorative suffering.",
+"The cube is classifying the contamination. Some of it is wearing a blazer.",
+"A myth has been isolated. It is pretending to be a principle.",
+"Proteus has moved from mockery to analysis. This is worse for the myth.",
+"The chamber is translating your answer into useful discomfort.",
+"A practical move is being extracted from the wreckage.",
+"The fog is thinning. Unfortunately, this makes the furniture visible.",
+"Proteus has identified the belief. It was hiding under the word discipline.",
+"The diagnostic tray contains effort, fear, applause, and one suspicious dream.",
+"The answer has been cross-examined. It requested a coach.",
+"Proteus is checking whether the pain was useful or merely dramatic.",
+"The myth is now being weighed against reality. It dislikes the scale.",
+"A small truth has emerged. It is not here to flatter anyone.",
+"The cube has produced a next move. Please do not frame it as inspiration."
+],
+"softSalesLines": [
+"If this diagnosis felt unpleasantly familiar, the antidote is available.",
+"Free dose available in Da Trove. Proteus will not call it a newsletter because it has standards.",
+"The Motivational Contamination Checklist is waiting in Da Trove, holding a small torch.",
+"The full antidote lives at Sienda Media, where the fog is given paperwork.",
+"If the myth is still twitching, the field guide may help.",
+"Proteus is not forcing you to buy anything. It is merely staring at the fog and making notes.",
+"A free checklist exists for exactly this kind of motivational residue.",
+"The paid field guide goes deeper, where the slogans keep their nests.",
+"If your calendar has begun reproducing bad goals, consider the antidote.",
+"Da Trove contains the free dose. Sienda Media contains the sharper tools.",
+"The checklist helps identify the contamination before it becomes a lifestyle.",
+"The field guide is for cases where the fog has already learned your name.",
+"If this felt like recognition rather than entertainment, the antidote may be relevant.",
+"The free material is available. The paid material exists for deeper decontamination.",
+"Proteus recommends tools, not miracles. Civilisation has had enough miracles."
+],
+"tryAnotherChamberLines": [
+"If the fog smells corporate, Punkia may need to inspect it.",
+"If the nonsense is wearing a blazer, try the Punkia chamber.",
+"If the toxin is mixed, Proteus can perform a broader diagnostic.",
+"If the goal was not the whole problem, the system may be guilty.",
+"If a LinkedIn post caused the symptoms, Punkia is waiting with gloves.",
+"If the phrase strategic alignment has appeared, leave Goalverse and seek Punkia.",
+"If this is less about you and more about the machinery around you, try another chamber.",
+"If motivation is not the infection, corporate fog may be.",
+"If the myth has spreadsheets, dashboards, or a committee, Punkia should be notified.",
+"If the nonsense cannot be named, send it to Proteus mixed diagnostic."
+],
+"closingStings": [
+"Please ventilate the room before another goal reproduces.",
+"The scan is complete. The fog is not happy.",
+"You may now return to your calendar and apologise to reality.",
+"A myth has been injured. This is considered progress.",
+"Proteus recommends fewer slogans and more mechanisms.",
+"The chamber has closed. The suspicion remains.",
+"Remember: not every disciplined march leads somewhere worth arriving.",
+"You are advised to inspect the goal before feeding it another week.",
+"The fog may return. It often has a podcast.",
+"Please dispose of contaminated affirmations responsibly.",
+"The answer has ended, but the myth may still be hiding in your routine.",
+"Proteus has left the room, but only physically.",
+"Further exposure to hustle fog may cause calendar swelling.",
+"Your ambition has been returned with comments in the margin.",
+"The cube is satisfied. This should worry everyone.",
+"Please do not replace this diagnosis with a vision board.",
+"If discomfort persists, check whether the goal is still attached.",
+"A practical move has been issued. Do not laminate it.",
+"The motivational residue is lower now. Not gone, but embarrassed.",
+"Proteus has concluded the scan and resumed elegant disapproval."
+]
+}
+}
