@@ -8,9 +8,26 @@ export type HomeContent = {
   heroTitle: string;
   heroLine: string;
   heroDescription: string;
-  heroPurpose: string;
   heroButton: string;
+  troveButton: string;
   heroSupport: string;
+
+  showEyebrow: string;
+  showTitle: string;
+  showDescription: string;
+  chamberQuestion: string;
+
+  goalverseChamberTitle: string;
+  goalverseChamberDescription: string;
+  goalverseChamberButton: string;
+
+  punkiaChamberTitle: string;
+  punkiaChamberDescription: string;
+  punkiaChamberButton: string;
+
+  proteusChamberTitle: string;
+  proteusChamberDescription: string;
+  proteusChamberButton: string;
 
   encounterEyebrow: string;
   encounterTitle: string;
@@ -33,6 +50,18 @@ export type HomeContent = {
   wrongRealityCheck: string;
   wrongRecommendedAntidote: string;
 
+  punkiaResponse: string;
+  punkiaDiagnosis: string;
+  punkiaDetectedMyth: string;
+  punkiaRealityCheck: string;
+  punkiaRecommendedAntidote: string;
+
+  proteusResponse: string;
+  proteusDiagnosis: string;
+  proteusDetectedMyth: string;
+  proteusRealityCheck: string;
+  proteusRecommendedAntidote: string;
+
   diagnosisLabel: string;
   detectedMythLabel: string;
   realityCheckLabel: string;
@@ -43,24 +72,16 @@ export type HomeContent = {
   proteusPathButton: string;
   futureAntidotesButton: string;
 
-  territoriesEyebrow: string;
-  territoriesTitle: string;
-
   bridgeTitle: string;
   bridgeDescription: string;
-  bridgeExtraLine: string;
-  bridgeButton: string;
+  bridgeTroveButton: string;
+  bridgeStoreButton: string;
+};
 
-  aboutEyebrow: string;
-  aboutTitle: string;
-  aboutParagraphOne: string;
-  aboutParagraphTwo: string;
-  aboutParagraphThree: string;
-  aboutButton: string;
-
-  logoBridgeEyebrow: string;
-  logoBridgeTitle: string;
-  logoBridgeDescription: string;
+export type AboutContent = {
+  title: string;
+  description: string;
+  content: string;
 };
 
 export type TerritoryContent = {
