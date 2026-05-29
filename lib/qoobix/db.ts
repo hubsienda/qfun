@@ -7,8 +7,13 @@ import { createAccessCodeFromClientSlug } from '@/lib/qoobix/forms';
 import type { ClientConfiguration, JobStatus } from '@/lib/qoobix/types';
 
 type ClientRow = Database['public']['Tables']['clients']['Row'];
+type AccessCodeRow = Database['public']['Tables']['access_codes']['Row'];
 type JobRow = Database['public']['Tables']['jobs']['Row'];
 type ReportRow = Database['public']['Tables']['reports']['Row'];
+
+function getSupabase() {
+  return createSupabaseAdminClient() as any;
+}
 
 function mapClient(row: ClientRow): ClientConfiguration {
   return {
@@ -31,14 +36,17 @@ function mapClient(row: ClientRow): ClientConfiguration {
 }
 
 export async function getClientBySlug(slug: string): Promise<ClientConfiguration | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
-  const { data, error } = await supabase
+  const { data, error } = (await supabase
     .from('clients')
     .select('*')
     .eq('slug', slug)
     .eq('is_active', true)
-    .single();
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
 
   if (error || !data) {
     return null;
@@ -48,15 +56,18 @@ export async function getClientBySlug(slug: string): Promise<ClientConfiguration
 }
 
 export async function getClientByAccessCode(code: string): Promise<ClientConfiguration | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
   const normalisedCode = normaliseAccessCode(code);
 
-  const { data: accessCode, error: accessError } = await supabase
+  const { data: accessCode, error: accessError } = (await supabase
     .from('access_codes')
     .select('*')
     .eq('code', normalisedCode)
     .eq('is_active', true)
-    .single();
+    .single()) as {
+    data: AccessCodeRow | null;
+    error: { message: string } | null;
+  };
 
   if (accessError || !accessCode) {
     return null;
@@ -66,12 +77,15 @@ export async function getClientByAccessCode(code: string): Promise<ClientConfigu
     return null;
   }
 
-  const { data: client, error: clientError } = await supabase
+  const { data: client, error: clientError } = (await supabase
     .from('clients')
     .select('*')
     .eq('id', accessCode.client_id)
     .eq('is_active', true)
-    .single();
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
 
   if (clientError || !client) {
     return null;
@@ -88,12 +102,12 @@ export async function getClientByAccessCode(code: string): Promise<ClientConfigu
 }
 
 export async function createClientWithAccessCode(input: AdminCreateClientInput) {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
   const accessCode = normaliseAccessCode(
     input.accessCode || createAccessCodeFromClientSlug(input.slug)
   );
 
-  const { data: client, error: clientError } = await supabase
+  const { data: client, error: clientError } = (await supabase
     .from('clients')
     .insert({
       name: input.name,
@@ -114,17 +128,22 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
       file_retention_days: input.fileRetentionDays
     })
     .select('*')
-    .single();
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
 
   if (clientError || !client) {
     throw new Error(clientError?.message ?? 'Could not create client.');
   }
 
-  const { error: accessCodeError } = await supabase.from('access_codes').insert({
+  const { error: accessCodeError } = (await supabase.from('access_codes').insert({
     client_id: client.id,
     code: accessCode,
     label: `${client.name} primary access`
-  });
+  })) as {
+    error: { message: string } | null;
+  };
 
   if (accessCodeError) {
     throw new Error(accessCodeError.message);
@@ -141,19 +160,22 @@ export async function getClientAreaData(slug: string): Promise<{
   client: ClientConfiguration;
   jobs: JobRow[];
 } | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
   const client = await getClientBySlug(slug);
 
   if (!client) {
     return null;
   }
 
-  const { data: jobs, error } = await supabase
+  const { data: jobs, error } = (await supabase
     .from('jobs')
     .select('*')
     .eq('client_id', client.id)
     .order('created_at', { ascending: false })
-    .limit(25);
+    .limit(25)) as {
+    data: JobRow[] | null;
+    error: { message: string } | null;
+  };
 
   if (error) {
     throw new Error(error.message);
@@ -166,7 +188,7 @@ export async function getClientAreaData(slug: string): Promise<{
 }
 
 export async function createJob(input: NewJobInput): Promise<JobRow> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
   const client = await getClientBySlug(input.clientSlug);
 
@@ -174,7 +196,7 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
     throw new Error('Client configuration could not be verified.');
   }
 
-  const { data, error } = await supabase
+  const { data, error } = (await supabase
     .from('jobs')
     .insert({
       client_id: input.clientId,
@@ -183,7 +205,10 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
       result_token: crypto.randomUUID()
     })
     .select('*')
-    .single();
+    .single()) as {
+    data: JobRow | null;
+    error: { message: string } | null;
+  };
 
   if (error || !data) {
     throw new Error(error?.message ?? 'Could not create job.');
@@ -202,33 +227,42 @@ export async function getJobWithClientAndReports(jobId: string): Promise<{
   client: ClientConfiguration;
   reports: ReportRow[];
 } | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
-  const { data: job, error: jobError } = await supabase
+  const { data: job, error: jobError } = (await supabase
     .from('jobs')
     .select('*')
     .eq('id', jobId)
-    .single();
+    .single()) as {
+    data: JobRow | null;
+    error: { message: string } | null;
+  };
 
   if (jobError || !job) {
     return null;
   }
 
-  const { data: clientRow, error: clientError } = await supabase
+  const { data: clientRow, error: clientError } = (await supabase
     .from('clients')
     .select('*')
     .eq('id', job.client_id)
-    .single();
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
 
   if (clientError || !clientRow) {
     return null;
   }
 
-  const { data: reports, error: reportsError } = await supabase
+  const { data: reports, error: reportsError } = (await supabase
     .from('reports')
     .select('*')
     .eq('job_id', job.id)
-    .order('created_at', { ascending: true });
+    .order('created_at', { ascending: true })) as {
+    data: ReportRow[] | null;
+    error: { message: string } | null;
+  };
 
   if (reportsError) {
     throw new Error(reportsError.message);
@@ -246,14 +280,17 @@ export async function getResultByToken(token: string): Promise<{
   client: ClientConfiguration;
   reports: ReportRow[];
 } | null> {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
-  const { data: job, error: jobError } = await supabase
+  const { data: job, error: jobError } = (await supabase
     .from('jobs')
     .select('*')
     .eq('result_token', token)
     .eq('status', 'ready')
-    .single();
+    .single()) as {
+    data: JobRow | null;
+    error: { message: string } | null;
+  };
 
   if (jobError || !job) {
     return null;
@@ -267,15 +304,17 @@ export async function updateJobStatus(
   status: JobStatus,
   errorMessage?: string | null
 ) {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
-  const { error } = await supabase
+  const { error } = (await supabase
     .from('jobs')
     .update({
       status,
       error_message: errorMessage ?? null
     })
-    .eq('id', jobId);
+    .eq('id', jobId)) as {
+    error: { message: string } | null;
+  };
 
   if (error) {
     throw new Error(error.message);
@@ -290,16 +329,18 @@ export async function addReportRecord(input: {
   storagePath: string;
   expiresAt: string | null;
 }) {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
-  const { error } = await supabase.from('reports').insert({
+  const { error } = (await supabase.from('reports').insert({
     job_id: input.jobId,
     file_type: input.fileType,
     file_name: input.fileName,
     file_url: input.fileUrl,
     storage_path: input.storagePath,
     expires_at: input.expiresAt
-  });
+  })) as {
+    error: { message: string } | null;
+  };
 
   if (error) {
     throw new Error(error.message);
@@ -312,7 +353,7 @@ export async function addJobLog(
   message: string,
   details?: Record<string, unknown>
 ) {
-  const supabase = createSupabaseAdminClient();
+  const supabase = getSupabase();
 
   await supabase.from('job_logs').insert({
     job_id: jobId,
