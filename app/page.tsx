@@ -41,10 +41,7 @@ export default function HomePage() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <ButtonLink href="/access">Enter private access</ButtonLink>
-            <ButtonLink href="/admin" variant="secondary">
-              Admin area
-            </ButtonLink>
+            <ButtonLink href="/access">Client access</ButtonLink>
           </div>
         </div>
       </section>
