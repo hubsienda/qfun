@@ -51,18 +51,29 @@ export async function getClientByAccessCode(code: string): Promise<ClientConfigu
   const supabase = createSupabaseAdminClient();
   const normalisedCode = normaliseAccessCode(code);
 
-  const { data, error } = await supabase
+  const { data: accessCode, error: accessError } = await supabase
     .from('access_codes')
-    .select('*, clients(*)')
+    .select('*')
     .eq('code', normalisedCode)
     .eq('is_active', true)
     .single();
 
-  if (error || !data || !data.clients) {
+  if (accessError || !accessCode) {
     return null;
   }
 
-  if (data.expires_at && new Date(data.expires_at).getTime() < Date.now()) {
+  if (accessCode.expires_at && new Date(accessCode.expires_at).getTime() < Date.now()) {
+    return null;
+  }
+
+  const { data: client, error: clientError } = await supabase
+    .from('clients')
+    .select('*')
+    .eq('id', accessCode.client_id)
+    .eq('is_active', true)
+    .single();
+
+  if (clientError || !client) {
     return null;
   }
 
@@ -71,9 +82,9 @@ export async function getClientByAccessCode(code: string): Promise<ClientConfigu
     .update({
       last_used_at: new Date().toISOString()
     })
-    .eq('id', data.id);
+    .eq('id', accessCode.id);
 
-  return mapClient(data.clients as ClientRow);
+  return mapClient(client);
 }
 
 export async function createClientWithAccessCode(input: AdminCreateClientInput) {
@@ -109,14 +120,14 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
     throw new Error(clientError?.message ?? 'Could not create client.');
   }
 
-  const { error: accessError } = await supabase.from('access_codes').insert({
+  const { error: accessCodeError } = await supabase.from('access_codes').insert({
     client_id: client.id,
     code: accessCode,
     label: `${client.name} primary access`
   });
 
-  if (accessError) {
-    throw new Error(accessError.message);
+  if (accessCodeError) {
+    throw new Error(accessCodeError.message);
   }
 
   return {
@@ -248,9 +259,7 @@ export async function getResultByToken(token: string): Promise<{
     return null;
   }
 
-  const data = await getJobWithClientAndReports(job.id);
-
-  return data;
+  return getJobWithClientAndReports(job.id);
 }
 
 export async function updateJobStatus(
