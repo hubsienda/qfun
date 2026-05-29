@@ -22,7 +22,6 @@ export const adminCreateClientSchema = z.object({
   slug: z.string().min(2).transform(slugify),
   preferredLanguage: z.string().optional().default('English'),
   availableReportTypes: z.string().optional().default('docx,xlsx').transform(splitList),
-  accessCode: z.string().optional().default(''),
   fileRetentionDays: z.coerce.number().int().positive().default(30)
 });
 
@@ -39,6 +38,18 @@ export const clientProfileSchema = z.object({
   knownRepresentatives: z.string().optional().default(''),
   preferredLanguage: z.string().optional().default('English')
 });
+
+export const clientAccessCodeSchema = z
+  .object({
+    clientSlug: z.string().min(2),
+    currentAccessCode: z.string().min(8),
+    newAccessCode: z.string().min(8).max(80),
+    confirmAccessCode: z.string().min(8).max(80)
+  })
+  .refine((data) => data.newAccessCode === data.confirmAccessCode, {
+    message: 'The new access codes do not match.',
+    path: ['confirmAccessCode']
+  });
 
 export const newJobSchema = z.object({
   clientId: z.string().uuid(),
@@ -57,6 +68,7 @@ export const newJobSchema = z.object({
 
 export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
 export type ClientProfileInput = z.infer<typeof clientProfileSchema>;
+export type ClientAccessCodeInput = z.infer<typeof clientAccessCodeSchema>;
 export type NewJobInput = z.infer<typeof newJobSchema>;
 
 export function createAccessCodeFromClientSlug(slug: string): string {
