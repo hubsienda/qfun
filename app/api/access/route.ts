@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAccessCodeFormatValid, normaliseAccessCode } from '@/lib/auth/access-code';
+import { setClientSession } from '@/lib/auth/client-session';
 import { getClientByAccessCode } from '@/lib/qoobix/db';
 
 export async function POST(request: NextRequest) {
@@ -19,6 +20,8 @@ export async function POST(request: NextRequest) {
     if (!client) {
       return NextResponse.json({ ok: false, error: 'Access code not recognised.' }, { status: 401 });
     }
+
+    await setClientSession(client.slug);
 
     return NextResponse.json({
       ok: true,
