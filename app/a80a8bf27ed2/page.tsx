@@ -13,12 +13,13 @@ export default function HiddenProvisioningPage() {
         </p>
 
         <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
-          Provision clients. Create access. Keep the swamp outside.
+          Create client access. Let the client complete the business profile.
         </h1>
 
         <p className="mt-5 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-          Create configured client environments, private access codes, and report settings.
-          The intelligence itself stays in downloadable outputs, not in a permanent lead museum.
+          This hidden area creates the private client environment and access code. The client then
+          completes sector, products, target countries, channels, competitors, and other business
+          context inside their own private area.
         </p>
       </div>
 
