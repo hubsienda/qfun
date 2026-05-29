@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { ButtonLink } from '@/components/ButtonLink';
 import { ClientAccessCodeForm } from '@/components/ClientAccessCodeForm';
+import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
+import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientAreaData, isClientProfileComplete } from '@/lib/qoobix/db';
 import type { JobStatus } from '@/lib/qoobix/types';
 
@@ -23,6 +25,12 @@ export async function generateMetadata({ params }: ClientPageProps) {
 
 export default async function ClientPage({ params }: ClientPageProps) {
   const { clientSlug } = await params;
+  const sessionSlug = await getClientSessionSlug();
+
+  if (sessionSlug !== clientSlug) {
+    redirect('/access');
+  }
+
   const data = await getClientAreaData(clientSlug);
 
   if (!data) {
@@ -56,6 +64,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
           {profileComplete ? (
             <ButtonLink href={`/client/${client.slug}/new`}>New request</ButtonLink>
           ) : null}
+
+          <ClientLogoutButton />
         </div>
       </div>
 
