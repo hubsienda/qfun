@@ -24,23 +24,23 @@ export default function HomePage() {
     <div className="relative overflow-hidden">
       <div className="qoobix-grid-bg pointer-events-none absolute inset-0 opacity-70" />
 
-      <section className="qoobix-container relative py-14 md:py-20">
+      <section className="qoobix-container relative py-10 md:py-14">
         <div className="max-w-4xl">
-          <p className="mb-5 inline-flex rounded-md border border-[var(--qoobix-border)] bg-white/60 px-4 py-2 text-sm text-[var(--qoobix-muted)] backdrop-blur">
+          <p className="mb-6 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-5 py-2.5 text-sm font-semibold text-[var(--qoobix-orange)] shadow-sm backdrop-blur">
             Private market intelligence. No dashboard obesity.
           </p>
 
-          <h1 className="qoobix-gradient-text text-3xl font-semibold tracking-tight md:text-5xl">
+          <h1 className="qoobix-gradient-text text-2xl font-semibold tracking-tight md:text-4xl">
             Search a market. Detect opportunity. Download the intelligence.
           </h1>
 
-          <p className="mt-8 max-w-2xl text-xl leading-8 text-[var(--qoobix-muted)]">
+          <p className="mt-7 max-w-2xl text-xl leading-8 text-[var(--qoobix-muted)]">
             QOOBIX is private AI-powered market intelligence, provisioned for your business.
             It turns scattered market signals into structured commercial decisions, without
             becoming another bloated platform.
           </p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href="/access">Enter private access</ButtonLink>
             <ButtonLink href="/admin" variant="secondary">
               Admin area
