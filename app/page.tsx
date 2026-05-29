@@ -1,6 +1,8 @@
-import Link from 'next/link';
 import { ButtonLink } from '@/components/ButtonLink';
 import { Panel } from '@/components/Panel';
+
+const serviceRequestHref =
+  'mailto:hub@siendaweblines.com,bob@siendaweblines.com?subject=QOOBIX%20service%20request&body=Hello%2C%0A%0AI%20would%20like%20to%20request%20the%20QOOBIX%20private%20market%20intelligence%20service.%0A%0APlease%20contact%20me%20with%20the%20next%20steps.%0A%0AThank%20you.';
 
 const principles = [
   {
@@ -22,13 +24,13 @@ export default function HomePage() {
     <div className="relative overflow-hidden">
       <div className="qoobix-grid-bg pointer-events-none absolute inset-0 opacity-70" />
 
-      <section className="qoobix-container relative py-20 md:py-28">
+      <section className="qoobix-container relative py-16 md:py-24">
         <div className="max-w-4xl">
-          <p className="mb-5 inline-flex rounded-full border border-[var(--qoobix-border)] bg-white/60 px-4 py-2 text-sm text-[var(--qoobix-muted)] backdrop-blur">
+          <p className="mb-5 inline-flex rounded-md border border-[var(--qoobix-border)] bg-white/60 px-4 py-2 text-sm text-[var(--qoobix-muted)] backdrop-blur">
             Private market intelligence. No dashboard obesity.
           </p>
 
-          <h1 className="qoobix-gradient-text text-5xl font-semibold tracking-tight md:text-7xl">
+          <h1 className="qoobix-gradient-text text-4xl font-semibold tracking-tight md:text-6xl">
             Search a market. Detect opportunity. Download the intelligence.
           </h1>
 
@@ -59,7 +61,7 @@ export default function HomePage() {
       </section>
 
       <section className="qoobix-narrow relative pb-24">
-        <div className="qoobix-card-strong rounded-[2rem] p-8 md:p-10">
+        <div className="qoobix-card-strong rounded-[1.25rem] p-8 md:p-10">
           <h2 className="text-3xl font-semibold tracking-tight">Built for commercial questions.</h2>
           <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
             Where should we sell this product? Which countries, regions, or cities deserve
@@ -73,12 +75,12 @@ export default function HomePage() {
           </p>
 
           <div className="mt-8">
-            <Link
-              href="/access"
-              className="qoobix-focus-ring text-sm font-semibold text-[var(--qoobix-orange)]"
+            <a
+              href={serviceRequestHref}
+              className="qoobix-focus-ring inline-flex rounded-md text-sm font-semibold text-[var(--qoobix-orange)] hover:brightness-95"
             >
-              Proceed to private access →
-            </Link>
+              Request the service →
+            </a>
           </div>
         </div>
       </section>
