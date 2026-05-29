@@ -1,6 +1,8 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { ClientProfileForm } from '@/components/ClientProfileForm';
 import { Panel } from '@/components/Panel';
+import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientBySlug } from '@/lib/qoobix/db';
 
 type ClientProfilePageProps = {
@@ -19,6 +21,12 @@ export async function generateMetadata({ params }: ClientProfilePageProps) {
 
 export default async function ClientProfilePage({ params }: ClientProfilePageProps) {
   const { clientSlug } = await params;
+  const sessionSlug = await getClientSessionSlug();
+
+  if (sessionSlug !== clientSlug) {
+    redirect('/access');
+  }
+
   const client = await getClientBySlug(clientSlug);
 
   if (!client) {
@@ -27,6 +35,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
 
   return (
     <section className="qoobix-narrow py-12 md:py-18">
+      <div className="mb-6 flex justify-end">
+        <ClientLogoutButton />
+      </div>
+
       <Panel className="p-8 md:p-10">
         <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
           Business profile
