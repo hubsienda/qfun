@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ButtonLink } from '@/components/ButtonLink';
+import { ClientAccessCodeForm } from '@/components/ClientAccessCodeForm';
 import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
 import { getClientAreaData, isClientProfileComplete } from '@/lib/qoobix/db';
@@ -42,8 +43,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
 
           <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-            Complete the business profile, then request structured market intelligence and
-            download the outputs. The system stores the job, not the intelligence.
+            Complete the business profile, set your private access code, then request structured
+            market intelligence and download the outputs.
           </p>
         </div>
 
@@ -167,6 +168,20 @@ export default async function ClientPage({ params }: ClientPageProps) {
               No jobs yet. Complete the business profile, then create the first request.
             </p>
           )}
+        </Panel>
+      </div>
+
+      <div className="mt-6">
+        <Panel>
+          <h2 className="text-xl font-semibold">Private access code</h2>
+          <p className="mt-3 leading-7 text-[var(--qoobix-muted)]">
+            Replace the temporary first-access code with a private code known only to you. QOOBIX
+            stores a hash of the code, not the readable code.
+          </p>
+
+          <div className="mt-6">
+            <ClientAccessCodeForm client={client} />
+          </div>
         </Panel>
       </div>
     </section>
