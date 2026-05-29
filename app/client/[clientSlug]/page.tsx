@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ButtonLink } from '@/components/ButtonLink';
 import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
-import { getClientAreaData } from '@/lib/qoobix/db';
+import { getClientAreaData, isClientProfileComplete } from '@/lib/qoobix/db';
 import type { JobStatus } from '@/lib/qoobix/types';
 
 type ClientPageProps = {
@@ -29,6 +29,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
   }
 
   const { client, jobs } = data;
+  const profileComplete = isClientProfileComplete(client);
 
   return (
     <section className="qoobix-container py-12 md:py-18">
@@ -41,42 +42,78 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
 
           <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-            {client.sector}. Request structured market intelligence and download the outputs.
-            The system stores the job, not the intelligence.
+            Complete the business profile, then request structured market intelligence and
+            download the outputs. The system stores the job, not the intelligence.
           </p>
         </div>
 
-        <ButtonLink href={`/client/${client.slug}/new`}>New request</ButtonLink>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href={`/client/${client.slug}/profile`} variant="secondary">
+            Edit business profile
+          </ButtonLink>
+
+          {profileComplete ? (
+            <ButtonLink href={`/client/${client.slug}/new`}>New request</ButtonLink>
+          ) : null}
+        </div>
       </div>
+
+      {!profileComplete ? (
+        <div className="mt-8 rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
+          <h2 className="text-lg font-semibold">Business profile required</h2>
+          <p className="mt-2 leading-7 text-[var(--qoobix-muted)]">
+            Before QOOBIX can generate useful intelligence, the client must complete the business
+            profile: sector, products/services, target countries, target channels, and known
+            market context.
+          </p>
+          <div className="mt-4">
+            <ButtonLink href={`/client/${client.slug}/profile`}>Complete business profile</ButtonLink>
+          </div>
+        </div>
+      ) : null}
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
         <Panel>
-          <h2 className="text-xl font-semibold">Configuration</h2>
+          <h2 className="text-xl font-semibold">Business profile</h2>
 
           <dl className="mt-5 space-y-4 text-sm leading-7">
             <div>
               <dt className="font-semibold">Sector</dt>
-              <dd className="text-[var(--qoobix-muted)]">{client.sector}</dd>
+              <dd className="text-[var(--qoobix-muted)]">{client.sector || 'Not configured'}</dd>
+            </div>
+
+            <div>
+              <dt className="font-semibold">Website</dt>
+              <dd className="text-[var(--qoobix-muted)]">{client.website || 'Not configured'}</dd>
+            </div>
+
+            <div>
+              <dt className="font-semibold">Products/services</dt>
+              <dd className="text-[var(--qoobix-muted)]">
+                {client.productsServices || 'Not configured'}
+              </dd>
             </div>
 
             <div>
               <dt className="font-semibold">Target countries</dt>
               <dd className="text-[var(--qoobix-muted)]">
-                {client.targetCountries.length ? client.targetCountries.join(', ') : 'Not specified'}
+                {client.targetCountries.length ? client.targetCountries.join(', ') : 'Not configured'}
+              </dd>
+            </div>
+
+            <div>
+              <dt className="font-semibold">Target customer types</dt>
+              <dd className="text-[var(--qoobix-muted)]">
+                {client.targetCustomerTypes.length
+                  ? client.targetCustomerTypes.join(', ')
+                  : 'Not configured'}
               </dd>
             </div>
 
             <div>
               <dt className="font-semibold">Target channels</dt>
               <dd className="text-[var(--qoobix-muted)]">
-                {client.targetChannels.length ? client.targetChannels.join(', ') : 'Not specified'}
-              </dd>
-            </div>
-
-            <div>
-              <dt className="font-semibold">Report types</dt>
-              <dd className="text-[var(--qoobix-muted)]">
-                {client.availableReportTypes.join(', ')}
+                {client.targetChannels.length ? client.targetChannels.join(', ') : 'Not configured'}
               </dd>
             </div>
           </dl>
@@ -127,7 +164,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
             </div>
           ) : (
             <p className="mt-5 leading-7 text-[var(--qoobix-muted)]">
-              No jobs yet. The lead museum is empty, as it should be.
+              No jobs yet. Complete the business profile, then create the first request.
             </p>
           )}
         </Panel>
