@@ -52,7 +52,7 @@ export function AdminPanel() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/admin/clients', {
+      const response = await fetch('/api/a80a8bf27ed2/clients', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
