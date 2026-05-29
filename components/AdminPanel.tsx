@@ -22,7 +22,6 @@ const initialForm = {
   slug: '',
   preferredLanguage: 'English',
   availableReportTypes: 'docx,xlsx',
-  accessCode: '',
   fileRetentionDays: '30'
 };
 
@@ -59,7 +58,7 @@ export function AdminPanel() {
       }
 
       setCreated(payload);
-      setMessage('Client environment created. Access code generated.');
+      setMessage('Client environment created. Temporary first-access code generated.');
 
       setForm((current) => ({
         ...initialForm,
@@ -121,24 +120,14 @@ export function AdminPanel() {
             />
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2">
-            <InputField
-              label="Access code"
-              name="accessCode"
-              hint="Leave empty to auto-generate."
-              value={form.accessCode}
-              onChange={(event) => updateField('accessCode', event.target.value)}
-            />
-
-            <InputField
-              label="File retention days"
-              name="fileRetentionDays"
-              type="number"
-              min="1"
-              value={form.fileRetentionDays}
-              onChange={(event) => updateField('fileRetentionDays', event.target.value)}
-            />
-          </div>
+          <InputField
+            label="File retention days"
+            name="fileRetentionDays"
+            type="number"
+            min="1"
+            value={form.fileRetentionDays}
+            onChange={(event) => updateField('fileRetentionDays', event.target.value)}
+          />
 
           {message ? (
             <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
@@ -153,7 +142,7 @@ export function AdminPanel() {
       </Panel>
 
       <Panel>
-        <h2 className="text-xl font-semibold">Created access</h2>
+        <h2 className="text-xl font-semibold">Temporary first access</h2>
 
         {created?.client && created.accessCode ? (
           <div className="mt-5 space-y-4 text-sm leading-7">
@@ -164,7 +153,7 @@ export function AdminPanel() {
               <span className="font-semibold">Slug:</span> {created.client.slug}
             </p>
             <p>
-              <span className="font-semibold">Access code:</span>{' '}
+              <span className="font-semibold">Temporary access code:</span>{' '}
               <code className="rounded-md bg-white px-2 py-1">{created.accessCode}</code>
             </p>
             {created.clientUrl ? (
@@ -176,12 +165,13 @@ export function AdminPanel() {
               </p>
             ) : null}
             <p className="text-[var(--qoobix-muted)]">
-              The client must complete their business profile inside their private area.
+              Give this temporary code to the client once. The client should replace it immediately
+              inside their private area. After that, we will not know their current access code.
             </p>
           </div>
         ) : (
           <p className="mt-5 leading-7 text-[var(--qoobix-muted)]">
-            Create a client environment and the private access details will appear here.
+            Create a client environment and the temporary first-access details will appear here.
           </p>
         )}
       </Panel>
