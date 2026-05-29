@@ -2,7 +2,11 @@ import { env } from '@/lib/config';
 import { normaliseAccessCode } from '@/lib/auth/access-code';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { Database } from '@/lib/supabase/types';
-import type { AdminCreateClientInput, NewJobInput } from '@/lib/qoobix/forms';
+import type {
+  AdminCreateClientInput,
+  ClientProfileInput,
+  NewJobInput
+} from '@/lib/qoobix/forms';
 import { createAccessCodeFromClientSlug } from '@/lib/qoobix/forms';
 import type { ClientConfiguration, JobStatus } from '@/lib/qoobix/types';
 
@@ -33,6 +37,15 @@ function mapClient(row: ClientRow): ClientConfiguration {
     availableReportTypes: row.available_report_types,
     fileRetentionDays: row.file_retention_days
   };
+}
+
+export function isClientProfileComplete(client: ClientConfiguration): boolean {
+  return Boolean(
+    client.sector &&
+      client.sector !== 'Not configured' &&
+      client.productsServices &&
+      client.targetCountries.length > 0
+  );
 }
 
 export async function getClientBySlug(slug: string): Promise<ClientConfiguration | null> {
@@ -112,15 +125,15 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
     .insert({
       name: input.name,
       slug: input.slug,
-      sector: input.sector,
-      description: input.description || null,
-      website: input.website || null,
-      products_services: input.productsServices || null,
-      target_countries: input.targetCountries,
-      target_customer_types: input.targetCustomerTypes,
-      target_channels: input.targetChannels,
-      known_competitors: input.knownCompetitors || null,
-      known_representatives: input.knownRepresentatives || null,
+      sector: 'Not configured',
+      description: null,
+      website: null,
+      products_services: null,
+      target_countries: [],
+      target_customer_types: [],
+      target_channels: [],
+      known_competitors: null,
+      known_representatives: null,
       preferred_language: input.preferredLanguage,
       available_report_types: input.availableReportTypes.length
         ? input.availableReportTypes
@@ -154,6 +167,38 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
     accessCode,
     clientUrl: `${env.QOOBIX_APP_URL}/client/${client.slug}`
   };
+}
+
+export async function updateClientProfile(input: ClientProfileInput): Promise<ClientConfiguration> {
+  const supabase = getSupabase();
+
+  const { data, error } = (await supabase
+    .from('clients')
+    .update({
+      sector: input.sector,
+      description: input.description || null,
+      website: input.website || null,
+      products_services: input.productsServices || null,
+      target_countries: input.targetCountries,
+      target_customer_types: input.targetCustomerTypes,
+      target_channels: input.targetChannels,
+      known_competitors: input.knownCompetitors || null,
+      known_representatives: input.knownRepresentatives || null,
+      preferred_language: input.preferredLanguage
+    })
+    .eq('slug', input.clientSlug)
+    .eq('is_active', true)
+    .select('*')
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
+
+  if (error || !data) {
+    throw new Error(error?.message ?? 'Could not update client profile.');
+  }
+
+  return mapClient(data);
 }
 
 export async function getClientAreaData(slug: string): Promise<{
@@ -194,6 +239,10 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
 
   if (!client || client.id !== input.clientId) {
     throw new Error('Client configuration could not be verified.');
+  }
+
+  if (!isClientProfileComplete(client)) {
+    throw new Error('Please complete the business profile before creating an intelligence job.');
   }
 
   const { data, error } = (await supabase
