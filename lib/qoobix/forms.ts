@@ -1,0 +1,60 @@
+import { z } from 'zod';
+
+function splitList(value: string): string[] {
+  return value
+    .split(/[\n,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function slugify(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+export const adminCreateClientSchema = z.object({
+  adminPassword: z.string().min(1),
+  name: z.string().min(2),
+  slug: z.string().min(2).transform(slugify),
+  sector: z.string().min(2),
+  description: z.string().optional().default(''),
+  website: z.string().optional().default(''),
+  productsServices: z.string().optional().default(''),
+  targetCountries: z.string().optional().default('').transform(splitList),
+  targetCustomerTypes: z.string().optional().default('').transform(splitList),
+  targetChannels: z.string().optional().default('').transform(splitList),
+  knownCompetitors: z.string().optional().default(''),
+  knownRepresentatives: z.string().optional().default(''),
+  preferredLanguage: z.string().optional().default('English'),
+  availableReportTypes: z.string().optional().default('docx,xlsx').transform(splitList),
+  accessCode: z.string().optional().default(''),
+  fileRetentionDays: z.coerce.number().int().positive().default(30)
+});
+
+export const newJobSchema = z.object({
+  clientId: z.string().uuid(),
+  clientSlug: z.string().min(2),
+  productOrService: z.string().min(2),
+  targetCountries: z.string().min(2),
+  marketQuestion: z.string().min(8),
+  commercialObjective: z.string().min(2),
+  targetCustomerTypes: z.string().optional().default(''),
+  targetChannels: z.string().optional().default(''),
+  knownCompetitors: z.string().optional().default(''),
+  knownPartners: z.string().optional().default(''),
+  preferredOutputLanguage: z.string().optional().default('English'),
+  requiredOutputTypes: z.array(z.string()).default(['docx', 'xlsx'])
+});
+
+export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
+export type NewJobInput = z.infer<typeof newJobSchema>;
+
+export function createAccessCodeFromClientSlug(slug: string): string {
+  const suffix = crypto.randomUUID().slice(0, 8).toUpperCase();
+
+  return `QBX-${slug.replace(/-/g, '').slice(0, 10).toUpperCase()}-${suffix}`;
+}
