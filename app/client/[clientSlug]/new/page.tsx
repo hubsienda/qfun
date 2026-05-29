@@ -1,7 +1,9 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { NewJobForm } from '@/components/NewJobForm';
 import { Panel } from '@/components/Panel';
+import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientBySlug, isClientProfileComplete } from '@/lib/qoobix/db';
 
 type NewJobPageProps = {
@@ -20,6 +22,12 @@ export async function generateMetadata({ params }: NewJobPageProps) {
 
 export default async function NewJobPage({ params }: NewJobPageProps) {
   const { clientSlug } = await params;
+  const sessionSlug = await getClientSessionSlug();
+
+  if (sessionSlug !== clientSlug) {
+    redirect('/access');
+  }
+
   const client = await getClientBySlug(clientSlug);
 
   if (!client) {
@@ -29,6 +37,10 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
   if (!isClientProfileComplete(client)) {
     return (
       <section className="qoobix-narrow py-12 md:py-18">
+        <div className="mb-6 flex justify-end">
+          <ClientLogoutButton />
+        </div>
+
         <Panel className="p-8 md:p-10">
           <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
             Business profile required
@@ -58,6 +70,10 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
 
   return (
     <section className="qoobix-narrow py-12 md:py-18">
+      <div className="mb-6 flex justify-end">
+        <ClientLogoutButton />
+      </div>
+
       <Panel className="p-8 md:p-10">
         <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
           New intelligence request
