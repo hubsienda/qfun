@@ -20,6 +20,14 @@ export const adminCreateClientSchema = z.object({
   adminPassword: z.string().min(1),
   name: z.string().min(2),
   slug: z.string().min(2).transform(slugify),
+  preferredLanguage: z.string().optional().default('English'),
+  availableReportTypes: z.string().optional().default('docx,xlsx').transform(splitList),
+  accessCode: z.string().optional().default(''),
+  fileRetentionDays: z.coerce.number().int().positive().default(30)
+});
+
+export const clientProfileSchema = z.object({
+  clientSlug: z.string().min(2),
   sector: z.string().min(2),
   description: z.string().optional().default(''),
   website: z.string().optional().default(''),
@@ -29,10 +37,7 @@ export const adminCreateClientSchema = z.object({
   targetChannels: z.string().optional().default('').transform(splitList),
   knownCompetitors: z.string().optional().default(''),
   knownRepresentatives: z.string().optional().default(''),
-  preferredLanguage: z.string().optional().default('English'),
-  availableReportTypes: z.string().optional().default('docx,xlsx').transform(splitList),
-  accessCode: z.string().optional().default(''),
-  fileRetentionDays: z.coerce.number().int().positive().default(30)
+  preferredLanguage: z.string().optional().default('English')
 });
 
 export const newJobSchema = z.object({
@@ -51,6 +56,7 @@ export const newJobSchema = z.object({
 });
 
 export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
+export type ClientProfileInput = z.infer<typeof clientProfileSchema>;
 export type NewJobInput = z.infer<typeof newJobSchema>;
 
 export function createAccessCodeFromClientSlug(slug: string): string {
