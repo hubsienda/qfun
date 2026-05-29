@@ -1,9 +1,10 @@
 import { env } from '@/lib/config';
-import { normaliseAccessCode } from '@/lib/auth/access-code';
+import { hashAccessCode, normaliseAccessCode } from '@/lib/auth/access-code';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { Database } from '@/lib/supabase/types';
 import type {
   AdminCreateClientInput,
+  ClientAccessCodeInput,
   ClientProfileInput,
   NewJobInput
 } from '@/lib/qoobix/forms';
@@ -71,18 +72,35 @@ export async function getClientBySlug(slug: string): Promise<ClientConfiguration
 export async function getClientByAccessCode(code: string): Promise<ClientConfiguration | null> {
   const supabase = getSupabase();
   const normalisedCode = normaliseAccessCode(code);
+  const codeHash = hashAccessCode(normalisedCode);
 
-  const { data: accessCode, error: accessError } = (await supabase
+  const { data: hashedAccessCode } = (await supabase
     .from('access_codes')
     .select('*')
-    .eq('code', normalisedCode)
+    .eq('code_hash', codeHash)
     .eq('is_active', true)
     .single()) as {
     data: AccessCodeRow | null;
     error: { message: string } | null;
   };
 
-  if (accessError || !accessCode) {
+  let accessCode = hashedAccessCode;
+
+  if (!accessCode) {
+    const { data: legacyAccessCode } = (await supabase
+      .from('access_codes')
+      .select('*')
+      .eq('code', normalisedCode)
+      .eq('is_active', true)
+      .single()) as {
+      data: AccessCodeRow | null;
+      error: { message: string } | null;
+    };
+
+    accessCode = legacyAccessCode;
+  }
+
+  if (!accessCode) {
     return null;
   }
 
@@ -116,9 +134,7 @@ export async function getClientByAccessCode(code: string): Promise<ClientConfigu
 
 export async function createClientWithAccessCode(input: AdminCreateClientInput) {
   const supabase = getSupabase();
-  const accessCode = normaliseAccessCode(
-    input.accessCode || createAccessCodeFromClientSlug(input.slug)
-  );
+  const temporaryAccessCode = normaliseAccessCode(createAccessCodeFromClientSlug(input.slug));
 
   const { data: client, error: clientError } = (await supabase
     .from('clients')
@@ -152,8 +168,9 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
 
   const { error: accessCodeError } = (await supabase.from('access_codes').insert({
     client_id: client.id,
-    code: accessCode,
-    label: `${client.name} primary access`
+    code: temporaryAccessCode,
+    code_hash: hashAccessCode(temporaryAccessCode),
+    label: `${client.name} temporary first access`
   })) as {
     error: { message: string } | null;
   };
@@ -164,9 +181,44 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
 
   return {
     client: mapClient(client),
-    accessCode,
+    accessCode: temporaryAccessCode,
     clientUrl: `${env.QOOBIX_APP_URL}/client/${client.slug}`
   };
+}
+
+export async function updateClientAccessCode(input: ClientAccessCodeInput): Promise<void> {
+  const supabase = getSupabase();
+  const client = await getClientBySlug(input.clientSlug);
+
+  if (!client) {
+    throw new Error('Client not found.');
+  }
+
+  const verifiedClient = await getClientByAccessCode(input.currentAccessCode);
+
+  if (!verifiedClient || verifiedClient.id !== client.id) {
+    throw new Error('Current access code is not valid for this client.');
+  }
+
+  const newCode = normaliseAccessCode(input.newAccessCode);
+  const newCodeHash = hashAccessCode(newCode);
+
+  const { error } = (await supabase
+    .from('access_codes')
+    .update({
+      code: null,
+      code_hash: newCodeHash,
+      label: `${client.name} private client access`,
+      last_used_at: new Date().toISOString()
+    })
+    .eq('client_id', client.id)
+    .eq('is_active', true)) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
 }
 
 export async function updateClientProfile(input: ClientProfileInput): Promise<ClientConfiguration> {
