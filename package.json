@@ -2,7 +2,7 @@
   "name": "qoobix",
   "version": "0.1.0",
   "private": true,
-  "description": "QOOBIX — Da QOOBIX, managed by Proteus.",
+  "description": "QOOBIX — private AI-powered market intelligence, provisioned for your business.",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,12 +10,17 @@
     "lint": "eslint"
   },
   "engines": {
-    "node": "24.x"
+    "node": "22.x"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.87.1",
+    "docx": "9.5.1",
     "next": "16.2.4",
+    "openai": "6.10.0",
     "react": "19.2.5",
-    "react-dom": "19.2.5"
+    "react-dom": "19.2.5",
+    "xlsx": "0.18.5",
+    "zod": "4.1.13"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.2.4",
