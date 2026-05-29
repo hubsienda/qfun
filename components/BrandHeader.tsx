@@ -17,11 +17,11 @@ export function BrandHeader() {
         </Link>
 
         <nav className="flex items-center gap-4 text-sm text-[var(--qoobix-muted)]">
-          <Link href="/access" className="qoobix-focus-ring rounded-md hover:text-[var(--qoobix-text)]">
-            Access
-          </Link>
-          <Link href="/admin" className="qoobix-focus-ring rounded-md hover:text-[var(--qoobix-text)]">
-            Admin
+          <Link
+            href="/access"
+            className="qoobix-focus-ring rounded-md hover:text-[var(--qoobix-text)]"
+          >
+            Client access
           </Link>
         </nav>
       </div>
