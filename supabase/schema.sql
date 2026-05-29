@@ -141,3 +141,20 @@ on public.job_logs
 for all
 using (auth.role() = 'service_role')
 with check (auth.role() = 'service_role');
+
+insert into storage.buckets (id, name, public)
+values ('qoobix-reports', 'qoobix-reports', false)
+on conflict (id) do nothing;
+
+drop policy if exists "Service role can manage QOOBIX report files" on storage.objects;
+create policy "Service role can manage QOOBIX report files"
+on storage.objects
+for all
+using (
+  bucket_id = 'qoobix-reports'
+  and auth.role() = 'service_role'
+)
+with check (
+  bucket_id = 'qoobix-reports'
+  and auth.role() = 'service_role'
+);
