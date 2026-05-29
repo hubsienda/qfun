@@ -16,10 +16,10 @@ export function BrandHeader() {
           />
         </Link>
 
-        <nav className="flex items-center gap-4 text-sm text-[var(--qoobix-muted)]">
+        <nav className="flex items-center gap-4 text-sm">
           <Link
             href="/access"
-            className="qoobix-focus-ring rounded-md hover:text-[var(--qoobix-text)]"
+            className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-white/55 px-4 py-2 font-semibold text-[var(--qoobix-orange)] shadow-sm transition hover:bg-[var(--qoobix-orange)] hover:text-white"
           >
             Client access
           </Link>
