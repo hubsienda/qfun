@@ -30,7 +30,7 @@ export type Database = {
           updated_at?: string;
           name: string;
           slug: string;
-          sector: string;
+          sector?: string;
           description?: string | null;
           website?: string | null;
           products_services?: string | null;
@@ -68,7 +68,8 @@ export type Database = {
           id: string;
           created_at: string;
           client_id: string;
-          code: string;
+          code: string | null;
+          code_hash: string | null;
           label: string | null;
           expires_at: string | null;
           is_active: boolean;
@@ -78,14 +79,16 @@ export type Database = {
           id?: string;
           created_at?: string;
           client_id: string;
-          code: string;
+          code?: string | null;
+          code_hash?: string | null;
           label?: string | null;
           expires_at?: string | null;
           is_active?: boolean;
           last_used_at?: string | null;
         };
         Update: {
-          code?: string;
+          code?: string | null;
+          code_hash?: string | null;
           label?: string | null;
           expires_at?: string | null;
           is_active?: boolean;
