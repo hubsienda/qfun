@@ -24,13 +24,13 @@ export default function HomePage() {
     <div className="relative overflow-hidden">
       <div className="qoobix-grid-bg pointer-events-none absolute inset-0 opacity-70" />
 
-      <section className="qoobix-container relative py-16 md:py-24">
+      <section className="qoobix-container relative py-14 md:py-20">
         <div className="max-w-4xl">
           <p className="mb-5 inline-flex rounded-md border border-[var(--qoobix-border)] bg-white/60 px-4 py-2 text-sm text-[var(--qoobix-muted)] backdrop-blur">
             Private market intelligence. No dashboard obesity.
           </p>
 
-          <h1 className="qoobix-gradient-text text-4xl font-semibold tracking-tight md:text-6xl">
+          <h1 className="qoobix-gradient-text text-3xl font-semibold tracking-tight md:text-5xl">
             Search a market. Detect opportunity. Download the intelligence.
           </h1>
 
