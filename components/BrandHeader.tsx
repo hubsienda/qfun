@@ -4,15 +4,15 @@ import Link from 'next/link';
 export function BrandHeader() {
   return (
     <header className="border-b border-[var(--qoobix-border)] bg-white/45 backdrop-blur-xl">
-      <div className="qoobix-container flex items-center justify-between py-4">
+      <div className="qoobix-container flex items-center justify-between py-3">
         <Link href="/" className="qoobix-focus-ring flex items-center rounded-xl">
           <Image
             src="/logo.png"
             alt="QOOBIX"
-            width={160}
-            height={160}
+            width={180}
+            height={180}
             priority
-            className="h-24 w-24 object-contain md:h-32 md:w-32"
+            className="h-32 w-32 object-contain md:h-44 md:w-44"
           />
         </Link>
 
