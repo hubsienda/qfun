@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { GenerateJobButton } from '@/components/GenerateJobButton';
 import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
+import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getJobWithClientAndReports } from '@/lib/qoobix/db';
 import type { JobStatus } from '@/lib/qoobix/types';
 
@@ -22,6 +24,12 @@ export async function generateMetadata({ params }: JobPageProps) {
 
 export default async function JobPage({ params }: JobPageProps) {
   const { jobId } = await params;
+  const sessionSlug = await getClientSessionSlug();
+
+  if (!sessionSlug) {
+    redirect('/access');
+  }
+
   const data = await getJobWithClientAndReports(jobId);
 
   if (!data) {
@@ -29,6 +37,11 @@ export default async function JobPage({ params }: JobPageProps) {
   }
 
   const { job, client, reports } = data;
+
+  if (sessionSlug !== client.slug) {
+    redirect('/access');
+  }
+
   const request = job.request_metadata as {
     marketQuestion?: string;
     productOrService?: string;
@@ -38,6 +51,10 @@ export default async function JobPage({ params }: JobPageProps) {
 
   return (
     <section className="qoobix-narrow py-12 md:py-18">
+      <div className="mb-6 flex justify-end">
+        <ClientLogoutButton />
+      </div>
+
       <Panel className="p-8 md:p-10">
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
