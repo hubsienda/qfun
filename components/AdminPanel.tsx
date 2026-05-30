@@ -34,6 +34,18 @@ type AdminClientSummary = {
   latestJobCreatedAt: string | null;
 };
 
+type AdminJobSummary = {
+  id: string;
+  clientName: string;
+  clientSlug: string;
+  status: string;
+  createdAt: string;
+  marketQuestion: string;
+  commercialObjective: string;
+  resultToken: string | null;
+  errorMessage: string | null;
+};
+
 type ResetAccessResponse = {
   ok?: boolean;
   accessCode?: string;
@@ -56,11 +68,13 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [message, setMessage] = useState('');
   const [created, setCreated] = useState<CreatedClientResponse | null>(null);
   const [clients, setClients] = useState<AdminClientSummary[]>([]);
+  const [jobs, setJobs] = useState<AdminJobSummary[]>([]);
   const [resetAccess, setResetAccess] = useState<ResetAccessResponse | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingClients, setIsLoadingClients] = useState(false);
+  const [isLoadingJobs, setIsLoadingJobs] = useState(false);
 
-  const adminApiBase = `/api/${adminPath}/clients`;
+  const adminApiBase = `/api/${adminPath}`;
 
   function updateField(name: keyof typeof initialForm, value: string) {
     setForm((current) => ({ ...current, [name]: value }));
@@ -74,7 +88,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch(adminApiBase, {
+      const response = await fetch(`${adminApiBase}/clients`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -97,7 +111,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
         adminPassword: current.adminPassword
       }));
 
-      await loadClients(form.adminPassword);
+      await Promise.all([loadClients(form.adminPassword), loadJobs(form.adminPassword)]);
     } catch {
       setMessage('Client creation failed because the request could not be completed.');
     } finally {
@@ -110,7 +124,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
     setIsLoadingClients(true);
 
     try {
-      const response = await fetch(`${adminApiBase}/list`, {
+      const response = await fetch(`${adminApiBase}/clients/list`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -139,12 +153,50 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
     }
   }
 
+  async function loadJobs(password = form.adminPassword) {
+    setMessage('');
+    setIsLoadingJobs(true);
+
+    try {
+      const response = await fetch(`${adminApiBase}/jobs/list`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          adminPassword: password
+        })
+      });
+
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        jobs?: AdminJobSummary[];
+        error?: string;
+      };
+
+      if (!response.ok || !payload.ok) {
+        setMessage(payload.error ?? 'Could not load jobs.');
+        return;
+      }
+
+      setJobs(payload.jobs ?? []);
+    } catch {
+      setMessage('Could not load jobs because the request failed.');
+    } finally {
+      setIsLoadingJobs(false);
+    }
+  }
+
+  async function loadAll() {
+    await Promise.all([loadClients(), loadJobs()]);
+  }
+
   async function setClientStatus(clientId: string, isActive: boolean) {
     setMessage('');
     setResetAccess(null);
 
     try {
-      const response = await fetch(`${adminApiBase}/${clientId}/status`, {
+      const response = await fetch(`${adminApiBase}/clients/${clientId}/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -166,7 +218,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
       }
 
       setMessage(isActive ? 'Client reactivated.' : 'Client suspended.');
-      await loadClients();
+      await loadAll();
     } catch {
       setMessage('Could not update client status because the request failed.');
     }
@@ -177,7 +229,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
     setResetAccess(null);
 
     try {
-      const response = await fetch(`${adminApiBase}/${clientId}/reset-access`, {
+      const response = await fetch(`${adminApiBase}/clients/${clientId}/reset-access`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -196,7 +248,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
 
       setResetAccess(payload);
       setMessage('Temporary access code issued.');
-      await loadClients();
+      await loadAll();
     } catch {
       setMessage('Could not issue temporary access code because the request failed.');
     }
@@ -226,9 +278,8 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
               />
 
               <InputField
-                label="Client slug"
+                label="Client access name"
                 name="slug"
-                hint="Example: isobell-europe. Lowercase letters, numbers and hyphens."
                 value={form.slug}
                 onChange={(event) => updateField('slug', event.target.value)}
                 required
@@ -275,10 +326,10 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => loadClients()}
-                disabled={isLoadingClients || !form.adminPassword}
+                onClick={loadAll}
+                disabled={(isLoadingClients || isLoadingJobs) || !form.adminPassword}
               >
-                {isLoadingClients ? 'Loading…' : 'Load clients'}
+                {isLoadingClients || isLoadingJobs ? 'Loading…' : 'Load admin data'}
               </Button>
             </div>
           </form>
@@ -293,7 +344,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                 <span className="font-semibold">Client:</span> {created.client.name}
               </p>
               <p>
-                <span className="font-semibold">Slug:</span> {created.client.slug}
+                <span className="font-semibold">Access name:</span> {created.client.slug}
               </p>
               <p>
                 <span className="font-semibold">Temporary access code:</span>{' '}
@@ -353,10 +404,10 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
           <Button
             type="button"
             variant="secondary"
-            onClick={() => loadClients()}
-            disabled={isLoadingClients || !form.adminPassword}
+            onClick={loadAll}
+            disabled={(isLoadingClients || isLoadingJobs) || !form.adminPassword}
           >
-            {isLoadingClients ? 'Loading…' : 'Refresh clients'}
+            {isLoadingClients || isLoadingJobs ? 'Loading…' : 'Refresh admin data'}
           </Button>
         </div>
 
@@ -366,7 +417,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
               <thead>
                 <tr className="border-b border-[var(--qoobix-border)] text-left">
                   <th className="py-3 pr-4">Client</th>
-                  <th className="py-3 pr-4">Slug</th>
+                  <th className="py-3 pr-4">Access name</th>
                   <th className="py-3 pr-4">Status</th>
                   <th className="py-3 pr-4">Sector</th>
                   <th className="py-3 pr-4">Jobs</th>
@@ -426,13 +477,6 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                             Reactivate
                           </button>
                         )}
-
-                        <a
-                          href={`/client/${client.slug}`}
-                          className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-3 py-2 text-xs font-semibold"
-                        >
-                          Open
-                        </a>
                       </div>
                     </td>
                   </tr>
@@ -443,6 +487,74 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
         ) : (
           <p className="mt-5 leading-7 text-[var(--qoobix-muted)]">
             Enter the admin password and load clients.
+          </p>
+        )}
+      </Panel>
+
+      <Panel>
+        <h2 className="text-xl font-semibold">Recent jobs</h2>
+        <p className="mt-2 text-sm text-[var(--qoobix-muted)]">
+          Latest operational jobs across provisioned clients.
+        </p>
+
+        {jobs.length ? (
+          <div className="mt-6 overflow-x-auto">
+            <table className="w-full min-w-[980px] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-[var(--qoobix-border)] text-left">
+                  <th className="py-3 pr-4">Created</th>
+                  <th className="py-3 pr-4">Client</th>
+                  <th className="py-3 pr-4">Question</th>
+                  <th className="py-3 pr-4">Objective</th>
+                  <th className="py-3 pr-4">Status</th>
+                  <th className="py-3 pr-4">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jobs.map((job) => (
+                  <tr key={job.id} className="border-b border-[var(--qoobix-border)]">
+                    <td className="py-3 pr-4 text-[var(--qoobix-muted)]">
+                      {new Date(job.createdAt).toLocaleDateString('en-GB')}
+                    </td>
+                    <td className="py-3 pr-4 font-semibold">{job.clientName}</td>
+                    <td className="py-3 pr-4">{job.marketQuestion}</td>
+                    <td className="py-3 pr-4 text-[var(--qoobix-muted)]">
+                      {job.commercialObjective}
+                    </td>
+                    <td className="py-3 pr-4">{job.status}</td>
+                    <td className="py-3 pr-4">
+                      <div className="flex flex-wrap gap-2">
+                        <a
+                          href={`/job/${job.id}`}
+                          className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-3 py-2 text-xs font-semibold"
+                        >
+                          Job
+                        </a>
+
+                        {job.resultToken ? (
+                          <a
+                            href={`/result/${job.resultToken}`}
+                            className="rounded-md border border-[var(--qoobix-orange)] bg-white/70 px-3 py-2 text-xs font-semibold text-[var(--qoobix-orange)]"
+                          >
+                            Result
+                          </a>
+                        ) : null}
+                      </div>
+
+                      {job.errorMessage ? (
+                        <p className="mt-2 text-xs font-semibold text-[var(--qoobix-danger)]">
+                          {job.errorMessage}
+                        </p>
+                      ) : null}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="mt-5 leading-7 text-[var(--qoobix-muted)]">
+            Enter the admin password and load jobs.
           </p>
         )}
       </Panel>
