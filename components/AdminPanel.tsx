@@ -84,6 +84,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [isLoadingClients, setIsLoadingClients] = useState(false);
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const [isCleaningReports, setIsCleaningReports] = useState(false);
+  const [retryingJobId, setRetryingJobId] = useState<string | null>(null);
 
   const adminApiBase = `/api/${adminPath}`;
 
@@ -233,6 +234,40 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
       setMessage('Cleanup failed because the request could not be completed.');
     } finally {
       setIsCleaningReports(false);
+    }
+  }
+
+  async function retryJob(jobId: string) {
+    setMessage('');
+    setRetryingJobId(jobId);
+
+    try {
+      const response = await fetch(`${adminApiBase}/jobs/${jobId}/retry`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          adminPassword: form.adminPassword
+        })
+      });
+
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+      };
+
+      if (!response.ok || !payload.ok) {
+        setMessage(payload.error ?? 'Job retry failed.');
+        return;
+      }
+
+      setMessage('Job retry completed.');
+      await loadAll();
+    } catch {
+      setMessage('Job retry failed because the request could not be completed.');
+    } finally {
+      setRetryingJobId(null);
     }
   }
 
@@ -592,6 +627,17 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                           >
                             Result
                           </a>
+                        ) : null}
+
+                        {job.status === 'failed' ? (
+                          <button
+                            type="button"
+                            className="rounded-md border border-[var(--qoobix-orange)] bg-white/70 px-3 py-2 text-xs font-semibold text-[var(--qoobix-orange)]"
+                            onClick={() => retryJob(job.id)}
+                            disabled={retryingJobId === job.id || !form.adminPassword}
+                          >
+                            {retryingJobId === job.id ? 'Retrying…' : 'Retry'}
+                          </button>
                         ) : null}
                       </div>
 
