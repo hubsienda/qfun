@@ -138,7 +138,8 @@ function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
     Rank: String(sourceRows.length + partnerRows.length + index + 1),
     'Verification item': item.name,
     Category: item.type,
-    'Suggested verification action': 'Verify relevance, positioning, geography, offer, and whether this is a direct competitor, substitute, or status-quo alternative.',
+    'Suggested verification action':
+      'Verify relevance, positioning, geography, offer, and whether this is a direct competitor, substitute, or status-quo alternative.',
     Status: 'Open',
     Notes: item.notes
   }));
