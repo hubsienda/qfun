@@ -16,6 +16,20 @@ type AccessCodeRow = Database['public']['Tables']['access_codes']['Row'];
 type JobRow = Database['public']['Tables']['jobs']['Row'];
 type ReportRow = Database['public']['Tables']['reports']['Row'];
 
+export type AdminClientSummary = {
+  id: string;
+  name: string;
+  slug: string;
+  sector: string;
+  preferredLanguage: string;
+  isActive: boolean;
+  createdAt: string;
+  jobCount: number;
+  failedJobCount: number;
+  latestJobStatus: string | null;
+  latestJobCreatedAt: string | null;
+};
+
 function getSupabase() {
   return createSupabaseAdminClient() as any;
 }
@@ -186,6 +200,141 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
   };
 }
 
+export async function listAdminClients(): Promise<AdminClientSummary[]> {
+  const supabase = getSupabase();
+
+  const { data: clients, error: clientsError } = (await supabase
+    .from('clients')
+    .select('*')
+    .order('created_at', { ascending: false })) as {
+    data: ClientRow[] | null;
+    error: { message: string } | null;
+  };
+
+  if (clientsError) {
+    throw new Error(clientsError.message);
+  }
+
+  const { data: jobs, error: jobsError } = (await supabase
+    .from('jobs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(250)) as {
+    data: JobRow[] | null;
+    error: { message: string } | null;
+  };
+
+  if (jobsError) {
+    throw new Error(jobsError.message);
+  }
+
+  const allJobs = jobs ?? [];
+
+  return (clients ?? []).map((client) => {
+    const clientJobs = allJobs.filter((job) => job.client_id === client.id);
+    const latestJob = clientJobs[0] ?? null;
+
+    return {
+      id: client.id,
+      name: client.name,
+      slug: client.slug,
+      sector: client.sector,
+      preferredLanguage: client.preferred_language,
+      isActive: client.is_active,
+      createdAt: client.created_at,
+      jobCount: clientJobs.length,
+      failedJobCount: clientJobs.filter((job) => job.status === 'failed').length,
+      latestJobStatus: latestJob?.status ?? null,
+      latestJobCreatedAt: latestJob?.created_at ?? null
+    };
+  });
+}
+
+export async function setClientActiveStatus(input: {
+  clientId: string;
+  isActive: boolean;
+}): Promise<void> {
+  const supabase = getSupabase();
+
+  const { error } = (await supabase
+    .from('clients')
+    .update({
+      is_active: input.isActive
+    })
+    .eq('id', input.clientId)) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!input.isActive) {
+    await supabase
+      .from('access_codes')
+      .update({
+        is_active: false
+      })
+      .eq('client_id', input.clientId);
+  }
+}
+
+export async function issueTemporaryAccessCode(clientId: string): Promise<{
+  accessCode: string;
+  clientSlug: string;
+  clientName: string;
+  clientUrl: string;
+}> {
+  const supabase = getSupabase();
+
+  const { data: client, error: clientError } = (await supabase
+    .from('clients')
+    .select('*')
+    .eq('id', clientId)
+    .single()) as {
+    data: ClientRow | null;
+    error: { message: string } | null;
+  };
+
+  if (clientError || !client) {
+    throw new Error(clientError?.message ?? 'Client not found.');
+  }
+
+  if (!client.is_active) {
+    throw new Error('Cannot issue an access code for a suspended client.');
+  }
+
+  const temporaryAccessCode = normaliseAccessCode(createAccessCodeFromClientSlug(client.slug));
+
+  await supabase
+    .from('access_codes')
+    .update({
+      is_active: false
+    })
+    .eq('client_id', client.id);
+
+  const { error: insertError } = (await supabase.from('access_codes').insert({
+    client_id: client.id,
+    code: temporaryAccessCode,
+    code_hash: hashAccessCode(temporaryAccessCode),
+    label: `${client.name} temporary reset access`,
+    is_active: true
+  })) as {
+    error: { message: string } | null;
+  };
+
+  if (insertError) {
+    throw new Error(insertError.message);
+  }
+
+  return {
+    accessCode: temporaryAccessCode,
+    clientSlug: client.slug,
+    clientName: client.name,
+    clientUrl: `${env.QOOBIX_APP_URL}/client/${client.slug}`
+  };
+}
+
 export async function updateClientAccessCode(input: ClientAccessCodeInput): Promise<void> {
   const supabase = getSupabase();
   const client = await getClientBySlug(input.clientSlug);
@@ -203,16 +352,21 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
   const newCode = normaliseAccessCode(input.newAccessCode);
   const newCodeHash = hashAccessCode(newCode);
 
-  const { error } = (await supabase
+  await supabase
     .from('access_codes')
     .update({
-      code: null,
-      code_hash: newCodeHash,
-      label: `${client.name} private client access`,
-      last_used_at: new Date().toISOString()
+      is_active: false
     })
-    .eq('client_id', client.id)
-    .eq('is_active', true)) as {
+    .eq('client_id', client.id);
+
+  const { error } = (await supabase.from('access_codes').insert({
+    client_id: client.id,
+    code: null,
+    code_hash: newCodeHash,
+    label: `${client.name} private client access`,
+    is_active: true,
+    last_used_at: new Date().toISOString()
+  })) as {
     error: { message: string } | null;
   };
 
