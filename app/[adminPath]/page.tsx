@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { AdminLogsPanel } from '@/components/AdminLogsPanel';
 import { AdminPanel } from '@/components/AdminPanel';
 import { AdminReportsPanel } from '@/components/AdminReportsPanel';
@@ -10,8 +11,13 @@ type HiddenProvisioningPageProps = {
   }>;
 };
 
-export const metadata = {
-  title: 'Provisioning'
+export const metadata: Metadata = {
+  title: 'Provisioning',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true
+  }
 };
 
 export default async function HiddenProvisioningPage({ params }: HiddenProvisioningPageProps) {
