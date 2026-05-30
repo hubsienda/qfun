@@ -1,9 +1,15 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { AccessRecoveryForm } from '@/components/AccessRecoveryForm';
 import { Panel } from '@/components/Panel';
 
-export const metadata = {
-  title: 'Recover Access'
+export const metadata: Metadata = {
+  title: 'Recover Access',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true
+  }
 };
 
 export default function RecoverAccessPage() {
