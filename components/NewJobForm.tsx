@@ -31,11 +31,11 @@ export function NewJobForm({ client }: NewJobFormProps) {
     targetChannels: client.targetChannels.join(', '),
     knownCompetitors: client.knownCompetitors ?? '',
     knownPartners: client.knownRepresentatives ?? '',
-    preferredOutputLanguage: client.preferredLanguage,
-    requiredOutputTypes: client.availableReportTypes.join(',')
+    preferredOutputLanguage: client.preferredLanguage
   });
 
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(name: keyof typeof form, value: string) {
@@ -45,6 +45,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
   async function submitJob(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
+    setNotice('Creating the request and preparing the job page…');
     setIsSubmitting(true);
 
     try {
@@ -57,10 +58,9 @@ export function NewJobForm({ client }: NewJobFormProps) {
           clientId: client.id,
           clientSlug: client.slug,
           ...form,
-          requiredOutputTypes: form.requiredOutputTypes
-            .split(',')
-            .map((item) => item.trim())
-            .filter(Boolean)
+          requiredOutputTypes: client.availableReportTypes.length
+            ? client.availableReportTypes
+            : ['docx', 'xlsx']
         })
       });
 
@@ -71,13 +71,15 @@ export function NewJobForm({ client }: NewJobFormProps) {
       };
 
       if (!response.ok || !payload.ok || !payload.jobId) {
-        setError(payload.error ?? 'The job could not be created.');
+        setNotice('');
+        setError(payload.error ?? 'The intelligence request could not be created.');
         return;
       }
 
       window.location.href = `/job/${payload.jobId}`;
     } catch {
-      setError('The job could not be created because the request failed.');
+      setNotice('');
+      setError('The intelligence request could not be created because the request failed.');
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +106,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
       <TextAreaField
         label="Market question"
         name="marketQuestion"
-        hint="Example: Which regions in Germany should we prioritise for distributor discovery?"
+        hint="Describe the commercial question QOOBIX should answer."
         value={form.marketQuestion}
         onChange={(event) => updateField('marketQuestion', event.target.value)}
         required
@@ -116,7 +118,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
           name="commercialObjective"
           value={form.commercialObjective}
           onChange={(event) => updateField('commercialObjective', event.target.value)}
-          className="qoobix-focus-ring mt-2 w-full rounded-2xl border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
+          className="qoobix-focus-ring mt-2 w-full rounded-md border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
         >
           {objectives.map((objective) => (
             <option key={objective} value={objective}>
@@ -154,27 +156,28 @@ export function NewJobForm({ client }: NewJobFormProps) {
         onChange={(event) => updateField('knownPartners', event.target.value)}
       />
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <InputField
-          label="Preferred output language"
-          name="preferredOutputLanguage"
-          value={form.preferredOutputLanguage}
-          onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
-        />
+      <InputField
+        label="Preferred output language"
+        name="preferredOutputLanguage"
+        value={form.preferredOutputLanguage}
+        onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
+      />
 
-        <InputField
-          label="Required output types"
-          name="requiredOutputTypes"
-          hint="docx,xlsx"
-          value={form.requiredOutputTypes}
-          onChange={(event) => updateField('requiredOutputTypes', event.target.value)}
-        />
+      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
+        QOOBIX will generate the provisioned output files for this environment. Usually this means
+        DOCX and XLSX.
       </div>
+
+      {notice ? (
+        <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
+          {notice}
+        </p>
+      ) : null}
 
       {error ? <p className="text-sm font-semibold text-[var(--qoobix-danger)]">{error}</p> : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Creating job…' : 'Create intelligence job'}
+        {isSubmitting ? 'Creating request…' : 'Create intelligence request'}
       </Button>
     </form>
   );
