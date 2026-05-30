@@ -11,9 +11,10 @@ type ButtonLinkProps = LinkProps & {
 };
 
 const variantClassNames: Record<ButtonLinkVariant, string> = {
-  primary: 'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] hover:brightness-95',
+  primary:
+    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-sm hover:bg-[var(--qoobix-orange-dark)]',
   secondary:
-    'bg-white/65 text-[var(--qoobix-text)] border-[var(--qoobix-border)] hover:bg-white'
+    'bg-white/68 text-[var(--qoobix-text)] border-[var(--qoobix-border)] hover:bg-white'
 };
 
 export function ButtonLink({
@@ -25,8 +26,7 @@ export function ButtonLink({
   return (
     <Link
       {...props}
-      style={variant === 'primary' ? { color: '#ffffff' } : undefined}
-      className={`qoobix-focus-ring inline-flex items-center justify-center rounded-md border px-5 py-3 text-sm font-semibold transition ${variantClassNames[variant]} ${className}`}
+      className={`qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border px-5 py-3 text-sm font-semibold transition ${variantClassNames[variant]} ${className}`}
     >
       {children}
     </Link>
