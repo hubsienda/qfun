@@ -44,6 +44,24 @@ export const clientAccessCodeSchema = z
     clientSlug: z.string().min(2),
     currentAccessCode: z.string().min(8),
     newAccessCode: z.string().min(8).max(80),
+    confirmAccessCode: z.string().min(8).max(80),
+    recoveryPhrase: z.string().min(12).max(160),
+    confirmRecoveryPhrase: z.string().min(12).max(160)
+  })
+  .refine((data) => data.newAccessCode === data.confirmAccessCode, {
+    message: 'The new access codes do not match.',
+    path: ['confirmAccessCode']
+  })
+  .refine((data) => data.recoveryPhrase === data.confirmRecoveryPhrase, {
+    message: 'The recovery phrases do not match.',
+    path: ['confirmRecoveryPhrase']
+  });
+
+export const accessRecoverySchema = z
+  .object({
+    clientSlug: z.string().min(2).transform(slugify),
+    recoveryPhrase: z.string().min(12).max(160),
+    newAccessCode: z.string().min(8).max(80),
     confirmAccessCode: z.string().min(8).max(80)
   })
   .refine((data) => data.newAccessCode === data.confirmAccessCode, {
@@ -69,6 +87,7 @@ export const newJobSchema = z.object({
 export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
 export type ClientProfileInput = z.infer<typeof clientProfileSchema>;
 export type ClientAccessCodeInput = z.infer<typeof clientAccessCodeSchema>;
+export type AccessRecoveryInput = z.infer<typeof accessRecoverySchema>;
 export type NewJobInput = z.infer<typeof newJobSchema>;
 
 export function createAccessCodeFromClientSlug(slug: string): string {
