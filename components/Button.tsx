@@ -8,10 +8,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClassNames: Record<ButtonVariant, string> = {
   primary:
-    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-sm hover:bg-[var(--qoobix-orange-dark)]',
+    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-[#ffffff] shadow-sm hover:bg-[var(--qoobix-orange-dark)]',
   secondary:
     'bg-white/68 text-[var(--qoobix-text)] border-[var(--qoobix-border)] hover:bg-white',
-  danger: 'bg-[var(--qoobix-danger)] text-white border-[var(--qoobix-danger)] hover:brightness-95'
+  danger: 'bg-[var(--qoobix-danger)] text-[#ffffff] border-[var(--qoobix-danger)] hover:brightness-95'
 };
 
 export function Button({ variant = 'primary', className = '', ...props }: ButtonProps) {
