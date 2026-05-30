@@ -7,12 +7,11 @@ import { InputField } from '@/components/Field';
 export function AccessRecoveryForm() {
   const [form, setForm] = useState({
     clientSlug: '',
-    recoveryPhrase: '',
-    newAccessCode: '',
-    confirmAccessCode: ''
+    recoveryPhrase: ''
   });
 
   const [message, setMessage] = useState('');
+  const [generatedAccessCode, setGeneratedAccessCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(name: keyof typeof form, value: string) {
@@ -22,6 +21,7 @@ export function AccessRecoveryForm() {
   async function submitRecovery(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage('');
+    setGeneratedAccessCode('');
     setIsSubmitting(true);
 
     try {
@@ -36,21 +36,21 @@ export function AccessRecoveryForm() {
       const payload = (await response.json()) as {
         ok?: boolean;
         clientSlug?: string;
+        accessCode?: string;
         error?: string;
       };
 
-      if (!response.ok || !payload.ok || !payload.clientSlug) {
+      if (!response.ok || !payload.ok || !payload.accessCode) {
         setMessage(payload.error ?? 'Access recovery failed.');
         return;
       }
 
-      setMessage('Access code reset. You can now enter with your new access code.');
+      setMessage('Proteus generated a new access code. Copy it now, then use it to enter.');
+      setGeneratedAccessCode(payload.accessCode);
 
       setForm({
         clientSlug: '',
-        recoveryPhrase: '',
-        newAccessCode: '',
-        confirmAccessCode: ''
+        recoveryPhrase: ''
       });
     } catch {
       setMessage('Access recovery failed because the request could not be completed.');
@@ -82,44 +82,26 @@ export function AccessRecoveryForm() {
         autoComplete="off"
       />
 
-      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
-        <h3 className="text-sm font-semibold">New access code rules</h3>
-        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Use 8–80 characters, no spaces, at least one lowercase letter, one uppercase letter, and
-          one number.
-        </p>
-
-        <div className="mt-4 grid gap-5 md:grid-cols-2">
-          <InputField
-            label="New access code"
-            name="newAccessCode"
-            type="password"
-            value={form.newAccessCode}
-            onChange={(event) => updateField('newAccessCode', event.target.value)}
-            required
-            autoComplete="new-password"
-          />
-
-          <InputField
-            label="Confirm new access code"
-            name="confirmAccessCode"
-            type="password"
-            value={form.confirmAccessCode}
-            onChange={(event) => updateField('confirmAccessCode', event.target.value)}
-            required
-            autoComplete="new-password"
-          />
-        </div>
-      </div>
-
       {message ? (
         <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
           {message}
         </p>
       ) : null}
 
+      {generatedAccessCode ? (
+        <div className="rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
+          <h3 className="text-sm font-semibold">New Proteus-generated access code</h3>
+          <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+            Copy this now. QOOBIX will not show it again.
+          </p>
+          <code className="mt-4 block overflow-x-auto rounded-md bg-white px-4 py-3 text-sm font-semibold">
+            {generatedAccessCode}
+          </code>
+        </div>
+      ) : null}
+
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Resetting…' : 'Reset access code'}
+        {isSubmitting ? 'Generating…' : 'Generate new access code'}
       </Button>
     </form>
   );
