@@ -12,7 +12,7 @@ type ButtonLinkProps = LinkProps & {
 
 const variantClassNames: Record<ButtonLinkVariant, string> = {
   primary:
-    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-sm hover:bg-[var(--qoobix-orange-dark)]',
+    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-[#ffffff] shadow-sm hover:bg-[var(--qoobix-orange-dark)]',
   secondary:
     'bg-white/68 text-[var(--qoobix-text)] border-[var(--qoobix-border)] hover:bg-white'
 };
