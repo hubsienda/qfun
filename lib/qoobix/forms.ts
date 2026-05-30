@@ -16,6 +16,21 @@ function slugify(value: string): string {
     .replace(/^-|-$/g, '');
 }
 
+const accessCodeSchema = z
+  .string()
+  .min(8, 'Access code must be at least 8 characters.')
+  .max(80, 'Access code must be no more than 80 characters.')
+  .refine((value) => !/\s/.test(value), 'Access code must not contain spaces.')
+  .refine((value) => /[a-z]/.test(value), 'Access code must contain a lowercase letter.')
+  .refine((value) => /[A-Z]/.test(value), 'Access code must contain an uppercase letter.')
+  .refine((value) => /[0-9]/.test(value), 'Access code must contain a number.');
+
+const recoveryPhraseSchema = z
+  .string()
+  .min(8, 'Recovery phrase must be at least 8 characters.')
+  .max(80, 'Recovery phrase must be no more than 80 characters.')
+  .refine((value) => !/\s/.test(value), 'Recovery phrase must not contain spaces.');
+
 export const adminCreateClientSchema = z.object({
   adminPassword: z.string().min(1),
   name: z.string().min(2),
@@ -42,11 +57,11 @@ export const clientProfileSchema = z.object({
 export const clientAccessCodeSchema = z
   .object({
     clientSlug: z.string().min(2),
-    currentAccessCode: z.string().min(8),
-    newAccessCode: z.string().min(8).max(80),
-    confirmAccessCode: z.string().min(8).max(80),
-    recoveryPhrase: z.string().min(12).max(160),
-    confirmRecoveryPhrase: z.string().min(12).max(160)
+    currentAccessCode: z.string().min(1),
+    newAccessCode: accessCodeSchema,
+    confirmAccessCode: accessCodeSchema,
+    recoveryPhrase: recoveryPhraseSchema,
+    confirmRecoveryPhrase: recoveryPhraseSchema
   })
   .refine((data) => data.newAccessCode === data.confirmAccessCode, {
     message: 'The new access codes do not match.',
@@ -60,9 +75,9 @@ export const clientAccessCodeSchema = z
 export const accessRecoverySchema = z
   .object({
     clientSlug: z.string().min(2).transform(slugify),
-    recoveryPhrase: z.string().min(12).max(160),
-    newAccessCode: z.string().min(8).max(80),
-    confirmAccessCode: z.string().min(8).max(80)
+    recoveryPhrase: recoveryPhraseSchema,
+    newAccessCode: accessCodeSchema,
+    confirmAccessCode: accessCodeSchema
   })
   .refine((data) => data.newAccessCode === data.confirmAccessCode, {
     message: 'The new access codes do not match.',
@@ -91,7 +106,8 @@ export type AccessRecoveryInput = z.infer<typeof accessRecoverySchema>;
 export type NewJobInput = z.infer<typeof newJobSchema>;
 
 export function createAccessCodeFromClientSlug(slug: string): string {
-  const suffix = crypto.randomUUID().slice(0, 8).toUpperCase();
+  const compactSlug = slug.replace(/-/g, '').slice(0, 10) || 'client';
+  const randomPart = crypto.randomUUID().replace(/-/g, '').slice(0, 8);
 
-  return `QBX-${slug.replace(/-/g, '').slice(0, 10).toUpperCase()}-${suffix}`;
+  return `QbX-${compactSlug}-${randomPart}-Aa1`;
 }
