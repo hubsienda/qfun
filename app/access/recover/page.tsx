@@ -19,8 +19,8 @@ export default function RecoverAccessPage() {
         </h1>
 
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-          Enter your business access name and recovery phrase. If they match, Proteus will generate
-          a new access code and disable the old one. Clients do not choose access codes.
+          Enter the client access name and recovery phrase. If they match, Proteus will generate a
+          new access code and disable the old one.
         </p>
 
         <div className="mt-8">
