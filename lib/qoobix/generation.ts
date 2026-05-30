@@ -157,7 +157,7 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       jobId,
       fileType: 'docx',
       fileName: docxFileName,
-      fileUrl: docxUpload.signedUrl,
+      fileUrl: docxUpload.fileUrl,
       storagePath: docxUpload.storagePath,
       expiresAt
     });
@@ -166,7 +166,7 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       jobId,
       fileType: 'xlsx',
       fileName: xlsxFileName,
-      fileUrl: xlsxUpload.signedUrl,
+      fileUrl: xlsxUpload.fileUrl,
       storagePath: xlsxUpload.storagePath,
       expiresAt
     });
