@@ -47,10 +47,8 @@ export function AccessForm() {
       <InputField
         label="Access code"
         name="code"
-        hint="8–80 characters, no spaces, with lowercase, uppercase, and a number."
         value={code}
         onChange={(event) => setCode(event.target.value)}
-        placeholder="QbX-sienda-7k9m-Aa1"
         required
         autoComplete="off"
       />
