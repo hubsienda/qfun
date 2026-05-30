@@ -342,7 +342,9 @@ export async function issueTemporaryAccessCode(clientId: string): Promise<{
   };
 }
 
-export async function updateClientAccessCode(input: ClientAccessCodeInput): Promise<void> {
+export async function rotateClientAccessCode(input: ClientAccessCodeInput): Promise<{
+  accessCode: string;
+}> {
   const supabase = getSupabase();
   const client = await getClientBySlug(input.clientSlug);
 
@@ -356,8 +358,8 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
     throw new Error('Current access code is not valid for this client.');
   }
 
-  const newCode = normaliseAccessCode(input.newAccessCode);
-  const newCodeHash = hashAccessCode(newCode);
+  const generatedAccessCode = normaliseAccessCode(createAccessCodeFromClientSlug(client.slug));
+  const generatedAccessCodeHash = hashAccessCode(generatedAccessCode);
   const recoveryPhraseHash = hashRecoveryPhrase(input.recoveryPhrase);
 
   await supabase
@@ -370,7 +372,7 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
   const { error } = (await supabase.from('access_codes').insert({
     client_id: client.id,
     code: null,
-    code_hash: newCodeHash,
+    code_hash: generatedAccessCodeHash,
     recovery_phrase_hash: recoveryPhraseHash,
     label: `${client.name} private client access`,
     is_active: true,
@@ -382,10 +384,15 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
   if (error) {
     throw new Error(error.message);
   }
+
+  return {
+    accessCode: generatedAccessCode
+  };
 }
 
 export async function recoverClientAccessCode(input: AccessRecoveryInput): Promise<{
   clientSlug: string;
+  accessCode: string;
 }> {
   const supabase = getSupabase();
   const client = await getClientBySlug(input.clientSlug);
@@ -411,7 +418,8 @@ export async function recoverClientAccessCode(input: AccessRecoveryInput): Promi
     throw new Error('Recovery phrase not recognised for this client.');
   }
 
-  const newCodeHash = hashAccessCode(input.newAccessCode);
+  const generatedAccessCode = normaliseAccessCode(createAccessCodeFromClientSlug(client.slug));
+  const generatedAccessCodeHash = hashAccessCode(generatedAccessCode);
 
   await supabase
     .from('access_codes')
@@ -423,7 +431,7 @@ export async function recoverClientAccessCode(input: AccessRecoveryInput): Promi
   const { error } = (await supabase.from('access_codes').insert({
     client_id: client.id,
     code: null,
-    code_hash: newCodeHash,
+    code_hash: generatedAccessCodeHash,
     recovery_phrase_hash: recoveryPhraseHash,
     label: `${client.name} recovered private client access`,
     is_active: true,
@@ -437,7 +445,8 @@ export async function recoverClientAccessCode(input: AccessRecoveryInput): Promi
   }
 
   return {
-    clientSlug: client.slug
+    clientSlug: client.slug,
+    accessCode: generatedAccessCode
   };
 }
 
