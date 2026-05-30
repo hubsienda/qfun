@@ -62,9 +62,9 @@ export function AccessRecoveryForm() {
   return (
     <form onSubmit={submitRecovery} className="space-y-5">
       <InputField
-        label="Client slug"
+        label="Business access name"
         name="clientSlug"
-        hint="Example: sienda"
+        hint="Use your business name without spaces, for example: sienda"
         value={form.clientSlug}
         onChange={(event) => updateField('clientSlug', event.target.value)}
         required
@@ -74,6 +74,7 @@ export function AccessRecoveryForm() {
       <InputField
         label="Recovery phrase"
         name="recoveryPhrase"
+        hint="8–80 characters, no spaces. Hyphens are allowed."
         type="password"
         value={form.recoveryPhrase}
         onChange={(event) => updateField('recoveryPhrase', event.target.value)}
@@ -81,26 +82,34 @@ export function AccessRecoveryForm() {
         autoComplete="off"
       />
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <InputField
-          label="New access code"
-          name="newAccessCode"
-          type="password"
-          value={form.newAccessCode}
-          onChange={(event) => updateField('newAccessCode', event.target.value)}
-          required
-          autoComplete="new-password"
-        />
+      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
+        <h3 className="text-sm font-semibold">New access code rules</h3>
+        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+          Use 8–80 characters, no spaces, at least one lowercase letter, one uppercase letter, and
+          one number.
+        </p>
 
-        <InputField
-          label="Confirm new access code"
-          name="confirmAccessCode"
-          type="password"
-          value={form.confirmAccessCode}
-          onChange={(event) => updateField('confirmAccessCode', event.target.value)}
-          required
-          autoComplete="new-password"
-        />
+        <div className="mt-4 grid gap-5 md:grid-cols-2">
+          <InputField
+            label="New access code"
+            name="newAccessCode"
+            type="password"
+            value={form.newAccessCode}
+            onChange={(event) => updateField('newAccessCode', event.target.value)}
+            required
+            autoComplete="new-password"
+          />
+
+          <InputField
+            label="Confirm new access code"
+            name="confirmAccessCode"
+            type="password"
+            value={form.confirmAccessCode}
+            onChange={(event) => updateField('confirmAccessCode', event.target.value)}
+            required
+            autoComplete="new-password"
+          />
+        </div>
       </div>
 
       {message ? (
