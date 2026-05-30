@@ -19,8 +19,8 @@ export default function RecoverAccessPage() {
         </h1>
 
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-          Enter your client slug, recovery phrase, and new access code. QOOBIX stores only hashes
-          of access codes and recovery phrases, not the readable values.
+          Enter your business access name, recovery phrase, and new access code. QOOBIX stores only
+          hashes of access codes and recovery phrases, not the readable values.
         </p>
 
         <div className="mt-8">
