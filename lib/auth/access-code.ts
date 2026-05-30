@@ -4,6 +4,10 @@ export function normaliseAccessCode(value: string): string {
   return value.trim().replace(/\s+/g, '').toUpperCase();
 }
 
+export function normaliseRecoveryPhrase(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
 export function isAccessCodeFormatValid(value: string): boolean {
   const normalised = normaliseAccessCode(value);
 
@@ -12,6 +16,12 @@ export function isAccessCodeFormatValid(value: string): boolean {
 
 export function hashAccessCode(value: string): string {
   const normalised = normaliseAccessCode(value);
+
+  return createHash('sha256').update(normalised).digest('hex');
+}
+
+export function hashRecoveryPhrase(value: string): string {
+  const normalised = normaliseRecoveryPhrase(value);
 
   return createHash('sha256').update(normalised).digest('hex');
 }
