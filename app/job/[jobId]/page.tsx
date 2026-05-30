@@ -22,6 +22,18 @@ export async function generateMetadata({ params }: JobPageProps) {
   };
 }
 
+function formatExpiryDate(value: string | null) {
+  if (!value) {
+    return 'Expiry not configured';
+  }
+
+  return new Date(value).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
 export default async function JobPage({ params }: JobPageProps) {
   const { jobId } = await params;
   const sessionSlug = await getClientSessionSlug();
@@ -118,10 +130,19 @@ export default async function JobPage({ params }: JobPageProps) {
         {reports.length ? (
           <div className="mt-8">
             <h2 className="text-xl font-semibold">Generated files</h2>
-            <ul className="mt-4 space-y-2 text-sm">
+            <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+              Download files from the result page before their expiry date.
+            </p>
+            <ul className="mt-4 space-y-3 text-sm">
               {reports.map((report) => (
-                <li key={report.id}>
-                  {report.file_name} · {report.file_type.toUpperCase()}
+                <li
+                  key={report.id}
+                  className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3"
+                >
+                  <div className="font-semibold">{report.file_name}</div>
+                  <div className="mt-1 text-xs text-[var(--qoobix-muted)]">
+                    {report.file_type.toUpperCase()} · Expires: {formatExpiryDate(report.expires_at)}
+                  </div>
                 </li>
               ))}
             </ul>
