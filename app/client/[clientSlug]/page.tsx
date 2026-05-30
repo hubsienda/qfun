@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ButtonLink } from '@/components/ButtonLink';
 import { ClientAccessCodeForm } from '@/components/ClientAccessCodeForm';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
+import { DataNotice } from '@/components/DataNotice';
 import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
@@ -67,6 +68,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
 
           <ClientLogoutButton />
         </div>
+      </div>
+
+      <div className="mt-8">
+        <DataNotice />
       </div>
 
       {!profileComplete ? (
