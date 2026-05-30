@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { clientAccessCodeSchema } from '@/lib/qoobix/forms';
-import { updateClientAccessCode } from '@/lib/qoobix/db';
+import { rotateClientAccessCode } from '@/lib/qoobix/db';
 
 type ClientAccessCodeRouteProps = {
   params: Promise<{
@@ -22,19 +22,20 @@ export async function POST(request: NextRequest, { params }: ClientAccessCodeRou
       return NextResponse.json(
         {
           ok: false,
-          error: 'Invalid access code data.'
+          error: 'Invalid access code or recovery phrase data.'
         },
         { status: 400 }
       );
     }
 
-    await updateClientAccessCode(parsed.data);
+    const rotated = await rotateClientAccessCode(parsed.data);
 
     return NextResponse.json({
-      ok: true
+      ok: true,
+      accessCode: rotated.accessCode
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Access code update failed.';
+    const message = error instanceof Error ? error.message : 'Access code rotation failed.';
 
     return NextResponse.json(
       {
