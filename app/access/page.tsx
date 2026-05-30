@@ -1,4 +1,5 @@
 import { AccessForm } from '@/components/AccessForm';
+import { AccessRecoveryPanel } from '@/components/AccessRecoveryPanel';
 import { Panel } from '@/components/Panel';
 
 export const metadata = {
@@ -24,6 +25,10 @@ export default function AccessPage() {
 
         <div className="mt-8">
           <AccessForm />
+        </div>
+
+        <div className="mt-8">
+          <AccessRecoveryPanel />
         </div>
       </Panel>
     </section>
