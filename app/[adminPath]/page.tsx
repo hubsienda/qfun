@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { AdminPanel } from '@/components/AdminPanel';
+import { AdminReportsPanel } from '@/components/AdminReportsPanel';
 import { env } from '@/lib/config';
 
 type HiddenProvisioningPageProps = {
@@ -39,6 +40,10 @@ export default async function HiddenProvisioningPage({ params }: HiddenProvision
 
       <div className="mt-10">
         <AdminPanel adminPath={adminPath} />
+      </div>
+
+      <div className="mt-6">
+        <AdminReportsPanel adminPath={adminPath} />
       </div>
     </section>
   );
