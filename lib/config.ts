@@ -7,6 +7,7 @@ const serverEnvSchema = z.object({
   SUPABASE_ANON_KEY: z.string().min(1).optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
   QOOBIX_ADMIN_PASSWORD: z.string().min(1).optional(),
+  QOOBIX_ADMIN_PATH: z.string().min(8).default('a80a8bf27ed2'),
   QOOBIX_FILE_RETENTION_DAYS: z.coerce.number().int().positive().default(30),
   QOOBIX_APP_URL: z.string().url().default('https://qoobix.com')
 });
@@ -26,6 +27,7 @@ export const env = parsedEnv.success
       SUPABASE_ANON_KEY: undefined,
       SUPABASE_SERVICE_ROLE_KEY: undefined,
       QOOBIX_ADMIN_PASSWORD: undefined,
+      QOOBIX_ADMIN_PATH: 'a80a8bf27ed2',
       QOOBIX_FILE_RETENTION_DAYS: 30,
       QOOBIX_APP_URL: 'https://qoobix.com'
     };
