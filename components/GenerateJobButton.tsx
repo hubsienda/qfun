@@ -12,7 +12,7 @@ export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
   const [isGenerating, setIsGenerating] = useState(false);
 
   async function generateJob() {
-    setMessage('');
+    setMessage('Proteus is generating the DOCX and XLSX outputs. Keep this page open.');
     setIsGenerating(true);
 
     try {
@@ -30,6 +30,7 @@ export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
         return;
       }
 
+      setMessage('Generation completed. Opening the result status…');
       window.location.reload();
     } catch {
       setMessage('Generation failed because the request could not be completed.');
@@ -39,13 +40,21 @@ export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
   }
 
   return (
-    <div>
+    <div className="space-y-3">
       <Button type="button" onClick={generateJob} disabled={isGenerating}>
-        {isGenerating ? 'Generating…' : 'Generate outputs'}
+        {isGenerating ? 'Generating outputs…' : 'Generate DOCX/XLSX outputs'}
       </Button>
 
       {message ? (
-        <p className="mt-3 text-sm font-semibold text-[var(--qoobix-danger)]">{message}</p>
+        <p
+          className={`rounded-md border px-4 py-3 text-sm font-semibold ${
+            isGenerating
+              ? 'border-[var(--qoobix-border)] bg-white/70'
+              : 'border-[var(--qoobix-border)] bg-white/70'
+          }`}
+        >
+          {message}
+        </p>
       ) : null}
     </div>
   );
