@@ -112,10 +112,6 @@ function bulletSection(titleText: string, items: string[]) {
   return [heading(titleText), ...(items.length ? items.map(bullet) : [paragraph('—')])];
 }
 
-function numberedSection(titleText: string, items: string[]) {
-  return [heading(titleText), ...(items.length ? items.map(numberedItem) : [paragraph('—')])];
-}
-
 function tableCell(value: string, bold = false) {
   return new TableCell({
     children: [
