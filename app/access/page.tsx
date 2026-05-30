@@ -1,9 +1,15 @@
+import type { Metadata } from 'next';
 import { AccessForm } from '@/components/AccessForm';
 import { AccessRecoveryPanel } from '@/components/AccessRecoveryPanel';
 import { Panel } from '@/components/Panel';
 
-export const metadata = {
-  title: 'Private Access'
+export const metadata: Metadata = {
+  title: 'Private Access',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true
+  }
 };
 
 export default function AccessPage() {
