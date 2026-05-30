@@ -15,12 +15,12 @@ export default function RecoverAccessPage() {
         </p>
 
         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-          Reset your QOOBIX access code.
+          Let Proteus generate a new access code.
         </h1>
 
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-          Enter your business access name, recovery phrase, and new access code. QOOBIX stores only
-          hashes of access codes and recovery phrases, not the readable values.
+          Enter your business access name and recovery phrase. If they match, Proteus will generate
+          a new access code and disable the old one. Clients do not choose access codes.
         </p>
 
         <div className="mt-8">
