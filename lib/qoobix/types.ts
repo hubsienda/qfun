@@ -8,7 +8,13 @@ export type Json =
       [key: string]: Json;
     };
 
-export type JobStatus = 'received' | 'processing' | 'generating_outputs' | 'ready' | 'failed';
+export type JobStatus =
+  | 'received'
+  | 'processing'
+  | 'generating_outputs'
+  | 'ready'
+  | 'failed'
+  | 'cancelled';
 
 export type ReportType = 'docx' | 'xlsx' | 'csv';
 
