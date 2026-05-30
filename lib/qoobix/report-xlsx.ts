@@ -11,19 +11,31 @@ type CreateXlsxWorkbookInput = {
   intelligence: GeneratedIntelligence;
 };
 
-function addSheet(workbook: XLSX.WorkBook, name: string, rows: Record<string, string>[]) {
+type SheetRow = Record<string, string>;
+
+function addSheet(workbook: XLSX.WorkBook, name: string, rows: SheetRow[]) {
   const worksheet = XLSX.utils.json_to_sheet(rows.length ? rows : [{ Note: 'No rows generated.' }]);
+  const range = XLSX.utils.decode_range(worksheet['!ref'] ?? 'A1:A1');
+
+  worksheet['!autofilter'] = {
+    ref: XLSX.utils.encode_range(range)
+  };
+
+  worksheet['!cols'] = Array.from({ length: range.e.c + 1 }, () => ({ wch: 28 }));
+
   XLSX.utils.book_append_sheet(workbook, worksheet, name.slice(0, 31));
 }
 
-function listRows(items: string[], label: string) {
+function listRows(items: string[], label: string): SheetRow[] {
   return items.map((item, index) => ({
     Rank: String(index + 1),
-    [label]: item
+    [label]: item,
+    'Why it matters': 'Review against the commercial objective and prioritise if relevant.',
+    'Suggested verification': 'Check source evidence, buyer/channel feedback, and internal feasibility.'
   }));
 }
 
-function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRequest) {
+function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRequest): SheetRow[] {
   return [
     {
       Field: 'Client',
@@ -54,12 +66,32 @@ function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRe
       Value: request.commercialObjective
     },
     {
+      Field: 'Target customer types',
+      Value: request.targetCustomerTypes || 'Not provided'
+    },
+    {
+      Field: 'Target channels',
+      Value: request.targetChannels || 'Not provided'
+    },
+    {
+      Field: 'Known competitors',
+      Value: request.knownCompetitors || 'Not provided'
+    },
+    {
+      Field: 'Known partners/distributors',
+      Value: request.knownPartners || 'Not provided'
+    },
+    {
       Field: 'Preferred output language',
       Value: request.preferredOutputLanguage
     },
     {
       Field: 'Generated',
       Value: new Date().toLocaleDateString('en-GB')
+    },
+    {
+      Field: 'Report retention',
+      Value: `${client.fileRetentionDays} day(s), unless cleaned earlier after expiry`
     },
     {
       Field: 'Verification notice',
@@ -69,13 +101,58 @@ function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRe
   ];
 }
 
+function actionRows(actions: string[]): SheetRow[] {
+  return actions.map((action, index) => ({
+    Priority: String(index + 1),
+    Action: action,
+    Owner: '',
+    Deadline: '',
+    Status: 'Not started',
+    'Why this matters': 'Turns the intelligence into a concrete commercial step.',
+    'Evidence required': 'Source checks, buyer/channel feedback, distributor validation, or internal feasibility review.',
+    Notes: ''
+  }));
+}
+
+function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
+  const sourceRows = intelligence.sourceNotesLimitations.map((note, index) => ({
+    Rank: String(index + 1),
+    'Verification item': note,
+    Category: 'Source / limitation',
+    'Suggested verification action':
+      'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.',
+    Status: 'Open',
+    Notes: ''
+  }));
+
+  const partnerRows = intelligence.potentialPartnersProspects.slice(0, 20).map((item, index) => ({
+    Rank: String(sourceRows.length + index + 1),
+    'Verification item': item.name,
+    Category: item.category,
+    'Suggested verification action': item.suggestedAction,
+    Status: 'Open',
+    Notes: item.notes
+  }));
+
+  const competitorRows = intelligence.competitorRows.slice(0, 20).map((item, index) => ({
+    Rank: String(sourceRows.length + partnerRows.length + index + 1),
+    'Verification item': item.name,
+    Category: item.type,
+    'Suggested verification action': 'Verify relevance, positioning, geography, offer, and whether this is a direct competitor, substitute, or status-quo alternative.',
+    Status: 'Open',
+    Notes: item.notes
+  }));
+
+  return [...sourceRows, ...partnerRows, ...competitorRows];
+}
+
 export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
   const { client, request, intelligence } = input;
   const workbook = XLSX.utils.book_new();
 
   addSheet(workbook, 'Request summary', requestSummaryRows(client, request));
 
-  addSheet(workbook, 'Executive summary', [
+  addSheet(workbook, 'Decision brief', [
     {
       Section: 'Executive summary',
       Content: intelligence.executiveSummary
@@ -90,7 +167,7 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
     }
   ]);
 
-  addSheet(workbook, 'Opportunity priorities', listRows(intelligence.regionalPriorities, 'Priority'));
+  addSheet(workbook, 'Regional priorities', listRows(intelligence.regionalPriorities, 'Priority'));
 
   addSheet(
     workbook,
@@ -102,6 +179,7 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
       'Country or region': item.countryOrRegion,
       Relevance: item.relevance,
       'Suggested action': item.suggestedAction,
+      'Verification status': 'Open',
       Notes: item.notes
     }))
   );
@@ -115,6 +193,7 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
       Type: item.type,
       'Country or region': item.countryOrRegion,
       Relevance: item.relevance,
+      'Verification status': 'Open',
       Notes: item.notes
     }))
   );
@@ -129,9 +208,11 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
     listRows(intelligence.positioningRecommendations, 'Recommendation')
   );
 
-  addSheet(workbook, 'Recommended actions', listRows(intelligence.actionPriorities, 'Action'));
+  addSheet(workbook, 'Action matrix', actionRows(intelligence.actionPriorities));
 
   addSheet(workbook, 'Risks caveats', listRows(intelligence.commercialRisks, 'Risk or caveat'));
+
+  addSheet(workbook, 'Verification workflow', verificationRows(intelligence));
 
   addSheet(
     workbook,
