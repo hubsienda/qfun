@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import type { Metadata } from 'next';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { GenerateJobButton } from '@/components/GenerateJobButton';
 import { Panel } from '@/components/Panel';
@@ -14,11 +15,16 @@ type JobPageProps = {
   }>;
 };
 
-export async function generateMetadata({ params }: JobPageProps) {
+export async function generateMetadata({ params }: JobPageProps): Promise<Metadata> {
   const { jobId } = await params;
 
   return {
-    title: `Job · ${jobId}`
+    title: `Job · ${jobId}`,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true
+    }
   };
 }
 
