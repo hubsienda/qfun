@@ -21,7 +21,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      clientSlug: recovered.clientSlug
+      clientSlug: recovered.clientSlug,
+      accessCode: recovered.accessCode
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Access recovery failed.';
