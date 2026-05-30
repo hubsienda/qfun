@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
+import { DataNotice } from '@/components/DataNotice';
 import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getResultByToken } from '@/lib/qoobix/db';
@@ -56,11 +57,8 @@ export default async function ResultPage({ params }: ResultPageProps) {
           museum, or CRM-shaped swamp behind the curtain.
         </p>
 
-        <div className="mt-6 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
-          AI-assisted analysis may contain errors, omissions, outdated assumptions, or incomplete
-          market information. Verify the files before using them for commercial, legal, technical,
-          financial, or regulatory decisions. Generated files are retained temporarily; download and
-          store anything you need to keep.
+        <div className="mt-6">
+          <DataNotice variant="full" />
         </div>
 
         <div className="mt-8 space-y-4">
