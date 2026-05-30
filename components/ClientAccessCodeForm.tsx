@@ -83,19 +83,11 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
       />
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
-        <h3 className="text-sm font-semibold">Access code rotation</h3>
-        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Clients do not choose access codes. Proteus generates a strong code, shows it once, and
-          stores only the hash. Rotate the code if you believe the current one has been exposed or
-          if you simply want fresh access.
-        </p>
-      </div>
-
-      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
         <h3 className="text-sm font-semibold">Recovery phrase</h3>
         <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Use 8–80 characters and no spaces. Hyphens are allowed. This phrase lets you recover
-          access if you forget the generated access code.
+          Choose a recovery phrase before Proteus generates your new access code. Use 8–80
+          characters, no spaces. Hyphens are allowed. Store it safely; it lets you recover access
+          if you lose the generated access code.
         </p>
 
         <div className="mt-4 grid gap-5 md:grid-cols-2">
@@ -121,6 +113,14 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
         </div>
       </div>
 
+      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
+        <h3 className="text-sm font-semibold">Access code generation</h3>
+        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+          Clients do not choose access codes. Proteus generates a strong code, shows it once, and
+          stores only the hash.
+        </p>
+      </div>
+
       {message ? (
         <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
           {message}
@@ -140,7 +140,7 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
       ) : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Generating…' : 'Generate new access code'}
+        {isSubmitting ? 'Generating…' : 'Set recovery phrase and generate access code'}
       </Button>
     </form>
   );
