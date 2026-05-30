@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import type { Metadata } from 'next';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { ClientProfileForm } from '@/components/ClientProfileForm';
 import { Panel } from '@/components/Panel';
@@ -12,11 +13,16 @@ type ClientProfilePageProps = {
   }>;
 };
 
-export async function generateMetadata({ params }: ClientProfilePageProps) {
+export async function generateMetadata({ params }: ClientProfilePageProps): Promise<Metadata> {
   const { clientSlug } = await params;
 
   return {
-    title: `Business profile · ${clientSlug}`
+    title: `Business profile · ${clientSlug}`,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true
+    }
   };
 }
 
