@@ -1,8 +1,13 @@
 import { env } from '@/lib/config';
-import { hashAccessCode, normaliseAccessCode } from '@/lib/auth/access-code';
+import {
+  hashAccessCode,
+  hashRecoveryPhrase,
+  normaliseAccessCode
+} from '@/lib/auth/access-code';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { Database } from '@/lib/supabase/types';
 import type {
+  AccessRecoveryInput,
   AdminCreateClientInput,
   ClientAccessCodeInput,
   ClientProfileInput,
@@ -184,6 +189,7 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
     client_id: client.id,
     code: temporaryAccessCode,
     code_hash: hashAccessCode(temporaryAccessCode),
+    recovery_phrase_hash: null,
     label: `${client.name} temporary first access`
   })) as {
     error: { message: string } | null;
@@ -317,6 +323,7 @@ export async function issueTemporaryAccessCode(clientId: string): Promise<{
     client_id: client.id,
     code: temporaryAccessCode,
     code_hash: hashAccessCode(temporaryAccessCode),
+    recovery_phrase_hash: null,
     label: `${client.name} temporary reset access`,
     is_active: true
   })) as {
@@ -351,6 +358,7 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
 
   const newCode = normaliseAccessCode(input.newAccessCode);
   const newCodeHash = hashAccessCode(newCode);
+  const recoveryPhraseHash = hashRecoveryPhrase(input.recoveryPhrase);
 
   await supabase
     .from('access_codes')
@@ -363,6 +371,7 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
     client_id: client.id,
     code: null,
     code_hash: newCodeHash,
+    recovery_phrase_hash: recoveryPhraseHash,
     label: `${client.name} private client access`,
     is_active: true,
     last_used_at: new Date().toISOString()
@@ -373,6 +382,63 @@ export async function updateClientAccessCode(input: ClientAccessCodeInput): Prom
   if (error) {
     throw new Error(error.message);
   }
+}
+
+export async function recoverClientAccessCode(input: AccessRecoveryInput): Promise<{
+  clientSlug: string;
+}> {
+  const supabase = getSupabase();
+  const client = await getClientBySlug(input.clientSlug);
+
+  if (!client) {
+    throw new Error('Client not found or suspended.');
+  }
+
+  const recoveryPhraseHash = hashRecoveryPhrase(input.recoveryPhrase);
+
+  const { data: accessCode, error: accessError } = (await supabase
+    .from('access_codes')
+    .select('*')
+    .eq('client_id', client.id)
+    .eq('recovery_phrase_hash', recoveryPhraseHash)
+    .eq('is_active', true)
+    .single()) as {
+    data: AccessCodeRow | null;
+    error: { message: string } | null;
+  };
+
+  if (accessError || !accessCode) {
+    throw new Error('Recovery phrase not recognised for this client.');
+  }
+
+  const newCodeHash = hashAccessCode(input.newAccessCode);
+
+  await supabase
+    .from('access_codes')
+    .update({
+      is_active: false
+    })
+    .eq('client_id', client.id);
+
+  const { error } = (await supabase.from('access_codes').insert({
+    client_id: client.id,
+    code: null,
+    code_hash: newCodeHash,
+    recovery_phrase_hash: recoveryPhraseHash,
+    label: `${client.name} recovered private client access`,
+    is_active: true,
+    last_used_at: new Date().toISOString()
+  })) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return {
+    clientSlug: client.slug
+  };
 }
 
 export async function updateClientProfile(input: ClientProfileInput): Promise<ClientConfiguration> {
