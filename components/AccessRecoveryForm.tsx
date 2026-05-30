@@ -62,9 +62,9 @@ export function AccessRecoveryForm() {
   return (
     <form onSubmit={submitRecovery} className="space-y-5">
       <InputField
-        label="Business access name"
+        label="Client access name"
         name="clientSlug"
-        hint="Use your business name without spaces, for example: sienda"
+        hint="Enter the access name supplied for your private QOOBIX area."
         value={form.clientSlug}
         onChange={(event) => updateField('clientSlug', event.target.value)}
         required
