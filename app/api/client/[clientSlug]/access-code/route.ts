@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { clientAccessCodeSchema } from '@/lib/qoobix/forms';
 import { rotateClientAccessCode } from '@/lib/qoobix/db';
 
@@ -11,6 +12,18 @@ type ClientAccessCodeRouteProps = {
 export async function POST(request: NextRequest, { params }: ClientAccessCodeRouteProps) {
   try {
     const { clientSlug } = await params;
+    const sessionSlug = await getClientSessionSlug();
+
+    if (sessionSlug !== clientSlug) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: 'This session cannot rotate that client access code.'
+        },
+        { status: 403 }
+      );
+    }
+
     const body = await request.json();
 
     const parsed = clientAccessCodeSchema.safeParse({
