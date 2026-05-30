@@ -22,6 +22,10 @@ type CreateDocxReportInput = {
   intelligence: GeneratedIntelligence;
 };
 
+function cleanText(value: string | null | undefined) {
+  return value && value.trim() ? value : '—';
+}
+
 function title(text: string) {
   return new Paragraph({
     text,
@@ -56,7 +60,7 @@ function subheading(text: string) {
 
 function paragraph(text: string) {
   return new Paragraph({
-    children: [new TextRun(text || '—')],
+    children: [new TextRun(cleanText(text))],
     spacing: {
       after: 180
     }
@@ -69,7 +73,8 @@ function smallMuted(text: string) {
       new TextRun({
         text,
         italics: true,
-        size: 20
+        size: 20,
+        color: '746B64'
       })
     ],
     spacing: {
@@ -80,8 +85,21 @@ function smallMuted(text: string) {
 
 function bullet(text: string) {
   return new Paragraph({
-    text,
+    text: cleanText(text),
     bullet: {
+      level: 0
+    },
+    spacing: {
+      after: 120
+    }
+  });
+}
+
+function numberedItem(text: string) {
+  return new Paragraph({
+    text: cleanText(text),
+    numbering: {
+      reference: 'qoobix-numbering',
       level: 0
     },
     spacing: {
@@ -94,13 +112,17 @@ function bulletSection(titleText: string, items: string[]) {
   return [heading(titleText), ...(items.length ? items.map(bullet) : [paragraph('—')])];
 }
 
+function numberedSection(titleText: string, items: string[]) {
+  return [heading(titleText), ...(items.length ? items.map(numberedItem) : [paragraph('—')])];
+}
+
 function tableCell(value: string, bold = false) {
   return new TableCell({
     children: [
       new Paragraph({
         children: [
           new TextRun({
-            text: value || '—',
+            text: cleanText(value),
             bold
           })
         ],
@@ -188,10 +210,82 @@ function createCompetitorTable(intelligence: GeneratedIntelligence) {
   });
 }
 
+function createActionTable(actions: string[]) {
+  const rows = [
+    new TableRow({
+      children: ['Priority', 'Action', 'Purpose', 'Verification / next evidence'].map((label) =>
+        tableCell(label, true)
+      )
+    }),
+    ...(actions.length ? actions : ['—']).map(
+      (action, index) =>
+        new TableRow({
+          children: [
+            tableCell(String(index + 1)),
+            tableCell(action),
+            tableCell('Turn the intelligence into a practical commercial step.'),
+            tableCell('Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.')
+          ]
+        })
+    )
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
+}
+
+function createVerificationTable(intelligence: GeneratedIntelligence) {
+  const rows = [
+    new TableRow({
+      children: ['Area to verify', 'Why it matters', 'Suggested verification action'].map((label) =>
+        tableCell(label, true)
+      )
+    }),
+    ...intelligence.sourceNotesLimitations.map(
+      (note) =>
+        new TableRow({
+          children: [
+            tableCell(note),
+            tableCell('Reduces the risk of acting on incomplete or uncertain intelligence.'),
+            tableCell('Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.')
+          ]
+        })
+    )
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
+}
+
 export async function createDocxReport(input: CreateDocxReportInput): Promise<Buffer> {
   const { client, request, intelligence } = input;
 
   const document = new Document({
+    numbering: {
+      config: [
+        {
+          reference: 'qoobix-numbering',
+          levels: [
+            {
+              level: 0,
+              format: 'decimal',
+              text: '%1.',
+              alignment: AlignmentType.LEFT
+            }
+          ]
+        }
+      ]
+    },
     sections: [
       {
         properties: {},
@@ -222,11 +316,17 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
             ['Target country/countries', request.targetCountries],
             ['Commercial objective', request.commercialObjective],
             ['Market question', request.marketQuestion],
-            ['Generated', new Date().toLocaleDateString('en-GB')]
+            ['Generated', new Date().toLocaleDateString('en-GB')],
+            ['Report retention', `${client.fileRetentionDays} day(s), unless cleaned earlier after expiry`]
           ]),
 
-          heading('1. Executive summary'),
+          heading('1. Decision brief'),
           paragraph(intelligence.executiveSummary),
+
+          subheading('Commercial meaning'),
+          paragraph(
+            'This briefing is designed to support commercial prioritisation. It should be treated as a decision aid, not as a substitute for source verification, direct market contact, or professional judgement.'
+          ),
 
           heading('2. Client and product context'),
           paragraph(intelligence.clientProductContext),
@@ -234,16 +334,16 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           heading('3. Target market overview'),
           paragraph(intelligence.targetMarketOverview),
 
-          ...bulletSection('4. Demand signals', intelligence.demandSignals),
+          ...bulletSection('4. Demand signals to investigate', intelligence.demandSignals),
 
           ...bulletSection('5. Channel opportunities', intelligence.channelOpportunities),
 
-          heading('6. Potential partners / prospects'),
+          heading('6. Potential partners, prospects, or useful market entry points'),
           intelligence.potentialPartnersProspects.length
             ? createPartnerTable(intelligence)
             : paragraph('No structured partner/prospect rows were generated.'),
 
-          heading('7. Competitor and alternative landscape'),
+          heading('7. Competitor, substitute, and alternative landscape'),
           intelligence.competitorRows.length
             ? createCompetitorTable(intelligence)
             : paragraph('No structured competitor/alternative rows were generated.'),
@@ -259,11 +359,15 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
 
           ...bulletSection('10. Commercial risks and caveats', intelligence.commercialRisks),
 
-          ...bulletSection('11. Action priorities', intelligence.actionPriorities),
+          heading('11. Action matrix'),
+          createActionTable(intelligence.actionPriorities),
 
-          ...bulletSection('12. Source notes and limitations', intelligence.sourceNotesLimitations),
+          heading('12. Verification workflow'),
+          intelligence.sourceNotesLimitations.length
+            ? createVerificationTable(intelligence)
+            : paragraph('No specific source or verification notes were generated.'),
 
-          heading('Verification notice'),
+          heading('Final verification notice'),
           paragraph(
             'This report is AI-assisted and may contain incomplete, outdated, or unverified information. Named entities, market claims, competitor references, regulatory assumptions, and commercial recommendations must be verified before use. QOOBIX does not replace professional judgement, source verification, commercial due diligence, legal advice, financial advice, technical assessment, or regulatory review.'
           )
