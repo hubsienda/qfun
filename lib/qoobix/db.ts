@@ -35,6 +35,18 @@ export type AdminClientSummary = {
   latestJobCreatedAt: string | null;
 };
 
+export type AdminJobSummary = {
+  id: string;
+  clientName: string;
+  clientSlug: string;
+  status: string;
+  createdAt: string;
+  marketQuestion: string;
+  commercialObjective: string;
+  resultToken: string | null;
+  errorMessage: string | null;
+};
+
 function getSupabase() {
   return createSupabaseAdminClient() as any;
 }
@@ -252,6 +264,54 @@ export async function listAdminClients(): Promise<AdminClientSummary[]> {
       failedJobCount: clientJobs.filter((job) => job.status === 'failed').length,
       latestJobStatus: latestJob?.status ?? null,
       latestJobCreatedAt: latestJob?.created_at ?? null
+    };
+  });
+}
+
+export async function listAdminJobs(): Promise<AdminJobSummary[]> {
+  const supabase = getSupabase();
+
+  const { data: jobs, error: jobsError } = (await supabase
+    .from('jobs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100)) as {
+    data: JobRow[] | null;
+    error: { message: string } | null;
+  };
+
+  if (jobsError) {
+    throw new Error(jobsError.message);
+  }
+
+  const { data: clients, error: clientsError } = (await supabase.from('clients').select('*')) as {
+    data: ClientRow[] | null;
+    error: { message: string } | null;
+  };
+
+  if (clientsError) {
+    throw new Error(clientsError.message);
+  }
+
+  const clientById = new Map((clients ?? []).map((client) => [client.id, client]));
+
+  return (jobs ?? []).map((job) => {
+    const client = clientById.get(job.client_id);
+    const request = job.request_metadata as {
+      marketQuestion?: string;
+      commercialObjective?: string;
+    };
+
+    return {
+      id: job.id,
+      clientName: client?.name ?? 'Unknown client',
+      clientSlug: client?.slug ?? '',
+      status: job.status,
+      createdAt: job.created_at,
+      marketQuestion: request.marketQuestion ?? 'Market intelligence request',
+      commercialObjective: request.commercialObjective ?? '—',
+      resultToken: job.status === 'ready' ? job.result_token : null,
+      errorMessage: job.error_message
     };
   });
 }
