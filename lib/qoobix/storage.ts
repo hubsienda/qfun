@@ -2,6 +2,7 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import type { ReportRow } from '@/lib/qoobix/db';
 
 const REPORT_BUCKET = 'qoobix-reports';
+const SIGNED_DOWNLOAD_URL_SECONDS = 60 * 60 * 4;
 
 type UploadGeneratedReportInput = {
   jobId: string;
@@ -25,17 +26,9 @@ export async function uploadGeneratedReport(input: UploadGeneratedReportInput) {
     throw new Error(uploadError.message);
   }
 
-  const { data, error: signedError } = await supabase.storage
-    .from(REPORT_BUCKET)
-    .createSignedUrl(storagePath, 60 * 60 * 24);
-
-  if (signedError || !data) {
-    throw new Error(signedError?.message ?? 'Could not create signed download URL.');
-  }
-
   return {
     storagePath,
-    signedUrl: data.signedUrl
+    fileUrl: storagePath
   };
 }
 
@@ -47,24 +40,27 @@ export async function createSignedReportLinks(reports: ReportRow[]) {
       if (!report.storage_path) {
         return {
           ...report,
-          downloadUrl: report.file_url
+          downloadUrl: report.file_url,
+          signedUrlExpiresInSeconds: SIGNED_DOWNLOAD_URL_SECONDS
         };
       }
 
       const { data, error } = await supabase.storage
         .from(REPORT_BUCKET)
-        .createSignedUrl(report.storage_path, 60 * 60);
+        .createSignedUrl(report.storage_path, SIGNED_DOWNLOAD_URL_SECONDS);
 
       if (error || !data) {
         return {
           ...report,
-          downloadUrl: report.file_url
+          downloadUrl: report.file_url,
+          signedUrlExpiresInSeconds: SIGNED_DOWNLOAD_URL_SECONDS
         };
       }
 
       return {
         ...report,
-        downloadUrl: data.signedUrl
+        downloadUrl: data.signedUrl,
+        signedUrlExpiresInSeconds: SIGNED_DOWNLOAD_URL_SECONDS
       };
     })
   );
