@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import type { Metadata } from 'next';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { DataNotice } from '@/components/DataNotice';
 import { NewJobForm } from '@/components/NewJobForm';
@@ -14,7 +13,7 @@ type NewJobPageProps = {
   }>;
 };
 
-export async function generateMetadata({ params }: NewJobPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: NewJobPageProps) {
   const { clientSlug } = await params;
 
   return {
@@ -47,7 +46,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href={`/client/${client.slug}`}
-            className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
+            className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
           >
             Back to client area
           </Link>
@@ -72,7 +71,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
           <div className="mt-8">
             <Link
               href={`/client/${client.slug}/profile`}
-              className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold text-white"
+              className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold text-white"
             >
               Complete business profile
             </Link>
@@ -87,7 +86,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <Link
           href={`/client/${client.slug}`}
-          className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
+          className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
         >
           Back to client area
         </Link>
