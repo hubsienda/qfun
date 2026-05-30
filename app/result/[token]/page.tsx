@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import type { Metadata } from 'next';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
 import { DataNotice } from '@/components/DataNotice';
 import { Panel } from '@/components/Panel';
@@ -13,8 +14,13 @@ type ResultPageProps = {
   }>;
 };
 
-export const metadata = {
-  title: 'Result'
+export const metadata: Metadata = {
+  title: 'Result',
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true
+  }
 };
 
 function formatExpiryDate(value: string | null) {
