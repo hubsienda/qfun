@@ -73,6 +73,10 @@ const initialForm = {
   fileRetentionDays: '30'
 };
 
+function canCancelJob(status: string) {
+  return ['received', 'processing', 'generating_outputs'].includes(status);
+}
+
 export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [form, setForm] = useState(initialForm);
   const [message, setMessage] = useState('');
@@ -85,6 +89,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const [isCleaningReports, setIsCleaningReports] = useState(false);
   const [retryingJobId, setRetryingJobId] = useState<string | null>(null);
+  const [cancellingJobId, setCancellingJobId] = useState<string | null>(null);
 
   const adminApiBase = `/api/${adminPath}`;
 
@@ -268,6 +273,40 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
       setMessage('Job retry failed because the request could not be completed.');
     } finally {
       setRetryingJobId(null);
+    }
+  }
+
+  async function cancelJob(jobId: string) {
+    setMessage('');
+    setCancellingJobId(jobId);
+
+    try {
+      const response = await fetch(`${adminApiBase}/jobs/${jobId}/cancel`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          adminPassword: form.adminPassword
+        })
+      });
+
+      const payload = (await response.json()) as {
+        ok?: boolean;
+        error?: string;
+      };
+
+      if (!response.ok || !payload.ok) {
+        setMessage(payload.error ?? 'Job cancellation failed.');
+        return;
+      }
+
+      setMessage('Job cancelled.');
+      await loadAll();
+    } catch {
+      setMessage('Job cancellation failed because the request could not be completed.');
+    } finally {
+      setCancellingJobId(null);
     }
   }
 
@@ -637,6 +676,17 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                             disabled={retryingJobId === job.id || !form.adminPassword}
                           >
                             {retryingJobId === job.id ? 'Retrying…' : 'Retry'}
+                          </button>
+                        ) : null}
+
+                        {canCancelJob(job.status) ? (
+                          <button
+                            type="button"
+                            className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-800"
+                            onClick={() => cancelJob(job.id)}
+                            disabled={cancellingJobId === job.id || !form.adminPassword}
+                          >
+                            {cancellingJobId === job.id ? 'Cancelling…' : 'Cancel'}
                           </button>
                         ) : null}
                       </div>
