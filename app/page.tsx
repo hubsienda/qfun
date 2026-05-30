@@ -40,7 +40,13 @@ export default function HomePage() {
           <div>
             <p className="qoobix-kicker">Private market intelligence. No dashboard obesity.</p>
 
-            <h1 className="qoobix-gradient-text mt-7 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl lg:text-[3.25rem] lg:leading-[1.06]">
+            <h1
+              className="qoobix-gradient-text mt-7 max-w-3xl font-semibold tracking-tight"
+              style={{
+                fontSize: 'clamp(2rem, 3vw, 2.75rem)',
+                lineHeight: 1.08
+              }}
+            >
               Search a market. Detect opportunity. Download the intelligence.
             </h1>
 
@@ -126,7 +132,8 @@ export default function HomePage() {
               <div className="mt-8">
                 <a
                   href={serviceRequestHref}
-                  className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold text-[#ffffff] transition hover:bg-[var(--qoobix-orange-dark)]"
+                  style={{ color: '#ffffff' }}
+                  className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--qoobix-orange-dark)]"
                 >
                   Request the service →
                 </a>
