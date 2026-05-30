@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { ClientLogoutButton } from '@/components/ClientLogoutButton';
+import { DataNotice } from '@/components/DataNotice';
 import { NewJobForm } from '@/components/NewJobForm';
 import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
@@ -85,6 +86,10 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
           Describe the specific market question. QOOBIX will combine this request with the saved
           business profile and generate downloadable DOCX/XLSX outputs.
         </p>
+
+        <div className="mt-6">
+          <DataNotice />
+        </div>
 
         <div className="mt-8">
           <NewJobForm client={client} />
