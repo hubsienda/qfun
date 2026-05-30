@@ -17,6 +17,18 @@ export const metadata = {
   title: 'Result'
 };
 
+function formatExpiryDate(value: string | null) {
+  if (!value) {
+    return 'Expiry not configured';
+  }
+
+  return new Date(value).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  });
+}
+
 export default async function ResultPage({ params }: ResultPageProps) {
   const { token } = await params;
   const sessionSlug = await getClientSessionSlug();
@@ -61,15 +73,27 @@ export default async function ResultPage({ params }: ResultPageProps) {
           <DataNotice variant="full" />
         </div>
 
+        <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
+          Download and store the files you need before their expiry date. After expiry, files may
+          be removed during routine cleanup.
+        </div>
+
         <div className="mt-8 space-y-4">
           {signedReports.map((report) => (
             <a
               key={report.id}
               href={report.downloadUrl}
-              className="qoobix-focus-ring flex items-center justify-between rounded-md border border-[var(--qoobix-border)] bg-white/70 px-5 py-4 text-sm font-semibold hover:bg-white"
+              className="qoobix-focus-ring flex flex-col gap-2 rounded-md border border-[var(--qoobix-border)] bg-white/70 px-5 py-4 text-sm font-semibold hover:bg-white sm:flex-row sm:items-center sm:justify-between"
             >
               <span>{report.file_name}</span>
-              <span className="text-[var(--qoobix-orange)]">{report.file_type.toUpperCase()}</span>
+              <span className="flex flex-col gap-1 text-left sm:text-right">
+                <span className="text-[var(--qoobix-orange)]">
+                  {report.file_type.toUpperCase()}
+                </span>
+                <span className="text-xs font-medium text-[var(--qoobix-muted)]">
+                  Expires: {formatExpiryDate(report.expires_at)}
+                </span>
+              </span>
             </a>
           ))}
         </div>
