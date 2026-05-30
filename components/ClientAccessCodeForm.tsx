@@ -12,22 +12,22 @@ type ClientAccessCodeFormProps = {
 export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
   const [form, setForm] = useState({
     currentAccessCode: '',
-    newAccessCode: '',
-    confirmAccessCode: '',
     recoveryPhrase: '',
     confirmRecoveryPhrase: ''
   });
 
   const [message, setMessage] = useState('');
+  const [generatedAccessCode, setGeneratedAccessCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(name: keyof typeof form, value: string) {
     setForm((current) => ({ ...current, [name]: value }));
   }
 
-  async function submitAccessCode(event: React.FormEvent<HTMLFormElement>) {
+  async function rotateAccessCode(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage('');
+    setGeneratedAccessCode('');
     setIsSubmitting(true);
 
     try {
@@ -44,33 +44,34 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
 
       const payload = (await response.json()) as {
         ok?: boolean;
+        accessCode?: string;
         error?: string;
       };
 
-      if (!response.ok || !payload.ok) {
-        setMessage(payload.error ?? 'Access code update failed.');
+      if (!response.ok || !payload.ok || !payload.accessCode) {
+        setMessage(payload.error ?? 'Access code rotation failed.');
         return;
       }
 
       setForm({
         currentAccessCode: '',
-        newAccessCode: '',
-        confirmAccessCode: '',
         recoveryPhrase: '',
         confirmRecoveryPhrase: ''
       });
+
+      setGeneratedAccessCode(payload.accessCode);
       setMessage(
-        'Access code and recovery phrase updated. The previous access code no longer grants access.'
+        'Proteus generated a new access code. Copy it now. The previous access code no longer grants access.'
       );
     } catch {
-      setMessage('Access code update failed because the request could not be completed.');
+      setMessage('Access code rotation failed because the request could not be completed.');
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <form onSubmit={submitAccessCode} className="space-y-5">
+    <form onSubmit={rotateAccessCode} className="space-y-5">
       <InputField
         label="Current access code"
         name="currentAccessCode"
@@ -82,39 +83,19 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
       />
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
-        <h3 className="text-sm font-semibold">New access code rules</h3>
+        <h3 className="text-sm font-semibold">Access code rotation</h3>
         <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Use 8–80 characters, no spaces, at least one lowercase letter, one uppercase letter, and
-          one number.
+          Clients do not choose access codes. Proteus generates a strong code, shows it once, and
+          stores only the hash. Rotate the code if you believe the current one has been exposed or
+          if you simply want fresh access.
         </p>
-
-        <div className="mt-4 grid gap-5 md:grid-cols-2">
-          <InputField
-            label="New private access code"
-            name="newAccessCode"
-            type="password"
-            value={form.newAccessCode}
-            onChange={(event) => updateField('newAccessCode', event.target.value)}
-            required
-            autoComplete="new-password"
-          />
-
-          <InputField
-            label="Confirm new private access code"
-            name="confirmAccessCode"
-            type="password"
-            value={form.confirmAccessCode}
-            onChange={(event) => updateField('confirmAccessCode', event.target.value)}
-            required
-            autoComplete="new-password"
-          />
-        </div>
       </div>
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
-        <h3 className="text-sm font-semibold">Recovery phrase rules</h3>
+        <h3 className="text-sm font-semibold">Recovery phrase</h3>
         <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Use 8–80 characters and no spaces. Hyphens are allowed. Example: go-get-it.
+          Use 8–80 characters and no spaces. Hyphens are allowed. This phrase lets you recover
+          access if you forget the generated access code.
         </p>
 
         <div className="mt-4 grid gap-5 md:grid-cols-2">
@@ -146,8 +127,20 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
         </p>
       ) : null}
 
+      {generatedAccessCode ? (
+        <div className="rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
+          <h3 className="text-sm font-semibold">New Proteus-generated access code</h3>
+          <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+            Copy this now. QOOBIX will not show it again.
+          </p>
+          <code className="mt-4 block overflow-x-auto rounded-md bg-white px-4 py-3 text-sm font-semibold">
+            {generatedAccessCode}
+          </code>
+        </div>
+      ) : null}
+
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Updating…' : 'Change access code and recovery phrase'}
+        {isSubmitting ? 'Generating…' : 'Generate new access code'}
       </Button>
     </form>
   );
