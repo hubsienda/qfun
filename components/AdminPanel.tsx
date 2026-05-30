@@ -54,6 +54,16 @@ type ResetAccessResponse = {
   error?: string;
 };
 
+type CleanupResponse = {
+  ok?: boolean;
+  result?: {
+    expiredRecordsFound: number;
+    storageFilesDeleted: number;
+    reportRecordsDeleted: number;
+  };
+  error?: string;
+};
+
 const initialForm = {
   adminPassword: '',
   name: '',
@@ -73,6 +83,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingClients, setIsLoadingClients] = useState(false);
   const [isLoadingJobs, setIsLoadingJobs] = useState(false);
+  const [isCleaningReports, setIsCleaningReports] = useState(false);
 
   const adminApiBase = `/api/${adminPath}`;
 
@@ -189,6 +200,40 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
 
   async function loadAll() {
     await Promise.all([loadClients(), loadJobs()]);
+  }
+
+  async function cleanExpiredReports() {
+    setMessage('');
+    setIsCleaningReports(true);
+
+    try {
+      const response = await fetch(`${adminApiBase}/reports/cleanup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          adminPassword: form.adminPassword
+        })
+      });
+
+      const payload = (await response.json()) as CleanupResponse;
+
+      if (!response.ok || !payload.ok || !payload.result) {
+        setMessage(payload.error ?? 'Cleanup failed.');
+        return;
+      }
+
+      setMessage(
+        `Cleanup complete. Found ${payload.result.expiredRecordsFound} expired report record(s), deleted ${payload.result.storageFilesDeleted} storage file(s), and removed ${payload.result.reportRecordsDeleted} report record(s).`
+      );
+
+      await loadJobs();
+    } catch {
+      setMessage('Cleanup failed because the request could not be completed.');
+    } finally {
+      setIsCleaningReports(false);
+    }
   }
 
   async function setClientStatus(clientId: string, isActive: boolean) {
@@ -327,9 +372,18 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                 type="button"
                 variant="secondary"
                 onClick={loadAll}
-                disabled={(isLoadingClients || isLoadingJobs) || !form.adminPassword}
+                disabled={isLoadingClients || isLoadingJobs || !form.adminPassword}
               >
                 {isLoadingClients || isLoadingJobs ? 'Loading…' : 'Load admin data'}
+              </Button>
+
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={cleanExpiredReports}
+                disabled={isCleaningReports || !form.adminPassword}
+              >
+                {isCleaningReports ? 'Cleaning…' : 'Clean expired files'}
               </Button>
             </div>
           </form>
@@ -405,7 +459,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
             type="button"
             variant="secondary"
             onClick={loadAll}
-            disabled={(isLoadingClients || isLoadingJobs) || !form.adminPassword}
+            disabled={isLoadingClients || isLoadingJobs || !form.adminPassword}
           >
             {isLoadingClients || isLoadingJobs ? 'Loading…' : 'Refresh admin data'}
           </Button>
