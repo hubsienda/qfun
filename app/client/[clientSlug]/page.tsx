@@ -52,8 +52,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
 
           <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-            Complete the business profile, set your private access code, then request structured
-            market intelligence and download the outputs.
+            Complete the business profile, set a recovery phrase, let Proteus generate the private
+            access code, then request structured market intelligence and download the outputs.
           </p>
         </div>
 
@@ -188,10 +188,11 @@ export default async function ClientPage({ params }: ClientPageProps) {
 
       <div className="mt-6">
         <Panel>
-          <h2 className="text-xl font-semibold">Private access code</h2>
+          <h2 className="text-xl font-semibold">Recovery phrase and access code</h2>
           <p className="mt-3 leading-7 text-[var(--qoobix-muted)]">
-            Replace the temporary first-access code with a private code known only to you. QOOBIX
-            stores a hash of the code, not the readable code.
+            Set a recovery phrase and let Proteus generate a private access code. The generated
+            code is shown once. QOOBIX stores only hashes, not readable access codes or recovery
+            phrases.
           </p>
 
           <div className="mt-6">
