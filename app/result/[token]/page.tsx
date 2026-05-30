@@ -74,8 +74,10 @@ export default async function ResultPage({ params }: ResultPageProps) {
         </div>
 
         <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Download and store the files you need before their expiry date. After expiry, files may
-          be removed during routine cleanup.
+          Download and store the files you need before their expiry date. The generated files are
+          retained for the configured retention period. The download links shown here are temporary
+          signed links and remain valid for up to 4 hours. Anyone who has one of those temporary
+          links may open it until it expires.
         </div>
 
         <div className="mt-8 space-y-4">
@@ -91,7 +93,10 @@ export default async function ResultPage({ params }: ResultPageProps) {
                   {report.file_type.toUpperCase()}
                 </span>
                 <span className="text-xs font-medium text-[var(--qoobix-muted)]">
-                  Expires: {formatExpiryDate(report.expires_at)}
+                  File expires: {formatExpiryDate(report.expires_at)}
+                </span>
+                <span className="text-xs font-medium text-[var(--qoobix-muted)]">
+                  Link valid for up to 4 hours
                 </span>
               </span>
             </a>
