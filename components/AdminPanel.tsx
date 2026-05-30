@@ -5,6 +5,10 @@ import { Button } from '@/components/Button';
 import { InputField } from '@/components/Field';
 import { Panel } from '@/components/Panel';
 
+type AdminPanelProps = {
+  adminPath: string;
+};
+
 type CreatedClientResponse = {
   ok?: boolean;
   client?: {
@@ -47,7 +51,7 @@ const initialForm = {
   fileRetentionDays: '30'
 };
 
-export function AdminPanel() {
+export function AdminPanel({ adminPath }: AdminPanelProps) {
   const [form, setForm] = useState(initialForm);
   const [message, setMessage] = useState('');
   const [created, setCreated] = useState<CreatedClientResponse | null>(null);
@@ -55,6 +59,8 @@ export function AdminPanel() {
   const [resetAccess, setResetAccess] = useState<ResetAccessResponse | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingClients, setIsLoadingClients] = useState(false);
+
+  const adminApiBase = `/api/${adminPath}/clients`;
 
   function updateField(name: keyof typeof initialForm, value: string) {
     setForm((current) => ({ ...current, [name]: value }));
@@ -68,7 +74,7 @@ export function AdminPanel() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/a80a8bf27ed2/clients', {
+      const response = await fetch(adminApiBase, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -104,7 +110,7 @@ export function AdminPanel() {
     setIsLoadingClients(true);
 
     try {
-      const response = await fetch('/api/a80a8bf27ed2/clients/list', {
+      const response = await fetch(`${adminApiBase}/list`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -138,7 +144,7 @@ export function AdminPanel() {
     setResetAccess(null);
 
     try {
-      const response = await fetch(`/api/a80a8bf27ed2/clients/${clientId}/status`, {
+      const response = await fetch(`${adminApiBase}/${clientId}/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -171,7 +177,7 @@ export function AdminPanel() {
     setResetAccess(null);
 
     try {
-      const response = await fetch(`/api/a80a8bf27ed2/clients/${clientId}/reset-access`, {
+      const response = await fetch(`${adminApiBase}/${clientId}/reset-access`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
