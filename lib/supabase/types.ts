@@ -70,6 +70,7 @@ export type Database = {
           client_id: string;
           code: string | null;
           code_hash: string | null;
+          recovery_phrase_hash: string | null;
           label: string | null;
           expires_at: string | null;
           is_active: boolean;
@@ -81,6 +82,7 @@ export type Database = {
           client_id: string;
           code?: string | null;
           code_hash?: string | null;
+          recovery_phrase_hash?: string | null;
           label?: string | null;
           expires_at?: string | null;
           is_active?: boolean;
@@ -89,6 +91,7 @@ export type Database = {
         Update: {
           code?: string | null;
           code_hash?: string | null;
+          recovery_phrase_hash?: string | null;
           label?: string | null;
           expires_at?: string | null;
           is_active?: boolean;
