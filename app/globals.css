@@ -2,10 +2,11 @@
 
 :root {
   --qoobix-orange: #e85a2a;
+  --qoobix-orange-dark: #c94820;
   --qoobix-bg: #f7f3ed;
   --qoobix-bg-soft: #fffaf3;
-  --qoobix-panel: rgba(255, 255, 255, 0.72);
-  --qoobix-panel-strong: rgba(255, 255, 255, 0.9);
+  --qoobix-panel: rgba(255, 255, 255, 0.74);
+  --qoobix-panel-strong: rgba(255, 255, 255, 0.92);
   --qoobix-text: #171310;
   --qoobix-muted: #746b64;
   --qoobix-border: rgba(23, 19, 16, 0.12);
@@ -13,6 +14,8 @@
   --qoobix-danger: #9f2d20;
   --qoobix-success: #1d6f4d;
   --qoobix-warning: #8a5a00;
+  --qoobix-shadow: 0 24px 80px rgba(51, 36, 26, 0.09);
+  --qoobix-shadow-strong: 0 34px 110px rgba(51, 36, 26, 0.14);
 }
 
 * {
@@ -22,9 +25,11 @@
 html {
   min-height: 100%;
   background:
-    radial-gradient(circle at top left, rgba(232, 90, 42, 0.11), transparent 32rem),
+    radial-gradient(circle at 12% 0%, rgba(232, 90, 42, 0.14), transparent 31rem),
+    radial-gradient(circle at 92% 16%, rgba(23, 19, 16, 0.08), transparent 25rem),
     linear-gradient(135deg, #fffaf3 0%, #f7f3ed 42%, #efe7dc 100%);
   color: var(--qoobix-text);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -39,6 +44,7 @@ body {
     "Segoe UI",
     sans-serif;
   color: var(--qoobix-text);
+  text-rendering: geometricPrecision;
 }
 
 a {
@@ -53,8 +59,32 @@ select {
   font: inherit;
 }
 
+input,
+textarea,
+select {
+  min-width: 0;
+}
+
 ::selection {
-  background: rgba(232, 90, 42, 0.2);
+  background: rgba(232, 90, 42, 0.22);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(23, 19, 16, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(23, 19, 16, 0.18);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(232, 90, 42, 0.5);
 }
 
 .qoobix-shell {
@@ -81,14 +111,14 @@ select {
   border: 1px solid var(--qoobix-border);
   background: var(--qoobix-panel);
   backdrop-filter: blur(18px);
-  box-shadow: 0 24px 80px rgba(51, 36, 26, 0.08);
+  box-shadow: var(--qoobix-shadow);
 }
 
 .qoobix-card-strong {
   border: 1px solid var(--qoobix-border);
   background: var(--qoobix-panel-strong);
   backdrop-filter: blur(18px);
-  box-shadow: 0 24px 80px rgba(51, 36, 26, 0.1);
+  box-shadow: var(--qoobix-shadow-strong);
 }
 
 .qoobix-focus-ring:focus-visible {
@@ -120,4 +150,52 @@ select {
     linear-gradient(90deg, rgba(23, 19, 16, 0.045) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(circle at center, black, transparent 74%);
+}
+
+.qoobix-orb {
+  position: absolute;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.84), transparent 22%),
+    radial-gradient(circle at 48% 58%, rgba(232, 90, 42, 0.34), transparent 36%),
+    linear-gradient(135deg, rgba(232, 90, 42, 0.24), rgba(23, 19, 16, 0.1));
+  filter: blur(0.2px);
+  box-shadow:
+    inset 0 0 46px rgba(255, 255, 255, 0.62),
+    0 40px 110px rgba(232, 90, 42, 0.18);
+  opacity: 0.82;
+  pointer-events: none;
+}
+
+.qoobix-kicker {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--qoobix-orange);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--qoobix-orange);
+  border-radius: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: 0 12px 36px rgba(232, 90, 42, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.qoobix-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 640px) {
+  .qoobix-container,
+  .qoobix-narrow {
+    width: min(100% - 24px, 1120px);
+  }
+
+  .qoobix-orb {
+    width: 12rem;
+    height: 12rem;
+  }
 }
