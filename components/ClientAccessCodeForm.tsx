@@ -81,34 +81,40 @@ export function ClientAccessCodeForm({ client }: ClientAccessCodeFormProps) {
         autoComplete="off"
       />
 
-      <div className="grid gap-5 md:grid-cols-2">
-        <InputField
-          label="New private access code"
-          name="newAccessCode"
-          type="password"
-          value={form.newAccessCode}
-          onChange={(event) => updateField('newAccessCode', event.target.value)}
-          required
-          autoComplete="new-password"
-        />
+      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
+        <h3 className="text-sm font-semibold">New access code rules</h3>
+        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+          Use 8–80 characters, no spaces, at least one lowercase letter, one uppercase letter, and
+          one number.
+        </p>
 
-        <InputField
-          label="Confirm new private access code"
-          name="confirmAccessCode"
-          type="password"
-          value={form.confirmAccessCode}
-          onChange={(event) => updateField('confirmAccessCode', event.target.value)}
-          required
-          autoComplete="new-password"
-        />
+        <div className="mt-4 grid gap-5 md:grid-cols-2">
+          <InputField
+            label="New private access code"
+            name="newAccessCode"
+            type="password"
+            value={form.newAccessCode}
+            onChange={(event) => updateField('newAccessCode', event.target.value)}
+            required
+            autoComplete="new-password"
+          />
+
+          <InputField
+            label="Confirm new private access code"
+            name="confirmAccessCode"
+            type="password"
+            value={form.confirmAccessCode}
+            onChange={(event) => updateField('confirmAccessCode', event.target.value)}
+            required
+            autoComplete="new-password"
+          />
+        </div>
       </div>
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4">
-        <h3 className="text-sm font-semibold">Recovery phrase</h3>
+        <h3 className="text-sm font-semibold">Recovery phrase rules</h3>
         <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Choose a recovery phrase you can remember and store safely. If you forget your access
-          code, this phrase lets you reset it without contacting us. QOOBIX stores only a hash of
-          the phrase, not the readable phrase itself.
+          Use 8–80 characters and no spaces. Hyphens are allowed. Example: go-get-it.
         </p>
 
         <div className="mt-4 grid gap-5 md:grid-cols-2">
