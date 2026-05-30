@@ -64,7 +64,6 @@ export function AccessRecoveryForm() {
       <InputField
         label="Client access name"
         name="clientSlug"
-        hint="Enter the access name supplied for your private QOOBIX area."
         value={form.clientSlug}
         onChange={(event) => updateField('clientSlug', event.target.value)}
         required
@@ -74,7 +73,6 @@ export function AccessRecoveryForm() {
       <InputField
         label="Recovery phrase"
         name="recoveryPhrase"
-        hint="8–80 characters, no spaces. Hyphens are allowed."
         type="password"
         value={form.recoveryPhrase}
         onChange={(event) => updateField('recoveryPhrase', event.target.value)}
