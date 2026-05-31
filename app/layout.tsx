@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { BrandHeader } from '@/components/BrandHeader';
+import { CookiePrivacyBanner } from '@/components/CookiePrivacyBanner';
 import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
           <BrandHeader />
           <main className="qoobix-main">{children}</main>
           <Footer />
+          <CookiePrivacyBanner />
         </div>
       </body>
     </html>
