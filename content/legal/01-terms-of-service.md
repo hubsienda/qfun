@@ -2,7 +2,7 @@
 title: "Terms of Service"
 product: "QOOBIX"
 provider: "Sienda Ltd"
-effective_date: "[insert date]"
+last updated: 7 May 2026
 ---
 
 Effective date: [insert date]
