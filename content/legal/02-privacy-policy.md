@@ -2,10 +2,10 @@
 title: "Privacy Policy"
 product: "QOOBIX"
 provider: "Sienda Ltd"
-effective_date: "[insert date]"
+last updated: 7 May 2026
 ---
 
-Effective date: [insert date]
+last updated: 7 May 2026
 Provider: Sienda Ltd
 Company No.: 08194971
 Registered Office: Third Floor, 207 Regent Street, London, W1B 3HH, United Kingdom
