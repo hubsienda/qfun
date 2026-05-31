@@ -1,69 +1,51 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { LegalMarkdown } from '@/components/LegalMarkdown';
 import { Panel } from '@/components/Panel';
-import { getLegalDocument, legalDocuments } from '@/lib/qoobix/legal';
+import { getAllLegalDocuments } from '@/lib/qoobix/legal';
 
-type LegalDocumentPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
+export const metadata: Metadata = {
+  title: 'Legal',
+  description: 'Legal documents, policies, notices, and disclaimers for QOOBIX.'
 };
 
-export function generateStaticParams() {
-  return legalDocuments.map((document) => ({
-    slug: document.slug
-  }));
-}
-
-export async function generateMetadata({ params }: LegalDocumentPageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const document = getLegalDocument(slug);
-
-  if (!document) {
-    return {
-      title: 'Legal'
-    };
-  }
-
-  return {
-    title: document.title,
-    description: `${document.title} for QOOBIX.`
-  };
-}
-
-export default async function LegalDocumentPage({ params }: LegalDocumentPageProps) {
-  const { slug } = await params;
-  const document = getLegalDocument(slug);
-
-  if (!document) {
-    notFound();
-  }
+export default function LegalIndexPage() {
+  const documents = getAllLegalDocuments();
 
   return (
-    <section className="qoobix-narrow py-12 md:py-18">
-      <div className="mb-6">
-        <Link href="/legal" className="font-semibold text-[var(--qoobix-orange)]">
-          ← Back to legal documents
-        </Link>
+    <section className="qoobix-container py-12 md:py-18">
+      <div className="max-w-3xl">
+        <p className="qoobix-kicker">Legal and data notices</p>
+
+        <h1 className="mt-6 text-3xl font-semibold tracking-tight md:text-5xl">
+          QOOBIX legal documents.
+        </h1>
+
+        <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
+          These documents explain the terms, privacy, cookies, AI-assisted analysis, report
+          limitations, acceptable use, and refund position for QOOBIX.
+        </p>
       </div>
 
-      <Panel className="p-7 md:p-10">
-        <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-          Legal document
-        </p>
+      <div className="mt-10 grid gap-5 md:grid-cols-2">
+        {documents.map((document) => (
+          <Panel key={document.slug}>
+            <h2 className="text-xl font-semibold">{document.title}</h2>
 
-        <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{document.title}</h1>
+            <p className="mt-3 text-sm leading-7 text-[var(--qoobix-muted)]">
+              Read the current QOOBIX {document.title.toLowerCase()}.
+            </p>
 
-        <p className="mt-4 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Effective date: {document.effectiveDate}
-        </p>
-
-        <div className="mt-8 border-t border-[var(--qoobix-border)] pt-8">
-          <LegalMarkdown content={document.content} />
-        </div>
-      </Panel>
+            <div className="mt-5">
+              <Link
+                href={`/legal/${document.slug}`}
+                className="font-semibold text-[var(--qoobix-orange)]"
+              >
+                Read document →
+              </Link>
+            </div>
+          </Panel>
+        ))}
+      </div>
     </section>
   );
 }
