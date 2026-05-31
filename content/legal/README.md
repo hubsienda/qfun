@@ -2,7 +2,7 @@
 title: "QOOBIX Legal Documents Index"
 product: "QOOBIX"
 provider: "Sienda Ltd"
-effective_date: "[insert date]"
+last updated: 7 May 2026
 ---
 
 # QOOBIX Legal Documents
