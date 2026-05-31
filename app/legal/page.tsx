@@ -32,7 +32,7 @@ export default function LegalIndexPage() {
             <h2 className="text-xl font-semibold">{document.title}</h2>
 
             <p className="mt-3 text-sm leading-7 text-[var(--qoobix-muted)]">
-              Effective date: {document.effectiveDate}
+              Read the current QOOBIX {document.title.toLowerCase()}.
             </p>
 
             <div className="mt-5">
