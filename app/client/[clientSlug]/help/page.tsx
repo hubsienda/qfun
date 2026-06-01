@@ -13,6 +13,8 @@ type ClientHelpPageProps = {
   }>;
 };
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Help',
   robots: {
@@ -40,7 +42,14 @@ export default async function ClientHelpPage({ params }: ClientHelpPageProps) {
 
   return (
     <section className="qoobix-container py-12 md:py-18">
-      <div className="mb-6 flex justify-end">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <Link
+          href={`/client/${client.slug}`}
+          className="font-semibold text-[var(--qoobix-orange)]"
+        >
+          ← Back to client area
+        </Link>
+
         <ClientLogoutButton />
       </div>
 
@@ -59,29 +68,29 @@ export default async function ClientHelpPage({ params }: ClientHelpPageProps) {
 
       <div className="mt-10 grid gap-5 md:grid-cols-3">
         {documents.map((document) => (
-          <Panel key={document.slug}>
-            <h2 className="text-xl font-semibold">{document.title}</h2>
+          <Panel key={document.slug} className="p-6">
+            <div className="flex h-full flex-col">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--qoobix-orange)]">
+                Help document
+              </p>
 
-            <p className="mt-3 text-sm leading-7 text-[var(--qoobix-muted)]">
-              {document.description}
-            </p>
+              <h2 className="mt-4 text-xl font-semibold">{document.title}</h2>
 
-            <div className="mt-5">
-              <Link
-                href={`/client/${client.slug}/help/${document.slug}`}
-                className="font-semibold text-[var(--qoobix-orange)]"
-              >
-                Open →
-              </Link>
+              <p className="mt-3 flex-1 text-sm leading-7 text-[var(--qoobix-muted)]">
+                {document.description}
+              </p>
+
+              <div className="mt-6">
+                <Link
+                  href={`/client/${client.slug}/help/${document.slug}`}
+                  className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-2 text-sm font-semibold hover:border-[var(--qoobix-orange)] hover:text-[var(--qoobix-orange)]"
+                >
+                  Open document →
+                </Link>
+              </div>
             </div>
           </Panel>
         ))}
-      </div>
-
-      <div className="mt-8">
-        <Link href={`/client/${client.slug}`} className="font-semibold text-[var(--qoobix-orange)]">
-          ← Back to client area
-        </Link>
       </div>
     </section>
   );
