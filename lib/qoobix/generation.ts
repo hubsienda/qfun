@@ -9,7 +9,7 @@ import {
 import { buildMarketIntelligencePrompt } from '@/lib/qoobix/prompts';
 import { createCsvExport } from '@/lib/qoobix/report-csv';
 import { createDocxReport } from '@/lib/qoobix/report-docx';
-import { createHtmlReport } from '@/lib/qoobix/report-html';
+import { createRtfReport } from '@/lib/qoobix/report-rtf';
 import { createXlsxWorkbook } from '@/lib/qoobix/report-xlsx';
 import { uploadGeneratedReport } from '@/lib/qoobix/storage';
 import type { GeneratedIntelligence, IntelligenceRequest } from '@/lib/qoobix/types';
@@ -230,15 +230,15 @@ export async function generateAndStoreJobOutputs(jobId: string) {
     });
 
     await updateJobStatus(jobId, 'generating_outputs');
-    await addJobLog(jobId, 'info', 'Generating DOCX, XLSX, HTML, and CSV outputs.');
+    await addJobLog(jobId, 'info', 'Generating DOCX, XLSX, RTF, and CSV outputs.');
 
     const safeClientSlug = client.slug.replace(/[^a-z0-9-]/g, '-');
     const dateStamp = new Date().toISOString().slice(0, 10);
 
     const docxFileName = `${safeClientSlug}-qoobix-report-${dateStamp}.docx`;
     const xlsxFileName = `${safeClientSlug}-qoobix-workbook-${dateStamp}.xlsx`;
-    const htmlFileName = `${safeClientSlug}-qoobix-google-friendly-report-${dateStamp}.html`;
-    const csvFileName = `${safeClientSlug}-qoobix-google-friendly-export-${dateStamp}.csv`;
+    const rtfFileName = `${safeClientSlug}-qoobix-google-docs-report-${dateStamp}.rtf`;
+    const csvFileName = `${safeClientSlug}-qoobix-google-sheets-export-${dateStamp}.csv`;
 
     const docxBuffer = await createDocxReport({
       client,
@@ -252,7 +252,7 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       intelligence
     });
 
-    const htmlBuffer = createHtmlReport({
+    const rtfBuffer = createRtfReport({
       client,
       request,
       intelligence
@@ -284,10 +284,10 @@ export async function generateAndStoreJobOutputs(jobId: string) {
         buffer: xlsxBuffer
       },
       {
-        fileType: 'html' as const,
-        fileName: htmlFileName,
-        contentType: 'text/html; charset=utf-8',
-        buffer: htmlBuffer
+        fileType: 'rtf' as const,
+        fileName: rtfFileName,
+        contentType: 'application/rtf',
+        buffer: rtfBuffer
       },
       {
         fileType: 'csv' as const,
