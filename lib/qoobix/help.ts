@@ -21,7 +21,8 @@ export const helpDocuments = [
     slug: 'request-examples',
     title: 'Request Examples',
     filename: 'request-examples.md',
-    description: 'Examples showing how to fill in product, market question, objective, channels, and competitors.'
+    description:
+      'Field-by-field examples for market questions, objectives, channels, competitors, and partners.'
   },
   {
     slug: 'case-studies',
