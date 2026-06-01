@@ -3,7 +3,7 @@
 title: "QOOBIX FAQs"
 product: "QOOBIX"
 provider: "Sienda Ltd"
-effective_date: "[insert date]"
+effective_date: 7 May 2026
 -------------------------------
 
 # QOOBIX FAQs
