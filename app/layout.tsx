@@ -3,6 +3,7 @@ import './globals.css';
 import { BrandHeader } from '@/components/BrandHeader';
 import { CookiePrivacyBanner } from '@/components/CookiePrivacyBanner';
 import { Footer } from '@/components/Footer';
+import { GoToTop } from '@/components/GoToTop';
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({
           <main className="qoobix-main">{children}</main>
           <Footer />
           <CookiePrivacyBanner />
+          <GoToTop />
         </div>
       </body>
     </html>
