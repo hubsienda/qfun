@@ -713,12 +713,13 @@ export async function updateJobStatus(
 
 export async function addReportRecord(input: {
   jobId: string;
-  fileType: 'docx' | 'xlsx' | 'html' | 'csv';
+  fileType: 'docx' | 'xlsx' | 'rtf' | 'csv';
   fileName: string;
   fileUrl: string;
   storagePath: string;
   expiresAt: string | null;
 }) {
+
   const supabase = getSupabase();
 
   const { error } = (await supabase.from('reports').insert({
