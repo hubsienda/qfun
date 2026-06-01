@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/Button';
 
-export function ClientLogoutButton() {
+type ClientLogoutButtonProps = {
+  className?: string;
+};
+
+export function ClientLogoutButton({ className = '' }: ClientLogoutButtonProps) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   async function logout() {
@@ -19,8 +22,13 @@ export function ClientLogoutButton() {
   }
 
   return (
-    <Button type="button" variant="secondary" onClick={logout} disabled={isLoggingOut}>
-      {isLoggingOut ? 'Logging out…' : 'Log out'}
-    </Button>
+    <button
+      type="button"
+      onClick={logout}
+      disabled={isLoggingOut}
+      className={`qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/55 px-4 py-2 text-sm font-semibold text-[var(--qoobix-muted)] transition hover:bg-white hover:text-[var(--qoobix-text)] disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+    >
+      {isLoggingOut ? 'Signing out…' : 'Sign out'}
+    </button>
   );
 }
