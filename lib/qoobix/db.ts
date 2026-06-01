@@ -713,7 +713,7 @@ export async function updateJobStatus(
 
 export async function addReportRecord(input: {
   jobId: string;
-  fileType: 'docx' | 'xlsx' | 'csv';
+  fileType: 'docx' | 'xlsx' | 'html' | 'csv';
   fileName: string;
   fileUrl: string;
   storagePath: string;
