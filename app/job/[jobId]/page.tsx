@@ -80,14 +80,24 @@ export default async function JobPage({ params }: JobPageProps) {
               Intelligence job
             </p>
 
-            <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-              {request.marketQuestion ?? 'Market intelligence request'}
+            <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
+              Market intelligence request
             </h1>
 
             <p className="mt-4 leading-8 text-[var(--qoobix-muted)]">{client.name}</p>
           </div>
 
           <StatusPill status={job.status as JobStatus} />
+        </div>
+
+        <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-5">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-orange)]">
+            Market question
+          </h2>
+
+          <p className="mt-3 text-base leading-7 text-[var(--qoobix-text)]">
+            {request.marketQuestion ?? 'Market intelligence request'}
+          </p>
         </div>
 
         <dl className="mt-8 space-y-4 text-sm leading-7">
@@ -117,7 +127,8 @@ export default async function JobPage({ params }: JobPageProps) {
           {job.status === 'ready' ? (
             <Link
               href={`/result/${job.result_token}`}
-              className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold text-white"
+              style={{ color: '#ffffff' }}
+              className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold"
             >
               Open result
             </Link>
@@ -147,7 +158,8 @@ export default async function JobPage({ params }: JobPageProps) {
                 >
                   <div className="font-semibold">{report.file_name}</div>
                   <div className="mt-1 text-xs text-[var(--qoobix-muted)]">
-                    {report.file_type.toUpperCase()} · Expires: {formatExpiryDate(report.expires_at)}
+                    {report.file_type.toUpperCase()} · Expires:{' '}
+                    {formatExpiryDate(report.expires_at)}
                   </div>
                 </li>
               ))}
