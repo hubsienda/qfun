@@ -64,6 +64,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href={`/client/${client.slug}/help`} variant="secondary">
+            HELP
+          </ButtonLink>
+
           <ButtonLink href={`/client/${client.slug}/profile`} variant="secondary">
             Edit business profile
           </ButtonLink>
@@ -85,8 +89,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <h2 className="text-lg font-semibold">Business profile required</h2>
           <p className="mt-2 leading-7 text-[var(--qoobix-muted)]">
             Before QOOBIX can generate useful intelligence, the client must complete the business
-            profile: sector, products/services, target countries, target channels, and known
-            market context.
+            profile: sector, products/services, target countries, target channels, and known market
+            context.
           </p>
           <div className="mt-4">
             <ButtonLink href={`/client/${client.slug}/profile`}>Complete business profile</ButtonLink>
@@ -196,9 +200,8 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <Panel>
           <h2 className="text-xl font-semibold">Recovery phrase and access code</h2>
           <p className="mt-3 leading-7 text-[var(--qoobix-muted)]">
-            Set a recovery phrase and let Proteus generate a private access code. The generated
-            code is shown once. QOOBIX stores only hashes, not readable access codes or recovery
-            phrases.
+            Set a recovery phrase and let Proteus generate a private access code. The generated code
+            is shown once. QOOBIX stores only hashes, not readable access codes or recovery phrases.
           </p>
 
           <div className="mt-6">
