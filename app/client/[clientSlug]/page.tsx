@@ -17,6 +17,15 @@ type ClientPageProps = {
   }>;
 };
 
+type ActionCardProps = {
+  href: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  primary?: boolean;
+  disabled?: boolean;
+};
+
 export async function generateMetadata({ params }: ClientPageProps): Promise<Metadata> {
   const { clientSlug } = await params;
 
@@ -28,6 +37,56 @@ export async function generateMetadata({ params }: ClientPageProps): Promise<Met
       nocache: true
     }
   };
+}
+
+function ActionCard({
+  href,
+  eyebrow,
+  title,
+  description,
+  primary = false,
+  disabled = false
+}: ActionCardProps) {
+  if (disabled) {
+    return (
+      <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/35 p-5 opacity-60">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--qoobix-muted)]">
+          {eyebrow}
+        </p>
+        <h3 className="mt-3 text-lg font-semibold">{title}</h3>
+        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">{description}</p>
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={href}
+      className={`qoobix-focus-ring group block rounded-lg border p-5 transition ${
+        primary
+          ? 'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] shadow-sm hover:brightness-95'
+          : 'border-[var(--qoobix-border)] bg-white/60 hover:border-[var(--qoobix-orange)] hover:bg-white'
+      }`}
+    >
+      <p
+        className={`text-xs font-semibold uppercase tracking-[0.18em] ${
+          primary ? 'text-white/80' : 'text-[var(--qoobix-orange)]'
+        }`}
+      >
+        {eyebrow}
+      </p>
+
+      <h3 className={`mt-3 text-lg font-semibold ${primary ? 'text-white' : ''}`}>{title}</h3>
+
+      <p className={`mt-2 text-sm leading-7 ${primary ? 'text-white/85' : 'text-[var(--qoobix-muted)]'}`}>
+        {description}
+      </p>
+
+      <p className={`mt-4 text-sm font-semibold ${primary ? 'text-white' : 'text-[var(--qoobix-orange)]'}`}>
+        Open →
+      </p>
+    </Link>
+  );
 }
 
 export default async function ClientPage({ params }: ClientPageProps) {
@@ -47,36 +106,54 @@ export default async function ClientPage({ params }: ClientPageProps) {
   const { client, jobs } = data;
   const profileComplete = isClientProfileComplete(client);
 
+  const readyJobs = jobs.filter((job) => job.status === 'ready').length;
+  const activeJobs = jobs.filter((job) =>
+    ['received', 'processing', 'generating_outputs'].includes(job.status)
+  ).length;
+
   return (
     <section className="qoobix-container py-12 md:py-18">
-      <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-        <div>
-          <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-            Private client area
-          </p>
+      <div className="rounded-2xl border border-[var(--qoobix-border)] bg-white/55 p-6 shadow-sm md:p-8">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
+              Private client area
+            </p>
 
-          <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
+            <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
 
-          <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-            Complete the business profile, set a recovery phrase, let Proteus generate the private
-            access code, then request structured market intelligence and download the outputs.
-          </p>
+            <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
+              Manage the business profile, create intelligence requests, review previous jobs, and
+              download generated outputs.
+            </p>
+          </div>
+
+          <div className="flex lg:justify-end">
+            <ClientLogoutButton />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <ButtonLink href={`/client/${client.slug}/help`} variant="secondary">
-            HELP
-          </ButtonLink>
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
+              Profile
+            </p>
+            <p className="mt-2 text-2xl font-semibold">{profileComplete ? 'Ready' : 'Incomplete'}</p>
+          </div>
 
-          <ButtonLink href={`/client/${client.slug}/profile`} variant="secondary">
-            Edit business profile
-          </ButtonLink>
+          <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
+              Ready outputs
+            </p>
+            <p className="mt-2 text-2xl font-semibold">{readyJobs}</p>
+          </div>
 
-          {profileComplete ? (
-            <ButtonLink href={`/client/${client.slug}/new`}>New request</ButtonLink>
-          ) : null}
-
-          <ClientLogoutButton />
+          <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
+              Active jobs
+            </p>
+            <p className="mt-2 text-2xl font-semibold">{activeJobs}</p>
+          </div>
         </div>
       </div>
 
@@ -84,8 +161,50 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <DataNotice />
       </div>
 
+      <div className="mt-8">
+        <Panel className="p-6 md:p-7">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="qoobix-kicker">Command centre</p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight">What do you want to do?</h2>
+            </div>
+
+            {!profileComplete ? (
+              <p className="max-w-md text-sm leading-7 text-[var(--qoobix-muted)]">
+                Complete the business profile before creating the first intelligence request.
+              </p>
+            ) : null}
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <ActionCard
+              href={`/client/${client.slug}/new`}
+              eyebrow="Intelligence"
+              title="New request"
+              description="Create a structured market-intelligence job and generate downloadable outputs."
+              primary
+              disabled={!profileComplete}
+            />
+
+            <ActionCard
+              href={`/client/${client.slug}/profile`}
+              eyebrow="Configuration"
+              title="Business profile"
+              description="Review or update sector, products, markets, channels, competitors, and language."
+            />
+
+            <ActionCard
+              href={`/client/${client.slug}/help`}
+              eyebrow="Guidance"
+              title="Help centre"
+              description="Read the user guide, request examples, and private case studies."
+            />
+          </div>
+        </Panel>
+      </div>
+
       {!profileComplete ? (
-        <div className="mt-8 rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
+        <div className="mt-8 rounded-lg border border-[var(--qoobix-orange)] bg-white/85 p-5">
           <h2 className="text-lg font-semibold">Business profile required</h2>
           <p className="mt-2 leading-7 text-[var(--qoobix-muted)]">
             Before QOOBIX can generate useful intelligence, the client must complete the business
