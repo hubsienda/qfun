@@ -14,6 +14,85 @@ import { createXlsxWorkbook } from '@/lib/qoobix/report-xlsx';
 import { uploadGeneratedReport } from '@/lib/qoobix/storage';
 import type { GeneratedIntelligence, IntelligenceRequest } from '@/lib/qoobix/types';
 
+function asString(value: unknown, fallback = '') {
+  if (typeof value === 'string') {
+    return value.trim() || fallback;
+  }
+
+  if (value === null || value === undefined) {
+    return fallback;
+  }
+
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return fallback;
+  }
+}
+
+function asStringArray(value: unknown, fallback: string[] = []) {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => asString(item))
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    return [value.trim()];
+  }
+
+  if (value && typeof value === 'object') {
+    return Object.values(value)
+      .map((item) => asString(item))
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return fallback;
+}
+
+function asPartnerRows(value: unknown): GeneratedIntelligence['potentialPartnersProspects'] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.map((item) => {
+    const row = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};
+
+    return {
+      name: asString(row.name, 'Potential partner/prospect'),
+      category: asString(row.category, 'To verify'),
+      countryOrRegion: asString(row.countryOrRegion, 'To verify'),
+      relevance: asString(row.relevance, 'To verify'),
+      suggestedAction: asString(row.suggestedAction, 'Verify and qualify before outreach.'),
+      notes: asString(row.notes, 'AI-assisted row. Verify before use.')
+    };
+  });
+}
+
+function asCompetitorRows(value: unknown): GeneratedIntelligence['competitorRows'] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.map((item) => {
+    const row = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};
+
+    return {
+      name: asString(row.name, 'Competitor/alternative'),
+      type: asString(row.type, 'To verify'),
+      countryOrRegion: asString(row.countryOrRegion, 'To verify'),
+      relevance: asString(row.relevance, 'To verify'),
+      notes: asString(row.notes, 'AI-assisted row. Verify before use.')
+    };
+  });
+}
+
 function createFallbackIntelligence(request: IntelligenceRequest): GeneratedIntelligence {
   return {
     executiveSummary:
@@ -25,7 +104,8 @@ function createFallbackIntelligence(request: IntelligenceRequest): GeneratedInte
       'Validate regional demand using trade associations, public procurement portals, distributor catalogues, and competitor presence.'
     ],
     channelOpportunities: [
-      request.targetChannels || 'Identify distributors, resellers, agents, representatives, and direct client categories.'
+      request.targetChannels ||
+        'Identify distributors, resellers, agents, representatives, and direct client categories.'
     ],
     competitorsAlternatives: [
       request.knownCompetitors || 'Map direct competitors, substitute products, and local alternatives.'
@@ -54,9 +134,44 @@ function createFallbackIntelligence(request: IntelligenceRequest): GeneratedInte
   };
 }
 
+function normaliseGeneratedIntelligence(
+  raw: unknown,
+  request: IntelligenceRequest
+): GeneratedIntelligence {
+  const fallback = createFallbackIntelligence(request);
+  const value = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {};
+
+  return {
+    executiveSummary: asString(value.executiveSummary, fallback.executiveSummary),
+    clientProductContext: asString(value.clientProductContext, fallback.clientProductContext),
+    targetMarketOverview: asString(value.targetMarketOverview, fallback.targetMarketOverview),
+
+    demandSignals: asStringArray(value.demandSignals, fallback.demandSignals),
+    channelOpportunities: asStringArray(value.channelOpportunities, fallback.channelOpportunities),
+    competitorsAlternatives: asStringArray(
+      value.competitorsAlternatives,
+      fallback.competitorsAlternatives
+    ),
+    regionalPriorities: asStringArray(value.regionalPriorities, fallback.regionalPriorities),
+    positioningRecommendations: asStringArray(
+      value.positioningRecommendations,
+      fallback.positioningRecommendations
+    ),
+    commercialRisks: asStringArray(value.commercialRisks, fallback.commercialRisks),
+    actionPriorities: asStringArray(value.actionPriorities, fallback.actionPriorities),
+    sourceNotesLimitations: asStringArray(
+      value.sourceNotesLimitations,
+      fallback.sourceNotesLimitations
+    ),
+
+    potentialPartnersProspects: asPartnerRows(value.potentialPartnersProspects),
+    competitorRows: asCompetitorRows(value.competitorRows)
+  };
+}
+
 function safeParseGeneratedIntelligence(content: string, request: IntelligenceRequest) {
   try {
-    return JSON.parse(content) as GeneratedIntelligence;
+    return normaliseGeneratedIntelligence(JSON.parse(content), request);
   } catch {
     return createFallbackIntelligence(request);
   }
