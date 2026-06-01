@@ -67,6 +67,21 @@ function paragraph(text: string) {
   });
 }
 
+function boldParagraph(label: string, value: string) {
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: `${label}: `,
+        bold: true
+      }),
+      new TextRun(cleanText(value))
+    ],
+    spacing: {
+      after: 120
+    }
+  });
+}
+
 function smallMuted(text: string) {
   return new Paragraph({
     children: [
@@ -87,19 +102,6 @@ function bullet(text: string) {
   return new Paragraph({
     text: cleanText(text),
     bullet: {
-      level: 0
-    },
-    spacing: {
-      after: 120
-    }
-  });
-}
-
-function numberedItem(text: string) {
-  return new Paragraph({
-    text: cleanText(text),
-    numbering: {
-      reference: 'qoobix-numbering',
       level: 0
     },
     spacing: {
@@ -145,143 +147,74 @@ function createInfoTable(rows: Array<[string, string]>) {
   });
 }
 
-function createPartnerTable(intelligence: GeneratedIntelligence) {
-  const rows = [
-    new TableRow({
-      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Suggested action', 'Notes'].map(
-        (label) => tableCell(label, true)
-      )
-    }),
-    ...intelligence.potentialPartnersProspects.map(
-      (item) =>
-        new TableRow({
-          children: [
-            tableCell(item.name),
-            tableCell(item.category),
-            tableCell(item.countryOrRegion),
-            tableCell(item.relevance),
-            tableCell(item.suggestedAction),
-            tableCell(item.notes)
-          ]
-        })
-    )
-  ];
+function partnerRecordBlocks(intelligence: GeneratedIntelligence) {
+  if (!intelligence.potentialPartnersProspects.length) {
+    return [paragraph('No structured partner/prospect rows were generated.')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return intelligence.potentialPartnersProspects.flatMap((item, index) => [
+    subheading(`${index + 1}. ${cleanText(item.name)}`),
+    boldParagraph('Type', item.category),
+    boldParagraph('Country/region', item.countryOrRegion),
+    boldParagraph('Relevance', item.relevance),
+    boldParagraph('Suggested action', item.suggestedAction),
+    boldParagraph('Notes', item.notes)
+  ]);
 }
 
-function createCompetitorTable(intelligence: GeneratedIntelligence) {
-  const rows = [
-    new TableRow({
-      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Notes'].map((label) =>
-        tableCell(label, true)
-      )
-    }),
-    ...intelligence.competitorRows.map(
-      (item) =>
-        new TableRow({
-          children: [
-            tableCell(item.name),
-            tableCell(item.type),
-            tableCell(item.countryOrRegion),
-            tableCell(item.relevance),
-            tableCell(item.notes)
-          ]
-        })
-    )
-  ];
+function competitorRecordBlocks(intelligence: GeneratedIntelligence) {
+  if (!intelligence.competitorRows.length) {
+    return [paragraph('No structured competitor/alternative rows were generated.')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return intelligence.competitorRows.flatMap((item, index) => [
+    subheading(`${index + 1}. ${cleanText(item.name)}`),
+    boldParagraph('Type', item.type),
+    boldParagraph('Country/region', item.countryOrRegion),
+    boldParagraph('Relevance', item.relevance),
+    boldParagraph('Notes', item.notes)
+  ]);
 }
 
-function createActionTable(actions: string[]) {
-  const rows = [
-    new TableRow({
-      children: ['Priority', 'Action', 'Purpose', 'Verification / next evidence'].map((label) =>
-        tableCell(label, true)
-      )
-    }),
-    ...(actions.length ? actions : ['—']).map(
-      (action, index) =>
-        new TableRow({
-          children: [
-            tableCell(String(index + 1)),
-            tableCell(action),
-            tableCell('Turn the intelligence into a practical commercial step.'),
-            tableCell('Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.')
-          ]
-        })
-    )
-  ];
+function actionBlocks(actions: string[]) {
+  if (!actions.length) {
+    return [paragraph('—')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return actions.flatMap((action, index) => [
+    subheading(`Action ${index + 1}`),
+    paragraph(action),
+    boldParagraph('Purpose', 'Turn the intelligence into a practical commercial step.'),
+    boldParagraph(
+      'Verification / next evidence',
+      'Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.'
+    )
+  ]);
 }
 
-function createVerificationTable(intelligence: GeneratedIntelligence) {
-  const rows = [
-    new TableRow({
-      children: ['Area to verify', 'Why it matters', 'Suggested verification action'].map((label) =>
-        tableCell(label, true)
-      )
-    }),
-    ...intelligence.sourceNotesLimitations.map(
-      (note) =>
-        new TableRow({
-          children: [
-            tableCell(note),
-            tableCell('Reduces the risk of acting on incomplete or uncertain intelligence.'),
-            tableCell('Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.')
-          ]
-        })
-    )
-  ];
+function verificationBlocks(notes: string[]) {
+  if (!notes.length) {
+    return [paragraph('No specific source or verification notes were generated.')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return notes.flatMap((note, index) => [
+    subheading(`Verification item ${index + 1}`),
+    boldParagraph('Area to verify', note),
+    boldParagraph(
+      'Why it matters',
+      'Reduces the risk of acting on incomplete or uncertain intelligence.'
+    ),
+    boldParagraph(
+      'Suggested verification action',
+      'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.'
+    )
+  ]);
 }
 
 export async function createDocxReport(input: CreateDocxReportInput): Promise<Buffer> {
   const { client, request, intelligence } = input;
 
   const document = new Document({
-    numbering: {
-      config: [
-        {
-          reference: 'qoobix-numbering',
-          levels: [
-            {
-              level: 0,
-              format: 'decimal',
-              text: '%1.',
-              alignment: AlignmentType.LEFT
-            }
-          ]
-        }
-      ]
-    },
     sections: [
       {
         properties: {},
@@ -335,14 +268,10 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           ...bulletSection('5. Channel opportunities', intelligence.channelOpportunities),
 
           heading('6. Potential partners, prospects, or useful market entry points'),
-          intelligence.potentialPartnersProspects.length
-            ? createPartnerTable(intelligence)
-            : paragraph('No structured partner/prospect rows were generated.'),
+          ...partnerRecordBlocks(intelligence),
 
           heading('7. Competitor, substitute, and alternative landscape'),
-          intelligence.competitorRows.length
-            ? createCompetitorTable(intelligence)
-            : paragraph('No structured competitor/alternative rows were generated.'),
+          ...competitorRecordBlocks(intelligence),
 
           subheading('Competitor and substitute notes'),
           ...(intelligence.competitorsAlternatives.length
@@ -356,12 +285,10 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           ...bulletSection('10. Commercial risks and caveats', intelligence.commercialRisks),
 
           heading('11. Action matrix'),
-          createActionTable(intelligence.actionPriorities),
+          ...actionBlocks(intelligence.actionPriorities),
 
           heading('12. Verification workflow'),
-          intelligence.sourceNotesLimitations.length
-            ? createVerificationTable(intelligence)
-            : paragraph('No specific source or verification notes were generated.'),
+          ...verificationBlocks(intelligence.sourceNotesLimitations),
 
           heading('Final verification notice'),
           paragraph(
