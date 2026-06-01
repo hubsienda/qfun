@@ -10,6 +10,9 @@ export function Footer() {
         </div>
 
         <nav className="flex flex-wrap gap-x-4 gap-y-2 text-xs">
+          <Link href="/faqs" className="hover:text-[var(--qoobix-orange)]">
+            FAQs
+          </Link>
           <Link href="/legal" className="hover:text-[var(--qoobix-orange)]">
             Legal
           </Link>
