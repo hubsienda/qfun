@@ -6,7 +6,7 @@ import { LegalMarkdown } from '@/components/LegalMarkdown';
 import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientBySlug } from '@/lib/qoobix/db';
-import { getHelpDocument, helpDocuments } from '@/lib/qoobix/help';
+import { getHelpDocument } from '@/lib/qoobix/help';
 
 type ClientHelpDocumentPageProps = {
   params: Promise<{
@@ -14,6 +14,8 @@ type ClientHelpDocumentPageProps = {
     slug: string;
   }>;
 };
+
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params
@@ -29,12 +31,6 @@ export async function generateMetadata({
       nocache: true
     }
   };
-}
-
-export async function generateStaticParams() {
-  return helpDocuments.map((document) => ({
-    slug: document.slug
-  }));
 }
 
 export default async function ClientHelpDocumentPage({ params }: ClientHelpDocumentPageProps) {
@@ -59,7 +55,7 @@ export default async function ClientHelpDocumentPage({ params }: ClientHelpDocum
 
   return (
     <section className="qoobix-narrow py-12 md:py-18">
-      <div className="mb-6 flex justify-between gap-4">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Link
           href={`/client/${client.slug}/help`}
           className="font-semibold text-[var(--qoobix-orange)]"
