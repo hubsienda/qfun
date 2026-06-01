@@ -126,7 +126,7 @@ export function LegalMarkdown({ content }: LegalMarkdownProps) {
       flushList(bulletItems, output, 'ul');
       flushList(orderedItems, output, 'ol', true);
       output.push(
-        <h1 key={`h1-${index}`} className="text-3xl font-semibold tracking-tight md:text-4xl">
+        <h1 key={`h1-${index}`} className="text-2xl font-semibold tracking-tight md:text-3xl">
           {renderInline(line.replace(/^#\s+/, ''))}
         </h1>
       );
@@ -138,7 +138,7 @@ export function LegalMarkdown({ content }: LegalMarkdownProps) {
       flushList(bulletItems, output, 'ul');
       flushList(orderedItems, output, 'ol', true);
       output.push(
-        <h2 key={`h2-${index}`} className="pt-6 text-2xl font-semibold tracking-tight">
+        <h2 key={`h2-${index}`} className="pt-5 text-xl font-semibold tracking-tight md:text-2xl">
           {renderInline(line.replace(/^##\s+/, ''))}
         </h2>
       );
@@ -150,7 +150,7 @@ export function LegalMarkdown({ content }: LegalMarkdownProps) {
       flushList(bulletItems, output, 'ul');
       flushList(orderedItems, output, 'ol', true);
       output.push(
-        <h3 key={`h3-${index}`} className="pt-4 text-xl font-semibold tracking-tight">
+        <h3 key={`h3-${index}`} className="pt-3 text-lg font-semibold tracking-tight md:text-xl">
           {renderInline(line.replace(/^###\s+/, ''))}
         </h3>
       );
