@@ -7,7 +7,9 @@ import {
   updateJobStatus
 } from '@/lib/qoobix/db';
 import { buildMarketIntelligencePrompt } from '@/lib/qoobix/prompts';
+import { createCsvExport } from '@/lib/qoobix/report-csv';
 import { createDocxReport } from '@/lib/qoobix/report-docx';
+import { createHtmlReport } from '@/lib/qoobix/report-html';
 import { createXlsxWorkbook } from '@/lib/qoobix/report-xlsx';
 import { uploadGeneratedReport } from '@/lib/qoobix/storage';
 import type { GeneratedIntelligence, IntelligenceRequest } from '@/lib/qoobix/types';
@@ -113,13 +115,15 @@ export async function generateAndStoreJobOutputs(jobId: string) {
     });
 
     await updateJobStatus(jobId, 'generating_outputs');
-    await addJobLog(jobId, 'info', 'Generating DOCX and XLSX outputs.');
+    await addJobLog(jobId, 'info', 'Generating DOCX, XLSX, HTML, and CSV outputs.');
 
     const safeClientSlug = client.slug.replace(/[^a-z0-9-]/g, '-');
     const dateStamp = new Date().toISOString().slice(0, 10);
 
     const docxFileName = `${safeClientSlug}-qoobix-report-${dateStamp}.docx`;
     const xlsxFileName = `${safeClientSlug}-qoobix-workbook-${dateStamp}.xlsx`;
+    const htmlFileName = `${safeClientSlug}-qoobix-google-friendly-report-${dateStamp}.html`;
+    const csvFileName = `${safeClientSlug}-qoobix-google-friendly-export-${dateStamp}.csv`;
 
     const docxBuffer = await createDocxReport({
       client,
@@ -133,43 +137,68 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       intelligence
     });
 
+    const htmlBuffer = createHtmlReport({
+      client,
+      request,
+      intelligence
+    });
+
+    const csvBuffer = createCsvExport({
+      client,
+      request,
+      intelligence
+    });
+
     const expiresAt = new Date(
       Date.now() + client.fileRetentionDays * 24 * 60 * 60 * 1000
     ).toISOString();
 
-    const docxUpload = await uploadGeneratedReport({
-      jobId,
-      fileName: docxFileName,
-      contentType:
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      buffer: docxBuffer
-    });
+    const outputs = [
+      {
+        fileType: 'docx' as const,
+        fileName: docxFileName,
+        contentType:
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        buffer: docxBuffer
+      },
+      {
+        fileType: 'xlsx' as const,
+        fileName: xlsxFileName,
+        contentType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        buffer: xlsxBuffer
+      },
+      {
+        fileType: 'html' as const,
+        fileName: htmlFileName,
+        contentType: 'text/html; charset=utf-8',
+        buffer: htmlBuffer
+      },
+      {
+        fileType: 'csv' as const,
+        fileName: csvFileName,
+        contentType: 'text/csv; charset=utf-8',
+        buffer: csvBuffer
+      }
+    ];
 
-    const xlsxUpload = await uploadGeneratedReport({
-      jobId,
-      fileName: xlsxFileName,
-      contentType:
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      buffer: xlsxBuffer
-    });
+    for (const output of outputs) {
+      const uploaded = await uploadGeneratedReport({
+        jobId,
+        fileName: output.fileName,
+        contentType: output.contentType,
+        buffer: output.buffer
+      });
 
-    await addReportRecord({
-      jobId,
-      fileType: 'docx',
-      fileName: docxFileName,
-      fileUrl: docxUpload.fileUrl,
-      storagePath: docxUpload.storagePath,
-      expiresAt
-    });
-
-    await addReportRecord({
-      jobId,
-      fileType: 'xlsx',
-      fileName: xlsxFileName,
-      fileUrl: xlsxUpload.fileUrl,
-      storagePath: xlsxUpload.storagePath,
-      expiresAt
-    });
+      await addReportRecord({
+        jobId,
+        fileType: output.fileType,
+        fileName: output.fileName,
+        fileUrl: uploaded.fileUrl,
+        storagePath: uploaded.storagePath,
+        expiresAt
+      });
+    }
 
     await updateJobStatus(jobId, 'ready');
     await addJobLog(jobId, 'info', 'Generation completed.');
