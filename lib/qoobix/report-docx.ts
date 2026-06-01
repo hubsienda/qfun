@@ -67,21 +67,6 @@ function paragraph(text: string) {
   });
 }
 
-function boldParagraph(label: string, value: string) {
-  return new Paragraph({
-    children: [
-      new TextRun({
-        text: `${label}: `,
-        bold: true
-      }),
-      new TextRun(cleanText(value))
-    ],
-    spacing: {
-      after: 120
-    }
-  });
-}
-
 function smallMuted(text: string) {
   return new Paragraph({
     children: [
@@ -147,68 +132,122 @@ function createInfoTable(rows: Array<[string, string]>) {
   });
 }
 
-function partnerRecordBlocks(intelligence: GeneratedIntelligence) {
-  if (!intelligence.potentialPartnersProspects.length) {
-    return [paragraph('No structured partner/prospect rows were generated.')];
-  }
-
-  return intelligence.potentialPartnersProspects.flatMap((item, index) => [
-    subheading(`${index + 1}. ${cleanText(item.name)}`),
-    boldParagraph('Type', item.category),
-    boldParagraph('Country/region', item.countryOrRegion),
-    boldParagraph('Relevance', item.relevance),
-    boldParagraph('Suggested action', item.suggestedAction),
-    boldParagraph('Notes', item.notes)
-  ]);
-}
-
-function competitorRecordBlocks(intelligence: GeneratedIntelligence) {
-  if (!intelligence.competitorRows.length) {
-    return [paragraph('No structured competitor/alternative rows were generated.')];
-  }
-
-  return intelligence.competitorRows.flatMap((item, index) => [
-    subheading(`${index + 1}. ${cleanText(item.name)}`),
-    boldParagraph('Type', item.type),
-    boldParagraph('Country/region', item.countryOrRegion),
-    boldParagraph('Relevance', item.relevance),
-    boldParagraph('Notes', item.notes)
-  ]);
-}
-
-function actionBlocks(actions: string[]) {
-  if (!actions.length) {
-    return [paragraph('—')];
-  }
-
-  return actions.flatMap((action, index) => [
-    subheading(`Action ${index + 1}`),
-    paragraph(action),
-    boldParagraph('Purpose', 'Turn the intelligence into a practical commercial step.'),
-    boldParagraph(
-      'Verification / next evidence',
-      'Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.'
+function createPartnerTable(intelligence: GeneratedIntelligence) {
+  const rows = [
+    new TableRow({
+      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Suggested action', 'Notes'].map(
+        (label) => tableCell(label, true)
+      )
+    }),
+    ...intelligence.potentialPartnersProspects.map(
+      (item) =>
+        new TableRow({
+          children: [
+            tableCell(item.name),
+            tableCell(item.category),
+            tableCell(item.countryOrRegion),
+            tableCell(item.relevance),
+            tableCell(item.suggestedAction),
+            tableCell(item.notes)
+          ]
+        })
     )
-  ]);
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
 }
 
-function verificationBlocks(notes: string[]) {
-  if (!notes.length) {
-    return [paragraph('No specific source or verification notes were generated.')];
-  }
-
-  return notes.flatMap((note, index) => [
-    subheading(`Verification item ${index + 1}`),
-    boldParagraph('Area to verify', note),
-    boldParagraph(
-      'Why it matters',
-      'Reduces the risk of acting on incomplete or uncertain intelligence.'
-    ),
-    boldParagraph(
-      'Suggested verification action',
-      'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.'
+function createCompetitorTable(intelligence: GeneratedIntelligence) {
+  const rows = [
+    new TableRow({
+      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Notes'].map((label) =>
+        tableCell(label, true)
+      )
+    }),
+    ...intelligence.competitorRows.map(
+      (item) =>
+        new TableRow({
+          children: [
+            tableCell(item.name),
+            tableCell(item.type),
+            tableCell(item.countryOrRegion),
+            tableCell(item.relevance),
+            tableCell(item.notes)
+          ]
+        })
     )
-  ]);
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
+}
+
+function createActionTable(actions: string[]) {
+  const rows = [
+    new TableRow({
+      children: ['Priority', 'Action', 'Purpose', 'Verification / next evidence'].map((label) =>
+        tableCell(label, true)
+      )
+    }),
+    ...(actions.length ? actions : ['—']).map(
+      (action, index) =>
+        new TableRow({
+          children: [
+            tableCell(String(index + 1)),
+            tableCell(action),
+            tableCell('Turn the intelligence into a practical commercial step.'),
+            tableCell('Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.')
+          ]
+        })
+    )
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
+}
+
+function createVerificationTable(intelligence: GeneratedIntelligence) {
+  const rows = [
+    new TableRow({
+      children: ['Area to verify', 'Why it matters', 'Suggested verification action'].map((label) =>
+        tableCell(label, true)
+      )
+    }),
+    ...intelligence.sourceNotesLimitations.map(
+      (note) =>
+        new TableRow({
+          children: [
+            tableCell(note),
+            tableCell('Reduces the risk of acting on incomplete or uncertain intelligence.'),
+            tableCell('Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.')
+          ]
+        })
+    )
+  ];
+
+  return new Table({
+    width: {
+      size: 100,
+      type: WidthType.PERCENTAGE
+    },
+    rows
+  });
 }
 
 export async function createDocxReport(input: CreateDocxReportInput): Promise<Buffer> {
@@ -268,10 +307,14 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           ...bulletSection('5. Channel opportunities', intelligence.channelOpportunities),
 
           heading('6. Potential partners, prospects, or useful market entry points'),
-          ...partnerRecordBlocks(intelligence),
+          intelligence.potentialPartnersProspects.length
+            ? createPartnerTable(intelligence)
+            : paragraph('No structured partner/prospect rows were generated.'),
 
           heading('7. Competitor, substitute, and alternative landscape'),
-          ...competitorRecordBlocks(intelligence),
+          intelligence.competitorRows.length
+            ? createCompetitorTable(intelligence)
+            : paragraph('No structured competitor/alternative rows were generated.'),
 
           subheading('Competitor and substitute notes'),
           ...(intelligence.competitorsAlternatives.length
@@ -285,10 +328,12 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           ...bulletSection('10. Commercial risks and caveats', intelligence.commercialRisks),
 
           heading('11. Action matrix'),
-          ...actionBlocks(intelligence.actionPriorities),
+          createActionTable(intelligence.actionPriorities),
 
           heading('12. Verification workflow'),
-          ...verificationBlocks(intelligence.sourceNotesLimitations),
+          intelligence.sourceNotesLimitations.length
+            ? createVerificationTable(intelligence)
+            : paragraph('No specific source or verification notes were generated.'),
 
           heading('Final verification notice'),
           paragraph(
