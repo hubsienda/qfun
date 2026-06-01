@@ -16,7 +16,7 @@ export type JobStatus =
   | 'failed'
   | 'cancelled';
 
-export type ReportType = 'docx' | 'xlsx' | 'csv';
+export type ReportType = 'docx' | 'xlsx' | 'html' | 'csv';
 
 export type ClientConfiguration = {
   id: string;
