@@ -18,13 +18,7 @@ A good request gives QOOBIX a clear commercial task. A vague request produces va
 
 Do not ask QOOBIX to “analyse the market” in a general way.
 
-Instead, tell QOOBIX:
-
-1. What product or service you want to analyse.
-2. Which country or region matters.
-3. Which commercial decision you need to make.
-4. Which customer types or channels you want to investigate.
-5. Which competitors, partners, or alternatives are already known.
+Instead, tell QOOBIX what product or service you want to analyse, which country or region matters, which commercial decision you need to make, which customer types or channels you want to investigate, and which competitors, partners, or alternatives are already known.
 
 ---
 
@@ -34,15 +28,15 @@ Use this field to describe the product or service clearly.
 
 ### Weak example
 
-Analyse our product.
+Analyse our software.
 
 ### Better example
 
-Low-thickness thermal insulation and wall-restoration system for damp walls, mould, condensation, and thermal bridges.
+A cloud-based inventory management platform for independent pharmacies.
 
 ### Strong example
 
-Low-thickness thermal insulation and wall-restoration system designed for internal walls, façades, damp-wall recovery, mould prevention, condensation control, and thermal-bridge correction in renovation and energy-efficiency projects.
+A cloud-based inventory management and stock forecasting platform for independent pharmacies, designed to reduce expired stock, improve reorder timing, manage supplier availability, and support multi-location pharmacy groups.
 
 ---
 
@@ -56,11 +50,11 @@ Europe.
 
 ### Better example
 
-Spain.
+Canada.
 
 ### Strong example
 
-Spain, with priority attention to regions where renovation, damp-remediation, hospitality property maintenance, and energy-efficiency upgrades are commercially relevant.
+Canada, with attention to independent pharmacies, regional pharmacy groups, healthcare retailers, and provinces where supply-chain efficiency and stock control are commercially important.
 
 ---
 
@@ -72,15 +66,15 @@ The market question should describe the decision QOOBIX must help you make.
 
 ### Weak example
 
-Analyse the Spanish market.
+Analyse the Canadian market.
 
 ### Better example
 
-Which regions in Spain should be prioritised for this product?
+Which customers should we target in Canada?
 
 ### Strong example
 
-Which regions and commercial channels in Spain should be prioritised for the distribution and specification of this low-thickness wall insulation and damp/mould remediation system?
+Which pharmacy customer segments, regional channels, and software-adoption routes should be prioritised for launching a cloud-based inventory management platform for independent pharmacies in Canada?
 
 ---
 
@@ -88,49 +82,39 @@ Which regions and commercial channels in Spain should be prioritised for the dis
 
 Choose the objective that best matches the purpose of the request.
 
-Typical objectives include:
-
-1. Market-entry analysis.
-2. Distributor discovery.
-3. Partner discovery.
-4. Competitor mapping.
-5. Regional opportunity assessment.
-6. Lead or prospect discovery.
-7. Positioning analysis.
-8. Pricing or channel analysis.
-9. Action-priority report.
+Typical objectives include market-entry analysis, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, lead or prospect discovery, positioning analysis, pricing or channel analysis, and action-priority report.
 
 ### Example
 
-If you want to know who already sells similar solutions, choose:
+If you want to understand competing products and substitute solutions, choose:
 
 Competitor mapping.
 
-If you want to know who may distribute your product, choose:
+If you want to understand possible channel partners or resellers, choose:
 
-Distributor discovery.
+Partner discovery.
 
-If you want to know where to start geographically, choose:
+If you want to know what to do first in the next 90 days, choose:
 
-Regional opportunity assessment.
+Action-priority report.
 
 ---
 
 ## Field: Target customer types
 
-Use this field to describe the people or organisations that may buy, specify, recommend, install, or influence the product.
+Use this field to describe the people or organisations that may buy, specify, recommend, influence, or use the product.
 
 ### Weak example
 
-Companies.
+Retail companies.
 
 ### Better example
 
-Distributors, installers, architects.
+Pharmacies, pharmacy groups, healthcare retailers.
 
 ### Strong example
 
-Building-material distributors, insulation wholesalers, renovation contractors, damp-remediation specialists, architects, energy-efficiency consultants, installers, property managers, hotel property owners, public-building maintenance departments, and historic-building renovation specialists.
+Independent pharmacies, small pharmacy groups, healthcare retail chains, pharmacy owners, operations managers, purchasing managers, inventory managers, pharmacy technology consultants, and regional healthcare retail associations.
 
 ---
 
@@ -140,15 +124,15 @@ Use this field to describe the commercial routes to market.
 
 ### Weak example
 
-Sales channels.
+Online sales.
 
 ### Better example
 
-Distributors and installers.
+Direct sales, software partners, pharmacy associations.
 
 ### Strong example
 
-Regional building-material distributors, specialist insulation wholesalers, technical representatives, installer networks, architectural specification channels, renovation contractors, façade and restoration specialists, trade fairs, technical training events, and public tender channels.
+Direct B2B sales, pharmacy technology consultants, healthcare software resellers, pharmacy associations, regional trade events, software integration partners, supplier networks, and referral partnerships with consultants serving pharmacy owners.
 
 ---
 
@@ -156,21 +140,19 @@ Regional building-material distributors, specialist insulation wholesalers, tech
 
 Use this field to help QOOBIX understand the competitive environment.
 
-You can list specific companies if you know them, or categories if you do not.
-
-Do not include confidential names unless you are authorised to use them.
+You can list specific company names if you are authorised to use them, but generic competitor categories are often enough.
 
 ### Weak example
 
-Other products.
+Other software.
 
 ### Better example
 
-External insulation systems, anti-mould paints, cork panels.
+Inventory tools, pharmacy management systems, spreadsheets.
 
 ### Strong example
 
-Traditional internal thermal insulation systems, external thermal insulation composite systems, calcium silicate boards, cork insulation panels, mineral wool systems, aerogel insulation products, anti-mould paints, dehumidifying plasters, damp-proofing treatments, thermal paints and coatings, plasterboard insulation systems, and local damp-remediation products.
+Pharmacy management systems, inventory-control software, ERP tools adapted for healthcare retail, supplier ordering portals, spreadsheet-based stock tracking, manual reorder processes, point-of-sale systems with inventory modules, and custom internal tools.
 
 ---
 
@@ -182,15 +164,15 @@ Do not include confidential names unless you are authorised to use them.
 
 ### Weak example
 
-Some distributors.
+Some partners.
 
 ### Better example
 
-Existing regional representative in the target country.
+Possible technology resellers in Canada.
 
 ### Strong example
 
-Existing regional representative in the target country. Further regional distributors, technical representatives, installer networks, construction-material wholesalers, renovation specialists, and architectural specification partners to be identified and verified.
+No confirmed partner in Canada. Potential pharmacy technology consultants, healthcare software resellers, implementation partners, and regional pharmacy associations to be identified and verified.
 
 ---
 
@@ -202,207 +184,209 @@ Examples:
 
 English.
 
-Spanish.
+French.
 
 Italian.
 
----
-
-## Complete example 1: Distributor discovery
-
-### Product or service to analyse
-
-Low-thickness thermal insulation and wall-restoration system designed for damp walls, mould, condensation, and thermal-bridge correction.
-
-### Target country or countries
-
-Spain.
-
-### Market question
-
-Which regions and commercial channels in Spain should be prioritised for the distribution and specification of this low-thickness wall insulation and damp/mould remediation system?
-
-### Commercial objective
-
-Distributor discovery.
-
-### Target customer types
-
-Building-material distributors, insulation wholesalers, renovation contractors, damp-remediation specialists, architects, energy-efficiency consultants, installers, property managers, hotel property owners, and public-building maintenance departments.
-
-### Target channels
-
-Regional building-material distributors, specialist insulation wholesalers, technical representatives, installer networks, architectural specification channels, renovation contractors, restoration specialists, trade fairs, and public tender channels.
-
-### Known competitors
-
-External insulation systems, calcium silicate boards, cork panels, mineral wool, aerogel products, anti-mould paints, damp-proofing products, dehumidifying plasters, thermal paints, and plasterboard insulation systems.
-
-### Known partners, distributors, or representatives
-
-Existing regional representative in Spain. Further regional partners to be identified and verified.
-
-### Preferred output language
-
 Spanish.
 
 ---
 
-## Complete example 2: Competitor mapping
+# Complete example 1: Market-entry analysis
 
-### Product or service to analyse
+## Product or service to analyse
 
-Low-thickness wall insulation and restoration system for buildings affected by damp, mould, condensation, or thermal bridges.
+Cloud-based inventory management and stock forecasting platform for independent pharmacies.
 
-### Target country or countries
+## Target country or countries
 
-Germany.
+Canada.
 
-### Market question
+## Market question
 
-Which direct competitors, substitute systems, local alternatives, and incumbent solutions should be mapped before positioning this low-thickness wall insulation and damp-remediation system in Germany?
+Which pharmacy customer segments, regional channels, and software-adoption routes should be prioritised for launching a cloud-based inventory management platform for independent pharmacies in Canada?
 
-### Commercial objective
+## Commercial objective
+
+Market-entry analysis.
+
+## Target customer types
+
+Independent pharmacies, small pharmacy groups, healthcare retail chains, pharmacy owners, operations managers, purchasing managers, inventory managers, and pharmacy technology consultants.
+
+## Target channels
+
+Direct B2B sales, healthcare software resellers, pharmacy technology consultants, pharmacy associations, regional trade events, software integration partners, and supplier-network partnerships.
+
+## Known competitors
+
+Pharmacy management systems, inventory-control software, ERP tools adapted for healthcare retail, supplier ordering portals, spreadsheet-based stock tracking, manual reorder processes, point-of-sale systems with inventory modules, and custom internal tools.
+
+## Known partners, distributors, or representatives
+
+No confirmed partner in Canada. Potential pharmacy technology consultants, healthcare software resellers, implementation partners, and regional pharmacy associations to be identified and verified.
+
+## Preferred output language
+
+English.
+
+---
+
+# Complete example 2: Competitor mapping
+
+## Product or service to analyse
+
+Subscription-based software platform for managing inventory, stock forecasting, supplier availability, reorder timing, and expiry-risk reduction for independent pharmacies.
+
+## Target country or countries
+
+Australia.
+
+## Market question
+
+Which direct software competitors, substitute systems, supplier portals, pharmacy management platforms, and manual workflows should be mapped before positioning this pharmacy inventory platform in Australia?
+
+## Commercial objective
 
 Competitor mapping.
 
-### Target customer types
+## Target customer types
 
-Building-material distributors, renovation contractors, insulation specialists, damp-remediation contractors, architects, technical specifiers, energy-efficiency consultants, and property maintenance companies.
+Independent pharmacies, pharmacy groups, pharmacy owners, purchasing managers, operations managers, pharmacy software consultants, and healthcare retail technology buyers.
 
-### Target channels
+## Target channels
 
-Specialist insulation distributors, building-material wholesalers, specification consultants, installer networks, renovation contractors, restoration specialists, and technical trade events.
+Direct sales, pharmacy software consultants, healthcare technology resellers, trade events, pharmacy-owner networks, supplier partnerships, and implementation partners.
 
-### Known competitors
+## Known competitors
 
-Calcium silicate boards, mineral insulation systems, internal wall insulation panels, cork-based systems, anti-mould coatings, damp-proofing systems, dehumidifying plasters, aerogel insulation products, and established local renovation-material suppliers.
+Pharmacy management platforms, point-of-sale systems with stock modules, supplier ordering portals, inventory-management software, ERP tools, spreadsheet workflows, manual reorder procedures, and internal stock-control processes.
 
-### Known partners, distributors, or representatives
+## Known partners, distributors, or representatives
 
-No confirmed representative. Potential distributors, agents, and technical partners to be identified and verified.
+No confirmed Australian partner. Possible technology resellers, implementation consultants, and pharmacy-sector advisers to be identified and verified.
 
-### Preferred output language
-
-English.
-
----
-
-## Complete example 3: Regional opportunity assessment
-
-### Product or service to analyse
-
-Wall-restoration and low-thickness insulation system for renovation projects where space, damp, mould, and condensation are important constraints.
-
-### Target country or countries
-
-France.
-
-### Market question
-
-Which French regions, building types, and commercial channels should be prioritised first for a low-thickness wall-restoration and insulation system aimed at renovation, damp recovery, and indoor comfort?
-
-### Commercial objective
-
-Regional opportunity assessment.
-
-### Target customer types
-
-Renovation contractors, insulation distributors, architects, property managers, hotel owners, public-building maintenance teams, energy-efficiency consultants, and damp-remediation specialists.
-
-### Target channels
-
-Regional distributors, specialist wholesalers, installer networks, architectural specification channels, technical consultants, renovation trade fairs, and building-restoration associations.
-
-### Known competitors
-
-Internal insulation systems, cork panels, mineral wool systems, calcium silicate boards, anti-mould coatings, damp-proofing treatments, dehumidifying plasters, and conventional renovation materials.
-
-### Known partners, distributors, or representatives
-
-No confirmed partner. Potential regional distributors and technical representatives to be identified and verified.
-
-### Preferred output language
+## Preferred output language
 
 English.
 
 ---
 
-## Complete example 4: Positioning analysis
+# Complete example 3: Partner discovery
 
-### Product or service to analyse
+## Product or service to analyse
 
-A low-thickness insulation and wall-restoration system made with recycled textile material, designed for damp walls, condensation, mould, and renovation contexts.
+Cloud software for inventory control, reorder planning, stock rotation, and supplier coordination for healthcare retail businesses.
 
-### Target country or countries
+## Target country or countries
 
-Spain.
+Ireland.
 
-### Market question
+## Market question
 
-How should this low-thickness wall insulation and restoration system be positioned in Spain against traditional insulation systems, anti-mould products, damp-remediation treatments, and renovation materials?
+Which partner types in Ireland could help introduce, implement, or recommend a pharmacy inventory management platform to independent pharmacies and small healthcare retail groups?
 
-### Commercial objective
+## Commercial objective
+
+Partner discovery.
+
+## Target customer types
+
+Independent pharmacies, healthcare retailers, small pharmacy groups, pharmacy owners, operations managers, and purchasing managers.
+
+## Target channels
+
+Software resellers, implementation consultants, pharmacy-sector advisers, healthcare retail associations, supplier networks, trade events, and direct outreach.
+
+## Known competitors
+
+Existing pharmacy management systems, inventory modules inside point-of-sale software, supplier portals, generic inventory tools, spreadsheets, and manual reorder processes.
+
+## Known partners, distributors, or representatives
+
+No confirmed partner. Potential healthcare software resellers, pharmacy consultants, and implementation partners to be identified and verified.
+
+## Preferred output language
+
+English.
+
+---
+
+# Complete example 4: Positioning analysis
+
+## Product or service to analyse
+
+Inventory and stock forecasting platform for independent pharmacies that helps reduce expired stock, improve reorder timing, and provide better visibility of supplier-related stock issues.
+
+## Target country or countries
+
+New Zealand.
+
+## Market question
+
+How should this pharmacy inventory platform be positioned in New Zealand against pharmacy management systems, manual stock-control processes, supplier portals, and generic inventory software?
+
+## Commercial objective
 
 Positioning analysis.
 
-### Target customer types
+## Target customer types
 
-Distributors, architects, renovation contractors, damp-remediation specialists, installers, property managers, hospitality property owners, and public-building maintenance departments.
+Independent pharmacies, pharmacy owners, small pharmacy groups, operations managers, purchasing managers, and pharmacy technology advisers.
 
-### Target channels
+## Target channels
 
-Technical distributors, installers, specification channels, renovation specialists, restoration contractors, and training-based sales channels.
+Direct sales, healthcare software resellers, pharmacy associations, implementation consultants, supplier networks, and trade events.
 
-### Known competitors
+## Known competitors
 
-Traditional insulation boards, external insulation systems, anti-mould paints, damp-proofing chemicals, dehumidifying plasters, cork panels, mineral wool, calcium silicate boards, and plasterboard insulation systems.
+Pharmacy management software, point-of-sale inventory modules, supplier portals, manual reorder workflows, spreadsheets, general inventory systems, and internal pharmacy processes.
 
-### Known partners, distributors, or representatives
+## Known partners, distributors, or representatives
 
-Existing regional representative in Spain.
+No confirmed partner. Potential pharmacy-sector advisers and healthcare software resellers to be identified and verified.
 
-### Preferred output language
+## Preferred output language
 
-Spanish.
+English.
 
 ---
 
-## Complete example 5: Action-priority report
+# Complete example 5: Action-priority report
 
-### Product or service to analyse
+## Product or service to analyse
 
-Low-thickness thermal insulation and damp-wall restoration system for renovation and building maintenance.
+Cloud-based inventory management platform for independent pharmacies.
 
-### Target country or countries
+## Target country or countries
 
-Spain.
+Canada.
 
-### Market question
+## Market question
 
-What practical commercial actions should be prioritised in the next 90 days to validate demand, identify partners, test positioning, and prepare distribution for this wall-restoration and insulation system in Spain?
+What practical commercial actions should be prioritised in the next 90 days to validate demand, identify partners, test positioning, and prepare a market-entry campaign for a pharmacy inventory management platform in Canada?
 
-### Commercial objective
+## Commercial objective
 
 Action-priority report.
 
-### Target customer types
+## Target customer types
 
-Distributors, renovation contractors, installers, damp-remediation specialists, architects, property managers, hotel owners, and technical consultants.
+Independent pharmacies, pharmacy groups, pharmacy owners, purchasing managers, operations managers, and pharmacy technology consultants.
 
-### Target channels
+## Target channels
 
-Regional distributors, installer networks, technical sales representatives, architectural specification channels, renovation contractors, trade fairs, and direct outreach to property-maintenance organisations.
+Direct B2B outreach, healthcare software resellers, pharmacy associations, implementation consultants, pharmacy trade events, and supplier-network partnerships.
 
-### Known competitors
+## Known competitors
 
-Traditional insulation systems, damp-proofing products, anti-mould paints, calcium silicate boards, cork panels, mineral wool, thermal paints, plasterboard systems, and dehumidifying plasters.
+Pharmacy management systems, point-of-sale inventory modules, supplier ordering portals, general inventory tools, spreadsheet workflows, manual reorder procedures, and internal stock-control processes.
 
-### Known partners, distributors, or representatives
+## Known partners, distributors, or representatives
 
-Existing regional representative in Spain.
+No confirmed partner in Canada. Potential healthcare technology resellers, pharmacy consultants, and software implementation partners to be identified and verified.
 
-### Preferred output language
+## Preferred output language
 
 English.
 
@@ -412,14 +396,6 @@ English.
 
 A good QOOBIX request should be specific enough that a commercial manager could act on the result.
 
-Before submitting, ask yourself:
-
-1. Have I named the product clearly?
-2. Have I named the target country?
-3. Have I explained the decision I need to make?
-4. Have I described customer types and channels?
-5. Have I listed known competitors or substitutes?
-6. Have I explained what is already known?
-7. Have I chosen the right commercial objective?
+Before submitting, ask yourself whether you have named the product clearly, named the target country, explained the decision you need to make, described customer types and channels, listed known competitors or substitutes, explained what is already known, and chosen the right commercial objective.
 
 If the answer is yes, the report will usually be much more useful.
