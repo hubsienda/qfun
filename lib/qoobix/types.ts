@@ -18,6 +18,8 @@ export type JobStatus =
 
 export type IntelligenceMode = 'analysis' | 'discovery';
 
+export type QOOBIXPlan = 'analysis' | 'analysis_discovery';
+
 export type ReportType = 'docx' | 'xlsx' | 'rtf' | 'csv';
 
 export type ClientConfiguration = {
