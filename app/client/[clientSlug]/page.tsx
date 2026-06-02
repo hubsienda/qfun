@@ -9,6 +9,7 @@ import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientAreaData, isClientProfileComplete } from '@/lib/qoobix/db';
+import { getClientDictionary, type ClientDictionary } from '@/lib/qoobix/client-i18n';
 import { getClientLicenceUsage } from '@/lib/qoobix/licensing';
 import type { JobStatus } from '@/lib/qoobix/types';
 
@@ -23,6 +24,7 @@ type ActionCardProps = {
   eyebrow: string;
   title: string;
   description: string;
+  openLabel: string;
   primary?: boolean;
   disabled?: boolean;
 };
@@ -44,17 +46,17 @@ function formatDate(value: string) {
   return new Date(`${value}T00:00:00.000Z`).toLocaleDateString('en-GB');
 }
 
-function planLabel(plan: string) {
+function planLabel(plan: string, t: ClientDictionary) {
   if (plan === 'analysis_discovery') {
-    return 'QOOBIX Analysis + Discovery';
+    return `QOOBIX ${t.clientArea.analysisDiscovery}`;
   }
 
-  return 'QOOBIX Analysis';
+  return `QOOBIX ${t.clientArea.analysis}`;
 }
 
-function usageLabel(used: number, allowed: number, unlimited = false) {
+function usageLabel(used: number, allowed: number, t: ClientDictionary, unlimited = false) {
   if (unlimited) {
-    return `${used} / unlimited`;
+    return `${used} / ${t.common.unlimited}`;
   }
 
   return `${used} / ${allowed}`;
@@ -82,10 +84,12 @@ function UsageMetric({
 
 function LicencePanel({
   usage,
-  fileRetentionDays
+  fileRetentionDays,
+  t
 }: {
   usage: Awaited<ReturnType<typeof getClientLicenceUsage>>;
   fileRetentionDays: number;
+  t: ClientDictionary;
 }) {
   const unlimited = usage.isInternalAccount;
 
@@ -93,74 +97,77 @@ function LicencePanel({
     <Panel className="p-6 md:p-7">
       <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="qoobix-kicker">Licence and usage</p>
+          <p className="qoobix-kicker">{t.clientArea.licenceAndUsage}</p>
           <h2 className="mt-3 text-2xl font-semibold tracking-tight">
-            {unlimited ? 'Internal QOOBIX account' : planLabel(usage.plan)}
+            {unlimited ? t.clientArea.internalAccount : planLabel(usage.plan, t)}
           </h2>
           <p className="mt-3 max-w-3xl leading-7 text-[var(--qoobix-muted)]">
-            {unlimited
-              ? 'This account is marked as internal. Usage limits are visible for monitoring, but they are not enforced.'
-              : 'This summary shows the current licence period and the annual usage allowance for this QOOBIX environment.'}
+            {unlimited ? t.clientArea.internalDescription : t.clientArea.normalLicenceDescription}
           </p>
         </div>
 
         <div className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
-          {usage.isLicenceActive ? 'Licence active' : 'Licence inactive'}
+          {usage.isLicenceActive ? t.clientArea.licenceActive : t.clientArea.licenceInactive}
         </div>
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <UsageMetric
-          label="Plan"
-          value={unlimited ? 'Internal' : usage.plan === 'analysis_discovery' ? 'Analysis + Discovery' : 'Analysis'}
-          helper={unlimited ? 'Limits not enforced' : 'Current commercial version'}
+          label={t.clientArea.plan}
+          value={
+            unlimited
+              ? t.clientArea.internal
+              : usage.plan === 'analysis_discovery'
+                ? t.clientArea.analysisDiscovery
+                : t.clientArea.analysis
+          }
+          helper={unlimited ? t.clientArea.limitsNotEnforced : t.clientArea.currentCommercialVersion}
         />
 
         <UsageMetric
-          label="Licence period"
+          label={t.clientArea.licencePeriod}
           value={`${formatDate(usage.licenceStartsAt)} → ${formatDate(usage.licenceEndsAt)}`}
-          helper="Jobs are counted inside this period"
+          helper={t.clientArea.jobsCountedInsidePeriod}
         />
 
         <UsageMetric
-          label="File retention"
+          label={t.clientArea.fileRetention}
           value={`${fileRetentionDays} days`}
-          helper="Generated files must be downloaded and kept by the client"
+          helper={t.clientArea.fileRetentionHelper}
         />
 
         <UsageMetric
-          label="Total jobs"
-          value={usageLabel(usage.totalJobsUsed, usage.totalJobsAllowed, unlimited)}
-          helper="Analysis and Discovery combined"
+          label={t.clientArea.totalJobs}
+          value={usageLabel(usage.totalJobsUsed, usage.totalJobsAllowed, t, unlimited)}
+          helper={t.clientArea.totalJobsHelper}
         />
       </div>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <UsageMetric
-          label="Analysis jobs"
-          value={usageLabel(usage.analysisJobsUsed, usage.analysisJobsAllowed, unlimited)}
+          label={t.clientArea.analysisJobs}
+          value={usageLabel(usage.analysisJobsUsed, usage.analysisJobsAllowed, t, unlimited)}
         />
 
         <UsageMetric
-          label="Discovery jobs"
-          value={usageLabel(usage.discoveryJobsUsed, usage.discoveryJobsAllowed, unlimited)}
+          label={t.clientArea.discoveryJobs}
+          value={usageLabel(usage.discoveryJobsUsed, usage.discoveryJobsAllowed, t, unlimited)}
         />
 
         <UsageMetric
-          label="Countries per Discovery"
-          value={unlimited ? 'Unlimited' : String(usage.maxCountriesPerDiscoveryJob)}
+          label={t.clientArea.countriesPerDiscovery}
+          value={unlimited ? t.common.unlimited : String(usage.maxCountriesPerDiscoveryJob)}
         />
 
         <UsageMetric
-          label="Candidates per Discovery"
-          value={unlimited ? 'Unlimited' : String(usage.maxCandidatesPerDiscoveryJob)}
+          label={t.clientArea.candidatesPerDiscovery}
+          value={unlimited ? t.common.unlimited : String(usage.maxCandidatesPerDiscoveryJob)}
         />
       </div>
 
       {!unlimited ? (
         <p className="mt-5 text-sm leading-7 text-[var(--qoobix-muted)]">
-          Extra Analysis jobs, Discovery jobs, Discovery countries, and candidate packs are added by
-          Sienda after quotation, invoice, and bank transfer.
+          {t.clientArea.extrasNotice}
         </p>
       ) : null}
     </Panel>
@@ -172,6 +179,7 @@ function ActionCard({
   eyebrow,
   title,
   description,
+  openLabel,
   primary = false,
   disabled = false
 }: ActionCardProps) {
@@ -211,7 +219,7 @@ function ActionCard({
       </p>
 
       <p className={`mt-4 text-sm font-semibold ${primary ? 'text-white' : 'text-[var(--qoobix-orange)]'}`}>
-        Open →
+        {openLabel} →
       </p>
     </Link>
   );
@@ -232,6 +240,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
   }
 
   const { client, jobs } = data;
+  const t = getClientDictionary(client);
   const usage = await getClientLicenceUsage(client.id);
   const profileComplete = isClientProfileComplete(client);
 
@@ -246,14 +255,13 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-              Private client area
+              {t.clientArea.privateClientArea}
             </p>
 
             <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">{client.name}</h1>
 
             <p className="mt-4 max-w-2xl leading-8 text-[var(--qoobix-muted)]">
-              Manage the business profile, create intelligence requests, review previous jobs, and
-              download generated outputs.
+              {t.clientArea.intro}
             </p>
           </div>
 
@@ -265,21 +273,23 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
-              Profile
+              {t.clientArea.profile}
             </p>
-            <p className="mt-2 text-2xl font-semibold">{profileComplete ? 'Ready' : 'Incomplete'}</p>
+            <p className="mt-2 text-2xl font-semibold">
+              {profileComplete ? t.clientArea.ready : t.clientArea.incomplete}
+            </p>
           </div>
 
           <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
-              Ready outputs
+              {t.clientArea.readyOutputs}
             </p>
             <p className="mt-2 text-2xl font-semibold">{readyJobs}</p>
           </div>
 
           <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
-              Active jobs
+              {t.clientArea.activeJobs}
             </p>
             <p className="mt-2 text-2xl font-semibold">{activeJobs}</p>
           </div>
@@ -287,7 +297,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
       </div>
 
       <div className="mt-8">
-        <LicencePanel usage={usage} fileRetentionDays={client.fileRetentionDays} />
+        <LicencePanel usage={usage} fileRetentionDays={client.fileRetentionDays} t={t} />
       </div>
 
       <div className="mt-8">
@@ -298,13 +308,15 @@ export default async function ClientPage({ params }: ClientPageProps) {
         <Panel className="p-6 md:p-7">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="qoobix-kicker">Command centre</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">What do you want to do?</h2>
+              <p className="qoobix-kicker">{t.clientArea.commandCentre}</p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+                {t.clientArea.whatDoYouWant}
+              </h2>
             </div>
 
             {!profileComplete ? (
               <p className="max-w-md text-sm leading-7 text-[var(--qoobix-muted)]">
-                Complete the business profile before creating the first intelligence request.
+                {t.clientArea.completeProfileBeforeFirstRequest}
               </p>
             ) : null}
           </div>
@@ -312,25 +324,28 @@ export default async function ClientPage({ params }: ClientPageProps) {
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <ActionCard
               href={`/client/${client.slug}/new`}
-              eyebrow="Intelligence"
-              title="New request"
-              description="Create a structured market-intelligence job and generate downloadable outputs."
+              eyebrow={t.clientArea.actionIntelligence}
+              title={t.clientArea.actionNewRequest}
+              description={t.clientArea.actionNewRequestDescription}
+              openLabel={t.common.open}
               primary
               disabled={!profileComplete}
             />
 
             <ActionCard
               href={`/client/${client.slug}/profile`}
-              eyebrow="Configuration"
-              title="Business profile"
-              description="Review or update sector, products, markets, channels, competitors, and language."
+              eyebrow={t.clientArea.actionConfiguration}
+              title={t.clientArea.actionBusinessProfile}
+              description={t.clientArea.actionBusinessProfileDescription}
+              openLabel={t.common.open}
             />
 
             <ActionCard
               href={`/client/${client.slug}/help`}
-              eyebrow="Guidance"
-              title="Help centre"
-              description="Read the user guide, request examples, and private case studies."
+              eyebrow={t.clientArea.actionGuidance}
+              title={t.clientArea.actionHelpCentre}
+              description={t.clientArea.actionHelpCentreDescription}
+              openLabel={t.common.open}
             />
           </div>
         </Panel>
@@ -338,77 +353,85 @@ export default async function ClientPage({ params }: ClientPageProps) {
 
       {!profileComplete ? (
         <div className="mt-8 rounded-lg border border-[var(--qoobix-orange)] bg-white/85 p-5">
-          <h2 className="text-lg font-semibold">Business profile required</h2>
+          <h2 className="text-lg font-semibold">{t.clientArea.businessProfileRequired}</h2>
           <p className="mt-2 leading-7 text-[var(--qoobix-muted)]">
-            Before QOOBIX can generate useful intelligence, the client must complete the business
-            profile: sector, products/services, target countries, target channels, and known market
-            context.
+            {t.clientArea.businessProfileRequiredText}
           </p>
           <div className="mt-4">
-            <ButtonLink href={`/client/${client.slug}/profile`}>Complete business profile</ButtonLink>
+            <ButtonLink href={`/client/${client.slug}/profile`}>
+              {t.clientArea.completeBusinessProfile}
+            </ButtonLink>
           </div>
         </div>
       ) : null}
 
       <div className="mt-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
         <Panel>
-          <h2 className="text-xl font-semibold">Business profile</h2>
+          <h2 className="text-xl font-semibold">{t.clientArea.businessProfile}</h2>
 
           <dl className="mt-5 space-y-4 text-sm leading-7">
             <div>
-              <dt className="font-semibold">Sector</dt>
-              <dd className="text-[var(--qoobix-muted)]">{client.sector || 'Not configured'}</dd>
-            </div>
-
-            <div>
-              <dt className="font-semibold">Website</dt>
-              <dd className="text-[var(--qoobix-muted)]">{client.website || 'Not configured'}</dd>
-            </div>
-
-            <div>
-              <dt className="font-semibold">Products/services</dt>
+              <dt className="font-semibold">{t.clientArea.sector}</dt>
               <dd className="text-[var(--qoobix-muted)]">
-                {client.productsServices || 'Not configured'}
+                {client.sector || t.common.notConfigured}
               </dd>
             </div>
 
             <div>
-              <dt className="font-semibold">Target countries</dt>
+              <dt className="font-semibold">{t.clientArea.website}</dt>
               <dd className="text-[var(--qoobix-muted)]">
-                {client.targetCountries.length ? client.targetCountries.join(', ') : 'Not configured'}
+                {client.website || t.common.notConfigured}
               </dd>
             </div>
 
             <div>
-              <dt className="font-semibold">Target customer types</dt>
+              <dt className="font-semibold">{t.clientArea.productsServices}</dt>
+              <dd className="text-[var(--qoobix-muted)]">
+                {client.productsServices || t.common.notConfigured}
+              </dd>
+            </div>
+
+            <div>
+              <dt className="font-semibold">{t.clientArea.targetCountries}</dt>
+              <dd className="text-[var(--qoobix-muted)]">
+                {client.targetCountries.length
+                  ? client.targetCountries.join(', ')
+                  : t.common.notConfigured}
+              </dd>
+            </div>
+
+            <div>
+              <dt className="font-semibold">{t.clientArea.targetCustomerTypes}</dt>
               <dd className="text-[var(--qoobix-muted)]">
                 {client.targetCustomerTypes.length
                   ? client.targetCustomerTypes.join(', ')
-                  : 'Not configured'}
+                  : t.common.notConfigured}
               </dd>
             </div>
 
             <div>
-              <dt className="font-semibold">Target channels</dt>
+              <dt className="font-semibold">{t.clientArea.targetChannels}</dt>
               <dd className="text-[var(--qoobix-muted)]">
-                {client.targetChannels.length ? client.targetChannels.join(', ') : 'Not configured'}
+                {client.targetChannels.length
+                  ? client.targetChannels.join(', ')
+                  : t.common.notConfigured}
               </dd>
             </div>
           </dl>
         </Panel>
 
         <Panel>
-          <h2 className="text-xl font-semibold">Previous jobs</h2>
+          <h2 className="text-xl font-semibold">{t.clientArea.previousJobs}</h2>
 
           {jobs.length ? (
             <div className="mt-5 overflow-x-auto">
               <table className="w-full min-w-[620px] border-collapse text-sm">
                 <thead>
                   <tr className="border-b border-[var(--qoobix-border)] text-left">
-                    <th className="py-3 pr-4">Created</th>
-                    <th className="py-3 pr-4">Question</th>
-                    <th className="py-3 pr-4">Status</th>
-                    <th className="py-3 pr-4">Open</th>
+                    <th className="py-3 pr-4">{t.clientArea.created}</th>
+                    <th className="py-3 pr-4">{t.clientArea.question}</th>
+                    <th className="py-3 pr-4">{t.clientArea.status}</th>
+                    <th className="py-3 pr-4">{t.common.open}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -421,7 +444,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           {new Date(job.created_at).toLocaleDateString('en-GB')}
                         </td>
                         <td className="py-3 pr-4">
-                          {request.marketQuestion ?? 'Market intelligence request'}
+                          {request.marketQuestion ?? t.clientArea.marketIntelligenceRequest}
                         </td>
                         <td className="py-3 pr-4">
                           <StatusPill status={job.status as JobStatus} />
@@ -431,7 +454,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
                             href={`/job/${job.id}`}
                             className="font-semibold text-[var(--qoobix-orange)]"
                           >
-                            View
+                            {t.common.view}
                           </Link>
                         </td>
                       </tr>
@@ -442,7 +465,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
             </div>
           ) : (
             <p className="mt-5 leading-7 text-[var(--qoobix-muted)]">
-              No jobs yet. Complete the business profile, then create the first request.
+              {t.clientArea.noJobsYet}
             </p>
           )}
         </Panel>
@@ -450,10 +473,9 @@ export default async function ClientPage({ params }: ClientPageProps) {
 
       <div className="mt-6">
         <Panel>
-          <h2 className="text-xl font-semibold">Recovery phrase and access code</h2>
+          <h2 className="text-xl font-semibold">{t.clientArea.recoveryTitle}</h2>
           <p className="mt-3 leading-7 text-[var(--qoobix-muted)]">
-            Set a recovery phrase and let Proteus generate a private access code. The generated code
-            is shown once. QOOBIX stores only hashes, not readable access codes or recovery phrases.
+            {t.clientArea.recoveryText}
           </p>
 
           <div className="mt-6">
