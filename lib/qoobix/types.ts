@@ -16,6 +16,8 @@ export type JobStatus =
   | 'failed'
   | 'cancelled';
 
+export type IntelligenceMode = 'analysis' | 'discovery';
+
 export type ReportType = 'docx' | 'xlsx' | 'rtf' | 'csv';
 
 export type ClientConfiguration = {
@@ -36,7 +38,30 @@ export type ClientConfiguration = {
   fileRetentionDays: number;
 };
 
+export type DiscoveryCandidate = {
+  name: string;
+  website: string | null;
+  formattedAddress: string | null;
+  countryOrRegion: string | null;
+  placeId: string | null;
+  businessCategories: string[];
+  candidateType: string;
+  source: 'google_places' | 'manual' | 'other';
+  relevanceReason: string;
+  suggestedAction: string;
+  confidence: 'low' | 'medium' | 'high' | 'requires_verification';
+  verificationStatus: 'unverified' | 'needs_review' | 'reviewed' | 'rejected';
+};
+
+export type DiscoveryUsage = {
+  textSearchCallsUsed: number;
+  placeDetailsCallsUsed: number;
+  candidateOrganisationsFound: number;
+  candidateOrganisationsRetained: number;
+};
+
 export type IntelligenceRequest = {
+  intelligenceMode: IntelligenceMode;
   productOrService: string;
   targetCountries: string;
   marketQuestion: string;
