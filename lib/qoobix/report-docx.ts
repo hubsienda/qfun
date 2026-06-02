@@ -1,6 +1,7 @@
 import {
   AlignmentType,
   Document,
+  ExternalHyperlink,
   HeadingLevel,
   Packer,
   Paragraph,
@@ -23,7 +24,9 @@ type CreateDocxReportInput = {
 };
 
 function cleanText(value: string | null | undefined) {
-  return value && value.trim() ? value : '—';
+  return (value && value.trim() ? value : '—')
+    .replace(/\bUnverified\b/g, 'Candidate for verification')
+    .replace(/\bunverified\b/g, 'candidate for verification');
 }
 
 function title(text: string) {
@@ -71,7 +74,7 @@ function smallMuted(text: string) {
   return new Paragraph({
     children: [
       new TextRun({
-        text,
+        text: cleanText(text),
         italics: true,
         size: 20,
         color: '746B64'
@@ -99,16 +102,40 @@ function bulletSection(titleText: string, items: string[]) {
   return [heading(titleText), ...(items.length ? items.map(bullet) : [paragraph('—')])];
 }
 
+function isUrl(value: string) {
+  return /^https?:\/\//i.test(value.trim());
+}
+
 function tableCell(value: string, bold = false) {
+  const text = cleanText(value);
+
   return new TableCell({
     children: [
       new Paragraph({
-        children: [
-          new TextRun({
-            text: cleanText(value),
-            bold
-          })
-        ],
+        children:
+          isUrl(text) && !bold
+            ? [
+                new ExternalHyperlink({
+                  link: text,
+                  children: [
+                    new TextRun({
+                      text: 'Open verification route',
+                      style: 'Hyperlink'
+                    })
+                  ]
+                }),
+                new TextRun({
+                  text: ` (${text})`,
+                  size: 18,
+                  color: '746B64'
+                })
+              ]
+            : [
+                new TextRun({
+                  text,
+                  bold
+                })
+              ],
         spacing: {
           after: 80
         }
@@ -135,9 +162,16 @@ function createInfoTable(rows: Array<[string, string]>) {
 function createPartnerTable(intelligence: GeneratedIntelligence) {
   const rows = [
     new TableRow({
-      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Suggested action', 'Notes'].map(
-        (label) => tableCell(label, true)
-      )
+      children: [
+        'Name/category',
+        'Type',
+        'Country/region',
+        'Status',
+        'Verification route',
+        'Relevance',
+        'Suggested action',
+        'Notes'
+      ].map((label) => tableCell(label, true))
     }),
     ...intelligence.potentialPartnersProspects.map(
       (item) =>
@@ -146,6 +180,8 @@ function createPartnerTable(intelligence: GeneratedIntelligence) {
             tableCell(item.name),
             tableCell(item.category),
             tableCell(item.countryOrRegion),
+            tableCell(item.status || 'Candidate for verification'),
+            tableCell(item.verificationUrl || 'Not supplied'),
             tableCell(item.relevance),
             tableCell(item.suggestedAction),
             tableCell(item.notes)
@@ -166,9 +202,15 @@ function createPartnerTable(intelligence: GeneratedIntelligence) {
 function createCompetitorTable(intelligence: GeneratedIntelligence) {
   const rows = [
     new TableRow({
-      children: ['Name/category', 'Type', 'Country/region', 'Relevance', 'Notes'].map((label) =>
-        tableCell(label, true)
-      )
+      children: [
+        'Name/category',
+        'Type',
+        'Country/region',
+        'Status',
+        'Verification route',
+        'Relevance',
+        'Notes'
+      ].map((label) => tableCell(label, true))
     }),
     ...intelligence.competitorRows.map(
       (item) =>
@@ -177,6 +219,8 @@ function createCompetitorTable(intelligence: GeneratedIntelligence) {
             tableCell(item.name),
             tableCell(item.type),
             tableCell(item.countryOrRegion),
+            tableCell(item.status || 'Candidate for verification'),
+            tableCell(item.verificationUrl || 'Not supplied'),
             tableCell(item.relevance),
             tableCell(item.notes)
           ]
@@ -207,7 +251,9 @@ function createActionTable(actions: string[]) {
             tableCell(String(index + 1)),
             tableCell(action),
             tableCell('Turn the intelligence into a practical commercial step.'),
-            tableCell('Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.')
+            tableCell(
+              'Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.'
+            )
           ]
         })
     )
@@ -235,7 +281,9 @@ function createVerificationTable(intelligence: GeneratedIntelligence) {
           children: [
             tableCell(note),
             tableCell('Reduces the risk of acting on incomplete or uncertain intelligence.'),
-            tableCell('Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.')
+            tableCell(
+              'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.'
+            )
           ]
         })
     )
@@ -274,7 +322,7 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           }),
 
           smallMuted(
-            'AI-assisted market intelligence. Verify all outputs before commercial, legal, regulatory, technical, financial, or strategic use.'
+            'AI-assisted market intelligence. Check all outputs before commercial, legal, regulatory, technical, financial, or strategic use.'
           ),
 
           createInfoTable([
@@ -293,7 +341,7 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
 
           subheading('Commercial meaning'),
           paragraph(
-            'This briefing is designed to support commercial prioritisation. It should be treated as a decision aid, not as a substitute for source verification, direct market contact, or professional judgement.'
+            'This briefing is designed to support commercial prioritisation. It should be treated as a decision aid, not as a substitute for source checking, direct market contact, or professional judgement.'
           ),
 
           heading('2. Client and product context'),
@@ -337,7 +385,7 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
 
           heading('Final verification notice'),
           paragraph(
-            'This report is AI-assisted and may contain incomplete, outdated, or unverified information. Named entities, market claims, competitor references, regulatory assumptions, and commercial recommendations must be verified before use. QOOBIX does not replace professional judgement, source verification, commercial due diligence, legal advice, financial advice, technical assessment, or regulatory review.'
+            'This report is AI-assisted and may contain incomplete, outdated, or candidate information requiring review. Named entities, market claims, competitor references, regulatory assumptions, and commercial recommendations must be checked before use. QOOBIX does not replace professional judgement, source checking, commercial due diligence, legal advice, financial advice, technical assessment, or regulatory review.'
           )
         ]
       }
