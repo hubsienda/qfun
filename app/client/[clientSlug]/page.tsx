@@ -9,6 +9,7 @@ import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientAreaData, isClientProfileComplete } from '@/lib/qoobix/db';
+import { getClientLicenceUsage } from '@/lib/qoobix/licensing';
 import type { JobStatus } from '@/lib/qoobix/types';
 
 type ClientPageProps = {
@@ -37,6 +38,133 @@ export async function generateMetadata({ params }: ClientPageProps): Promise<Met
       nocache: true
     }
   };
+}
+
+function formatDate(value: string) {
+  return new Date(`${value}T00:00:00.000Z`).toLocaleDateString('en-GB');
+}
+
+function planLabel(plan: string) {
+  if (plan === 'analysis_discovery') {
+    return 'QOOBIX Analysis + Discovery';
+  }
+
+  return 'QOOBIX Analysis';
+}
+
+function usageLabel(used: number, allowed: number, unlimited = false) {
+  if (unlimited) {
+    return `${used} / unlimited`;
+  }
+
+  return `${used} / ${allowed}`;
+}
+
+function UsageMetric({
+  label,
+  value,
+  helper
+}: {
+  label: string;
+  value: string;
+  helper?: string;
+}) {
+  return (
+    <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/60 p-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-muted)]">
+        {label}
+      </p>
+      <p className="mt-2 text-2xl font-semibold">{value}</p>
+      {helper ? <p className="mt-2 text-xs leading-5 text-[var(--qoobix-muted)]">{helper}</p> : null}
+    </div>
+  );
+}
+
+function LicencePanel({
+  usage,
+  fileRetentionDays
+}: {
+  usage: Awaited<ReturnType<typeof getClientLicenceUsage>>;
+  fileRetentionDays: number;
+}) {
+  const unlimited = usage.isInternalAccount;
+
+  return (
+    <Panel className="p-6 md:p-7">
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <div>
+          <p className="qoobix-kicker">Licence and usage</p>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight">
+            {unlimited ? 'Internal QOOBIX account' : planLabel(usage.plan)}
+          </h2>
+          <p className="mt-3 max-w-3xl leading-7 text-[var(--qoobix-muted)]">
+            {unlimited
+              ? 'This account is marked as internal. Usage limits are visible for monitoring, but they are not enforced.'
+              : 'This summary shows the current licence period and the annual usage allowance for this QOOBIX environment.'}
+          </p>
+        </div>
+
+        <div className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
+          {usage.isLicenceActive ? 'Licence active' : 'Licence inactive'}
+        </div>
+      </div>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <UsageMetric
+          label="Plan"
+          value={unlimited ? 'Internal' : usage.plan === 'analysis_discovery' ? 'Analysis + Discovery' : 'Analysis'}
+          helper={unlimited ? 'Limits not enforced' : 'Current commercial version'}
+        />
+
+        <UsageMetric
+          label="Licence period"
+          value={`${formatDate(usage.licenceStartsAt)} → ${formatDate(usage.licenceEndsAt)}`}
+          helper="Jobs are counted inside this period"
+        />
+
+        <UsageMetric
+          label="File retention"
+          value={`${fileRetentionDays} days`}
+          helper="Generated files must be downloaded and kept by the client"
+        />
+
+        <UsageMetric
+          label="Total jobs"
+          value={usageLabel(usage.totalJobsUsed, usage.totalJobsAllowed, unlimited)}
+          helper="Analysis and Discovery combined"
+        />
+      </div>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <UsageMetric
+          label="Analysis jobs"
+          value={usageLabel(usage.analysisJobsUsed, usage.analysisJobsAllowed, unlimited)}
+        />
+
+        <UsageMetric
+          label="Discovery jobs"
+          value={usageLabel(usage.discoveryJobsUsed, usage.discoveryJobsAllowed, unlimited)}
+        />
+
+        <UsageMetric
+          label="Countries per Discovery"
+          value={unlimited ? 'Unlimited' : String(usage.maxCountriesPerDiscoveryJob)}
+        />
+
+        <UsageMetric
+          label="Candidates per Discovery"
+          value={unlimited ? 'Unlimited' : String(usage.maxCandidatesPerDiscoveryJob)}
+        />
+      </div>
+
+      {!unlimited ? (
+        <p className="mt-5 text-sm leading-7 text-[var(--qoobix-muted)]">
+          Extra Analysis jobs, Discovery jobs, Discovery countries, and candidate packs are added by
+          Sienda after quotation, invoice, and bank transfer.
+        </p>
+      ) : null}
+    </Panel>
+  );
 }
 
 function ActionCard({
@@ -104,6 +232,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
   }
 
   const { client, jobs } = data;
+  const usage = await getClientLicenceUsage(client.id);
   const profileComplete = isClientProfileComplete(client);
 
   const readyJobs = jobs.filter((job) => job.status === 'ready').length;
@@ -155,6 +284,10 @@ export default async function ClientPage({ params }: ClientPageProps) {
             <p className="mt-2 text-2xl font-semibold">{activeJobs}</p>
           </div>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <LicencePanel usage={usage} fileRetentionDays={client.fileRetentionDays} />
       </div>
 
       <div className="mt-8">
