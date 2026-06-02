@@ -25,14 +25,15 @@ ${index + 1}. ${candidate.name}
 - Candidate type: ${candidate.candidateType}
 - Country/region: ${candidate.countryOrRegion ?? 'Not provided'}
 - Address/area: ${candidate.formattedAddress ?? 'Not provided'}
-- Website: ${candidate.website ?? 'Not provided'}
+- Website: ${candidate.website ?? 'Not supplied'}
+- Verification URL: ${candidate.verificationUrl ?? 'Not supplied'}
 - Business categories: ${
         candidate.businessCategories.length ? candidate.businessCategories.join(', ') : 'Not provided'
       }
 - Source: ${candidate.source}
 - Relevance reason: ${candidate.relevanceReason}
 - Suggested verification action: ${candidate.suggestedAction}
-- Verification status: ${candidate.verificationStatus}
+- Status wording to use in report: Candidate for verification
 `
     )
     .join('\n');
@@ -78,6 +79,8 @@ IMPORTANT LIMITATIONS
 - If the information is uncertain, mark it as an assumption, hypothesis, or item requiring validation.
 - Prefer commercial logic over fake precision.
 - Avoid phrases such as "unlock potential", "leverage synergies", "AI-powered insights", "seamless growth", "transform your business", or similar consultancy fog.
+- Do not use the word "unverified" in candidate table notes unless absolutely necessary.
+- Use professional wording such as "Candidate", "Candidate for verification", "Verification required", or "Check before outreach".
 
 DISCOVERY MODE RULES
 
@@ -98,7 +101,8 @@ However:
 - They are not guaranteed competitors.
 - Do not imply that the client has a relationship with them.
 - Do not imply that they are willing to buy, distribute, partner, or respond.
-- Prioritise and explain them as "candidate organisations to verify".`
+- Prioritise and explain them as "candidate organisations to verify".
+- Preserve the supplied Verification URL exactly in the JSON field "verificationUrl". Do not remove it, rewrite it, shorten it, or hide it inside another field.`
     : `This is Analysis Mode. No live named-organisation discovery has been supplied. Do not pretend that live discovery was performed.`
 }
 
@@ -225,6 +229,8 @@ Return only valid JSON in this exact structure:
       "countryOrRegion": "string",
       "relevance": "string",
       "suggestedAction": "string",
+      "verificationUrl": "string",
+      "status": "Candidate for verification",
       "notes": "string"
     }
   ],
@@ -234,6 +240,8 @@ Return only valid JSON in this exact structure:
       "type": "string",
       "countryOrRegion": "string",
       "relevance": "string",
+      "verificationUrl": "string",
+      "status": "Candidate for verification",
       "notes": "string"
     }
   ]
@@ -277,18 +285,18 @@ Be honest about source limitations, discovery limitations, verification needs, a
 potentialPartnersProspects:
 ${
   isDiscoveryMode
-    ? `Use the supplied discovered candidate organisations where commercially relevant. Provide 8 to 20 rows if possible. Every named organisation must be clearly treated as requiring verification.`
+    ? `Use the supplied discovered candidate organisations where commercially relevant. Provide 8 to 20 rows if possible. Every named organisation must be treated as requiring verification. Preserve each supplied verification URL exactly.`
     : `Provide 8 to 15 rows if possible. Rows may include named organisations only if plausible and clearly marked for verification. If names are uncertain, use categories.`
 }
-Each row must include a practical suggested action.
+Each row must include a practical suggested action and the status "Candidate for verification".
 
 competitorRows:
 ${
   isDiscoveryMode
-    ? `Use supplied discovered candidate organisations where they appear to be competitors, substitutes, suppliers, or local alternatives.`
+    ? `Use supplied discovered candidate organisations where they appear to be competitors, substitutes, suppliers, or local alternatives. Preserve each supplied verification URL exactly.`
     : `Provide 6 to 12 rows if possible. Include direct competitors, indirect competitors, substitutes, alternative buying paths, local incumbents, and the option of doing nothing.`
 }
-Every row must explain relevance.
+Every row must explain relevance and include the status "Candidate for verification".
 
 The final output must be in the preferred output language requested by the client.
 `.trim();
