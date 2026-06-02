@@ -586,11 +586,15 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
     throw new Error('Please complete the business profile before creating an intelligence job.');
   }
 
+  const intelligenceMode = input.intelligenceMode ?? 'analysis';
+
   const { data, error } = (await supabase
     .from('jobs')
     .insert({
       client_id: input.clientId,
       status: 'received',
+      intelligence_mode: intelligenceMode,
+      discovery_status: intelligenceMode === 'discovery' ? 'pending' : 'not_required',
       request_metadata: input,
       result_token: crypto.randomUUID()
     })
@@ -606,7 +610,8 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
 
   await addJobLog(data.id, 'info', 'Job created.', {
     clientSlug: input.clientSlug,
-    objective: input.commercialObjective
+    objective: input.commercialObjective,
+    intelligenceMode
   });
 
   return data;
