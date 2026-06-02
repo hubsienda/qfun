@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { AdminClientCommercialForm } from '@/components/AdminClientCommercialForm';
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Field';
 import { Panel } from '@/components/Panel';
@@ -27,6 +28,19 @@ type AdminClientSummary = {
   sector: string;
   preferredLanguage: string;
   isActive: boolean;
+  isInternalAccount: boolean;
+  qoobixPlan: 'analysis' | 'analysis_discovery';
+  licenceStartsAt: string;
+  licenceEndsAt: string;
+  maxAnalysisJobsPerYear: number;
+  maxDiscoveryJobsPerYear: number;
+  maxTotalJobsPerYear: number;
+  maxCountriesPerDiscoveryJob: number;
+  maxCandidatesPerDiscoveryJob: number;
+  extraAnalysisJobCredits: number;
+  extraDiscoveryJobCredits: number;
+  extraCountryCredits: number;
+  extraCandidatePackCredits: number;
   createdAt: string;
   jobCount: number;
   failedJobCount: number;
@@ -69,12 +83,24 @@ const initialForm = {
   name: '',
   slug: '',
   preferredLanguage: 'English',
-  availableReportTypes: 'docx,xlsx',
+  availableReportTypes: 'docx,xlsx,rtf,csv',
   fileRetentionDays: '30'
 };
 
 function canCancelJob(status: string) {
   return ['received', 'processing', 'generating_outputs'].includes(status);
+}
+
+function planLabel(client: AdminClientSummary) {
+  if (client.isInternalAccount) {
+    return 'Internal';
+  }
+
+  if (client.qoobixPlan === 'analysis_discovery') {
+    return 'Analysis + Discovery';
+  }
+
+  return 'Analysis';
 }
 
 export function AdminPanel({ adminPath }: AdminPanelProps) {
@@ -416,7 +442,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
               <InputField
                 label="Available report types"
                 name="availableReportTypes"
-                hint="Usually: docx,xlsx"
+                hint="Usually: docx,xlsx,rtf,csv"
                 value={form.availableReportTypes}
                 onChange={(event) => updateField('availableReportTypes', event.target.value)}
               />
@@ -525,7 +551,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
           <div>
             <h2 className="text-xl font-semibold">Clients</h2>
             <p className="mt-2 text-sm text-[var(--qoobix-muted)]">
-              Operational visibility only. Still not a dashboard monster.
+              Operational visibility, provisioning, suspension, access resets, and commercial settings.
             </p>
           </div>
 
@@ -541,12 +567,13 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
 
         {clients.length ? (
           <div className="mt-6 overflow-x-auto">
-            <table className="w-full min-w-[900px] border-collapse text-sm">
+            <table className="w-full min-w-[1100px] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-[var(--qoobix-border)] text-left">
                   <th className="py-3 pr-4">Client</th>
                   <th className="py-3 pr-4">Access name</th>
                   <th className="py-3 pr-4">Status</th>
+                  <th className="py-3 pr-4">Plan</th>
                   <th className="py-3 pr-4">Sector</th>
                   <th className="py-3 pr-4">Jobs</th>
                   <th className="py-3 pr-4">Latest job</th>
@@ -555,7 +582,7 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
               </thead>
               <tbody>
                 {clients.map((client) => (
-                  <tr key={client.id} className="border-b border-[var(--qoobix-border)]">
+                  <tr key={client.id} className="border-b border-[var(--qoobix-border)] align-top">
                     <td className="py-3 pr-4 font-semibold">{client.name}</td>
                     <td className="py-3 pr-4">{client.slug}</td>
                     <td className="py-3 pr-4">
@@ -568,6 +595,14 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                           Suspended
                         </span>
                       )}
+                    </td>
+                    <td className="py-3 pr-4">
+                      <div className="space-y-1">
+                        <p className="font-semibold">{planLabel(client)}</p>
+                        <p className="text-xs text-[var(--qoobix-muted)]">
+                          {client.licenceStartsAt} → {client.licenceEndsAt}
+                        </p>
+                      </div>
                     </td>
                     <td className="py-3 pr-4 text-[var(--qoobix-muted)]">{client.sector}</td>
                     <td className="py-3 pr-4">
@@ -606,6 +641,13 @@ export function AdminPanel({ adminPath }: AdminPanelProps) {
                           </button>
                         )}
                       </div>
+
+                      <AdminClientCommercialForm
+                        adminApiBase={adminApiBase}
+                        adminPassword={form.adminPassword}
+                        client={client}
+                        onSaved={loadAll}
+                      />
                     </td>
                   </tr>
                 ))}
