@@ -1,451 +1,185 @@
 ---
-title: "QOOBIX User Guide"
-product: "QOOBIX"
-provider: "Sienda Ltd"
----
+
+## title: "User Guide"
 
 # QOOBIX User Guide
 
-## 1. What QOOBIX is
+QOOBIX is a private market-intelligence environment. It helps a configured client create structured commercial intelligence requests, generate reports, and download editable outputs.
 
-QOOBIX is a private market-intelligence application.
+QOOBIX is not a CRM, not a lead database, not a permanent document archive, and not a public self-service SaaS platform. It is a provisioned intelligence workspace designed to help a business ask sharper commercial questions and receive structured decision material.
 
-It helps a provisioned business client create structured intelligence reports for commercial questions such as market entry, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, positioning, and next-action planning.
+## What QOOBIX does
 
-QOOBIX does not work like a public platform where anyone can register. Access is created privately for each client.
+QOOBIX helps you analyse markets, commercial channels, competitors, partners, distributors, prospects, regional priorities, positioning risks, and next commercial actions.
 
-## 2. What QOOBIX produces
+Depending on the licence assigned to your environment, QOOBIX may operate in one of two main modes.
 
-QOOBIX generates downloadable files from a market-intelligence request.
+## Analysis Mode
 
-The usual output files are:
+Analysis Mode produces strategic AI-assisted market intelligence without live named-organisation discovery.
 
-1. DOCX report for Microsoft Word.
-2. XLSX workbook for Microsoft Excel.
-3. RTF report for Google Docs or universal editable use.
-4. CSV export for Google Sheets or spreadsheet import.
+Use Analysis Mode when you want to understand a market, assess commercial opportunity, compare possible channels, clarify positioning, identify risks, or decide what should be checked next.
 
-Each file is designed for a different tool. Use the format that matches the software you prefer.
+Typical Analysis Mode requests include market-entry analysis, positioning analysis, channel analysis, regional opportunity assessment, competitor and substitute analysis, and action-priority reports.
 
-## 3. Accessing QOOBIX
+Analysis Mode is useful when the question is mainly strategic.
 
-You will receive a private access code.
+## Discovery Mode
 
-To enter QOOBIX:
+Discovery Mode combines analysis with controlled named-organisation discovery.
 
-1. Open the QOOBIX access page.
-2. Enter your access code.
-3. Continue to your private client area.
+Discovery Mode may use external discovery sources, including Google Places, to identify candidate organisations such as possible distributors, partners, competitors, suppliers, installers, retailers, operators, consultants, agencies, or other market actors.
 
-There is no public registration form and no traditional username/password login.
+The organisations found in Discovery Mode are candidate organisations for verification. They are not guaranteed leads, confirmed partners, verified distributors, guaranteed competitors, or validated commercial opportunities.
 
-## 4. Keeping your access secure
+Discovery Mode is useful when the question requires real organisation names that can be checked, filtered, contacted, or discussed internally.
 
-Treat your access code as private.
+## Candidate organisations and verification
 
-Do not publish it, forward it carelessly, or store it in places where unauthorised people may access it.
+When QOOBIX provides named organisations, they must be treated as candidates.
 
-If you believe your access code has been exposed, rotate it from your client area or contact the operator.
+A candidate organisation may be relevant, but it must still be checked before commercial use. You should verify its current activity, location, offer, website, buyer fit, decision-maker route, and suitability before using it for outreach or strategic decisions.
 
-## 5. Setting a recovery phrase
+When available, QOOBIX includes a verification route, such as a Google Maps link. This route is provided to help you start the verification process. It is not proof that the organisation is commercially suitable.
 
-Inside the client area, you can set a recovery phrase.
+## Accessing QOOBIX
 
-The recovery phrase allows you to generate a new access code if you lose the current one.
+QOOBIX uses private access codes rather than traditional user accounts.
 
-Choose a phrase you can remember, but do not choose something obvious.
+To enter your environment, go to the private access page and insert the access code supplied for your configured environment.
 
-If your recovery phrase is lost, the operator may need to issue a temporary reset access code.
+Once inside, you will see your private client area.
 
-## 6. Completing the business profile
+## The client area
 
-Before creating useful intelligence requests, complete your business profile.
+The client area is the main control point for your QOOBIX environment.
 
-The profile may include:
+From the client area, you can review the business profile, create a new intelligence request, open previous jobs, download generated outputs, access the help centre, and review licence and usage information.
 
-1. Sector.
-2. Business description.
-3. Website.
-4. Products and services.
-5. Target countries.
-6. Target customer types.
-7. Target channels.
-8. Known competitors.
-9. Known representatives, distributors, or partners.
-10. Preferred language.
+The client area may show your current plan, licence period, analysis jobs used, discovery jobs used, total jobs used, file retention period, and discovery limits.
 
-The more accurate the profile, the better the context for future reports.
+If your environment is marked as internal, usage limits may be visible for monitoring but not enforced.
 
-## 7. Editing the business profile
+## The business profile
 
-You can return to the business profile page and update the information when needed.
+Before creating useful intelligence requests, the business profile should be completed.
 
-Update the profile when your commercial focus changes, when you enter a new country, when your product offer changes, or when you want QOOBIX to consider different customer types or channels.
+The business profile gives QOOBIX the stable context it needs. It includes the sector, business description, website, products or services, target countries, target customer types, target channels, known competitors, known representatives or partners, and preferred language.
 
-## 8. Creating a new intelligence request
+The business profile should describe the client clearly, but it should not become overloaded. Keep it practical and commercially relevant.
 
-To create a new request:
+A weak business profile produces weaker intelligence. A precise business profile gives QOOBIX better context for analysis and discovery.
 
-1. Open your client area.
-2. Choose the option to create a new intelligence request.
-3. Fill in the requested fields.
-4. Submit the request.
-5. Open the job page.
+## Creating a new request
 
-A request should be specific. A precise commercial question usually produces a more useful report.
+To create a new intelligence request, open the client area and choose New Request.
 
-## 9. What to include in a request
+The request form asks for the product or service to analyse, the target country or countries, the market question, the commercial objective, target customer types, target channels, known competitors, known partners or distributors, and preferred output language.
 
-A good request normally includes:
+The most important field is the market question. A good question tells QOOBIX what decision the client is trying to make.
 
-1. The product or service to analyse.
-2. The target country or countries.
-3. The market question.
-4. The commercial objective.
-5. Target customer types.
-6. Target channels.
-7. Known competitors.
-8. Known partners, distributors, or representatives.
-9. Preferred output language.
+A poor question asks something vague, such as “What is the market like?”
 
-## 10. Examples of good market questions
+A better question asks something specific, such as “Which commercial channels should be prioritised first for this product in this country, and what must be verified before outreach?”
 
-Good market questions are practical and focused.
+## Choosing the intelligence mode
 
-Examples:
+Choose Analysis Mode when you need reasoning, priorities, risks, positioning, commercial interpretation, and next actions.
 
-Which regions and commercial channels in the target country should be prioritised for the distribution of this product?
+Choose Discovery Mode when you need named candidate organisations for verification.
 
-Which competitors and substitute solutions should be mapped before approaching distributors in the target country?
+Discovery Mode should be used carefully. It is strongest when the request explains what type of organisation should be discovered and why.
 
-Which types of partners are most relevant for launching this product in the target country?
+For example, do not simply ask for “partners”. Explain whether you need distributors, installers, wholesalers, consultants, agencies, logistics operators, retailers, trade bodies, service providers, or another type of market actor.
 
-Which customer segments should be prioritised first for market entry in the target country?
+## Choosing the commercial objective
 
-Which commercial risks should be checked before entering this market?
+The commercial objective tells QOOBIX what kind of intelligence you need.
 
-## 11. Choosing the commercial objective
+Common objectives include market-entry analysis, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, lead or prospect discovery, positioning analysis, pricing or channel analysis, and action-priority reporting.
 
-The commercial objective helps QOOBIX understand the purpose of the request.
+The objective should match the request. If you select competitor mapping but ask for distributors, the output may be less precise.
 
-Typical objectives include:
+## Generating outputs
 
-1. Market-entry analysis.
-2. Distributor discovery.
-3. Partner discovery.
-4. Competitor mapping.
-5. Regional opportunity assessment.
-6. Lead or prospect discovery.
-7. Positioning analysis.
-8. Pricing or channel analysis.
-9. Action-priority report.
+After creating a job, QOOBIX opens the job page.
 
-Choose the objective that best matches the decision you need to make.
+If the job has not yet been generated, choose Generate Outputs. Proteus, the QOOBIX intelligence layer, will prepare the structured intelligence and create the available output files.
 
-## 12. Generating the outputs
+The page should be kept open while generation is running.
 
-After the request is created, QOOBIX opens a job page.
+When the job is ready, open the result page to download the files.
 
-Generation is manually triggered from the job page.
+## Output formats
 
-To generate the outputs:
+QOOBIX may generate DOCX, XLSX, RTF, and CSV files.
 
-1. Review the job information.
-2. Click the generation button.
-3. Keep the page open while QOOBIX prepares the files.
-4. When generation is complete, open the result page.
+DOCX is designed for Microsoft Word.
 
-## 13. Opening the result page
+XLSX is designed for Microsoft Excel.
 
-The result page shows the generated files.
+RTF is provided as an editable document format that can be used with Google Docs and other word processors.
 
-It also explains which file format is best for each tool.
+CSV is provided for Google Sheets, Excel, and spreadsheet workflows.
 
-Download the files you need before their expiry date.
+For best formatting in Microsoft Office, use DOCX and XLSX. For Google workflows, use RTF and CSV.
 
-## 14. Which file should I use?
+## Download links and file retention
 
-Use the file that matches your preferred software.
+Generated files are retained only for the configured retention period.
 
-For Microsoft Word:
+The result page provides temporary signed download links. These links remain valid only for a limited period. Anyone who has a valid signed link may open it until it expires.
 
-Use the DOCX report.
+Download and store the files you need. QOOBIX should not be treated as a permanent archive.
 
-For Microsoft Excel:
+## Usage limits
 
-Use the XLSX workbook.
+Your QOOBIX environment may have annual usage limits.
 
-For Google Docs:
+Depending on your licence, you may have limits for total jobs, Analysis jobs, Discovery jobs, countries per Discovery job, and candidate organisations per Discovery job.
 
-Use the RTF report.
+Extra Analysis jobs, Discovery jobs, additional Discovery countries, and candidate packs may be added by Sienda after quotation, invoice, and bank transfer.
 
-For Google Sheets:
+If a limit is reached, QOOBIX may block the creation of a new request until the allowance is extended.
 
-Use the CSV export.
+## What to do with a QOOBIX report
 
-## 15. Using the DOCX report
+A QOOBIX report is decision material. It should help you decide what to investigate, where to focus, which channels look stronger, which assumptions are risky, and what should happen next.
 
-The DOCX report is prepared for Microsoft Word.
+Do not treat the report as final proof.
 
-Open it with Microsoft Word for the best layout.
+Use it to structure research, guide outreach, prepare internal discussion, compare options, and decide what evidence is still missing.
 
-It contains the written intelligence report, including the decision brief, market overview, demand signals, channel opportunities, partner or prospect suggestions, competitor and alternative mapping, risks, action priorities, and verification notes.
+## What QOOBIX is not
 
-## 16. Using the XLSX workbook
+QOOBIX is not legal advice.
 
-The XLSX workbook is prepared for Microsoft Excel.
+QOOBIX is not financial advice.
 
-Open it with Microsoft Excel for the best layout.
+QOOBIX is not regulatory advice.
 
-It contains structured sheets that help you review, filter, assign, and verify the intelligence.
+QOOBIX is not technical certification.
 
-## 17. Using the RTF report with Google Docs
+QOOBIX is not a guarantee of market demand.
 
-The RTF file is the recommended format for Google Docs.
+QOOBIX is not a guarantee that any named organisation is suitable, active, interested, solvent, compliant, or commercially relevant.
 
-To use it:
+QOOBIX is a structured intelligence tool. Human verification remains essential.
 
-1. Download the RTF report.
-2. Upload it to Google Drive.
-3. Right-click the file.
-4. Choose Open with Google Docs.
+## Good operating habits
 
-You may also open Google Docs, use File → Open → Upload, and select the RTF file.
+Keep the business profile up to date.
 
-## 18. Using the CSV export with Google Sheets
+Ask specific questions.
 
-The CSV file is the recommended format for Google Sheets.
+Use Discovery Mode only when named candidate organisations are useful.
 
-To use it:
+Verify candidate organisations before outreach.
 
-1. Download the CSV export.
-2. Open Google Sheets.
-3. Choose File → Import.
-4. Upload the CSV file.
-5. Choose whether to create a new spreadsheet or insert a new sheet.
-6. Import the data.
+Download reports before expiry.
 
-## 19. Understanding the report
+Use the spreadsheet outputs for filtering, comparison, and follow-up planning.
 
-A QOOBIX report may include:
+Use the document outputs for reading, sharing internally, and preparing commercial decisions.
 
-1. Executive summary.
-2. Client and product context.
-3. Target market overview.
-4. Demand signals.
-5. Channel opportunities.
-6. Potential partners or prospects.
-7. Competitors, substitutes, and alternatives.
-8. Regional or segment priorities.
-9. Positioning recommendations.
-10. Commercial risks and caveats.
-11. Action priorities.
-12. Source limitations and verification notes.
-
-The report is designed to support commercial thinking and next steps.
-
-## 20. Understanding the workbook
-
-The workbook is designed for practical follow-up.
-
-It may include sheets for:
-
-1. Request summary.
-2. Decision brief.
-3. Regional priorities.
-4. Potential partners.
-5. Competitors and alternatives.
-6. Demand signals.
-7. Channel opportunities.
-8. Positioning.
-9. Action matrix.
-10. Risks and caveats.
-11. Verification workflow.
-12. Source limitations.
-
-Use the workbook to organise verification, assign tasks, and plan action.
-
-## 21. Verification is required
-
-QOOBIX outputs are AI-assisted.
-
-They may contain incomplete, outdated, uncertain, speculative, or inaccurate information.
-
-Before using the output commercially, verify important claims, named organisations, competitor references, market assumptions, regulatory points, technical points, and recommended actions.
-
-Do not rely on a QOOBIX report as the only basis for important commercial, legal, financial, technical, or regulatory decisions.
-
-## 22. What QOOBIX does not guarantee
-
-QOOBIX does not guarantee:
-
-1. Accuracy.
-2. Completeness.
-3. Commercial success.
-4. Distributor interest.
-5. Partner availability.
-6. Market access.
-7. Sales results.
-8. Regulatory suitability.
-9. Technical suitability.
-10. Legal compliance.
-
-QOOBIX is a decision-support tool, not a replacement for professional judgement or direct market validation.
-
-## 23. Download links and expiry
-
-Generated files are stored temporarily.
-
-Download links are temporary signed links.
-
-A signed link may be opened by anyone who has the link until it expires.
-
-Treat download links carefully.
-
-Download and store the files you need before the expiry date.
-
-## 24. File retention
-
-The default retention period is 30 days, unless configured differently for your environment.
-
-After the retention period expires, files may be deleted during cleanup.
-
-QOOBIX is not intended to be a permanent report archive.
-
-Keep your own copies of the files you need.
-
-## 25. Returning to previous jobs
-
-Your client area may show previous jobs and their status.
-
-If a result is still available, you can open it from the client area.
-
-If the files have expired or been cleaned, you may need to create a new request or ask the operator for guidance.
-
-## 26. Job statuses
-
-A job may show different statuses.
-
-Received means the request has been created.
-
-Processing means QOOBIX is preparing the generation.
-
-Generating outputs means the report files are being created.
-
-Ready means the files are available.
-
-Failed means generation did not complete.
-
-Cancelled means the job was stopped.
-
-## 27. If generation fails
-
-If generation fails, the operator may retry the job from the provisioning area.
-
-If the request was unclear or too broad, you may need to create a better, more specific request.
-
-## 28. If a job is stuck
-
-If a job appears stuck, contact the operator.
-
-The operator can review the job, retry it, or cancel it if necessary.
-
-## 29. If you want better results
-
-To improve the quality of a QOOBIX report:
-
-1. Be specific.
-2. Name the product or service clearly.
-3. Specify the target country.
-4. Explain the commercial objective.
-5. Include known competitors or alternatives.
-6. Include known partners or distributors if relevant.
-7. Avoid vague questions such as “analyse the market”.
-8. Ask a question connected to a real commercial decision.
-
-## 30. Good example request
-
-Product or service:
-
-Low-thickness thermal insulation and wall-restoration system for damp walls, mould, condensation, and thermal bridges.
-
-Target country:
-
-Target Country.
-
-Market question:
-
-Which regions and commercial channels in the target country should be prioritised for the distribution and specification of this low-thickness wall insulation and damp/mould remediation system?
-
-Commercial objective:
-
-Distributor discovery.
-
-Target customer types:
-
-Building-material distributors, renovation contractors, damp-remediation specialists, architects, energy-efficiency consultants, installers, and property managers.
-
-Target channels:
-
-Regional distributors, technical representatives, installer networks, architectural specification channels, renovation specialists, and trade fairs.
-
-## 31. Poor example request
-
-Analyse the market.
-
-This is too vague. It does not explain the product, the target country, the commercial objective, or the decision to be supported.
-
-## 32. Cookies and privacy
-
-QOOBIX uses essential cookies for private access, session security, and application operation.
-
-At launch, QOOBIX does not use advertising or behavioural tracking cookies.
-
-Read the Privacy Policy and Cookie Policy for more information.
-
-## 33. Legal documents
-
-The legal documents are linked in the footer.
-
-They include:
-
-1. Terms of Service.
-2. Privacy Policy.
-3. Cookie Policy.
-4. Refund Policy.
-5. Data Sources and Report Disclaimer.
-6. AI and Automated Analysis Notice.
-7. Acceptable Use Policy.
-
-Read them before using QOOBIX commercially.
-
-## 34. Basic safety rules
-
-Do not use QOOBIX to enter unlawful, harmful, abusive, discriminatory, defamatory, fraudulent, or unauthorised content.
-
-Do not enter excessive personal data.
-
-Do not use generated outputs as verified facts without checking them.
-
-Do not share access codes irresponsibly.
-
-Do not try to access another client’s environment.
-
-## 35. Best practical workflow
-
-A good QOOBIX workflow is:
-
-1. Complete the business profile carefully.
-2. Create a precise intelligence request.
-3. Generate the files.
-4. Download the correct file format for your tool.
-5. Read the report.
-6. Use the workbook or CSV to organise verification.
-7. Check sources and assumptions.
-8. Prioritise actions.
-9. Contact partners, distributors, or prospects only after validation.
-10. Keep your own copy of useful outputs.
-
-## 36. Support
-
-If you cannot access your client area, cannot recover your code, cannot generate a report, or notice a technical problem, contact the operator using the support contact provided by Sienda Ltd.
+Treat every output as a starting point for professional judgement, not as an oracle wearing a tie.
