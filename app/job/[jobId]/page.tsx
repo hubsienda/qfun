@@ -7,6 +7,7 @@ import { Panel } from '@/components/Panel';
 import { StatusPill } from '@/components/StatusPill';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getJobWithClientAndReports } from '@/lib/qoobix/db';
+import { getOperationalDictionary } from '@/lib/qoobix/client-operational-i18n';
 import type { JobStatus } from '@/lib/qoobix/types';
 
 type JobPageProps = {
@@ -28,9 +29,9 @@ export async function generateMetadata({ params }: JobPageProps): Promise<Metada
   };
 }
 
-function formatExpiryDate(value: string | null) {
+function formatExpiryDate(value: string | null, fallback: string) {
   if (!value) {
-    return 'Expiry not configured';
+    return fallback;
   }
 
   return new Date(value).toLocaleDateString('en-GB', {
@@ -60,6 +61,8 @@ export default async function JobPage({ params }: JobPageProps) {
     redirect('/access');
   }
 
+  const t = getOperationalDictionary(client);
+
   const request = job.request_metadata as {
     marketQuestion?: string;
     productOrService?: string;
@@ -77,11 +80,11 @@ export default async function JobPage({ params }: JobPageProps) {
         <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-              Intelligence job
+              {t.jobPage.badge}
             </p>
 
             <h1 className="text-2xl font-semibold tracking-tight md:text-3xl">
-              Market intelligence request
+              {t.jobPage.title}
             </h1>
 
             <p className="mt-4 leading-8 text-[var(--qoobix-muted)]">{client.name}</p>
@@ -92,27 +95,27 @@ export default async function JobPage({ params }: JobPageProps) {
 
         <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-5">
           <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--qoobix-orange)]">
-            Market question
+            {t.jobPage.marketQuestion}
           </h2>
 
           <p className="mt-3 text-base leading-7 text-[var(--qoobix-text)]">
-            {request.marketQuestion ?? 'Market intelligence request'}
+            {request.marketQuestion ?? t.jobPage.fallbackQuestion}
           </p>
         </div>
 
         <dl className="mt-8 space-y-4 text-sm leading-7">
           <div>
-            <dt className="font-semibold">Product/service</dt>
+            <dt className="font-semibold">{t.jobPage.productService}</dt>
             <dd className="text-[var(--qoobix-muted)]">{request.productOrService ?? '—'}</dd>
           </div>
 
           <div>
-            <dt className="font-semibold">Target countries</dt>
+            <dt className="font-semibold">{t.jobPage.targetCountries}</dt>
             <dd className="text-[var(--qoobix-muted)]">{request.targetCountries ?? '—'}</dd>
           </div>
 
           <div>
-            <dt className="font-semibold">Commercial objective</dt>
+            <dt className="font-semibold">{t.jobPage.commercialObjective}</dt>
             <dd className="text-[var(--qoobix-muted)]">{request.commercialObjective ?? '—'}</dd>
           </div>
         </dl>
@@ -130,25 +133,25 @@ export default async function JobPage({ params }: JobPageProps) {
               style={{ color: '#ffffff' }}
               className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold"
             >
-              Open result
+              {t.jobPage.openResult}
             </Link>
           ) : (
-            <GenerateJobButton jobId={job.id} />
+            <GenerateJobButton jobId={job.id} labels={t.generateButton} />
           )}
 
           <Link
             href={`/client/${client.slug}`}
             className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
           >
-            Back to client
+            {t.common.backToClient}
           </Link>
         </div>
 
         {reports.length ? (
           <div className="mt-8">
-            <h2 className="text-xl font-semibold">Generated files</h2>
+            <h2 className="text-xl font-semibold">{t.jobPage.generatedFiles}</h2>
             <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-              Download files from the result page before their expiry date.
+              {t.jobPage.generatedFilesText}
             </p>
             <ul className="mt-4 space-y-3 text-sm">
               {reports.map((report) => (
@@ -158,8 +161,8 @@ export default async function JobPage({ params }: JobPageProps) {
                 >
                   <div className="font-semibold">{report.file_name}</div>
                   <div className="mt-1 text-xs text-[var(--qoobix-muted)]">
-                    {report.file_type.toUpperCase()} · Expires:{' '}
-                    {formatExpiryDate(report.expires_at)}
+                    {report.file_type.toUpperCase()} · {t.jobPage.expires}:{' '}
+                    {formatExpiryDate(report.expires_at, t.common.expiryNotConfigured)}
                   </div>
                 </li>
               ))}
