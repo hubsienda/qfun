@@ -1,401 +1,389 @@
 ---
-title: "How to Create a Good QOOBIX Request"
-product: "QOOBIX"
-provider: "Sienda Ltd"
----
 
-# How to Create a Good QOOBIX Request
+## title: "Request Examples"
 
-## Purpose of this guide
+# Request Examples
 
-This guide helps you fill in a QOOBIX intelligence request properly.
+This guide shows how to create stronger QOOBIX requests.
 
-A good request gives QOOBIX a clear commercial task. A vague request produces vague intelligence. A precise request produces a more useful report.
+The examples use fictional businesses and generic sectors. They are not based on real clients.
 
----
+A strong request gives QOOBIX a clear commercial decision to support. A weak request asks for general information and usually produces weaker intelligence.
 
-## The basic rule
+## How to think about a QOOBIX request
 
-Do not ask QOOBIX to “analyse the market” in a general way.
+A good QOOBIX request answers five basic questions.
 
-Instead, tell QOOBIX what product or service you want to analyse, which country or region matters, which commercial decision you need to make, which customer types or channels you want to investigate, and which competitors, partners, or alternatives are already known.
+First, what product or service is being analysed?
 
----
+Second, which country or market is being considered?
 
-## Field: Product or service to analyse
+Third, what decision does the client need to make?
 
-Use this field to describe the product or service clearly.
+Fourth, which customers, channels, or market actors matter?
 
-### Weak example
+Fifth, does the client need strategic analysis only, or also named candidate organisations for verification?
 
-Analyse our software.
+## Example 1: Analysis Mode for market entry
 
-### Better example
+### Product or service
 
-A cloud-based inventory management platform for independent pharmacies.
+Modular cold-storage monitoring software for small and medium food distributors.
 
-### Strong example
+### Target country or countries
 
-A cloud-based inventory management and stock forecasting platform for independent pharmacies, designed to reduce expired stock, improve reorder timing, manage supplier availability, and support multi-location pharmacy groups.
+Germany.
 
----
+### Market question
 
-## Field: Target country or countries
+Which customer segments and commercial channels should be prioritised first for entering the German market with modular cold-storage monitoring software for food distributors?
 
-Use this field to define the commercial geography.
-
-### Weak example
-
-Europe.
-
-### Better example
-
-Canada.
-
-### Strong example
-
-Canada, with attention to independent pharmacies, regional pharmacy groups, healthcare retailers, and provinces where supply-chain efficiency and stock control are commercially important.
-
----
-
-## Field: Market question
-
-This is the most important field.
-
-The market question should describe the decision QOOBIX must help you make.
-
-### Weak example
-
-Analyse the Canadian market.
-
-### Better example
-
-Which customers should we target in Canada?
-
-### Strong example
-
-Which pharmacy customer segments, regional channels, and software-adoption routes should be prioritised for launching a cloud-based inventory management platform for independent pharmacies in Canada?
-
----
-
-## Field: Commercial objective
-
-Choose the objective that best matches the purpose of the request.
-
-Typical objectives include market-entry analysis, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, lead or prospect discovery, positioning analysis, pricing or channel analysis, and action-priority report.
-
-### Example
-
-If you want to understand competing products and substitute solutions, choose:
-
-Competitor mapping.
-
-If you want to understand possible channel partners or resellers, choose:
-
-Partner discovery.
-
-If you want to know what to do first in the next 90 days, choose:
-
-Action-priority report.
-
----
-
-## Field: Target customer types
-
-Use this field to describe the people or organisations that may buy, specify, recommend, influence, or use the product.
-
-### Weak example
-
-Retail companies.
-
-### Better example
-
-Pharmacies, pharmacy groups, healthcare retailers.
-
-### Strong example
-
-Independent pharmacies, small pharmacy groups, healthcare retail chains, pharmacy owners, operations managers, purchasing managers, inventory managers, pharmacy technology consultants, and regional healthcare retail associations.
-
----
-
-## Field: Target channels
-
-Use this field to describe the commercial routes to market.
-
-### Weak example
-
-Online sales.
-
-### Better example
-
-Direct sales, software partners, pharmacy associations.
-
-### Strong example
-
-Direct B2B sales, pharmacy technology consultants, healthcare software resellers, pharmacy associations, regional trade events, software integration partners, supplier networks, and referral partnerships with consultants serving pharmacy owners.
-
----
-
-## Field: Known competitors
-
-Use this field to help QOOBIX understand the competitive environment.
-
-You can list specific company names if you are authorised to use them, but generic competitor categories are often enough.
-
-### Weak example
-
-Other software.
-
-### Better example
-
-Inventory tools, pharmacy management systems, spreadsheets.
-
-### Strong example
-
-Pharmacy management systems, inventory-control software, ERP tools adapted for healthcare retail, supplier ordering portals, spreadsheet-based stock tracking, manual reorder processes, point-of-sale systems with inventory modules, and custom internal tools.
-
----
-
-## Field: Known partners, distributors, or representatives
-
-Use this field to tell QOOBIX what is already known.
-
-Do not include confidential names unless you are authorised to use them.
-
-### Weak example
-
-Some partners.
-
-### Better example
-
-Possible technology resellers in Canada.
-
-### Strong example
-
-No confirmed partner in Canada. Potential pharmacy technology consultants, healthcare software resellers, implementation partners, and regional pharmacy associations to be identified and verified.
-
----
-
-## Field: Preferred output language
-
-Use the language in which you want the report.
-
-Examples:
-
-English.
-
-French.
-
-Italian.
-
-Spanish.
-
----
-
-# Complete example 1: Market-entry analysis
-
-## Product or service to analyse
-
-Cloud-based inventory management and stock forecasting platform for independent pharmacies.
-
-## Target country or countries
-
-Canada.
-
-## Market question
-
-Which pharmacy customer segments, regional channels, and software-adoption routes should be prioritised for launching a cloud-based inventory management platform for independent pharmacies in Canada?
-
-## Commercial objective
+### Commercial objective
 
 Market-entry analysis.
 
-## Target customer types
+### Target customer types
 
-Independent pharmacies, small pharmacy groups, healthcare retail chains, pharmacy owners, operations managers, purchasing managers, inventory managers, and pharmacy technology consultants.
+Small and medium food distributors, chilled logistics operators, regional wholesalers, food storage operators.
 
-## Target channels
+### Target channels
 
-Direct B2B sales, healthcare software resellers, pharmacy technology consultants, pharmacy associations, regional trade events, software integration partners, and supplier-network partnerships.
+Direct sales, specialist refrigeration installers, logistics consultants, trade associations, industry events.
 
-## Known competitors
+### Known competitors
 
-Pharmacy management systems, inventory-control software, ERP tools adapted for healthcare retail, supplier ordering portals, spreadsheet-based stock tracking, manual reorder processes, point-of-sale systems with inventory modules, and custom internal tools.
+Existing warehouse monitoring platforms, refrigeration equipment suppliers with monitoring modules, internal spreadsheet-based monitoring.
 
-## Known partners, distributors, or representatives
+### Known partners, distributors, or representatives
 
-No confirmed partner in Canada. Potential pharmacy technology consultants, healthcare software resellers, implementation partners, and regional pharmacy associations to be identified and verified.
+No confirmed partners.
 
-## Preferred output language
+### Why this is a good request
 
-English.
+It specifies the offer, country, buyer types, channels, and commercial decision. QOOBIX can produce useful strategic analysis without needing named organisation discovery.
 
----
+## Example 2: Discovery Mode for distributor discovery
 
-# Complete example 2: Competitor mapping
+### Product or service
 
-## Product or service to analyse
+Compact water-quality testing kits for professional agricultural use.
 
-Subscription-based software platform for managing inventory, stock forecasting, supplier availability, reorder timing, and expiry-risk reduction for independent pharmacies.
+### Target country or countries
 
-## Target country or countries
+France.
 
-Australia.
+### Market question
 
-## Market question
+Which types of distributors or specialist resellers in France should be prioritised for verification as possible routes to market for compact agricultural water-quality testing kits?
 
-Which direct software competitors, substitute systems, supplier portals, pharmacy management platforms, and manual workflows should be mapped before positioning this pharmacy inventory platform in Australia?
+### Commercial objective
 
-## Commercial objective
+Distributor discovery.
+
+### Target customer types
+
+Agricultural suppliers, irrigation specialists, vineyard suppliers, horticultural producers, agronomists.
+
+### Target channels
+
+Agricultural distributors, specialist resellers, irrigation suppliers, agronomy consultants.
+
+### Known competitors
+
+Laboratory testing services, handheld testing device brands, general agricultural supply catalogues.
+
+### Known partners, distributors, or representatives
+
+No current distributor in the target country.
+
+### Why this is a good request
+
+It is suitable for Discovery Mode because the client needs named candidate organisations. It also explains the type of distributor to look for and the commercial purpose of the search.
+
+## Example 3: Discovery Mode for competitor mapping
+
+### Product or service
+
+Subscription-based maintenance software for independent repair workshops.
+
+### Target country or countries
+
+Netherlands.
+
+### Market question
+
+Which local competitors, substitutes, and alternative buying paths should be mapped in the Netherlands before positioning a subscription-based maintenance software product for independent repair workshops?
+
+### Commercial objective
 
 Competitor mapping.
 
-## Target customer types
+### Target customer types
 
-Independent pharmacies, pharmacy groups, pharmacy owners, purchasing managers, operations managers, pharmacy software consultants, and healthcare retail technology buyers.
+Independent repair workshops, small service networks, technical maintenance businesses.
 
-## Target channels
+### Target channels
 
-Direct sales, pharmacy software consultants, healthcare technology resellers, trade events, pharmacy-owner networks, supplier partnerships, and implementation partners.
+Direct outreach, sector associations, software resellers, trade publications.
 
-## Known competitors
+### Known competitors
 
-Pharmacy management platforms, point-of-sale systems with stock modules, supplier ordering portals, inventory-management software, ERP tools, spreadsheet workflows, manual reorder procedures, and internal stock-control processes.
+Generic scheduling software, workshop management tools, spreadsheets, internal manual systems.
 
-## Known partners, distributors, or representatives
+### Known partners, distributors, or representatives
 
-No confirmed Australian partner. Possible technology resellers, implementation consultants, and pharmacy-sector advisers to be identified and verified.
+No current local partners.
 
-## Preferred output language
+### Why this is a good request
 
-English.
+It does not ask only for direct competitors. It also asks for substitutes and alternative buying paths, which are often more commercially important than obvious competitors.
 
----
+## Example 4: Analysis Mode for positioning
 
-# Complete example 3: Partner discovery
+### Product or service
 
-## Product or service to analyse
+A premium acoustic panel system for small hospitality interiors.
 
-Cloud software for inventory control, reorder planning, stock rotation, and supplier coordination for healthcare retail businesses.
+### Target country or countries
 
-## Target country or countries
+United Kingdom.
 
-Ireland.
+### Market question
 
-## Market question
+How should a premium acoustic panel system be positioned for small hospitality interiors in the United Kingdom, and which buyer objections should be addressed first?
 
-Which partner types in Ireland could help introduce, implement, or recommend a pharmacy inventory management platform to independent pharmacies and small healthcare retail groups?
-
-## Commercial objective
-
-Partner discovery.
-
-## Target customer types
-
-Independent pharmacies, healthcare retailers, small pharmacy groups, pharmacy owners, operations managers, and purchasing managers.
-
-## Target channels
-
-Software resellers, implementation consultants, pharmacy-sector advisers, healthcare retail associations, supplier networks, trade events, and direct outreach.
-
-## Known competitors
-
-Existing pharmacy management systems, inventory modules inside point-of-sale software, supplier portals, generic inventory tools, spreadsheets, and manual reorder processes.
-
-## Known partners, distributors, or representatives
-
-No confirmed partner. Potential healthcare software resellers, pharmacy consultants, and implementation partners to be identified and verified.
-
-## Preferred output language
-
-English.
-
----
-
-# Complete example 4: Positioning analysis
-
-## Product or service to analyse
-
-Inventory and stock forecasting platform for independent pharmacies that helps reduce expired stock, improve reorder timing, and provide better visibility of supplier-related stock issues.
-
-## Target country or countries
-
-New Zealand.
-
-## Market question
-
-How should this pharmacy inventory platform be positioned in New Zealand against pharmacy management systems, manual stock-control processes, supplier portals, and generic inventory software?
-
-## Commercial objective
+### Commercial objective
 
 Positioning analysis.
 
-## Target customer types
+### Target customer types
 
-Independent pharmacies, pharmacy owners, small pharmacy groups, operations managers, purchasing managers, and pharmacy technology advisers.
+Small hotels, restaurants, cafés, interior designers, hospitality fit-out companies.
 
-## Target channels
+### Target channels
 
-Direct sales, healthcare software resellers, pharmacy associations, implementation consultants, supplier networks, and trade events.
+Interior designers, fit-out contractors, direct sales, architecture studios.
 
-## Known competitors
+### Known competitors
 
-Pharmacy management software, point-of-sale inventory modules, supplier portals, manual reorder workflows, spreadsheets, general inventory systems, and internal pharmacy processes.
+Generic acoustic panels, decorative wall systems, low-cost online acoustic products, doing nothing.
 
-## Known partners, distributors, or representatives
+### Known partners, distributors, or representatives
 
-No confirmed partner. Potential pharmacy-sector advisers and healthcare software resellers to be identified and verified.
+No confirmed partners.
 
-## Preferred output language
+### Why this is a good request
 
-English.
+The question is not “Who can buy this?” It asks how the offer should be positioned and which objections must be addressed. This helps QOOBIX produce practical messaging and risk analysis.
 
----
+## Example 5: Discovery Mode for partner discovery
 
-# Complete example 5: Action-priority report
+### Product or service
 
-## Product or service to analyse
+Specialist training platform for technical sales teams in industrial equipment companies.
 
-Cloud-based inventory management platform for independent pharmacies.
+### Target country or countries
 
-## Target country or countries
+Sweden.
 
-Canada.
+### Market question
 
-## Market question
+Which consulting firms, training providers, industry networks, or commercial development organisations in Sweden could be verified as potential partners for introducing a specialist training platform for technical sales teams?
 
-What practical commercial actions should be prioritised in the next 90 days to validate demand, identify partners, test positioning, and prepare a market-entry campaign for a pharmacy inventory management platform in Canada?
+### Commercial objective
 
-## Commercial objective
+Partner discovery.
+
+### Target customer types
+
+Industrial equipment manufacturers, technical sales teams, B2B distributors, sales directors.
+
+### Target channels
+
+Training providers, commercial consultants, industrial associations, B2B sales networks.
+
+### Known competitors
+
+Generic sales training firms, internal training departments, e-learning platforms.
+
+### Known partners, distributors, or representatives
+
+No confirmed partner in the target country.
+
+### Why this is a good request
+
+It defines “partner” broadly but usefully. It gives QOOBIX several relevant partner categories to investigate instead of relying on a vague word.
+
+## Example 6: Analysis Mode for regional prioritisation
+
+### Product or service
+
+Energy-efficiency audit service for small manufacturing businesses.
+
+### Target country or countries
+
+Poland.
+
+### Market question
+
+Which regions or industrial clusters in Poland should be prioritised first for an energy-efficiency audit service aimed at small manufacturing businesses?
+
+### Commercial objective
+
+Regional opportunity assessment.
+
+### Target customer types
+
+Small manufacturers, industrial estates, machinery-intensive workshops, production facilities.
+
+### Target channels
+
+Direct outreach, local business associations, energy consultants, regional chambers of commerce.
+
+### Known competitors
+
+Energy consultants, engineering consultancies, internal maintenance teams, public advisory programmes.
+
+### Known partners, distributors, or representatives
+
+No confirmed local representatives.
+
+### Why this is a good request
+
+The question asks QOOBIX to prioritise regions or clusters, not simply describe the country. This should produce a more actionable output.
+
+## Example 7: Discovery Mode for prospect discovery
+
+### Product or service
+
+Digital booking and operations tool for independent sports facilities.
+
+### Target country or countries
+
+Portugal.
+
+### Market question
+
+Which categories of independent sports facilities in Portugal should be discovered and verified as possible early prospects for a digital booking and operations tool?
+
+### Commercial objective
+
+Lead/prospect discovery.
+
+### Target customer types
+
+Independent gyms, tennis clubs, padel clubs, swimming schools, indoor sports centres.
+
+### Target channels
+
+Direct outreach, local sports associations, software resellers, facility management consultants.
+
+### Known competitors
+
+Generic booking software, manual calendars, spreadsheets, local facility-management tools.
+
+### Known partners, distributors, or representatives
+
+No confirmed local partners.
+
+### Why this is a good request
+
+It is appropriate for Discovery Mode because it asks for candidate organisations. It also defines the types of prospects that matter.
+
+## Example 8: Action-priority report
+
+### Product or service
+
+Specialist packaging design service for premium food producers.
+
+### Target country or countries
+
+Belgium.
+
+### Market question
+
+What should be the first practical commercial actions for entering Belgium with a specialist packaging design service for premium food producers?
+
+### Commercial objective
 
 Action-priority report.
 
-## Target customer types
+### Target customer types
 
-Independent pharmacies, pharmacy groups, pharmacy owners, purchasing managers, operations managers, and pharmacy technology consultants.
+Premium food producers, artisan brands, specialty retailers, food exporters.
 
-## Target channels
+### Target channels
 
-Direct B2B outreach, healthcare software resellers, pharmacy associations, implementation consultants, pharmacy trade events, and supplier-network partnerships.
+Direct outreach, branding agencies, packaging suppliers, food trade networks.
 
-## Known competitors
+### Known competitors
 
-Pharmacy management systems, point-of-sale inventory modules, supplier ordering portals, general inventory tools, spreadsheet workflows, manual reorder procedures, and internal stock-control processes.
+Local design studios, packaging agencies, in-house designers, low-cost freelance design.
 
-## Known partners, distributors, or representatives
+### Known partners, distributors, or representatives
 
-No confirmed partner in Canada. Potential healthcare technology resellers, pharmacy consultants, and software implementation partners to be identified and verified.
+No confirmed local partner.
 
-## Preferred output language
+### Why this is a good request
 
-English.
+It asks QOOBIX to produce practical next steps, not just analysis. This is useful when the client needs an operational sequence.
 
----
+## Weak request examples
 
-## Final advice
+### Weak request
 
-A good QOOBIX request should be specific enough that a commercial manager could act on the result.
+Tell me about the French market.
 
-Before submitting, ask yourself whether you have named the product clearly, named the target country, explained the decision you need to make, described customer types and channels, listed known competitors or substitutes, explained what is already known, and chosen the right commercial objective.
+### Why it is weak
 
-If the answer is yes, the report will usually be much more useful.
+It does not say what product, customer type, channel, decision, or output is needed.
+
+### Better request
+
+Which commercial channels in France should be prioritised first for a compact agricultural water-quality testing kit aimed at professional growers and irrigation specialists?
+
+## Another weak request
+
+Find partners in Italy.
+
+### Why it is weak
+
+It does not explain what kind of partners, for what product, in which sector, or for what commercial purpose.
+
+### Better request
+
+Which consulting firms, specialist resellers, trade bodies, or commercial development organisations in Italy could be verified as candidate partners for introducing a technical training platform to industrial equipment companies?
+
+## How to choose between Analysis and Discovery
+
+Use Analysis Mode when the main need is reasoning.
+
+Use Discovery Mode when the main need includes named candidate organisations.
+
+Do not use Discovery Mode only because it sounds stronger. Use it when names, verification routes, and candidate lists are genuinely useful.
+
+## How to write a strong market question
+
+A strong market question usually includes the target country, the product or service, the buyer type, the commercial decision, and the type of answer needed.
+
+Useful question patterns include the following.
+
+Which customer segments and channels should be prioritised first for this product in this country?
+
+Which candidate distributors should be discovered and verified before market entry?
+
+Which competitors, substitutes, and local alternatives should be mapped before positioning this offer?
+
+Which regions or clusters deserve first attention, and why?
+
+What practical commercial actions should be taken first?
+
+Which assumptions must be verified before outreach?
+
+## Final reminder
+
+QOOBIX is strongest when the request is specific.
+
+The machine can produce fluent fog from vague prompts. That does not mean the fog has commercial value.
+
+Ask for the decision you need to make, not for a decorative report pretending to know everything.
