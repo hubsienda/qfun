@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { InputField, TextAreaField } from '@/components/Field';
+import { getClientDictionary } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration, IntelligenceMode } from '@/lib/qoobix/types';
 
 type NewJobFormProps = {
   client: ClientConfiguration;
 };
 
-const objectives = [
+const objectiveValues = [
   'Market-entry analysis',
   'Distributor discovery',
   'Partner discovery',
@@ -21,20 +22,15 @@ const objectives = [
   'Action-priority report'
 ];
 
-const modeDescriptions: Record<IntelligenceMode, string> = {
-  analysis:
-    'Analysis Mode produces strategic intelligence, positioning, risks, priorities, and commercial reasoning without live named-organisation discovery.',
-  discovery:
-    'Discovery Mode is for named candidate organisations such as possible partners, distributors, competitors, suppliers, operators, or other market actors. These candidates are for verification, not confirmed leads.'
-};
-
 export function NewJobForm({ client }: NewJobFormProps) {
+  const t = getClientDictionary(client);
+
   const [form, setForm] = useState({
     intelligenceMode: 'analysis' as IntelligenceMode,
     productOrService: client.productsServices ?? '',
     targetCountries: client.targetCountries.join(', '),
     marketQuestion: '',
-    commercialObjective: objectives[0],
+    commercialObjective: objectiveValues[0],
     targetCustomerTypes: client.targetCustomerTypes.join(', '),
     targetChannels: client.targetChannels.join(', '),
     knownCompetitors: client.knownCompetitors ?? '',
@@ -53,7 +49,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
   async function submitJob(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError('');
-    setNotice('Creating the request and preparing the job page…');
+    setNotice(t.newJobForm.creatingNotice);
     setIsSubmitting(true);
 
     try {
@@ -80,14 +76,14 @@ export function NewJobForm({ client }: NewJobFormProps) {
 
       if (!response.ok || !payload.ok || !payload.jobId) {
         setNotice('');
-        setError(payload.error ?? 'The intelligence request could not be created.');
+        setError(payload.error ?? t.newJobForm.genericCreateError);
         return;
       }
 
       window.location.href = `/job/${payload.jobId}`;
     } catch {
       setNotice('');
-      setError('The intelligence request could not be created because the request failed.');
+      setError(t.newJobForm.requestFailedError);
     } finally {
       setIsSubmitting(false);
     }
@@ -96,7 +92,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
   return (
     <form onSubmit={submitJob} className="space-y-6">
       <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/65 p-5">
-        <span className="text-sm font-semibold">Intelligence mode</span>
+        <span className="text-sm font-semibold">{t.newJobForm.intelligenceMode}</span>
 
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           {(['analysis', 'discovery'] as IntelligenceMode[]).map((mode) => {
@@ -114,7 +110,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
                 }`}
               >
                 <span className="block text-base font-semibold">
-                  {mode === 'analysis' ? 'Analysis' : 'Discovery'}
+                  {mode === 'analysis' ? t.newJobForm.analysis : t.newJobForm.discovery}
                 </span>
 
                 <span
@@ -122,7 +118,9 @@ export function NewJobForm({ client }: NewJobFormProps) {
                     selected ? 'text-white/85' : 'text-[var(--qoobix-muted)]'
                   }`}
                 >
-                  {modeDescriptions[mode]}
+                  {mode === 'analysis'
+                    ? t.newJobForm.analysisDescription
+                    : t.newJobForm.discoveryDescription}
                 </span>
               </button>
             );
@@ -131,7 +129,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
       </div>
 
       <TextAreaField
-        label="Product or service to analyse"
+        label={t.newJobForm.productOrService}
         name="productOrService"
         value={form.productOrService}
         onChange={(event) => updateField('productOrService', event.target.value)}
@@ -139,7 +137,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
       />
 
       <InputField
-        label="Target country or countries"
+        label={t.newJobForm.targetCountries}
         name="targetCountries"
         value={form.targetCountries}
         onChange={(event) => updateField('targetCountries', event.target.value)}
@@ -147,69 +145,67 @@ export function NewJobForm({ client }: NewJobFormProps) {
       />
 
       <TextAreaField
-        label="Market question"
+        label={t.newJobForm.marketQuestion}
         name="marketQuestion"
-        hint="Describe the commercial question QOOBIX should answer."
+        hint={t.newJobForm.marketQuestionHint}
         value={form.marketQuestion}
         onChange={(event) => updateField('marketQuestion', event.target.value)}
         required
       />
 
       <label className="block">
-        <span className="text-sm font-semibold">Commercial objective</span>
+        <span className="text-sm font-semibold">{t.newJobForm.commercialObjective}</span>
         <select
           name="commercialObjective"
           value={form.commercialObjective}
           onChange={(event) => updateField('commercialObjective', event.target.value)}
           className="qoobix-focus-ring mt-2 w-full rounded-md border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
         >
-          {objectives.map((objective) => (
+          {objectiveValues.map((objective) => (
             <option key={objective} value={objective}>
-              {objective}
+              {t.newJobForm.objectives[objective] ?? objective}
             </option>
           ))}
         </select>
       </label>
 
       <TextAreaField
-        label="Target customer types"
+        label={t.newJobForm.targetCustomerTypes}
         name="targetCustomerTypes"
         value={form.targetCustomerTypes}
         onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
       />
 
       <TextAreaField
-        label="Target channels"
+        label={t.newJobForm.targetChannels}
         name="targetChannels"
         value={form.targetChannels}
         onChange={(event) => updateField('targetChannels', event.target.value)}
       />
 
       <TextAreaField
-        label="Known competitors"
+        label={t.newJobForm.knownCompetitors}
         name="knownCompetitors"
         value={form.knownCompetitors}
         onChange={(event) => updateField('knownCompetitors', event.target.value)}
       />
 
       <TextAreaField
-        label="Known partners/distributors/representatives"
+        label={t.newJobForm.knownPartners}
         name="knownPartners"
         value={form.knownPartners}
         onChange={(event) => updateField('knownPartners', event.target.value)}
       />
 
       <InputField
-        label="Preferred output language"
+        label={t.newJobForm.preferredOutputLanguage}
         name="preferredOutputLanguage"
         value={form.preferredOutputLanguage}
         onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
       />
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
-        QOOBIX will generate the provisioned output files for this environment. Current output
-        formats are DOCX, XLSX, RTF, and CSV. Discovery Mode prepares the request for candidate
-        organisation discovery, but candidates must still be independently verified.
+        {t.newJobForm.outputNotice}
       </div>
 
       {notice ? (
@@ -221,7 +217,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
       {error ? <p className="text-sm font-semibold text-[var(--qoobix-danger)]">{error}</p> : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Creating request…' : 'Create intelligence request'}
+        {isSubmitting ? t.newJobForm.creatingButton : t.newJobForm.submitButton}
       </Button>
     </form>
   );
