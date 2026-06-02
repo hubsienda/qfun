@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { InputField, TextAreaField } from '@/components/Field';
+import { getClientDictionary } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration } from '@/lib/qoobix/types';
 
 type ClientProfileFormProps = {
@@ -10,6 +11,8 @@ type ClientProfileFormProps = {
 };
 
 export function ClientProfileForm({ client }: ClientProfileFormProps) {
+  const t = getClientDictionary(client);
+
   const [form, setForm] = useState({
     sector: client.sector === 'Not configured' ? '' : client.sector,
     description: client.description ?? '',
@@ -53,13 +56,13 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       };
 
       if (!response.ok || !payload.ok) {
-        setMessage(payload.error ?? 'Profile update failed.');
+        setMessage(payload.error ?? t.profileForm.updateFailed);
         return;
       }
 
       window.location.href = `/client/${client.slug}`;
     } catch {
-      setMessage('Profile update failed because the request could not be completed.');
+      setMessage(t.profileForm.requestFailed);
     } finally {
       setIsSubmitting(false);
     }
@@ -68,7 +71,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
   return (
     <form onSubmit={submitProfile} className="space-y-6">
       <InputField
-        label="Sector"
+        label={t.profileForm.sector}
         name="sector"
         value={form.sector}
         onChange={(event) => updateField('sector', event.target.value)}
@@ -76,14 +79,14 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       />
 
       <TextAreaField
-        label="Description"
+        label={t.profileForm.description}
         name="description"
         value={form.description}
         onChange={(event) => updateField('description', event.target.value)}
       />
 
       <InputField
-        label="Website"
+        label={t.profileForm.website}
         name="website"
         value={form.website}
         onChange={(event) => updateField('website', event.target.value)}
@@ -91,7 +94,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       />
 
       <TextAreaField
-        label="Products/services"
+        label={t.profileForm.productsServices}
         name="productsServices"
         value={form.productsServices}
         onChange={(event) => updateField('productsServices', event.target.value)}
@@ -100,41 +103,41 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
 
       <div className="grid gap-5 md:grid-cols-2">
         <TextAreaField
-          label="Target countries"
+          label={t.profileForm.targetCountries}
           name="targetCountries"
-          hint="Comma or line separated."
+          hint={t.profileForm.targetCountriesHint}
           value={form.targetCountries}
           onChange={(event) => updateField('targetCountries', event.target.value)}
           required
         />
 
         <TextAreaField
-          label="Target customer types"
+          label={t.profileForm.targetCustomerTypes}
           name="targetCustomerTypes"
-          hint="Comma or line separated."
+          hint={t.profileForm.targetCustomerTypesHint}
           value={form.targetCustomerTypes}
           onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
         />
       </div>
 
       <TextAreaField
-        label="Target channels"
+        label={t.profileForm.targetChannels}
         name="targetChannels"
-        hint="Distributors, installers, agents, representatives, wholesalers, direct clients, etc."
+        hint={t.profileForm.targetChannelsHint}
         value={form.targetChannels}
         onChange={(event) => updateField('targetChannels', event.target.value)}
       />
 
       <div className="grid gap-5 md:grid-cols-2">
         <TextAreaField
-          label="Known competitors"
+          label={t.profileForm.knownCompetitors}
           name="knownCompetitors"
           value={form.knownCompetitors}
           onChange={(event) => updateField('knownCompetitors', event.target.value)}
         />
 
         <TextAreaField
-          label="Known representatives/distributors/partners"
+          label={t.profileForm.knownRepresentatives}
           name="knownRepresentatives"
           value={form.knownRepresentatives}
           onChange={(event) => updateField('knownRepresentatives', event.target.value)}
@@ -142,7 +145,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       </div>
 
       <InputField
-        label="Preferred language"
+        label={t.profileForm.preferredLanguage}
         name="preferredLanguage"
         value={form.preferredLanguage}
         onChange={(event) => updateField('preferredLanguage', event.target.value)}
@@ -155,7 +158,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       ) : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Saving…' : 'Save business profile'}
+        {isSubmitting ? t.profileForm.saving : t.profileForm.save}
       </Button>
     </form>
   );
