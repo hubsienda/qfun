@@ -79,6 +79,30 @@ export type ClientDictionary = {
     recoveryTitle: string;
     recoveryText: string;
   };
+  profilePage: {
+    metadataTitle: string;
+    badge: string;
+    intro: string;
+  };
+  profileForm: {
+    sector: string;
+    description: string;
+    website: string;
+    productsServices: string;
+    targetCountries: string;
+    targetCountriesHint: string;
+    targetCustomerTypes: string;
+    targetCustomerTypesHint: string;
+    targetChannels: string;
+    targetChannelsHint: string;
+    knownCompetitors: string;
+    knownRepresentatives: string;
+    preferredLanguage: string;
+    save: string;
+    saving: string;
+    updateFailed: string;
+    requestFailed: string;
+  };
   newRequestPage: {
     metadataTitle: string;
     profileRequiredBadge: string;
@@ -200,6 +224,32 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
       recoveryTitle: 'Recovery phrase and access code',
       recoveryText:
         'Set a recovery phrase and let Proteus generate a private access code. The generated code is shown once. QOOBIX stores only hashes, not readable access codes or recovery phrases.'
+    },
+    profilePage: {
+      metadataTitle: 'Business profile',
+      badge: 'Business profile',
+      intro:
+        'This profile gives QOOBIX the stable business context it needs before generating request-specific intelligence.'
+    },
+    profileForm: {
+      sector: 'Sector',
+      description: 'Description',
+      website: 'Website',
+      productsServices: 'Products/services',
+      targetCountries: 'Target countries',
+      targetCountriesHint: 'Comma or line separated.',
+      targetCustomerTypes: 'Target customer types',
+      targetCustomerTypesHint: 'Comma or line separated.',
+      targetChannels: 'Target channels',
+      targetChannelsHint:
+        'Distributors, installers, agents, representatives, wholesalers, direct clients, etc.',
+      knownCompetitors: 'Known competitors',
+      knownRepresentatives: 'Known representatives/distributors/partners',
+      preferredLanguage: 'Preferred language',
+      save: 'Save business profile',
+      saving: 'Saving…',
+      updateFailed: 'Profile update failed.',
+      requestFailed: 'Profile update failed because the request could not be completed.'
     },
     newRequestPage: {
       metadataTitle: 'New request',
@@ -338,6 +388,32 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
       recoveryText:
         'Defina una frase de recuperación y permita que Proteus genere un código de acceso privado. El código generado se muestra una sola vez. QOOBIX solo guarda hashes, no códigos de acceso ni frases de recuperación legibles.'
     },
+    profilePage: {
+      metadataTitle: 'Perfil empresarial',
+      badge: 'Perfil empresarial',
+      intro:
+        'Este perfil proporciona a QOOBIX el contexto empresarial estable que necesita antes de generar inteligencia específica para cada solicitud.'
+    },
+    profileForm: {
+      sector: 'Sector',
+      description: 'Descripción',
+      website: 'Sitio web',
+      productsServices: 'Productos/servicios',
+      targetCountries: 'Países objetivo',
+      targetCountriesHint: 'Separados por comas o por líneas.',
+      targetCustomerTypes: 'Tipos de clientes objetivo',
+      targetCustomerTypesHint: 'Separados por comas o por líneas.',
+      targetChannels: 'Canales objetivo',
+      targetChannelsHint:
+        'Distribuidores, instaladores, agentes, representantes, mayoristas, clientes directos, etc.',
+      knownCompetitors: 'Competidores conocidos',
+      knownRepresentatives: 'Representantes, distribuidores o socios conocidos',
+      preferredLanguage: 'Idioma preferido',
+      save: 'Guardar perfil empresarial',
+      saving: 'Guardando…',
+      updateFailed: 'La actualización del perfil ha fallado.',
+      requestFailed: 'La actualización del perfil ha fallado porque la petición no se ha completado.'
+    },
     newRequestPage: {
       metadataTitle: 'Nueva solicitud',
       profileRequiredBadge: 'Perfil empresarial requerido',
@@ -475,6 +551,32 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
       recoveryTitle: 'Frase di recupero e codice di accesso',
       recoveryText:
         'Imposta una frase di recupero e lascia che Proteus generi un codice di accesso privato. Il codice generato viene mostrato una sola volta. QOOBIX conserva solo hash, non codici di accesso o frasi di recupero leggibili.'
+    },
+    profilePage: {
+      metadataTitle: 'Profilo aziendale',
+      badge: 'Profilo aziendale',
+      intro:
+        'Questo profilo fornisce a QOOBIX il contesto aziendale stabile di cui ha bisogno prima di generare intelligence specifica per una richiesta.'
+    },
+    profileForm: {
+      sector: 'Settore',
+      description: 'Descrizione',
+      website: 'Sito web',
+      productsServices: 'Prodotti/servizi',
+      targetCountries: 'Paesi target',
+      targetCountriesHint: 'Separati da virgole o righe.',
+      targetCustomerTypes: 'Tipologie di clienti target',
+      targetCustomerTypesHint: 'Separate da virgole o righe.',
+      targetChannels: 'Canali target',
+      targetChannelsHint:
+        'Distributori, installatori, agenti, rappresentanti, grossisti, clienti diretti, ecc.',
+      knownCompetitors: 'Concorrenti conosciuti',
+      knownRepresentatives: 'Rappresentanti, distributori o partner conosciuti',
+      preferredLanguage: 'Lingua preferita',
+      save: 'Salva profilo aziendale',
+      saving: 'Salvataggio…',
+      updateFailed: 'Aggiornamento del profilo non riuscito.',
+      requestFailed: 'Aggiornamento del profilo non riuscito perché la richiesta non è stata completata.'
     },
     newRequestPage: {
       metadataTitle: 'Nuova richiesta',
