@@ -6,6 +6,8 @@ import { LegalMarkdown } from '@/components/LegalMarkdown';
 import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientBySlug } from '@/lib/qoobix/db';
+import { getClientLocale } from '@/lib/qoobix/client-i18n';
+import { getHelpDictionary } from '@/lib/qoobix/client-help-i18n';
 import { getHelpDocument } from '@/lib/qoobix/help';
 
 type ClientHelpDocumentPageProps = {
@@ -47,7 +49,9 @@ export default async function ClientHelpDocumentPage({ params }: ClientHelpDocum
     notFound();
   }
 
-  const document = getHelpDocument(slug);
+  const locale = getClientLocale(client);
+  const t = getHelpDictionary(client);
+  const document = getHelpDocument(slug, locale);
 
   if (!document) {
     notFound();
@@ -56,11 +60,8 @@ export default async function ClientHelpDocumentPage({ params }: ClientHelpDocum
   return (
     <section className="qoobix-narrow py-12 md:py-18">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Link
-          href={`/client/${client.slug}/help`}
-          className="font-semibold text-[var(--qoobix-orange)]"
-        >
-          ← Back to help
+        <Link href={`/client/${client.slug}/help`} className="font-semibold text-[var(--qoobix-orange)]">
+          ← {t.helpDocument.backToHelp}
         </Link>
 
         <ClientLogoutButton />
@@ -68,7 +69,7 @@ export default async function ClientHelpDocumentPage({ params }: ClientHelpDocum
 
       <Panel className="p-7 md:p-10">
         <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-          Private help document
+          {t.helpDocument.kicker}
         </p>
 
         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{document.title}</h1>
