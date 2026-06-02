@@ -41,6 +41,7 @@ export type ClientConfiguration = {
 export type DiscoveryCandidate = {
   name: string;
   website: string | null;
+  verificationUrl: string | null;
   formattedAddress: string | null;
   countryOrRegion: string | null;
   placeId: string | null;
@@ -50,7 +51,7 @@ export type DiscoveryCandidate = {
   relevanceReason: string;
   suggestedAction: string;
   confidence: 'low' | 'medium' | 'high' | 'requires_verification';
-  verificationStatus: 'unverified' | 'needs_review' | 'reviewed' | 'rejected';
+  verificationStatus: 'candidate' | 'needs_review' | 'reviewed' | 'rejected';
 };
 
 export type DiscoveryUsage = {
@@ -92,6 +93,8 @@ export type GeneratedIntelligence = {
     countryOrRegion: string;
     relevance: string;
     suggestedAction: string;
+    verificationUrl: string;
+    status: string;
     notes: string;
   }>;
   competitorRows: Array<{
@@ -99,6 +102,8 @@ export type GeneratedIntelligence = {
     type: string;
     countryOrRegion: string;
     relevance: string;
+    verificationUrl: string;
+    status: string;
     notes: string;
   }>;
 };
