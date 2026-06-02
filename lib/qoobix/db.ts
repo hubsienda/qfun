@@ -593,6 +593,14 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
 
   const intelligenceMode = input.intelligenceMode ?? 'analysis';
 
+  const usage = await enforceClientJobAllowance({
+    clientId: input.clientId,
+    request: {
+      ...input,
+      intelligenceMode
+    }
+  });
+
   const { data, error } = (await supabase
     .from('jobs')
     .insert({
@@ -616,7 +624,15 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
   await addJobLog(data.id, 'info', 'Job created.', {
     clientSlug: input.clientSlug,
     objective: input.commercialObjective,
-    intelligenceMode
+    intelligenceMode,
+    plan: usage.plan,
+    licenceEndsAt: usage.licenceEndsAt,
+    analysisJobsUsedBeforeCreation: usage.analysisJobsUsed,
+    discoveryJobsUsedBeforeCreation: usage.discoveryJobsUsed,
+    totalJobsUsedBeforeCreation: usage.totalJobsUsed,
+    analysisJobsAllowed: usage.analysisJobsAllowed,
+    discoveryJobsAllowed: usage.discoveryJobsAllowed,
+    totalJobsAllowed: usage.totalJobsAllowed
   });
 
   return data;
