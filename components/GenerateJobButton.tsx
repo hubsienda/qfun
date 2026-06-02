@@ -3,16 +3,35 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 
-type GenerateJobButtonProps = {
-  jobId: string;
+type GenerateJobButtonLabels = {
+  startMessage: string;
+  failed: string;
+  requestFailed: string;
+  completed: string;
+  generating: string;
+  idle: string;
 };
 
-export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
+type GenerateJobButtonProps = {
+  jobId: string;
+  labels?: GenerateJobButtonLabels;
+};
+
+const defaultLabels: GenerateJobButtonLabels = {
+  startMessage: 'Proteus is generating the DOCX, XLSX, RTF, and CSV outputs. Keep this page open.',
+  failed: 'Generation failed.',
+  requestFailed: 'Generation failed because the request could not be completed.',
+  completed: 'Generation completed. Opening the result status…',
+  generating: 'Generating outputs…',
+  idle: 'Generate outputs'
+};
+
+export function GenerateJobButton({ jobId, labels = defaultLabels }: GenerateJobButtonProps) {
   const [message, setMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
 
   async function generateJob() {
-    setMessage('Proteus is generating the DOCX and XLSX outputs. Keep this page open.');
+    setMessage(labels.startMessage);
     setIsGenerating(true);
 
     try {
@@ -26,14 +45,14 @@ export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
       };
 
       if (!response.ok || !payload.ok) {
-        setMessage(payload.error ?? 'Generation failed.');
+        setMessage(payload.error ?? labels.failed);
         return;
       }
 
-      setMessage('Generation completed. Opening the result status…');
+      setMessage(labels.completed);
       window.location.reload();
     } catch {
-      setMessage('Generation failed because the request could not be completed.');
+      setMessage(labels.requestFailed);
     } finally {
       setIsGenerating(false);
     }
@@ -42,17 +61,11 @@ export function GenerateJobButton({ jobId }: GenerateJobButtonProps) {
   return (
     <div className="space-y-3">
       <Button type="button" onClick={generateJob} disabled={isGenerating}>
-        {isGenerating ? 'Generating outputs…' : 'Generate DOCX/XLSX outputs'}
+        {isGenerating ? labels.generating : labels.idle}
       </Button>
 
       {message ? (
-        <p
-          className={`rounded-md border px-4 py-3 text-sm font-semibold ${
-            isGenerating
-              ? 'border-[var(--qoobix-border)] bg-white/70'
-              : 'border-[var(--qoobix-border)] bg-white/70'
-          }`}
-        >
+        <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
           {message}
         </p>
       ) : null}
