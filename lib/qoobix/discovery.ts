@@ -466,7 +466,7 @@ async function runTextSearch(input: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask':
-          'places.id,places.displayName,places.formattedAddress,places.types,places.websiteUri,places.googleMapsUri,places.rating,places.userRatingCount,places.nationalPhoneNumber'
+          'places.id,places.displayName,places.formattedAddress,places.types,places.googleMapsUri'
       },
       body: JSON.stringify(body)
     },
@@ -593,14 +593,14 @@ function placeToCandidate(input: {
 
   return {
     name,
-    website: cleanText(place.websiteUri) || cleanText(place.googleMapsUri) || null,
+    website: null,
     formattedAddress: cleanText(place.formattedAddress) || null,
     countryOrRegion: cleanText(request.targetCountries) || null,
     placeId: cleanText(place.id) || null,
     businessCategories,
     candidateType,
     source: 'google_places',
-    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}. Must be reviewed for real commercial fit.`,
+    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}. Google Maps verification link: ${cleanText(place.googleMapsUri) || 'not supplied'}. Must be reviewed for real commercial fit.`,
     suggestedAction:
       'Verify website, location, service scope, buyer fit, decision-maker route, and suitability before outreach.',
     confidence: score >= 70 ? 'medium' : 'requires_verification',
