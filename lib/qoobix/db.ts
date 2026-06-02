@@ -204,7 +204,14 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
       available_report_types: input.availableReportTypes.length
         ? input.availableReportTypes
         : ['docx', 'xlsx', 'rtf', 'csv'],
-      file_retention_days: input.fileRetentionDays
+      file_retention_days: input.fileRetentionDays,
+      qoobix_plan: 'analysis',
+      is_internal_account: false,
+      max_analysis_jobs_per_year: 10,
+      max_discovery_jobs_per_year: 0,
+      max_total_jobs_per_year: 10,
+      max_countries_per_discovery_job: 1,
+      max_candidates_per_discovery_job: 120
     })
     .select('*')
     .single()) as {
@@ -268,8 +275,25 @@ export async function listAdminClients(): Promise<AdminClientSummary[]> {
   const allJobs = jobs ?? [];
 
   return (clients ?? []).map((client) => {
+    const commercialClient = client as ClientRow & {
+      qoobix_plan?: 'analysis' | 'analysis_discovery';
+      is_internal_account?: boolean;
+      licence_starts_at?: string;
+      licence_ends_at?: string;
+      max_analysis_jobs_per_year?: number;
+      max_discovery_jobs_per_year?: number;
+      max_total_jobs_per_year?: number;
+      max_countries_per_discovery_job?: number;
+      max_candidates_per_discovery_job?: number;
+      extra_analysis_job_credits?: number;
+      extra_discovery_job_credits?: number;
+      extra_country_credits?: number;
+      extra_candidate_pack_credits?: number;
+    };
+
     const clientJobs = allJobs.filter((job) => job.client_id === client.id);
     const latestJob = clientJobs[0] ?? null;
+    const today = new Date().toISOString().slice(0, 10);
 
     return {
       id: client.id,
@@ -278,6 +302,19 @@ export async function listAdminClients(): Promise<AdminClientSummary[]> {
       sector: client.sector,
       preferredLanguage: client.preferred_language,
       isActive: client.is_active,
+      isInternalAccount: commercialClient.is_internal_account ?? false,
+      qoobixPlan: commercialClient.qoobix_plan ?? 'analysis',
+      licenceStartsAt: commercialClient.licence_starts_at ?? today,
+      licenceEndsAt: commercialClient.licence_ends_at ?? today,
+      maxAnalysisJobsPerYear: commercialClient.max_analysis_jobs_per_year ?? 10,
+      maxDiscoveryJobsPerYear: commercialClient.max_discovery_jobs_per_year ?? 0,
+      maxTotalJobsPerYear: commercialClient.max_total_jobs_per_year ?? 10,
+      maxCountriesPerDiscoveryJob: commercialClient.max_countries_per_discovery_job ?? 1,
+      maxCandidatesPerDiscoveryJob: commercialClient.max_candidates_per_discovery_job ?? 120,
+      extraAnalysisJobCredits: commercialClient.extra_analysis_job_credits ?? 0,
+      extraDiscoveryJobCredits: commercialClient.extra_discovery_job_credits ?? 0,
+      extraCountryCredits: commercialClient.extra_country_credits ?? 0,
+      extraCandidatePackCredits: commercialClient.extra_candidate_pack_credits ?? 0,
       createdAt: client.created_at,
       jobCount: clientJobs.length,
       failedJobCount: clientJobs.filter((job) => job.status === 'failed').length,
@@ -362,6 +399,58 @@ export async function setClientActiveStatus(input: {
       })
       .eq('client_id', input.clientId);
   }
+}
+
+export async function updateClientCommercialSettings(input: {
+  clientId: string;
+  qoobixPlan: 'analysis' | 'analysis_discovery';
+  isInternalAccount: boolean;
+  licenceStartsAt: string;
+  licenceEndsAt: string;
+  maxAnalysisJobsPerYear: number;
+  maxDiscoveryJobsPerYear: number;
+  maxTotalJobsPerYear: number;
+  maxCountriesPerDiscoveryJob: number;
+  maxCandidatesPerDiscoveryJob: number;
+  extraAnalysisJobCredits: number;
+  extraDiscoveryJobCredits: number;
+  extraCountryCredits: number;
+  extraCandidatePackCredits: number;
+}): Promise<void> {
+  const supabase = getSupabase();
+
+  const { error } = (await supabase
+    .from('clients')
+    .update({
+      qoobix_plan: input.qoobixPlan,
+      is_internal_account: input.isInternalAccount,
+      licence_starts_at: input.licenceStartsAt,
+      licence_ends_at: input.licenceEndsAt,
+      max_analysis_jobs_per_year: input.maxAnalysisJobsPerYear,
+      max_discovery_jobs_per_year: input.maxDiscoveryJobsPerYear,
+      max_total_jobs_per_year: input.maxTotalJobsPerYear,
+      max_countries_per_discovery_job: input.maxCountriesPerDiscoveryJob,
+      max_candidates_per_discovery_job: input.maxCandidatesPerDiscoveryJob,
+      extra_analysis_job_credits: input.extraAnalysisJobCredits,
+      extra_discovery_job_credits: input.extraDiscoveryJobCredits,
+      extra_country_credits: input.extraCountryCredits,
+      extra_candidate_pack_credits: input.extraCandidatePackCredits
+    })
+    .eq('id', input.clientId)) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  await addJobLog(null, 'info', 'Client commercial settings updated.', {
+    clientId: input.clientId,
+    qoobixPlan: input.qoobixPlan,
+    isInternalAccount: input.isInternalAccount,
+    licenceStartsAt: input.licenceStartsAt,
+    licenceEndsAt: input.licenceEndsAt
+  });
 }
 
 export async function issueTemporaryAccessCode(clientId: string): Promise<{
@@ -640,6 +729,7 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
     objective: input.commercialObjective,
     intelligenceMode,
     plan: usage.plan,
+    isInternalAccount: usage.isInternalAccount,
     licenceEndsAt: usage.licenceEndsAt,
     analysisJobsUsedBeforeCreation: usage.analysisJobsUsed,
     discoveryJobsUsedBeforeCreation: usage.discoveryJobsUsed,
