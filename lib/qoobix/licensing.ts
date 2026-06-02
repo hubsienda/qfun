@@ -5,6 +5,7 @@ type ClientLicenceRow = {
   id: string;
   slug: string;
   qoobix_plan: 'analysis' | 'analysis_discovery';
+  is_internal_account: boolean;
   licence_starts_at: string;
   licence_ends_at: string;
   max_analysis_jobs_per_year: number;
@@ -30,6 +31,7 @@ type JobUsageRow = {
 
 export type LicenceUsageSummary = {
   plan: 'analysis' | 'analysis_discovery';
+  isInternalAccount: boolean;
   licenceStartsAt: string;
   licenceEndsAt: string;
   isLicenceActive: boolean;
@@ -63,6 +65,10 @@ function getJobMode(job: JobUsageRow) {
 }
 
 function isActiveLicence(client: ClientLicenceRow) {
+  if (client.is_internal_account) {
+    return true;
+  }
+
   const now = new Date();
   const startsAt = new Date(`${client.licence_starts_at}T00:00:00.000Z`);
   const endsAt = new Date(`${client.licence_ends_at}T23:59:59.999Z`);
@@ -80,6 +86,7 @@ export async function getClientLicenceUsage(clientId: string): Promise<LicenceUs
         'id',
         'slug',
         'qoobix_plan',
+        'is_internal_account',
         'licence_starts_at',
         'licence_ends_at',
         'max_analysis_jobs_per_year',
@@ -121,24 +128,42 @@ export async function getClientLicenceUsage(clientId: string): Promise<LicenceUs
   const analysisJobsUsed = chargeableJobs.filter((job) => getJobMode(job) === 'analysis').length;
   const discoveryJobsUsed = chargeableJobs.filter((job) => getJobMode(job) === 'discovery').length;
 
+  const analysisJobsAllowed = client.is_internal_account
+    ? 999999
+    : client.max_analysis_jobs_per_year + client.extra_analysis_job_credits;
+
+  const discoveryJobsAllowed = client.is_internal_account
+    ? 999999
+    : client.max_discovery_jobs_per_year + client.extra_discovery_job_credits;
+
+  const totalJobsAllowed = client.is_internal_account
+    ? 999999
+    : client.max_total_jobs_per_year +
+      client.extra_analysis_job_credits +
+      client.extra_discovery_job_credits;
+
+  const maxCountriesPerDiscoveryJob = client.is_internal_account
+    ? 999999
+    : client.max_countries_per_discovery_job + client.extra_country_credits;
+
+  const maxCandidatesPerDiscoveryJob = client.is_internal_account
+    ? 999999
+    : client.max_candidates_per_discovery_job + client.extra_candidate_pack_credits * 100;
+
   return {
     plan: client.qoobix_plan,
+    isInternalAccount: client.is_internal_account,
     licenceStartsAt: client.licence_starts_at,
     licenceEndsAt: client.licence_ends_at,
     isLicenceActive: isActiveLicence(client),
     analysisJobsUsed,
     discoveryJobsUsed,
     totalJobsUsed: chargeableJobs.length,
-    analysisJobsAllowed: client.max_analysis_jobs_per_year + client.extra_analysis_job_credits,
-    discoveryJobsAllowed: client.max_discovery_jobs_per_year + client.extra_discovery_job_credits,
-    totalJobsAllowed:
-      client.max_total_jobs_per_year +
-      client.extra_analysis_job_credits +
-      client.extra_discovery_job_credits,
-    maxCountriesPerDiscoveryJob:
-      client.max_countries_per_discovery_job + client.extra_country_credits,
-    maxCandidatesPerDiscoveryJob:
-      client.max_candidates_per_discovery_job + client.extra_candidate_pack_credits * 100,
+    analysisJobsAllowed,
+    discoveryJobsAllowed,
+    totalJobsAllowed,
+    maxCountriesPerDiscoveryJob,
+    maxCandidatesPerDiscoveryJob,
     extraAnalysisJobCredits: client.extra_analysis_job_credits,
     extraDiscoveryJobCredits: client.extra_discovery_job_credits,
     extraCountryCredits: client.extra_country_credits,
@@ -152,6 +177,10 @@ export async function enforceClientJobAllowance(input: {
 }): Promise<LicenceUsageSummary> {
   const usage = await getClientLicenceUsage(input.clientId);
   const mode = input.request.intelligenceMode ?? 'analysis';
+
+  if (usage.isInternalAccount) {
+    return usage;
+  }
 
   if (!usage.isLicenceActive) {
     throw new Error(
