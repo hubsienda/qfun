@@ -16,13 +16,17 @@ type CsvRow = {
   name: string;
   type: string;
   region: string;
+  status: string;
+  verificationUrl: string;
   detail: string;
   suggestedAction: string;
   notes: string;
 };
 
 function clean(value: string | null | undefined) {
-  return value && value.trim() ? value : '';
+  return (value && value.trim() ? value : '')
+    .replace(/\bUnverified\b/g, 'Candidate for verification')
+    .replace(/\bunverified\b/g, 'candidate for verification');
 }
 
 function csvEscape(value: string) {
@@ -42,6 +46,8 @@ function toCsv(rows: CsvRow[]) {
     'Name',
     'Type',
     'Region',
+    'Status',
+    'Verification URL',
     'Detail',
     'Suggested action',
     'Notes'
@@ -56,6 +62,8 @@ function toCsv(rows: CsvRow[]) {
         row.name,
         row.type,
         row.region,
+        row.status,
+        row.verificationUrl,
         row.detail,
         row.suggestedAction,
         row.notes
@@ -75,8 +83,10 @@ function textRows(section: string, items: string[]): CsvRow[] {
     name: '',
     type: '',
     region: '',
+    status: '',
+    verificationUrl: '',
     detail: item,
-    suggestedAction: 'Verify before use.',
+    suggestedAction: 'Check before use.',
     notes: ''
   }));
 }
@@ -91,6 +101,8 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: client.name,
       type: client.sector,
       region: request.targetCountries,
+      status: '',
+      verificationUrl: '',
       detail: request.marketQuestion,
       suggestedAction: request.commercialObjective,
       notes: `Product/service: ${request.productOrService}`
@@ -101,8 +113,10 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: '',
       type: '',
       region: '',
+      status: '',
+      verificationUrl: '',
       detail: intelligence.executiveSummary,
-      suggestedAction: 'Review and validate before commercial use.',
+      suggestedAction: 'Review and check before commercial use.',
       notes: ''
     },
     {
@@ -111,6 +125,8 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: '',
       type: '',
       region: '',
+      status: '',
+      verificationUrl: '',
       detail: intelligence.clientProductContext,
       suggestedAction: 'Check against the client business profile.',
       notes: ''
@@ -121,8 +137,10 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: '',
       type: '',
       region: '',
+      status: '',
+      verificationUrl: '',
       detail: intelligence.targetMarketOverview,
-      suggestedAction: 'Validate with market evidence.',
+      suggestedAction: 'Check with market evidence.',
       notes: ''
     },
     ...textRows('Demand signal', intelligence.demandSignals),
@@ -133,6 +151,8 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: item.name,
       type: item.category,
       region: item.countryOrRegion,
+      status: item.status || 'Candidate for verification',
+      verificationUrl: item.verificationUrl || '',
       detail: item.relevance,
       suggestedAction: item.suggestedAction,
       notes: item.notes
@@ -143,8 +163,10 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: item.name,
       type: item.type,
       region: item.countryOrRegion,
+      status: item.status || 'Candidate for verification',
+      verificationUrl: item.verificationUrl || '',
       detail: item.relevance,
-      suggestedAction: 'Verify positioning, offer, geography, and relevance.',
+      suggestedAction: 'Check positioning, offer, geography, and relevance.',
       notes: item.notes
     })),
     ...textRows('Competitor/substitute note', intelligence.competitorsAlternatives),
@@ -157,6 +179,8 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: '',
       type: '',
       region: '',
+      status: '',
+      verificationUrl: '',
       detail: item,
       suggestedAction: 'Assign owner, deadline, and verification step.',
       notes: ''
@@ -167,6 +191,8 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       name: '',
       type: '',
       region: '',
+      status: '',
+      verificationUrl: '',
       detail: item,
       suggestedAction:
         'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.',
