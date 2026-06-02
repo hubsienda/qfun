@@ -1,4 +1,8 @@
-import type { ClientConfiguration, IntelligenceRequest } from '@/lib/qoobix/types';
+import type {
+  ClientConfiguration,
+  DiscoveryCandidate,
+  IntelligenceRequest
+} from '@/lib/qoobix/types';
 
 function safeList(items: string[]) {
   return items.length ? items.join(', ') : 'Not provided';
@@ -8,11 +12,40 @@ function safeText(value: string | null | undefined) {
   return value && value.trim() ? value : 'Not provided';
 }
 
+function formatDiscoveryCandidates(candidates: DiscoveryCandidate[]) {
+  if (!candidates.length) {
+    return 'No discovered candidate organisations supplied.';
+  }
+
+  return candidates
+    .slice(0, 120)
+    .map(
+      (candidate, index) => `
+${index + 1}. ${candidate.name}
+- Candidate type: ${candidate.candidateType}
+- Country/region: ${candidate.countryOrRegion ?? 'Not provided'}
+- Address/area: ${candidate.formattedAddress ?? 'Not provided'}
+- Website: ${candidate.website ?? 'Not provided'}
+- Business categories: ${
+        candidate.businessCategories.length ? candidate.businessCategories.join(', ') : 'Not provided'
+      }
+- Source: ${candidate.source}
+- Relevance reason: ${candidate.relevanceReason}
+- Suggested verification action: ${candidate.suggestedAction}
+- Verification status: ${candidate.verificationStatus}
+`
+    )
+    .join('\n');
+}
+
 export function buildMarketIntelligencePrompt(input: {
   client: ClientConfiguration;
   request: IntelligenceRequest;
+  discoveryCandidates?: DiscoveryCandidate[];
+  discoveryNotes?: string[];
 }) {
-  const { client, request } = input;
+  const { client, request, discoveryCandidates = [], discoveryNotes = [] } = input;
+  const isDiscoveryMode = request.intelligenceMode === 'discovery';
 
   return `
 You are Proteus, the proprietary intelligence layer behind QOOBIX.
@@ -39,14 +72,35 @@ The output must help the client decide:
 
 IMPORTANT LIMITATIONS
 
-- Do not claim to have performed live web browsing unless live sources are explicitly supplied.
 - Do not invent exact addresses, phone numbers, email addresses, legal requirements, certifications, statistics, market sizes, named contacts, or financial figures.
 - Do not present uncertain claims as facts.
 - If a claim needs verification, say so.
 - If the information is uncertain, mark it as an assumption, hypothesis, or item requiring validation.
-- Prefer categories and commercial logic over fake precision.
-- Named companies may be included only when they are plausible and clearly marked for verification.
+- Prefer commercial logic over fake precision.
 - Avoid phrases such as "unlock potential", "leverage synergies", "AI-powered insights", "seamless growth", "transform your business", or similar consultancy fog.
+
+DISCOVERY MODE RULES
+
+Current intelligence mode:
+${request.intelligenceMode}
+
+${
+  isDiscoveryMode
+    ? `This job includes controlled discovery. You have been supplied with candidate organisations discovered through a third-party discovery source.
+
+You may use the supplied candidate organisations by name.
+
+However:
+- They are candidate organisations for verification.
+- They are not confirmed leads.
+- They are not guaranteed partners.
+- They are not verified distributors.
+- They are not guaranteed competitors.
+- Do not imply that the client has a relationship with them.
+- Do not imply that they are willing to buy, distribute, partner, or respond.
+- Prioritise and explain them as "candidate organisations to verify".`
+    : `This is Analysis Mode. No live named-organisation discovery has been supplied. Do not pretend that live discovery was performed.`
+}
 
 COMMERCIAL REASONING RULES
 
@@ -54,11 +108,11 @@ You must:
 - start from the commercial objective;
 - separate stronger opportunities from speculative ones;
 - explain why each priority matters;
-- distinguish buyer, channel, influencer, distributor, partner, and competitor roles;
+- distinguish buyer, channel, influencer, distributor, partner, competitor, substitute, and local market actor roles;
 - suggest practical outreach or validation actions;
 - identify what evidence should be collected next;
 - include caveats without making the output useless;
-- make the output useful even when live external sources are unavailable.
+- make the output useful even when external sources are limited.
 
 QUALITY BAR
 
@@ -136,6 +190,18 @@ ${request.knownPartners || 'Not provided'}
 Preferred output language:
 ${request.preferredOutputLanguage}
 
+DISCOVERED CANDIDATE ORGANISATIONS
+
+${formatDiscoveryCandidates(discoveryCandidates)}
+
+DISCOVERY NOTES
+
+${
+  discoveryNotes.length
+    ? discoveryNotes.map((note) => `- ${note}`).join('\n')
+    : '- No additional discovery notes.'
+}
+
 OUTPUT REQUIREMENTS
 
 Return only valid JSON in this exact structure:
@@ -191,7 +257,7 @@ channelOpportunities:
 Provide 5 to 8 channel opportunities. Each must identify the channel type, why it may work, and what the first validation step should be.
 
 competitorsAlternatives:
-Include direct competitors if plausible, but also include substitutes, local alternatives, incumbent suppliers, internal buyer workarounds, and the status quo.
+Include direct competitors if supplied or discovered, but also include substitutes, local alternatives, incumbent suppliers, internal buyer workarounds, and the status quo.
 
 regionalPriorities:
 Provide ranked priorities. Each item should indicate why that region, segment, or area deserves attention and what should be checked first.
@@ -206,29 +272,22 @@ actionPriorities:
 Provide 6 to 10 concrete next actions. Each action should be phrased as something the client can actually do.
 
 sourceNotesLimitations:
-Be honest about source limitations, non-browsing constraints, verification needs, and assumptions. Do not use this section as an apology swamp.
+Be honest about source limitations, discovery limitations, verification needs, and assumptions. Do not use this section as an apology swamp.
 
 potentialPartnersProspects:
-Provide 8 to 15 rows if possible.
-Rows may include named organisations only if plausible and clearly marked for verification.
-If names are uncertain, use categories such as:
-- regional distributor;
-- sector-specific wholesaler;
-- installer network;
-- trade association;
-- procurement office;
-- technical specification consultant;
-- local agent;
-- representative network;
-- specialised retailer;
-- public tender buyer;
-- B2B marketplace;
-- industry event organiser.
+${
+  isDiscoveryMode
+    ? `Use the supplied discovered candidate organisations where commercially relevant. Provide 8 to 20 rows if possible. Every named organisation must be clearly treated as requiring verification.`
+    : `Provide 8 to 15 rows if possible. Rows may include named organisations only if plausible and clearly marked for verification. If names are uncertain, use categories.`
+}
 Each row must include a practical suggested action.
 
 competitorRows:
-Provide 6 to 12 rows if possible.
-Include direct competitors, indirect competitors, substitutes, alternative buying paths, local incumbents, and the option of doing nothing.
+${
+  isDiscoveryMode
+    ? `Use supplied discovered candidate organisations where they appear to be competitors, substitutes, suppliers, or local alternatives.`
+    : `Provide 6 to 12 rows if possible. Include direct competitors, indirect competitors, substitutes, alternative buying paths, local incumbents, and the option of doing nothing.`
+}
 Every row must explain relevance.
 
 The final output must be in the preferred output language requested by the client.
