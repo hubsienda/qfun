@@ -54,7 +54,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
             {t.common.backToClientArea}
           </Link>
 
-          <ClientLogoutButton label={t.common.logout} />
+          <ClientLogoutButton />
         </div>
 
         <Panel className="p-8 md:p-10">
@@ -93,7 +93,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
           {t.common.backToClientArea}
         </Link>
 
-        <ClientLogoutButton label={t.common.logout} />
+        <ClientLogoutButton />
       </div>
 
       <Panel className="p-8 md:p-10">
