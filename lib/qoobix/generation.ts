@@ -41,21 +41,29 @@ function asString(value: unknown, fallback = '') {
   }
 }
 
+function cleanReportText(value: unknown, fallback = '') {
+  return asString(value, fallback)
+    .replace(/\bUnverified\b/g, 'Candidate for verification')
+    .replace(/\bunverified\b/g, 'candidate for verification')
+    .replace(/Unverified;/g, 'Candidate for verification.')
+    .replace(/unverified;/g, 'candidate for verification.');
+}
+
 function asStringArray(value: unknown, fallback: string[] = []) {
   if (Array.isArray(value)) {
     return value
-      .map((item) => asString(item))
+      .map((item) => cleanReportText(item))
       .map((item) => item.trim())
       .filter(Boolean);
   }
 
   if (typeof value === 'string' && value.trim()) {
-    return [value.trim()];
+    return [cleanReportText(value)];
   }
 
   if (value && typeof value === 'object') {
     return Object.values(value)
-      .map((item) => asString(item))
+      .map((item) => cleanReportText(item))
       .map((item) => item.trim())
       .filter(Boolean);
   }
@@ -72,12 +80,14 @@ function asPartnerRows(value: unknown): GeneratedIntelligence['potentialPartners
     const row = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};
 
     return {
-      name: asString(row.name, 'Potential partner/prospect'),
-      category: asString(row.category, 'To verify'),
-      countryOrRegion: asString(row.countryOrRegion, 'To verify'),
-      relevance: asString(row.relevance, 'To verify'),
-      suggestedAction: asString(row.suggestedAction, 'Verify and qualify before outreach.'),
-      notes: asString(row.notes, 'AI-assisted row. Verify before use.')
+      name: cleanReportText(row.name, 'Potential partner/prospect'),
+      category: cleanReportText(row.category, 'Candidate'),
+      countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
+      relevance: cleanReportText(row.relevance, 'Commercial fit to check.'),
+      suggestedAction: cleanReportText(row.suggestedAction, 'Check and qualify before outreach.'),
+      verificationUrl: cleanReportText(row.verificationUrl, ''),
+      status: cleanReportText(row.status, 'Candidate for verification'),
+      notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
     };
   });
 }
@@ -91,11 +101,13 @@ function asCompetitorRows(value: unknown): GeneratedIntelligence['competitorRows
     const row = item && typeof item === 'object' ? (item as Record<string, unknown>) : {};
 
     return {
-      name: asString(row.name, 'Competitor/alternative'),
-      type: asString(row.type, 'To verify'),
-      countryOrRegion: asString(row.countryOrRegion, 'To verify'),
-      relevance: asString(row.relevance, 'To verify'),
-      notes: asString(row.notes, 'AI-assisted row. Verify before use.')
+      name: cleanReportText(row.name, 'Competitor/alternative'),
+      type: cleanReportText(row.type, 'Candidate'),
+      countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
+      relevance: cleanReportText(row.relevance, 'Commercial relevance to check.'),
+      verificationUrl: cleanReportText(row.verificationUrl, ''),
+      status: cleanReportText(row.status, 'Candidate for verification'),
+      notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
     };
   });
 }
@@ -134,7 +146,7 @@ function createFallbackIntelligence(request: IntelligenceRequest): GeneratedInte
     ],
     sourceNotesLimitations: [
       'No completed AI response was available for this job.',
-      'All opportunities must be verified manually before commercial use.'
+      'All opportunities must be checked before commercial use.'
     ],
     potentialPartnersProspects: [],
     competitorRows: []
@@ -149,9 +161,9 @@ function normaliseGeneratedIntelligence(
   const value = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {};
 
   return {
-    executiveSummary: asString(value.executiveSummary, fallback.executiveSummary),
-    clientProductContext: asString(value.clientProductContext, fallback.clientProductContext),
-    targetMarketOverview: asString(value.targetMarketOverview, fallback.targetMarketOverview),
+    executiveSummary: cleanReportText(value.executiveSummary, fallback.executiveSummary),
+    clientProductContext: cleanReportText(value.clientProductContext, fallback.clientProductContext),
+    targetMarketOverview: cleanReportText(value.targetMarketOverview, fallback.targetMarketOverview),
 
     demandSignals: asStringArray(value.demandSignals, fallback.demandSignals),
     channelOpportunities: asStringArray(value.channelOpportunities, fallback.channelOpportunities),
@@ -197,7 +209,7 @@ async function generateIntelligence(input: {
       {
         role: 'system',
         content:
-          'You are Proteus for QOOBIX. Return only valid JSON. Be commercially useful, sceptical, and precise.'
+          'You are Proteus for QOOBIX. Return only valid JSON. Be commercially useful, sceptical, and precise. Preserve verificationUrl fields exactly when supplied. Do not use the word unverified in candidate rows; use Candidate for verification.'
       },
       {
         role: 'user',
@@ -226,6 +238,38 @@ function buildDiscoveryNoteSummary(input: {
   ];
 
   return notes;
+}
+
+function mergeDiscoveryUrlsIntoIntelligence(input: {
+  intelligence: GeneratedIntelligence;
+  discoveryCandidates: DiscoveryCandidate[];
+}) {
+  const { intelligence, discoveryCandidates } = input;
+  const candidateByName = new Map(
+    discoveryCandidates.map((candidate) => [candidate.name.toLowerCase(), candidate])
+  );
+
+  return {
+    ...intelligence,
+    potentialPartnersProspects: intelligence.potentialPartnersProspects.map((row) => {
+      const candidate = candidateByName.get(row.name.toLowerCase());
+
+      return {
+        ...row,
+        verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
+        status: row.status || 'Candidate for verification'
+      };
+    }),
+    competitorRows: intelligence.competitorRows.map((row) => {
+      const candidate = candidateByName.get(row.name.toLowerCase());
+
+      return {
+        ...row,
+        verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
+        status: row.status || 'Candidate for verification'
+      };
+    })
+  };
 }
 
 export async function generateAndStoreJobOutputs(jobId: string) {
@@ -295,7 +339,7 @@ export async function generateAndStoreJobOutputs(jobId: string) {
         });
 
         discoveryNotes = [
-          `Discovery failed before candidate organisations could be supplied: ${message}`,
+          `Discovery did not complete before candidate organisations could be supplied: ${message}`,
           'The generated output should be treated as analysis-only unless candidate organisations appear from other supplied context.'
         ];
       }
@@ -313,9 +357,14 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       discoveryNotes
     });
 
-    const intelligence = await generateIntelligence({
+    const rawIntelligence = await generateIntelligence({
       request,
       prompt
+    });
+
+    const intelligence = mergeDiscoveryUrlsIntoIntelligence({
+      intelligence: rawIntelligence,
+      discoveryCandidates
     });
 
     await updateJobStatus(jobId, 'generating_outputs');
