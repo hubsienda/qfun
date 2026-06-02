@@ -546,17 +546,18 @@ function placeToCandidate(input: {
   return {
     name,
     website: null,
+    verificationUrl: mapsLink || null,
     formattedAddress: cleanText(place.formattedAddress) || null,
     countryOrRegion: cleanText(request.targetCountries) || null,
     placeId: cleanText(place.id) || null,
     businessCategories,
     candidateType,
     source: 'google_places',
-    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}. Google Maps verification link: ${mapsLink || 'not supplied'}.`,
+    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}.`,
     suggestedAction:
-      'Verify location, website, service scope, buyer fit, decision-maker route, and suitability before outreach.',
+      'Check location, service scope, buyer fit, decision-maker route, and suitability before outreach.',
     confidence: score >= 70 ? 'medium' : 'requires_verification',
-    verificationStatus: 'unverified',
+    verificationStatus: 'candidate',
     score
   };
 }
@@ -678,7 +679,7 @@ export async function runDiscovery(input: {
   );
 
   notes.push(
-    'Candidate organisations are provided for verification only. They are not confirmed leads, guaranteed partners, verified distributors, or guaranteed competitors.'
+    'Candidate organisations are provided for verification. They are not confirmed leads, guaranteed partners, verified distributors, or guaranteed competitors.'
   );
 
   if (rejectedCandidates.length) {
