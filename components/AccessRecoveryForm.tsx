@@ -4,7 +4,35 @@ import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Field';
 
-export function AccessRecoveryForm() {
+type AccessRecoveryFormLabels = {
+  clientSlug: string;
+  recoveryPhrase: string;
+  failed: string;
+  requestFailed: string;
+  success: string;
+  generatedTitle: string;
+  generatedText: string;
+  generating: string;
+  submit: string;
+};
+
+type AccessRecoveryFormProps = {
+  labels?: AccessRecoveryFormLabels;
+};
+
+const defaultLabels: AccessRecoveryFormLabels = {
+  clientSlug: 'Client access name',
+  recoveryPhrase: 'Recovery phrase',
+  failed: 'Access recovery failed.',
+  requestFailed: 'Access recovery failed because the request could not be completed.',
+  success: 'Proteus generated a new access code. Copy it now, then use it to enter.',
+  generatedTitle: 'New Proteus-generated access code',
+  generatedText: 'Copy this now. QOOBIX will not show it again.',
+  generating: 'Generating…',
+  submit: 'Generate new access code'
+};
+
+export function AccessRecoveryForm({ labels = defaultLabels }: AccessRecoveryFormProps) {
   const [form, setForm] = useState({
     clientSlug: '',
     recoveryPhrase: ''
@@ -41,11 +69,11 @@ export function AccessRecoveryForm() {
       };
 
       if (!response.ok || !payload.ok || !payload.accessCode) {
-        setMessage(payload.error ?? 'Access recovery failed.');
+        setMessage(payload.error ?? labels.failed);
         return;
       }
 
-      setMessage('Proteus generated a new access code. Copy it now, then use it to enter.');
+      setMessage(labels.success);
       setGeneratedAccessCode(payload.accessCode);
 
       setForm({
@@ -53,7 +81,7 @@ export function AccessRecoveryForm() {
         recoveryPhrase: ''
       });
     } catch {
-      setMessage('Access recovery failed because the request could not be completed.');
+      setMessage(labels.requestFailed);
     } finally {
       setIsSubmitting(false);
     }
@@ -62,7 +90,7 @@ export function AccessRecoveryForm() {
   return (
     <form onSubmit={submitRecovery} className="space-y-5">
       <InputField
-        label="Client access name"
+        label={labels.clientSlug}
         name="clientSlug"
         value={form.clientSlug}
         onChange={(event) => updateField('clientSlug', event.target.value)}
@@ -71,7 +99,7 @@ export function AccessRecoveryForm() {
       />
 
       <InputField
-        label="Recovery phrase"
+        label={labels.recoveryPhrase}
         name="recoveryPhrase"
         type="password"
         value={form.recoveryPhrase}
@@ -88,9 +116,9 @@ export function AccessRecoveryForm() {
 
       {generatedAccessCode ? (
         <div className="rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
-          <h3 className="text-sm font-semibold">New Proteus-generated access code</h3>
+          <h3 className="text-sm font-semibold">{labels.generatedTitle}</h3>
           <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-            Copy this now. QOOBIX will not show it again.
+            {labels.generatedText}
           </p>
           <code className="mt-4 block overflow-x-auto rounded-md bg-white px-4 py-3 text-sm font-semibold">
             {generatedAccessCode}
@@ -99,7 +127,7 @@ export function AccessRecoveryForm() {
       ) : null}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Generating…' : 'Generate new access code'}
+        {isSubmitting ? labels.generating : labels.submit}
       </Button>
     </form>
   );
