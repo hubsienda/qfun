@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { InputField, TextAreaField } from '@/components/Field';
-import type { ClientConfiguration } from '@/lib/qoobix/types';
+import type { ClientConfiguration, IntelligenceMode } from '@/lib/qoobix/types';
 
 type NewJobFormProps = {
   client: ClientConfiguration;
@@ -21,8 +21,16 @@ const objectives = [
   'Action-priority report'
 ];
 
+const modeDescriptions: Record<IntelligenceMode, string> = {
+  analysis:
+    'Analysis Mode produces strategic intelligence, positioning, risks, priorities, and commercial reasoning without live named-organisation discovery.',
+  discovery:
+    'Discovery Mode is for named candidate organisations such as possible partners, distributors, competitors, suppliers, operators, or other market actors. These candidates are for verification, not confirmed leads.'
+};
+
 export function NewJobForm({ client }: NewJobFormProps) {
   const [form, setForm] = useState({
+    intelligenceMode: 'analysis' as IntelligenceMode,
     productOrService: client.productsServices ?? '',
     targetCountries: client.targetCountries.join(', '),
     marketQuestion: '',
@@ -60,7 +68,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
           ...form,
           requiredOutputTypes: client.availableReportTypes.length
             ? client.availableReportTypes
-            : ['docx', 'xlsx']
+            : ['docx', 'xlsx', 'rtf', 'csv']
         })
       });
 
@@ -87,6 +95,41 @@ export function NewJobForm({ client }: NewJobFormProps) {
 
   return (
     <form onSubmit={submitJob} className="space-y-6">
+      <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/65 p-5">
+        <span className="text-sm font-semibold">Intelligence mode</span>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {(['analysis', 'discovery'] as IntelligenceMode[]).map((mode) => {
+            const selected = form.intelligenceMode === mode;
+
+            return (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => updateField('intelligenceMode', mode)}
+                className={`qoobix-focus-ring rounded-lg border p-4 text-left transition ${
+                  selected
+                    ? 'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-sm'
+                    : 'border-[var(--qoobix-border)] bg-white/70 hover:border-[var(--qoobix-orange)]'
+                }`}
+              >
+                <span className="block text-base font-semibold">
+                  {mode === 'analysis' ? 'Analysis' : 'Discovery'}
+                </span>
+
+                <span
+                  className={`mt-2 block text-sm leading-6 ${
+                    selected ? 'text-white/85' : 'text-[var(--qoobix-muted)]'
+                  }`}
+                >
+                  {modeDescriptions[mode]}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <TextAreaField
         label="Product or service to analyse"
         name="productOrService"
@@ -164,8 +207,9 @@ export function NewJobForm({ client }: NewJobFormProps) {
       />
 
       <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
-        QOOBIX will generate the provisioned output files for this environment. Usually this means
-        DOCX and XLSX.
+        QOOBIX will generate the provisioned output files for this environment. Current output
+        formats are DOCX, XLSX, RTF, and CSV. Discovery Mode prepares the request for candidate
+        organisation discovery, but candidates must still be independently verified.
       </div>
 
       {notice ? (
