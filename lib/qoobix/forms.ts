@@ -22,12 +22,14 @@ const recoveryPhraseSchema = z
   .max(80, 'Recovery phrase must be no more than 80 characters.')
   .refine((value) => !/\s/.test(value), 'Recovery phrase must not contain spaces.');
 
+export const intelligenceModeSchema = z.enum(['analysis', 'discovery']);
+
 export const adminCreateClientSchema = z.object({
   adminPassword: z.string().min(1),
   name: z.string().min(2),
   slug: z.string().min(2).transform(slugify),
   preferredLanguage: z.string().optional().default('English'),
-  availableReportTypes: z.string().optional().default('docx,xlsx').transform(splitList),
+  availableReportTypes: z.string().optional().default('docx,xlsx,rtf,csv').transform(splitList),
   fileRetentionDays: z.coerce.number().int().positive().default(30)
 });
 
@@ -65,6 +67,7 @@ export const accessRecoverySchema = z.object({
 export const newJobSchema = z.object({
   clientId: z.string().uuid(),
   clientSlug: z.string().min(2),
+  intelligenceMode: intelligenceModeSchema.default('analysis'),
   productOrService: z.string().min(2),
   targetCountries: z.string().min(2),
   marketQuestion: z.string().min(8),
@@ -74,7 +77,7 @@ export const newJobSchema = z.object({
   knownCompetitors: z.string().optional().default(''),
   knownPartners: z.string().optional().default(''),
   preferredOutputLanguage: z.string().optional().default('English'),
-  requiredOutputTypes: z.array(z.string()).default(['docx', 'xlsx'])
+  requiredOutputTypes: z.array(z.string()).default(['docx', 'xlsx', 'rtf', 'csv'])
 });
 
 export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
