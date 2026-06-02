@@ -13,11 +13,7 @@ type GooglePlace = {
   };
   formattedAddress?: string;
   types?: string[];
-  websiteUri?: string;
   googleMapsUri?: string;
-  rating?: number;
-  userRatingCount?: number;
-  nationalPhoneNumber?: string;
 };
 
 type GoogleTextSearchResponse = {
@@ -79,21 +75,10 @@ function uniqueValues(values: string[]) {
 function inferDiscoveryFamily(objective: string) {
   const lower = objective.toLowerCase();
 
-  if (lower.includes('competitor')) {
-    return 'competitor';
-  }
-
-  if (lower.includes('distributor')) {
-    return 'distributor';
-  }
-
-  if (lower.includes('partner')) {
-    return 'partner';
-  }
-
-  if (lower.includes('lead') || lower.includes('prospect')) {
-    return 'prospect';
-  }
+  if (lower.includes('competitor')) return 'competitor';
+  if (lower.includes('distributor')) return 'distributor';
+  if (lower.includes('partner')) return 'partner';
+  if (lower.includes('lead') || lower.includes('prospect')) return 'prospect';
 
   return 'generic';
 }
@@ -101,21 +86,10 @@ function inferDiscoveryFamily(objective: string) {
 function inferCandidateType(objective: string) {
   const family = inferDiscoveryFamily(objective);
 
-  if (family === 'competitor') {
-    return 'competitor_or_substitute';
-  }
-
-  if (family === 'distributor') {
-    return 'potential_distributor';
-  }
-
-  if (family === 'partner') {
-    return 'potential_partner';
-  }
-
-  if (family === 'prospect') {
-    return 'potential_prospect';
-  }
+  if (family === 'competitor') return 'competitor_or_substitute';
+  if (family === 'distributor') return 'potential_distributor';
+  if (family === 'partner') return 'potential_partner';
+  if (family === 'prospect') return 'potential_prospect';
 
   return 'candidate_organisation';
 }
@@ -369,21 +343,10 @@ function getCountryProfile(targetCountry: string): CountryDiscoveryProfile {
 function getTemplateQueries(profile: CountryDiscoveryProfile, objective: string) {
   const family = inferDiscoveryFamily(objective);
 
-  if (family === 'competitor') {
-    return profile.competitorQueries;
-  }
-
-  if (family === 'distributor') {
-    return profile.distributorQueries;
-  }
-
-  if (family === 'partner') {
-    return profile.partnerQueries;
-  }
-
-  if (family === 'prospect') {
-    return profile.prospectQueries;
-  }
+  if (family === 'competitor') return profile.competitorQueries;
+  if (family === 'distributor') return profile.distributorQueries;
+  if (family === 'partner') return profile.partnerQueries;
+  if (family === 'prospect') return profile.prospectQueries;
 
   return profile.genericQueries;
 }
@@ -516,7 +479,7 @@ function scorePlace(input: {
 }) {
   const name = cleanText(input.place.displayName?.text);
   const address = cleanText(input.place.formattedAddress);
-  const website = cleanText(input.place.websiteUri);
+  const mapsLink = cleanText(input.place.googleMapsUri);
   const types = input.place.types ?? [];
 
   if (!name) {
@@ -533,20 +496,8 @@ function scorePlace(input: {
     score += 45;
   }
 
-  if (website) {
-    score += 20;
-  }
-
-  if (input.place.googleMapsUri) {
-    score += 8;
-  }
-
-  if (typeof input.place.rating === 'number') {
-    score += 4;
-  }
-
-  if (typeof input.place.userRatingCount === 'number' && input.place.userRatingCount > 0) {
-    score += 4;
+  if (mapsLink) {
+    score += 12;
   }
 
   const normalisedTypes = types.map(normalise).join(' ');
@@ -583,6 +534,7 @@ function placeToCandidate(input: {
 }): ScoredCandidate | null {
   const { place, query, request, score } = input;
   const name = cleanText(place.displayName?.text);
+  const mapsLink = cleanText(place.googleMapsUri);
 
   if (!name) {
     return null;
@@ -600,9 +552,9 @@ function placeToCandidate(input: {
     businessCategories,
     candidateType,
     source: 'google_places',
-    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}. Google Maps verification link: ${cleanText(place.googleMapsUri) || 'not supplied'}. Must be reviewed for real commercial fit.`,
+    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}. Google Maps verification link: ${mapsLink || 'not supplied'}.`,
     suggestedAction:
-      'Verify website, location, service scope, buyer fit, decision-maker route, and suitability before outreach.',
+      'Verify location, website, service scope, buyer fit, decision-maker route, and suitability before outreach.',
     confidence: score >= 70 ? 'medium' : 'requires_verification',
     verificationStatus: 'unverified',
     score
@@ -687,7 +639,9 @@ export async function runDiscovery(input: {
         const name = cleanText(place.displayName?.text) || 'Unnamed place';
 
         if (score < 45) {
-          rejectedCandidates.push(`${name} rejected. Score: ${score}. Address: ${place.formattedAddress ?? 'No address'}`);
+          rejectedCandidates.push(
+            `${name} rejected. Score: ${score}. Address: ${place.formattedAddress ?? 'No address'}`
+          );
           continue;
         }
 
