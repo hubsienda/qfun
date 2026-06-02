@@ -3,13 +3,20 @@ import { z } from 'zod';
 const serverEnvSchema = z.object({
   OPENAI_API_KEY: z.string().min(1).optional(),
   OPENAI_MODEL: z.string().min(1).default('gpt-5.4-mini'),
+
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_ANON_KEY: z.string().min(1).optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
+
   QOOBIX_ADMIN_PASSWORD: z.string().min(1).optional(),
   QOOBIX_ADMIN_PATH: z.string().min(8).default('a80a8bf27ed2'),
   QOOBIX_FILE_RETENTION_DAYS: z.coerce.number().int().positive().default(30),
-  QOOBIX_APP_URL: z.string().url().default('https://qoobix.com')
+  QOOBIX_APP_URL: z.string().url().default('https://qoobix.com'),
+
+  GOOGLE_PLACES_API_KEY: z.string().min(1).optional(),
+  GOOGLE_PLACES_MAX_TEXT_SEARCH_CALLS: z.coerce.number().int().positive().default(3),
+  GOOGLE_PLACES_MAX_DETAILS_CALLS: z.coerce.number().int().positive().default(100),
+  GOOGLE_PLACES_TIMEOUT_MS: z.coerce.number().int().positive().default(15000)
 });
 
 const parsedEnv = serverEnvSchema.safeParse(process.env);
@@ -23,13 +30,20 @@ export const env = parsedEnv.success
   : {
       OPENAI_API_KEY: undefined,
       OPENAI_MODEL: 'gpt-5.4-mini',
+
       SUPABASE_URL: undefined,
       SUPABASE_ANON_KEY: undefined,
       SUPABASE_SERVICE_ROLE_KEY: undefined,
+
       QOOBIX_ADMIN_PASSWORD: undefined,
       QOOBIX_ADMIN_PATH: 'a80a8bf27ed2',
       QOOBIX_FILE_RETENTION_DAYS: 30,
-      QOOBIX_APP_URL: 'https://qoobix.com'
+      QOOBIX_APP_URL: 'https://qoobix.com',
+
+      GOOGLE_PLACES_API_KEY: undefined,
+      GOOGLE_PLACES_MAX_TEXT_SEARCH_CALLS: 3,
+      GOOGLE_PLACES_MAX_DETAILS_CALLS: 100,
+      GOOGLE_PLACES_TIMEOUT_MS: 15000
     };
 
 export function requireServerEnv(name: keyof typeof env): string {
