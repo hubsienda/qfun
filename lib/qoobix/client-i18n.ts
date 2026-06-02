@@ -6,6 +6,78 @@ export type ClientDictionary = {
   common: {
     backToClientArea: string;
     logout: string;
+    open: string;
+    view: string;
+    notConfigured: string;
+    unlimited: string;
+  };
+  clientArea: {
+    metadataTitle: string;
+    privateClientArea: string;
+    intro: string;
+    profile: string;
+    ready: string;
+    incomplete: string;
+    readyOutputs: string;
+    activeJobs: string;
+
+    licenceAndUsage: string;
+    internalAccount: string;
+    internalDescription: string;
+    normalLicenceDescription: string;
+    licenceActive: string;
+    licenceInactive: string;
+    plan: string;
+    internal: string;
+    analysis: string;
+    analysisDiscovery: string;
+    limitsNotEnforced: string;
+    currentCommercialVersion: string;
+    licencePeriod: string;
+    jobsCountedInsidePeriod: string;
+    fileRetention: string;
+    fileRetentionHelper: string;
+    totalJobs: string;
+    totalJobsHelper: string;
+    analysisJobs: string;
+    discoveryJobs: string;
+    countriesPerDiscovery: string;
+    candidatesPerDiscovery: string;
+    extrasNotice: string;
+
+    commandCentre: string;
+    whatDoYouWant: string;
+    completeProfileBeforeFirstRequest: string;
+    actionIntelligence: string;
+    actionNewRequest: string;
+    actionNewRequestDescription: string;
+    actionConfiguration: string;
+    actionBusinessProfile: string;
+    actionBusinessProfileDescription: string;
+    actionGuidance: string;
+    actionHelpCentre: string;
+    actionHelpCentreDescription: string;
+
+    businessProfileRequired: string;
+    businessProfileRequiredText: string;
+    completeBusinessProfile: string;
+    businessProfile: string;
+    sector: string;
+    website: string;
+    productsServices: string;
+    targetCountries: string;
+    targetCustomerTypes: string;
+    targetChannels: string;
+
+    previousJobs: string;
+    created: string;
+    question: string;
+    status: string;
+    marketIntelligenceRequest: string;
+    noJobsYet: string;
+
+    recoveryTitle: string;
+    recoveryText: string;
   };
   newRequestPage: {
     metadataTitle: string;
@@ -46,7 +118,88 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
   en: {
     common: {
       backToClientArea: 'Back to client area',
-      logout: 'Log out'
+      logout: 'Log out',
+      open: 'Open',
+      view: 'View',
+      notConfigured: 'Not configured',
+      unlimited: 'unlimited'
+    },
+    clientArea: {
+      metadataTitle: 'Client',
+      privateClientArea: 'Private client area',
+      intro:
+        'Manage the business profile, create intelligence requests, review previous jobs, and download generated outputs.',
+      profile: 'Profile',
+      ready: 'Ready',
+      incomplete: 'Incomplete',
+      readyOutputs: 'Ready outputs',
+      activeJobs: 'Active jobs',
+
+      licenceAndUsage: 'Licence and usage',
+      internalAccount: 'Internal QOOBIX account',
+      internalDescription:
+        'This account is marked as internal. Usage limits are visible for monitoring, but they are not enforced.',
+      normalLicenceDescription:
+        'This summary shows the current licence period and the annual usage allowance for this QOOBIX environment.',
+      licenceActive: 'Licence active',
+      licenceInactive: 'Licence inactive',
+      plan: 'Plan',
+      internal: 'Internal',
+      analysis: 'Analysis',
+      analysisDiscovery: 'Analysis + Discovery',
+      limitsNotEnforced: 'Limits not enforced',
+      currentCommercialVersion: 'Current commercial version',
+      licencePeriod: 'Licence period',
+      jobsCountedInsidePeriod: 'Jobs are counted inside this period',
+      fileRetention: 'File retention',
+      fileRetentionHelper: 'Generated files must be downloaded and kept by the client',
+      totalJobs: 'Total jobs',
+      totalJobsHelper: 'Analysis and Discovery combined',
+      analysisJobs: 'Analysis jobs',
+      discoveryJobs: 'Discovery jobs',
+      countriesPerDiscovery: 'Countries per Discovery',
+      candidatesPerDiscovery: 'Candidates per Discovery',
+      extrasNotice:
+        'Extra Analysis jobs, Discovery jobs, Discovery countries, and candidate packs are added by Sienda after quotation, invoice, and bank transfer.',
+
+      commandCentre: 'Command centre',
+      whatDoYouWant: 'What do you want to do?',
+      completeProfileBeforeFirstRequest:
+        'Complete the business profile before creating the first intelligence request.',
+      actionIntelligence: 'Intelligence',
+      actionNewRequest: 'New request',
+      actionNewRequestDescription:
+        'Create a structured market-intelligence job and generate downloadable outputs.',
+      actionConfiguration: 'Configuration',
+      actionBusinessProfile: 'Business profile',
+      actionBusinessProfileDescription:
+        'Review or update sector, products, markets, channels, competitors, and language.',
+      actionGuidance: 'Guidance',
+      actionHelpCentre: 'Help centre',
+      actionHelpCentreDescription: 'Read the user guide, request examples, and private case studies.',
+
+      businessProfileRequired: 'Business profile required',
+      businessProfileRequiredText:
+        'Before QOOBIX can generate useful intelligence, the client must complete the business profile: sector, products/services, target countries, target channels, and known market context.',
+      completeBusinessProfile: 'Complete business profile',
+      businessProfile: 'Business profile',
+      sector: 'Sector',
+      website: 'Website',
+      productsServices: 'Products/services',
+      targetCountries: 'Target countries',
+      targetCustomerTypes: 'Target customer types',
+      targetChannels: 'Target channels',
+
+      previousJobs: 'Previous jobs',
+      created: 'Created',
+      question: 'Question',
+      status: 'Status',
+      marketIntelligenceRequest: 'Market intelligence request',
+      noJobsYet: 'No jobs yet. Complete the business profile, then create the first request.',
+
+      recoveryTitle: 'Recovery phrase and access code',
+      recoveryText:
+        'Set a recovery phrase and let Proteus generate a private access code. The generated code is shown once. QOOBIX stores only hashes, not readable access codes or recovery phrases.'
     },
     newRequestPage: {
       metadataTitle: 'New request',
@@ -101,7 +254,89 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
   es: {
     common: {
       backToClientArea: 'Volver al área de cliente',
-      logout: 'Cerrar sesión'
+      logout: 'Cerrar sesión',
+      open: 'Abrir',
+      view: 'Ver',
+      notConfigured: 'No configurado',
+      unlimited: 'sin límite'
+    },
+    clientArea: {
+      metadataTitle: 'Cliente',
+      privateClientArea: 'Área privada de cliente',
+      intro:
+        'Gestione el perfil empresarial, cree solicitudes de inteligencia, revise trabajos anteriores y descargue los resultados generados.',
+      profile: 'Perfil',
+      ready: 'Listo',
+      incomplete: 'Incompleto',
+      readyOutputs: 'Resultados listos',
+      activeJobs: 'Trabajos activos',
+
+      licenceAndUsage: 'Licencia y uso',
+      internalAccount: 'Cuenta interna QOOBIX',
+      internalDescription:
+        'Esta cuenta está marcada como interna. Los límites de uso son visibles para seguimiento, pero no se aplican.',
+      normalLicenceDescription:
+        'Este resumen muestra el periodo de licencia actual y el uso anual permitido para este entorno QOOBIX.',
+      licenceActive: 'Licencia activa',
+      licenceInactive: 'Licencia inactiva',
+      plan: 'Plan',
+      internal: 'Interno',
+      analysis: 'Análisis',
+      analysisDiscovery: 'Análisis + Descubrimiento',
+      limitsNotEnforced: 'Límites no aplicados',
+      currentCommercialVersion: 'Versión comercial actual',
+      licencePeriod: 'Periodo de licencia',
+      jobsCountedInsidePeriod: 'Los trabajos se cuentan dentro de este periodo',
+      fileRetention: 'Retención de archivos',
+      fileRetentionHelper: 'El cliente debe descargar y conservar los archivos generados',
+      totalJobs: 'Trabajos totales',
+      totalJobsHelper: 'Análisis y Descubrimiento combinados',
+      analysisJobs: 'Trabajos de Análisis',
+      discoveryJobs: 'Trabajos de Descubrimiento',
+      countriesPerDiscovery: 'Países por Descubrimiento',
+      candidatesPerDiscovery: 'Candidatos por Descubrimiento',
+      extrasNotice:
+        'Los trabajos extra de Análisis, trabajos extra de Descubrimiento, países extra de Descubrimiento y paquetes de candidatos son añadidos por Sienda tras presupuesto, factura y transferencia bancaria.',
+
+      commandCentre: 'Centro de control',
+      whatDoYouWant: '¿Qué desea hacer?',
+      completeProfileBeforeFirstRequest:
+        'Complete el perfil empresarial antes de crear la primera solicitud de inteligencia.',
+      actionIntelligence: 'Inteligencia',
+      actionNewRequest: 'Nueva solicitud',
+      actionNewRequestDescription:
+        'Cree un trabajo estructurado de inteligencia de mercado y genere resultados descargables.',
+      actionConfiguration: 'Configuración',
+      actionBusinessProfile: 'Perfil empresarial',
+      actionBusinessProfileDescription:
+        'Revise o actualice sector, productos, mercados, canales, competidores e idioma.',
+      actionGuidance: 'Guía',
+      actionHelpCentre: 'Centro de ayuda',
+      actionHelpCentreDescription:
+        'Consulte la guía de usuario, ejemplos de solicitudes y casos privados.',
+
+      businessProfileRequired: 'Perfil empresarial requerido',
+      businessProfileRequiredText:
+        'Antes de que QOOBIX pueda generar inteligencia útil, el cliente debe completar el perfil empresarial: sector, productos/servicios, países objetivo, canales objetivo y contexto de mercado conocido.',
+      completeBusinessProfile: 'Completar perfil empresarial',
+      businessProfile: 'Perfil empresarial',
+      sector: 'Sector',
+      website: 'Sitio web',
+      productsServices: 'Productos/servicios',
+      targetCountries: 'Países objetivo',
+      targetCustomerTypes: 'Tipos de clientes objetivo',
+      targetChannels: 'Canales objetivo',
+
+      previousJobs: 'Trabajos anteriores',
+      created: 'Creado',
+      question: 'Pregunta',
+      status: 'Estado',
+      marketIntelligenceRequest: 'Solicitud de inteligencia de mercado',
+      noJobsYet: 'Aún no hay trabajos. Complete el perfil empresarial y cree la primera solicitud.',
+
+      recoveryTitle: 'Frase de recuperación y código de acceso',
+      recoveryText:
+        'Defina una frase de recuperación y permita que Proteus genere un código de acceso privado. El código generado se muestra una sola vez. QOOBIX solo guarda hashes, no códigos de acceso ni frases de recuperación legibles.'
     },
     newRequestPage: {
       metadataTitle: 'Nueva solicitud',
@@ -157,7 +392,89 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
   it: {
     common: {
       backToClientArea: 'Torna all’area cliente',
-      logout: 'Esci'
+      logout: 'Esci',
+      open: 'Apri',
+      view: 'Vedi',
+      notConfigured: 'Non configurato',
+      unlimited: 'illimitato'
+    },
+    clientArea: {
+      metadataTitle: 'Cliente',
+      privateClientArea: 'Area privata cliente',
+      intro:
+        'Gestisci il profilo aziendale, crea richieste di intelligence, controlla i job precedenti e scarica gli output generati.',
+      profile: 'Profilo',
+      ready: 'Pronto',
+      incomplete: 'Incompleto',
+      readyOutputs: 'Output pronti',
+      activeJobs: 'Job attivi',
+
+      licenceAndUsage: 'Licenza e utilizzo',
+      internalAccount: 'Account QOOBIX interno',
+      internalDescription:
+        'Questo account è segnato come interno. I limiti di utilizzo sono visibili per monitoraggio, ma non vengono applicati.',
+      normalLicenceDescription:
+        'Questo riepilogo mostra il periodo di licenza attuale e l’utilizzo annuale consentito per questo ambiente QOOBIX.',
+      licenceActive: 'Licenza attiva',
+      licenceInactive: 'Licenza inattiva',
+      plan: 'Piano',
+      internal: 'Interno',
+      analysis: 'Analisi',
+      analysisDiscovery: 'Analisi + Discovery',
+      limitsNotEnforced: 'Limiti non applicati',
+      currentCommercialVersion: 'Versione commerciale attuale',
+      licencePeriod: 'Periodo di licenza',
+      jobsCountedInsidePeriod: 'I job vengono conteggiati in questo periodo',
+      fileRetention: 'Conservazione file',
+      fileRetentionHelper: 'I file generati devono essere scaricati e conservati dal cliente',
+      totalJobs: 'Job totali',
+      totalJobsHelper: 'Analisi e Discovery combinati',
+      analysisJobs: 'Job di Analisi',
+      discoveryJobs: 'Job di Discovery',
+      countriesPerDiscovery: 'Paesi per Discovery',
+      candidatesPerDiscovery: 'Candidati per Discovery',
+      extrasNotice:
+        'Job extra di Analisi, job extra di Discovery, Paesi extra di Discovery e pacchetti candidati vengono aggiunti da Sienda dopo preventivo, fattura e bonifico bancario.',
+
+      commandCentre: 'Centro di controllo',
+      whatDoYouWant: 'Cosa vuoi fare?',
+      completeProfileBeforeFirstRequest:
+        'Completa il profilo aziendale prima di creare la prima richiesta di intelligence.',
+      actionIntelligence: 'Intelligence',
+      actionNewRequest: 'Nuova richiesta',
+      actionNewRequestDescription:
+        'Crea un job strutturato di market intelligence e genera output scaricabili.',
+      actionConfiguration: 'Configurazione',
+      actionBusinessProfile: 'Profilo aziendale',
+      actionBusinessProfileDescription:
+        'Rivedi o aggiorna settore, prodotti, mercati, canali, concorrenti e lingua.',
+      actionGuidance: 'Guida',
+      actionHelpCentre: 'Centro assistenza',
+      actionHelpCentreDescription:
+        'Leggi la guida utente, gli esempi di richiesta e i casi studio privati.',
+
+      businessProfileRequired: 'Profilo aziendale richiesto',
+      businessProfileRequiredText:
+        'Prima che QOOBIX possa generare intelligence utile, il cliente deve completare il profilo aziendale: settore, prodotti/servizi, Paesi target, canali target e contesto di mercato conosciuto.',
+      completeBusinessProfile: 'Completa il profilo aziendale',
+      businessProfile: 'Profilo aziendale',
+      sector: 'Settore',
+      website: 'Sito web',
+      productsServices: 'Prodotti/servizi',
+      targetCountries: 'Paesi target',
+      targetCustomerTypes: 'Tipologie di clienti target',
+      targetChannels: 'Canali target',
+
+      previousJobs: 'Job precedenti',
+      created: 'Creato',
+      question: 'Domanda',
+      status: 'Stato',
+      marketIntelligenceRequest: 'Richiesta di market intelligence',
+      noJobsYet: 'Non ci sono ancora job. Completa il profilo aziendale e crea la prima richiesta.',
+
+      recoveryTitle: 'Frase di recupero e codice di accesso',
+      recoveryText:
+        'Imposta una frase di recupero e lascia che Proteus generi un codice di accesso privato. Il codice generato viene mostrato una sola volta. QOOBIX conserva solo hash, non codici di accesso o frasi di recupero leggibili.'
     },
     newRequestPage: {
       metadataTitle: 'Nuova richiesta',
@@ -211,7 +528,9 @@ const dictionaries: Record<ClientLocale, ClientDictionary> = {
   }
 };
 
-export function getClientLocale(clientOrLanguage: ClientConfiguration | string | null | undefined): ClientLocale {
+export function getClientLocale(
+  clientOrLanguage: ClientConfiguration | string | null | undefined
+): ClientLocale {
   const language =
     typeof clientOrLanguage === 'string'
       ? clientOrLanguage
