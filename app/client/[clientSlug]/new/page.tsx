@@ -6,6 +6,7 @@ import { NewJobForm } from '@/components/NewJobForm';
 import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getClientBySlug, isClientProfileComplete } from '@/lib/qoobix/db';
+import { getClientDictionary } from '@/lib/qoobix/client-i18n';
 
 type NewJobPageProps = {
   params: Promise<{
@@ -40,6 +41,8 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
     notFound();
   }
 
+  const t = getClientDictionary(client);
+
   if (!isClientProfileComplete(client)) {
     return (
       <section className="qoobix-narrow py-12 md:py-18">
@@ -48,24 +51,23 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
             href={`/client/${client.slug}`}
             className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
           >
-            Back to client area
+            {t.common.backToClientArea}
           </Link>
 
-          <ClientLogoutButton />
+          <ClientLogoutButton label={t.common.logout} />
         </div>
 
         <Panel className="p-8 md:p-10">
           <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-            Business profile required
+            {t.newRequestPage.profileRequiredBadge}
           </p>
 
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Complete the business profile first.
+            {t.newRequestPage.profileRequiredTitle}
           </h1>
 
           <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-            QOOBIX needs the stable client context before it can generate useful request-specific
-            intelligence.
+            {t.newRequestPage.profileRequiredText}
           </p>
 
           <div className="mt-8">
@@ -73,7 +75,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
               href={`/client/${client.slug}/profile`}
               className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold text-white"
             >
-              Complete business profile
+              {t.newRequestPage.completeBusinessProfile}
             </Link>
           </div>
         </Panel>
@@ -88,23 +90,20 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
           href={`/client/${client.slug}`}
           className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/65 px-5 py-3 text-sm font-semibold"
         >
-          Back to client area
+          {t.common.backToClientArea}
         </Link>
 
-        <ClientLogoutButton />
+        <ClientLogoutButton label={t.common.logout} />
       </div>
 
       <Panel className="p-8 md:p-10">
         <p className="mb-4 inline-flex rounded-md border border-[var(--qoobix-orange)] bg-white/85 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)]">
-          New intelligence request
+          {t.newRequestPage.badge}
         </p>
 
         <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">{client.name}</h1>
 
-        <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-          Describe the specific market question. QOOBIX will combine this request with the saved
-          business profile and generate downloadable DOCX/XLSX outputs.
-        </p>
+        <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">{t.newRequestPage.intro}</p>
 
         <div className="mt-6">
           <DataNotice />
