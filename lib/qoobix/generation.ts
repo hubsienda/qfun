@@ -4,15 +4,22 @@ import {
   addJobLog,
   addReportRecord,
   getJobWithClientAndReports,
+  replaceJobCandidates,
+  updateJobDiscoveryStatus,
   updateJobStatus
 } from '@/lib/qoobix/db';
+import { runDiscovery } from '@/lib/qoobix/discovery';
 import { buildMarketIntelligencePrompt } from '@/lib/qoobix/prompts';
 import { createCsvExport } from '@/lib/qoobix/report-csv';
 import { createDocxReport } from '@/lib/qoobix/report-docx';
 import { createRtfReport } from '@/lib/qoobix/report-rtf';
 import { createXlsxWorkbook } from '@/lib/qoobix/report-xlsx';
 import { uploadGeneratedReport } from '@/lib/qoobix/storage';
-import type { GeneratedIntelligence, IntelligenceRequest } from '@/lib/qoobix/types';
+import type {
+  DiscoveryCandidate,
+  GeneratedIntelligence,
+  IntelligenceRequest
+} from '@/lib/qoobix/types';
 
 function asString(value: unknown, fallback = '') {
   if (typeof value === 'string') {
@@ -126,7 +133,7 @@ function createFallbackIntelligence(request: IntelligenceRequest): GeneratedInte
       'Prepare sector-specific outreach messaging.'
     ],
     sourceNotesLimitations: [
-      'No live source retrieval was included in this placeholder output.',
+      'No completed AI response was available for this job.',
       'All opportunities must be verified manually before commercial use.'
     ],
     potentialPartnersProspects: [],
@@ -179,7 +186,6 @@ function safeParseGeneratedIntelligence(content: string, request: IntelligenceRe
 
 async function generateIntelligence(input: {
   request: IntelligenceRequest;
-  clientName: string;
   prompt: string;
 }): Promise<GeneratedIntelligence> {
   const apiKey = requireServerEnv('OPENAI_API_KEY');
@@ -208,6 +214,20 @@ async function generateIntelligence(input: {
   return safeParseGeneratedIntelligence(content, input.request);
 }
 
+function buildDiscoveryNoteSummary(input: {
+  candidates: DiscoveryCandidate[];
+  notes: string[];
+  textSearchCallsUsed: number;
+}) {
+  const notes = [
+    `Discovery candidates retained: ${input.candidates.length}.`,
+    `Google Places text-search calls used: ${input.textSearchCallsUsed}.`,
+    ...input.notes
+  ];
+
+  return notes;
+}
+
 export async function generateAndStoreJobOutputs(jobId: string) {
   await updateJobStatus(jobId, 'processing');
   await addJobLog(jobId, 'info', 'Generation started.');
@@ -221,11 +241,80 @@ export async function generateAndStoreJobOutputs(jobId: string) {
 
     const { job, client } = data;
     const request = job.request_metadata as IntelligenceRequest;
-    const prompt = buildMarketIntelligencePrompt({ client, request });
+
+    let discoveryCandidates: DiscoveryCandidate[] = [];
+    let discoveryNotes: string[] = [];
+
+    if (request.intelligenceMode === 'discovery') {
+      await updateJobDiscoveryStatus({
+        jobId,
+        discoveryStatus: 'running'
+      });
+
+      await addJobLog(jobId, 'info', 'Discovery started.');
+
+      try {
+        const discovery = await runDiscovery({
+          client,
+          request
+        });
+
+        discoveryCandidates = discovery.candidates;
+        discoveryNotes = buildDiscoveryNoteSummary({
+          candidates: discovery.candidates,
+          notes: discovery.notes,
+          textSearchCallsUsed: discovery.usage.textSearchCallsUsed
+        });
+
+        await replaceJobCandidates({
+          jobId,
+          candidates: discovery.candidates
+        });
+
+        await updateJobDiscoveryStatus({
+          jobId,
+          discoveryStatus: 'completed',
+          usage: discovery.usage
+        });
+
+        await addJobLog(jobId, 'info', 'Discovery completed.', {
+          searchQueries: discovery.searchQueries,
+          usage: discovery.usage,
+          retainedCandidates: discovery.candidates.length
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Discovery failed.';
+
+        await updateJobDiscoveryStatus({
+          jobId,
+          discoveryStatus: 'failed'
+        });
+
+        await addJobLog(jobId, 'warning', 'Discovery failed. Continuing with analysis output.', {
+          message
+        });
+
+        discoveryNotes = [
+          `Discovery failed before candidate organisations could be supplied: ${message}`,
+          'The generated output should be treated as analysis-only unless candidate organisations appear from other supplied context.'
+        ];
+      }
+    } else {
+      await updateJobDiscoveryStatus({
+        jobId,
+        discoveryStatus: 'not_required'
+      });
+    }
+
+    const prompt = buildMarketIntelligencePrompt({
+      client,
+      request,
+      discoveryCandidates,
+      discoveryNotes
+    });
 
     const intelligence = await generateIntelligence({
       request,
-      clientName: client.name,
       prompt
     });
 
