@@ -14,6 +14,7 @@ import type {
   NewJobInput
 } from '@/lib/qoobix/forms';
 import { createAccessCodeFromClientSlug } from '@/lib/qoobix/forms';
+import { enforceClientJobAllowance } from '@/lib/qoobix/licensing';
 import type {
   ClientConfiguration,
   DiscoveryCandidate,
@@ -25,7 +26,7 @@ type ClientRow = Database['public']['Tables']['clients']['Row'];
 type AccessCodeRow = Database['public']['Tables']['access_codes']['Row'];
 type JobRow = Database['public']['Tables']['jobs']['Row'];
 type ReportRow = Database['public']['Tables']['reports']['Row'];
-import { enforceClientJobAllowance } from '@/lib/qoobix/licensing';
+
 export type AdminClientSummary = {
   id: string;
   name: string;
