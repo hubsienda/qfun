@@ -14,7 +14,12 @@ import type {
   NewJobInput
 } from '@/lib/qoobix/forms';
 import { createAccessCodeFromClientSlug } from '@/lib/qoobix/forms';
-import type { ClientConfiguration, JobStatus } from '@/lib/qoobix/types';
+import type {
+  ClientConfiguration,
+  DiscoveryCandidate,
+  DiscoveryUsage,
+  JobStatus
+} from '@/lib/qoobix/types';
 
 type ClientRow = Database['public']['Tables']['clients']['Row'];
 type AccessCodeRow = Database['public']['Tables']['access_codes']['Row'];
@@ -184,7 +189,7 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
       preferred_language: input.preferredLanguage,
       available_report_types: input.availableReportTypes.length
         ? input.availableReportTypes
-        : ['docx', 'xlsx'],
+        : ['docx', 'xlsx', 'rtf', 'csv'],
       file_retention_days: input.fileRetentionDays
     })
     .select('*')
@@ -724,7 +729,6 @@ export async function addReportRecord(input: {
   storagePath: string;
   expiresAt: string | null;
 }) {
-
   const supabase = getSupabase();
 
   const { error } = (await supabase.from('reports').insert({
@@ -735,6 +739,78 @@ export async function addReportRecord(input: {
     storage_path: input.storagePath,
     expires_at: input.expiresAt
   })) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function updateJobDiscoveryStatus(input: {
+  jobId: string;
+  discoveryStatus: 'not_required' | 'pending' | 'running' | 'completed' | 'failed';
+  usage?: Partial<DiscoveryUsage>;
+}) {
+  const supabase = getSupabase();
+
+  const updatePayload: Record<string, unknown> = {
+    discovery_status: input.discoveryStatus
+  };
+
+  if (input.usage) {
+    if (typeof input.usage.textSearchCallsUsed === 'number') {
+      updatePayload.places_text_search_calls_used = input.usage.textSearchCallsUsed;
+    }
+
+    if (typeof input.usage.placeDetailsCallsUsed === 'number') {
+      updatePayload.places_details_calls_used = input.usage.placeDetailsCallsUsed;
+    }
+
+    if (typeof input.usage.candidateOrganisationsRetained === 'number') {
+      updatePayload.candidate_organisations_found = input.usage.candidateOrganisationsRetained;
+    }
+  }
+
+  const { error } = (await supabase.from('jobs').update(updatePayload).eq('id', input.jobId)) as {
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function replaceJobCandidates(input: {
+  jobId: string;
+  candidates: DiscoveryCandidate[];
+}) {
+  const supabase = getSupabase();
+
+  await supabase.from('job_candidates').delete().eq('job_id', input.jobId);
+
+  if (!input.candidates.length) {
+    return;
+  }
+
+  const rows = input.candidates.map((candidate) => ({
+    job_id: input.jobId,
+    name: candidate.name,
+    website: candidate.website,
+    formatted_address: candidate.formattedAddress,
+    country_or_region: candidate.countryOrRegion,
+    place_id: candidate.placeId,
+    business_categories: candidate.businessCategories,
+    candidate_type: candidate.candidateType,
+    source: candidate.source,
+    relevance_reason: candidate.relevanceReason,
+    suggested_action: candidate.suggestedAction,
+    confidence: candidate.confidence,
+    verification_status: candidate.verificationStatus,
+    raw_metadata: candidate
+  }));
+
+  const { error } = (await supabase.from('job_candidates').insert(rows)) as {
     error: { message: string } | null;
   };
 
