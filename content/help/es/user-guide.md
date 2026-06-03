@@ -1,10 +1,3 @@
-## `content/help/es/user-guide.md`
-
-```md
----
-title: "Guía de usuario"
----
-
 # Guía de usuario QOOBIX
 
 QOOBIX es un entorno privado de inteligencia de mercado. Ayuda a un cliente configurado a crear solicitudes comerciales estructuradas, generar informes y descargar resultados editables.
