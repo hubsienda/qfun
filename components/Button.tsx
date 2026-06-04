@@ -28,7 +28,7 @@ export function Button({ variant = 'primary', className = '', style, ...props }:
     <button
       {...props}
       style={forcedStyle}
-      className={`qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-full border px-5 py-3 text-sm font-bold tracking-[-0.01em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${variantClassNames[variant]} ${className}`}
+      className={`qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-lg border px-5 py-3 text-sm font-bold tracking-[-0.01em] transition duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${variantClassNames[variant]} ${className}`}
     />
   );
 }
