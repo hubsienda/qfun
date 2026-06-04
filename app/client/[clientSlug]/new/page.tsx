@@ -54,7 +54,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
             {t.common.backToClientArea}
           </Link>
 
-          <ClientLogoutButton />
+          <ClientLogoutButton label={t.common.logout} loadingLabel={t.common.logout} />
         </div>
 
         <Panel className="p-8 md:p-10">
@@ -106,7 +106,7 @@ export default async function NewJobPage({ params }: NewJobPageProps) {
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">{t.newRequestPage.intro}</p>
 
         <div className="mt-6">
-          <DataNotice />
+          <DataNotice language={client.preferredLanguage} />
         </div>
 
         <div className="mt-8">
