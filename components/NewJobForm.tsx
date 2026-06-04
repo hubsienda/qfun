@@ -35,7 +35,12 @@ export function NewJobForm({ client }: NewJobFormProps) {
     targetChannels: client.targetChannels.join(', '),
     knownCompetitors: client.knownCompetitors ?? '',
     knownPartners: client.knownRepresentatives ?? '',
-    preferredOutputLanguage: client.preferredLanguage
+
+    /**
+     * Important:
+     * This comes from the client's default output/report language, not the application language.
+     */
+    preferredOutputLanguage: client.preferredOutputLanguage || client.preferredLanguage
   });
 
   const [error, setError] = useState('');
@@ -159,7 +164,7 @@ export function NewJobForm({ client }: NewJobFormProps) {
           name="commercialObjective"
           value={form.commercialObjective}
           onChange={(event) => updateField('commercialObjective', event.target.value)}
-          className="qoobix-focus-ring mt-2 w-full rounded-md border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
+          className="qoobix-focus-ring mt-2 w-full rounded-lg border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
         >
           {objectiveValues.map((objective) => (
             <option key={objective} value={objective}>
