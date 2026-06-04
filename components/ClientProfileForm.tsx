@@ -3,15 +3,43 @@
 import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { InputField, TextAreaField } from '@/components/Field';
-import { getClientDictionary } from '@/lib/qoobix/client-i18n';
+import { getClientDictionary, getClientLocale } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration } from '@/lib/qoobix/types';
 
 type ClientProfileFormProps = {
   client: ClientConfiguration;
 };
 
+const languageLabels = {
+  en: {
+    applicationLanguage: 'Application language',
+    applicationLanguageHint: 'Controls the QOOBIX interface shown to this client.',
+    preferredOutputLanguage: 'Default report/output language',
+    preferredOutputLanguageHint:
+      'Controls the language proposed for generated reports. It does not change the application interface.',
+    languageExamples: 'Examples: English, Spanish, Italian'
+  },
+  es: {
+    applicationLanguage: 'Idioma de la aplicación',
+    applicationLanguageHint: 'Controla la interfaz de QOOBIX que ve este cliente.',
+    preferredOutputLanguage: 'Idioma predeterminado de informes/resultados',
+    preferredOutputLanguageHint:
+      'Controla el idioma propuesto para los informes generados. No cambia la interfaz de la aplicación.',
+    languageExamples: 'Ejemplos: English, Spanish, Italian'
+  },
+  it: {
+    applicationLanguage: 'Lingua dell’applicazione',
+    applicationLanguageHint: 'Controlla l’interfaccia QOOBIX mostrata a questo cliente.',
+    preferredOutputLanguage: 'Lingua predefinita dei report/output',
+    preferredOutputLanguageHint:
+      'Controlla la lingua proposta per i report generati. Non cambia l’interfaccia dell’applicazione.',
+    languageExamples: 'Esempi: English, Spanish, Italian'
+  }
+};
+
 export function ClientProfileForm({ client }: ClientProfileFormProps) {
   const t = getClientDictionary(client);
+  const languageT = languageLabels[getClientLocale(client)];
 
   const [form, setForm] = useState({
     sector: client.sector === 'Not configured' ? '' : client.sector,
@@ -23,7 +51,8 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
     targetChannels: client.targetChannels.join(', '),
     knownCompetitors: client.knownCompetitors ?? '',
     knownRepresentatives: client.knownRepresentatives ?? '',
-    preferredLanguage: client.preferredLanguage
+    preferredLanguage: client.preferredLanguage,
+    preferredOutputLanguage: client.preferredOutputLanguage || client.preferredLanguage
   });
 
   const [message, setMessage] = useState('');
@@ -144,12 +173,31 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
         />
       </div>
 
-      <InputField
-        label={t.profileForm.preferredLanguage}
-        name="preferredLanguage"
-        value={form.preferredLanguage}
-        onChange={(event) => updateField('preferredLanguage', event.target.value)}
-      />
+      <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/65 p-5">
+        <h2 className="text-sm font-semibold">{languageT.applicationLanguage}</h2>
+
+        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
+          {languageT.applicationLanguageHint}
+        </p>
+
+        <div className="mt-4 grid gap-5 md:grid-cols-2">
+          <InputField
+            label={languageT.applicationLanguage}
+            name="preferredLanguage"
+            hint={languageT.languageExamples}
+            value={form.preferredLanguage}
+            onChange={(event) => updateField('preferredLanguage', event.target.value)}
+          />
+
+          <InputField
+            label={languageT.preferredOutputLanguage}
+            name="preferredOutputLanguage"
+            hint={languageT.preferredOutputLanguageHint}
+            value={form.preferredOutputLanguage}
+            onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
+          />
+        </div>
+      </div>
 
       {message ? (
         <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
