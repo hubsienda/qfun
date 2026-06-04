@@ -49,7 +49,7 @@ export const legalDocuments = [
   },
   {
     slug: 'plain-english-summary',
-    title: 'Plain-English Summary',
+    title: 'Plain-Language Summary',
     filename: '08-plain-english-summary.md'
   }
 ];
@@ -61,7 +61,7 @@ function stripFrontMatter(markdown: string) {
 function extractEffectiveDate(markdown: string) {
   const match = markdown.match(/^---\n[\s\S]*?effective_date:\s*"?([^"\n]+)"?[\s\S]*?\n---/);
 
-  return match?.[1]?.trim() ?? '[insert date]';
+  return match?.[1]?.trim() ?? '';
 }
 
 export function getLegalDocument(slug: string): LegalDocument | null {
