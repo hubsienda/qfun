@@ -6,8 +6,6 @@ provider: "Sienda Ltd"
 effective_date: 7 May 2026
 -------------------------------
 
-# QOOBIX FAQs
-
 ## What is QOOBIX?
 
 QOOBIX is a private market-intelligence application provisioned for selected business clients. It helps businesses create structured commercial intelligence reports for questions such as market entry, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, positioning, and action priorities.
@@ -70,7 +68,7 @@ Yes. QOOBIX uses AI-assisted analysis to generate structured market-intelligence
 
 ## Are QOOBIX reports guaranteed to be accurate?
 
-No. QOOBIX reports are AI-assisted and may contain incomplete, outdated, speculative, or inaccurate information. They must be independently verified before use.
+QOOBIX produces AI-assisted market intelligence, and no tool at the current state of technology — whether AI-assisted or not — can guarantee complete, current, accurate, commercially valid results without human review. For this reason, every report must be reviewed, checked, and interpreted by competent people before it is used for commercial, strategic, legal, technical, financial, procurement, or operational decisions. QOOBIX helps structure intelligence. It does not remove the need for human judgement.
 
 ## Does QOOBIX replace professional advice?
 
@@ -78,7 +76,7 @@ No. QOOBIX does not replace legal advice, financial advice, technical advice, re
 
 ## Does QOOBIX perform live web research?
 
-QOOBIX should not be treated as a guaranteed live web research engine unless a specific workflow explicitly includes live source retrieval. Its outputs must be verified before use.
+QOOBIX may use live or external discovery sources only when a specific workflow includes them, such as controlled Discovery Mode with named candidate organisations for verification. However, QOOBIX should not be treated as a live web research engine. At the current state of technology, no automated research workflow can replace human checking. All outputs, source signals, candidate organisations, links, categories, and recommendations must be verified before use.
 
 ## Can QOOBIX name potential partners or competitors?
 
@@ -166,7 +164,7 @@ QOOBIX is operated by Sienda Ltd.
 
 ## How is payment handled?
 
-At launch, payment is handled outside the application, for example by quotation, invoice, and bank transfer. QOOBIX does not require a public checkout flow at launch.
+Payment is handled outside the application, usually by quotation, invoice, and bank transfer.
 
 ## Can QOOBIX guarantee commercial success?
 
@@ -178,4 +176,4 @@ Clients should verify all important information, check sources, confirm potentia
 
 ## What is the best way to use QOOBIX?
 
-The best use of QOOBIX is as a structured decision-support tool. It helps organise commercial thinking, identify possible priorities, and create practical next steps, but it must be combined with verification and real-world business judgement.
+The best way to use QOOBIX is as a structured decision-support environment.
