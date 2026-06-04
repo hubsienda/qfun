@@ -144,25 +144,9 @@ No. QOOBIX is not a CRM, sales automation platform, outreach tool, or permanent 
 
 QOOBIX is not intended to store generated intelligence permanently as a database archive. It stores operational records and temporary generated files.
 
-## What does the hidden provisioning area do?
-
-The hidden provisioning area allows the operator to create clients, reset access, suspend or reactivate clients, view jobs, retry failed jobs, cancel stuck jobs, view reports, clean expired files, and view operational logs.
-
 ## Can a client access another client’s area?
 
 No. Client pages and API routes check session ownership. A client should only be able to access their own environment.
-
-## Can a client be suspended?
-
-Yes. The operator can suspend a client from the provisioning area. Suspended clients cannot continue using their private access.
-
-## Can a failed job be retried?
-
-Yes. Failed jobs can be retried from the hidden provisioning area.
-
-## Can a stuck job be cancelled?
-
-Yes. A stuck or unwanted job can be cancelled from the hidden provisioning area.
 
 ## Does QOOBIX use cookies?
 
