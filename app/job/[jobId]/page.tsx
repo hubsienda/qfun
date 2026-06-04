@@ -73,7 +73,7 @@ export default async function JobPage({ params }: JobPageProps) {
   return (
     <section className="qoobix-narrow py-12 md:py-18">
       <div className="mb-6 flex justify-end">
-        <ClientLogoutButton />
+        <ClientLogoutButton label={t.common.backToClientArea === 'Volver al área de cliente' ? 'Cerrar sesión' : t.common.backToClientArea === 'Torna all’area cliente' ? 'Esci' : 'Sign out'} />
       </div>
 
       <Panel className="p-8 md:p-10">
@@ -90,7 +90,7 @@ export default async function JobPage({ params }: JobPageProps) {
             <p className="mt-4 leading-8 text-[var(--qoobix-muted)]">{client.name}</p>
           </div>
 
-          <StatusPill status={job.status as JobStatus} />
+          <StatusPill status={job.status as JobStatus} language={client.preferredLanguage} />
         </div>
 
         <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-5">
