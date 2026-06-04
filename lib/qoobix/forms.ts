@@ -44,7 +44,16 @@ export const clientProfileSchema = z.object({
   targetChannels: z.string().optional().default('').transform(splitList),
   knownCompetitors: z.string().optional().default(''),
   knownRepresentatives: z.string().optional().default(''),
-  preferredLanguage: z.string().optional().default('English')
+
+  /**
+   * Application language.
+   */
+  preferredLanguage: z.string().optional().default('English'),
+
+  /**
+   * Default report/output language.
+   */
+  preferredOutputLanguage: z.string().optional().default('English')
 });
 
 export const clientAccessCodeSchema = z
