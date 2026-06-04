@@ -266,7 +266,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
           </div>
 
           <div className="flex lg:justify-end">
-            <ClientLogoutButton />
+            <ClientLogoutButton label={t.common.logout} loadingLabel={t.common.logout} />
           </div>
         </div>
 
@@ -301,7 +301,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
       </div>
 
       <div className="mt-8">
-        <DataNotice />
+        <DataNotice language={client.preferredLanguage} />
       </div>
 
       <div className="mt-8">
@@ -447,7 +447,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
                           {request.marketQuestion ?? t.clientArea.marketIntelligenceRequest}
                         </td>
                         <td className="py-3 pr-4">
-                          <StatusPill status={job.status as JobStatus} />
+                          <StatusPill status={job.status as JobStatus} language={client.preferredLanguage} />
                         </td>
                         <td className="py-3 pr-4">
                           <Link
