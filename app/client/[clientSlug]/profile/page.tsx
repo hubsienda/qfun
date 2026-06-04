@@ -53,7 +53,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
           {t.common.backToClientArea}
         </Link>
 
-        <ClientLogoutButton />
+        <ClientLogoutButton label={t.common.logout} loadingLabel={t.common.logout} />
       </div>
 
       <Panel className="p-8 md:p-10">
