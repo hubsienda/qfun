@@ -71,6 +71,10 @@ function getSupabase() {
 }
 
 function mapClient(row: ClientRow): ClientConfiguration {
+  const languageClient = row as ClientRow & {
+    preferred_output_language?: string | null;
+  };
+
   return {
     id: row.id,
     name: row.name,
@@ -85,6 +89,8 @@ function mapClient(row: ClientRow): ClientConfiguration {
     knownCompetitors: row.known_competitors,
     knownRepresentatives: row.known_representatives,
     preferredLanguage: row.preferred_language,
+    preferredOutputLanguage:
+      languageClient.preferred_output_language || row.preferred_language || 'English',
     availableReportTypes: row.available_report_types,
     fileRetentionDays: row.file_retention_days
   };
@@ -201,6 +207,7 @@ export async function createClientWithAccessCode(input: AdminCreateClientInput) 
       known_competitors: null,
       known_representatives: null,
       preferred_language: input.preferredLanguage,
+      preferred_output_language: input.preferredLanguage,
       available_report_types: input.availableReportTypes.length
         ? input.availableReportTypes
         : ['docx', 'xlsx', 'rtf', 'csv'],
@@ -633,7 +640,8 @@ export async function updateClientProfile(input: ClientProfileInput): Promise<Cl
       target_channels: input.targetChannels,
       known_competitors: input.knownCompetitors || null,
       known_representatives: input.knownRepresentatives || null,
-      preferred_language: input.preferredLanguage
+      preferred_language: input.preferredLanguage,
+      preferred_output_language: input.preferredOutputLanguage
     })
     .eq('slug', input.clientSlug)
     .eq('is_active', true)
