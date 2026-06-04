@@ -1,12 +1,31 @@
+import { getClientLocale } from '@/lib/qoobix/client-i18n';
 import type { JobStatus } from '@/lib/qoobix/types';
 
-const statusLabels: Record<JobStatus, string> = {
-  received: 'Received',
-  processing: 'Processing',
-  generating_outputs: 'Generating outputs',
-  ready: 'Ready',
-  failed: 'Failed',
-  cancelled: 'Cancelled'
+const statusLabels: Record<'en' | 'es' | 'it', Record<JobStatus, string>> = {
+  en: {
+    received: 'Received',
+    processing: 'Processing',
+    generating_outputs: 'Generating outputs',
+    ready: 'Ready',
+    failed: 'Failed',
+    cancelled: 'Cancelled'
+  },
+  es: {
+    received: 'Recibido',
+    processing: 'Procesando',
+    generating_outputs: 'Generando archivos',
+    ready: 'Listo',
+    failed: 'Fallido',
+    cancelled: 'Cancelado'
+  },
+  it: {
+    received: 'Ricevuto',
+    processing: 'In elaborazione',
+    generating_outputs: 'Generazione output',
+    ready: 'Pronto',
+    failed: 'Non riuscito',
+    cancelled: 'Annullato'
+  }
 };
 
 const statusClassNames: Record<JobStatus, string> = {
@@ -20,16 +39,19 @@ const statusClassNames: Record<JobStatus, string> = {
 
 type StatusPillProps = {
   status: JobStatus;
+  language?: string | null;
 };
 
-export function StatusPill({ status }: StatusPillProps) {
+export function StatusPill({ status, language }: StatusPillProps) {
+  const locale = getClientLocale(language);
+
   return (
     <span
       className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${
         statusClassNames[status] ?? statusClassNames.received
       }`}
     >
-      {statusLabels[status] ?? status}
+      {statusLabels[locale][status] ?? status}
     </span>
   );
 }
