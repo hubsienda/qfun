@@ -35,7 +35,20 @@ export type ClientConfiguration = {
   targetChannels: string[];
   knownCompetitors: string | null;
   knownRepresentatives: string | null;
+
+  /**
+   * Application language.
+   * This controls the QOOBIX interface shown to the client.
+   */
   preferredLanguage: string;
+
+  /**
+   * Default report/output language.
+   * This controls the language proposed for generated reports.
+   * It must not control the interface language.
+   */
+  preferredOutputLanguage: string;
+
   availableReportTypes: string[];
   fileRetentionDays: number;
 };
