@@ -108,7 +108,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
   return (
     <section className="qoobix-narrow py-12 md:py-18">
       <div className="mb-6 flex justify-end">
-        <ClientLogoutButton />
+        <ClientLogoutButton label={t.common.backToClientArea === 'Volver al área de cliente' ? 'Cerrar sesión' : t.common.backToClientArea === 'Torna all’area cliente' ? 'Esci' : 'Sign out'} />
       </div>
 
       <Panel className="p-8 md:p-10">
@@ -123,7 +123,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">{t.resultPage.intro}</p>
 
         <div className="mt-6">
-          <DataNotice variant="full" />
+          <DataNotice variant="full" language={result.client.preferredLanguage} />
         </div>
 
         <div className="mt-8 rounded-md border border-[var(--qoobix-border)] bg-white/70 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
