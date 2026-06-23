@@ -85,6 +85,7 @@ function asPartnerRows(value: unknown): GeneratedIntelligence['potentialPartners
       countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
       relevance: cleanReportText(row.relevance, 'Commercial fit to check.'),
       suggestedAction: cleanReportText(row.suggestedAction, 'Check and qualify before outreach.'),
+      website: cleanReportText(row.website, ''),
       verificationUrl: cleanReportText(row.verificationUrl, ''),
       status: cleanReportText(row.status, 'Candidate for verification'),
       notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
@@ -105,6 +106,7 @@ function asCompetitorRows(value: unknown): GeneratedIntelligence['competitorRows
       type: cleanReportText(row.type, 'Candidate'),
       countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
       relevance: cleanReportText(row.relevance, 'Commercial relevance to check.'),
+      website: cleanReportText(row.website, ''),
       verificationUrl: cleanReportText(row.verificationUrl, ''),
       status: cleanReportText(row.status, 'Candidate for verification'),
       notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
@@ -209,7 +211,7 @@ async function generateIntelligence(input: {
       {
         role: 'system',
         content:
-          'You are Proteus for QOOBIX. Return only valid JSON. Be commercially useful, sceptical, and precise. Preserve verificationUrl fields exactly when supplied. Do not use the word unverified in candidate rows; use Candidate for verification.'
+          'You are Proteus for QOOBIX. Return only valid JSON. Be commercially useful, sceptical, and precise. Preserve website and verificationUrl fields exactly when supplied. Do not invent websites. Do not use the word unverified in candidate rows; use Candidate for verification.'
       },
       {
         role: 'user',
@@ -240,7 +242,7 @@ function buildDiscoveryNoteSummary(input: {
   return notes;
 }
 
-function mergeDiscoveryUrlsIntoIntelligence(input: {
+function mergeDiscoveryFieldsIntoIntelligence(input: {
   intelligence: GeneratedIntelligence;
   discoveryCandidates: DiscoveryCandidate[];
 }) {
@@ -256,6 +258,7 @@ function mergeDiscoveryUrlsIntoIntelligence(input: {
 
       return {
         ...row,
+        website: row.website || candidate?.website || '',
         verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
         status: row.status || 'Candidate for verification'
       };
@@ -265,6 +268,7 @@ function mergeDiscoveryUrlsIntoIntelligence(input: {
 
       return {
         ...row,
+        website: row.website || candidate?.website || '',
         verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
         status: row.status || 'Candidate for verification'
       };
@@ -362,7 +366,7 @@ export async function generateAndStoreJobOutputs(jobId: string) {
       prompt
     });
 
-    const intelligence = mergeDiscoveryUrlsIntoIntelligence({
+    const intelligence = mergeDiscoveryFieldsIntoIntelligence({
       intelligence: rawIntelligence,
       discoveryCandidates
     });
