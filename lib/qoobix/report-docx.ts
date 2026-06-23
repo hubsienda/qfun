@@ -106,7 +106,7 @@ function isUrl(value: string) {
   return /^https?:\/\//i.test(value.trim());
 }
 
-function tableCell(value: string, bold = false) {
+function tableCell(value: string, bold = false, linkLabel = 'Open link') {
   const text = cleanText(value);
 
   return new TableCell({
@@ -119,7 +119,7 @@ function tableCell(value: string, bold = false) {
                   link: text,
                   children: [
                     new TextRun({
-                      text: 'Open verification route',
+                      text: linkLabel,
                       style: 'Hyperlink'
                     })
                   ]
@@ -167,6 +167,7 @@ function createPartnerTable(intelligence: GeneratedIntelligence) {
         'Type',
         'Country/region',
         'Status',
+        'Website',
         'Verification route',
         'Relevance',
         'Suggested action',
@@ -181,7 +182,8 @@ function createPartnerTable(intelligence: GeneratedIntelligence) {
             tableCell(item.category),
             tableCell(item.countryOrRegion),
             tableCell(item.status || 'Candidate for verification'),
-            tableCell(item.verificationUrl || 'Not supplied'),
+            tableCell(item.website || 'Not supplied', false, 'Open website'),
+            tableCell(item.verificationUrl || 'Not supplied', false, 'Open verification route'),
             tableCell(item.relevance),
             tableCell(item.suggestedAction),
             tableCell(item.notes)
@@ -207,6 +209,7 @@ function createCompetitorTable(intelligence: GeneratedIntelligence) {
         'Type',
         'Country/region',
         'Status',
+        'Website',
         'Verification route',
         'Relevance',
         'Notes'
@@ -220,7 +223,8 @@ function createCompetitorTable(intelligence: GeneratedIntelligence) {
             tableCell(item.type),
             tableCell(item.countryOrRegion),
             tableCell(item.status || 'Candidate for verification'),
-            tableCell(item.verificationUrl || 'Not supplied'),
+            tableCell(item.website || 'Not supplied', false, 'Open website'),
+            tableCell(item.verificationUrl || 'Not supplied', false, 'Open verification route'),
             tableCell(item.relevance),
             tableCell(item.notes)
           ]
