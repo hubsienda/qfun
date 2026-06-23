@@ -51,6 +51,16 @@ function labelValue(label: string, value: string) {
   return `\\b ${rtfEscape(label)}:\\b0 ${rtfEscape(value)}\\par\n`;
 }
 
+function websiteRoute(value: string | null | undefined) {
+  const url = value && value.trim() ? value.trim() : '';
+
+  if (!url) {
+    return labelValue('Website', 'Not supplied');
+  }
+
+  return labelValue('Website', url);
+}
+
 function verificationRoute(value: string | null | undefined) {
   const url = value && value.trim() ? value.trim() : '';
 
@@ -80,9 +90,9 @@ function partnerBlocks(intelligence: GeneratedIntelligence) {
         `${subheading(`${index + 1}. ${item.name}`)}${labelValue('Type', item.category)}${labelValue(
           'Country/region',
           item.countryOrRegion
-        )}${labelValue('Status', item.status || 'Candidate for verification')}${verificationRoute(
-          item.verificationUrl
-        )}${labelValue('Relevance', item.relevance)}${labelValue(
+        )}${labelValue('Status', item.status || 'Candidate for verification')}${websiteRoute(
+          item.website
+        )}${verificationRoute(item.verificationUrl)}${labelValue('Relevance', item.relevance)}${labelValue(
           'Suggested action',
           item.suggestedAction
         )}${labelValue('Notes', item.notes)}`
@@ -101,9 +111,12 @@ function competitorBlocks(intelligence: GeneratedIntelligence) {
         `${subheading(`${index + 1}. ${item.name}`)}${labelValue('Type', item.type)}${labelValue(
           'Country/region',
           item.countryOrRegion
-        )}${labelValue('Status', item.status || 'Candidate for verification')}${verificationRoute(
-          item.verificationUrl
-        )}${labelValue('Relevance', item.relevance)}${labelValue('Notes', item.notes)}`
+        )}${labelValue('Status', item.status || 'Candidate for verification')}${websiteRoute(
+          item.website
+        )}${verificationRoute(item.verificationUrl)}${labelValue('Relevance', item.relevance)}${labelValue(
+          'Notes',
+          item.notes
+        )}`
     )
     .join('');
 }
