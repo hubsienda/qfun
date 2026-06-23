@@ -95,6 +95,7 @@ function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
     'Suggested verification action':
       'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.',
     Status: 'Open',
+    Website: '',
     'Verification URL': '',
     Notes: ''
   }));
@@ -105,6 +106,7 @@ function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
     Category: cleanOutput(item.category),
     'Suggested verification action': cleanOutput(item.suggestedAction),
     Status: cleanOutput(item.status || 'Candidate for verification'),
+    Website: item.website || '',
     'Verification URL': item.verificationUrl || '',
     Notes: cleanOutput(item.notes)
   }));
@@ -116,6 +118,7 @@ function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
     'Suggested verification action':
       'Check relevance, positioning, geography, offer, and whether this is a direct competitor, substitute, or status-quo alternative.',
     Status: cleanOutput(item.status || 'Candidate for verification'),
+    Website: item.website || '',
     'Verification URL': item.verificationUrl || '',
     Notes: cleanOutput(item.notes)
   }));
@@ -155,6 +158,7 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
       Type: cleanOutput(item.category),
       'Country or region': cleanOutput(item.countryOrRegion),
       Status: cleanOutput(item.status || 'Candidate for verification'),
+      Website: item.website || '',
       'Verification URL': item.verificationUrl || '',
       Relevance: cleanOutput(item.relevance),
       'Suggested action': cleanOutput(item.suggestedAction),
@@ -171,6 +175,7 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
       Type: cleanOutput(item.type),
       'Country or region': cleanOutput(item.countryOrRegion),
       Status: cleanOutput(item.status || 'Candidate for verification'),
+      Website: item.website || '',
       'Verification URL': item.verificationUrl || '',
       Relevance: cleanOutput(item.relevance),
       Notes: cleanOutput(item.notes)
