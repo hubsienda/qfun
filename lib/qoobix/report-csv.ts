@@ -17,6 +17,7 @@ type CsvRow = {
   type: string;
   region: string;
   status: string;
+  website: string;
   verificationUrl: string;
   detail: string;
   suggestedAction: string;
@@ -47,6 +48,7 @@ function toCsv(rows: CsvRow[]) {
     'Type',
     'Region',
     'Status',
+    'Website',
     'Verification URL',
     'Detail',
     'Suggested action',
@@ -63,6 +65,7 @@ function toCsv(rows: CsvRow[]) {
         row.type,
         row.region,
         row.status,
+        row.website,
         row.verificationUrl,
         row.detail,
         row.suggestedAction,
@@ -84,6 +87,7 @@ function textRows(section: string, items: string[]): CsvRow[] {
     type: '',
     region: '',
     status: '',
+    website: '',
     verificationUrl: '',
     detail: item,
     suggestedAction: 'Check before use.',
@@ -102,6 +106,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: client.sector,
       region: request.targetCountries,
       status: '',
+      website: client.website ?? '',
       verificationUrl: '',
       detail: request.marketQuestion,
       suggestedAction: request.commercialObjective,
@@ -114,6 +119,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: '',
       region: '',
       status: '',
+      website: '',
       verificationUrl: '',
       detail: intelligence.executiveSummary,
       suggestedAction: 'Review and check before commercial use.',
@@ -126,6 +132,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: '',
       region: '',
       status: '',
+      website: '',
       verificationUrl: '',
       detail: intelligence.clientProductContext,
       suggestedAction: 'Check against the client business profile.',
@@ -138,6 +145,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: '',
       region: '',
       status: '',
+      website: '',
       verificationUrl: '',
       detail: intelligence.targetMarketOverview,
       suggestedAction: 'Check with market evidence.',
@@ -152,6 +160,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: item.category,
       region: item.countryOrRegion,
       status: item.status || 'Candidate for verification',
+      website: item.website || '',
       verificationUrl: item.verificationUrl || '',
       detail: item.relevance,
       suggestedAction: item.suggestedAction,
@@ -164,6 +173,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: item.type,
       region: item.countryOrRegion,
       status: item.status || 'Candidate for verification',
+      website: item.website || '',
       verificationUrl: item.verificationUrl || '',
       detail: item.relevance,
       suggestedAction: 'Check positioning, offer, geography, and relevance.',
@@ -180,6 +190,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: '',
       region: '',
       status: '',
+      website: '',
       verificationUrl: '',
       detail: item,
       suggestedAction: 'Assign owner, deadline, and verification step.',
@@ -192,6 +203,7 @@ export function createCsvExport(input: CreateCsvExportInput): Buffer {
       type: '',
       region: '',
       status: '',
+      website: '',
       verificationUrl: '',
       detail: item,
       suggestedAction:
