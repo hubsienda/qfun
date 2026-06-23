@@ -108,6 +108,7 @@ export type GeneratedIntelligence = {
     countryOrRegion: string;
     relevance: string;
     suggestedAction: string;
+    website: string;
     verificationUrl: string;
     status: string;
     notes: string;
@@ -117,6 +118,7 @@ export type GeneratedIntelligence = {
     type: string;
     countryOrRegion: string;
     relevance: string;
+    website: string;
     verificationUrl: string;
     status: string;
     notes: string;
