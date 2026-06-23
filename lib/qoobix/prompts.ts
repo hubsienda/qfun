@@ -102,7 +102,9 @@ However:
 - Do not imply that the client has a relationship with them.
 - Do not imply that they are willing to buy, distribute, partner, or respond.
 - Prioritise and explain them as "candidate organisations to verify".
-- Preserve the supplied Verification URL exactly in the JSON field "verificationUrl". Do not remove it, rewrite it, shorten it, or hide it inside another field.`
+- Preserve the supplied website exactly in the JSON field "website". Do not remove it, rewrite it, shorten it, or hide it inside another field.
+- Preserve the supplied Verification URL exactly in the JSON field "verificationUrl". Do not remove it, rewrite it, shorten it, or hide it inside another field.
+- If a website was not supplied, return an empty string in the "website" field. Do not invent a website.`
     : `This is Analysis Mode. No live named-organisation discovery has been supplied. Do not pretend that live discovery was performed.`
 }
 
@@ -162,8 +164,11 @@ ${safeText(client.knownCompetitors)}
 Known representatives/distributors/partners:
 ${safeText(client.knownRepresentatives)}
 
-Preferred client language:
+Application language:
 ${client.preferredLanguage}
+
+Default output/report language:
+${client.preferredOutputLanguage}
 
 SPECIFIC REQUEST
 
@@ -229,6 +234,7 @@ Return only valid JSON in this exact structure:
       "countryOrRegion": "string",
       "relevance": "string",
       "suggestedAction": "string",
+      "website": "string",
       "verificationUrl": "string",
       "status": "Candidate for verification",
       "notes": "string"
@@ -240,6 +246,7 @@ Return only valid JSON in this exact structure:
       "type": "string",
       "countryOrRegion": "string",
       "relevance": "string",
+      "website": "string",
       "verificationUrl": "string",
       "status": "Candidate for verification",
       "notes": "string"
@@ -285,7 +292,7 @@ Be honest about source limitations, discovery limitations, verification needs, a
 potentialPartnersProspects:
 ${
   isDiscoveryMode
-    ? `Use the supplied discovered candidate organisations where commercially relevant. Provide 8 to 20 rows if possible. Every named organisation must be treated as requiring verification. Preserve each supplied verification URL exactly.`
+    ? `Use the supplied discovered candidate organisations where commercially relevant. Provide 8 to 20 rows if possible. Every named organisation must be treated as requiring verification. Preserve each supplied website exactly. Preserve each supplied verification URL exactly.`
     : `Provide 8 to 15 rows if possible. Rows may include named organisations only if plausible and clearly marked for verification. If names are uncertain, use categories.`
 }
 Each row must include a practical suggested action and the status "Candidate for verification".
@@ -293,7 +300,7 @@ Each row must include a practical suggested action and the status "Candidate for
 competitorRows:
 ${
   isDiscoveryMode
-    ? `Use supplied discovered candidate organisations where they appear to be competitors, substitutes, suppliers, or local alternatives. Preserve each supplied verification URL exactly.`
+    ? `Use supplied discovered candidate organisations where they appear to be competitors, substitutes, suppliers, or local alternatives. Preserve each supplied website exactly. Preserve each supplied verification URL exactly.`
     : `Provide 6 to 12 rows if possible. Include direct competitors, indirect competitors, substitutes, alternative buying paths, local incumbents, and the option of doing nothing.`
 }
 Every row must explain relevance and include the status "Candidate for verification".
