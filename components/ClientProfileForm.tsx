@@ -37,6 +37,31 @@ const languageLabels = {
   }
 };
 
+function SectionShell({
+  title,
+  description,
+  children
+}: {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
+      <div className="mb-5">
+        <h2 className="text-sm font-semibold tracking-[-0.01em] text-[var(--qoobix-text)]">
+          {title}
+        </h2>
+        {description ? (
+          <p className="mt-2 text-sm leading-6 text-[var(--qoobix-muted)]">{description}</p>
+        ) : null}
+      </div>
+
+      {children}
+    </section>
+  );
+}
+
 export function ClientProfileForm({ client }: ClientProfileFormProps) {
   const t = getClientDictionary(client);
   const languageT = languageLabels[getClientLocale(client)];
@@ -99,88 +124,99 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
 
   return (
     <form onSubmit={submitProfile} className="space-y-6">
-      <InputField
-        label={t.profileForm.sector}
-        name="sector"
-        value={form.sector}
-        onChange={(event) => updateField('sector', event.target.value)}
-        required
-      />
-
-      <TextAreaField
-        label={t.profileForm.description}
-        name="description"
-        value={form.description}
-        onChange={(event) => updateField('description', event.target.value)}
-      />
-
-      <InputField
-        label={t.profileForm.website}
-        name="website"
-        value={form.website}
-        onChange={(event) => updateField('website', event.target.value)}
-        placeholder="https://example.com"
-      />
-
-      <TextAreaField
-        label={t.profileForm.productsServices}
-        name="productsServices"
-        value={form.productsServices}
-        onChange={(event) => updateField('productsServices', event.target.value)}
-        required
-      />
-
-      <div className="grid gap-5 md:grid-cols-2">
-        <TextAreaField
-          label={t.profileForm.targetCountries}
-          name="targetCountries"
-          hint={t.profileForm.targetCountriesHint}
-          value={form.targetCountries}
-          onChange={(event) => updateField('targetCountries', event.target.value)}
+      <SectionShell title={t.profileForm.sector}>
+        <InputField
+          label={t.profileForm.sector}
+          name="sector"
+          value={form.sector}
+          onChange={(event) => updateField('sector', event.target.value)}
           required
         />
+      </SectionShell>
 
+      <SectionShell title={t.profileForm.description}>
         <TextAreaField
-          label={t.profileForm.targetCustomerTypes}
-          name="targetCustomerTypes"
-          hint={t.profileForm.targetCustomerTypesHint}
-          value={form.targetCustomerTypes}
-          onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
+          label={t.profileForm.description}
+          name="description"
+          value={form.description}
+          onChange={(event) => updateField('description', event.target.value)}
         />
-      </div>
+      </SectionShell>
 
-      <TextAreaField
-        label={t.profileForm.targetChannels}
-        name="targetChannels"
-        hint={t.profileForm.targetChannelsHint}
-        value={form.targetChannels}
-        onChange={(event) => updateField('targetChannels', event.target.value)}
-      />
+      <SectionShell title={t.profileForm.website}>
+        <InputField
+          label={t.profileForm.website}
+          name="website"
+          value={form.website}
+          onChange={(event) => updateField('website', event.target.value)}
+          placeholder="https://example.com"
+        />
+      </SectionShell>
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <SectionShell title={t.profileForm.productsServices}>
         <TextAreaField
-          label={t.profileForm.knownCompetitors}
-          name="knownCompetitors"
-          value={form.knownCompetitors}
-          onChange={(event) => updateField('knownCompetitors', event.target.value)}
+          label={t.profileForm.productsServices}
+          name="productsServices"
+          value={form.productsServices}
+          onChange={(event) => updateField('productsServices', event.target.value)}
+          required
         />
+      </SectionShell>
 
+      <SectionShell title={t.profileForm.targetCountries}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextAreaField
+            label={t.profileForm.targetCountries}
+            name="targetCountries"
+            hint={t.profileForm.targetCountriesHint}
+            value={form.targetCountries}
+            onChange={(event) => updateField('targetCountries', event.target.value)}
+            required
+          />
+
+          <TextAreaField
+            label={t.profileForm.targetCustomerTypes}
+            name="targetCustomerTypes"
+            hint={t.profileForm.targetCustomerTypesHint}
+            value={form.targetCustomerTypes}
+            onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
+          />
+        </div>
+      </SectionShell>
+
+      <SectionShell title={t.profileForm.targetChannels}>
         <TextAreaField
-          label={t.profileForm.knownRepresentatives}
-          name="knownRepresentatives"
-          value={form.knownRepresentatives}
-          onChange={(event) => updateField('knownRepresentatives', event.target.value)}
+          label={t.profileForm.targetChannels}
+          name="targetChannels"
+          hint={t.profileForm.targetChannelsHint}
+          value={form.targetChannels}
+          onChange={(event) => updateField('targetChannels', event.target.value)}
         />
-      </div>
+      </SectionShell>
 
-      <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/65 p-5">
-        <h2 className="text-sm font-semibold">{languageT.applicationLanguage}</h2>
+      <SectionShell title={t.profileForm.knownCompetitors}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextAreaField
+            label={t.profileForm.knownCompetitors}
+            name="knownCompetitors"
+            value={form.knownCompetitors}
+            onChange={(event) => updateField('knownCompetitors', event.target.value)}
+          />
 
-        <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
-          {languageT.applicationLanguageHint}
-        </p>
+          <TextAreaField
+            label={t.profileForm.knownRepresentatives}
+            name="knownRepresentatives"
+            value={form.knownRepresentatives}
+            onChange={(event) => updateField('knownRepresentatives', event.target.value)}
+          />
+        </div>
+      </SectionShell>
 
-        <div className="mt-4 grid gap-5 md:grid-cols-2">
+      <SectionShell
+        title={languageT.applicationLanguage}
+        description={languageT.applicationLanguageHint}
+      >
+        <div className="grid gap-5 md:grid-cols-2">
           <InputField
             label={languageT.applicationLanguage}
             name="preferredLanguage"
@@ -197,17 +233,19 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
             onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
           />
         </div>
-      </div>
+      </SectionShell>
 
       {message ? (
-        <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
+        <p className="rounded-xl border border-[var(--qoobix-border)] bg-white/56 px-4 py-3 text-sm font-semibold leading-6 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,36,26,0.035)]">
           {message}
         </p>
       ) : null}
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? t.profileForm.saving : t.profileForm.save}
-      </Button>
+      <div className="pt-1">
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? t.profileForm.saving : t.profileForm.save}
+        </Button>
+      </div>
     </form>
   );
 }
