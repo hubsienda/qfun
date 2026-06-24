@@ -199,7 +199,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
       </FormGroup>
 
       <FormGroup>
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="space-y-5">
           <SelectField
             label={languageT.applicationLanguage}
             name="preferredLanguage"
