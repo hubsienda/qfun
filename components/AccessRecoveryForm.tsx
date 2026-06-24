@@ -109,18 +109,20 @@ export function AccessRecoveryForm({ labels = defaultLabels }: AccessRecoveryFor
       />
 
       {message ? (
-        <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
+        <p className="rounded-xl border border-[var(--qoobix-border)] bg-white/56 px-4 py-3 text-sm font-semibold leading-6 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,36,26,0.035)]">
           {message}
         </p>
       ) : null}
 
       {generatedAccessCode ? (
-        <div className="rounded-md border border-[var(--qoobix-orange)] bg-white/85 p-5">
-          <h3 className="text-sm font-semibold">{labels.generatedTitle}</h3>
+        <div className="rounded-xl border border-[rgba(232,90,42,0.32)] bg-white/72 p-5 shadow-[0_12px_32px_rgba(232,90,42,0.075)]">
+          <h3 className="text-sm font-semibold tracking-[-0.01em] text-[var(--qoobix-text)]">
+            {labels.generatedTitle}
+          </h3>
           <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
             {labels.generatedText}
           </p>
-          <code className="mt-4 block overflow-x-auto rounded-md bg-white px-4 py-3 text-sm font-semibold">
+          <code className="mt-4 block overflow-x-auto rounded-md border border-[var(--qoobix-border)] bg-white px-4 py-3 text-sm font-semibold text-[var(--qoobix-text)]">
             {generatedAccessCode}
           </code>
         </div>
