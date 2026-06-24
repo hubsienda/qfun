@@ -78,8 +78,10 @@ export function DataNotice({ variant = 'compact', language }: DataNoticeProps) {
 
   if (variant === 'full') {
     return (
-      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/75 p-5 text-sm leading-7 text-[var(--qoobix-muted)]">
-        <h2 className="mb-2 text-base font-semibold text-[var(--qoobix-text)]">{t.fullTitle}</h2>
+      <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/48 p-5 text-sm leading-7 text-[var(--qoobix-muted)] shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
+        <h2 className="mb-3 text-base font-semibold tracking-[-0.02em] text-[var(--qoobix-text)]">
+          {t.fullTitle}
+        </h2>
         <p>{t.fullParagraph1}</p>
         <p className="mt-3">{t.fullParagraph2}</p>
         <p className="mt-3">{t.fullParagraph3}</p>
@@ -88,7 +90,7 @@ export function DataNotice({ variant = 'compact', language }: DataNoticeProps) {
   }
 
   return (
-    <div className="rounded-md border border-[var(--qoobix-border)] bg-white/70 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
+    <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/46 p-4 text-sm leading-7 text-[var(--qoobix-muted)] shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
       {t.compact}
     </div>
   );
