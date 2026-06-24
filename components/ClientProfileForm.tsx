@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/Button';
-import { InputField, TextAreaField } from '@/components/Field';
+import { InputField, SelectField, TextAreaField } from '@/components/Field';
 import { getClientDictionary, getClientLocale } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration } from '@/lib/qoobix/types';
 
@@ -16,49 +16,35 @@ const languageLabels = {
     applicationLanguageHint: 'Controls the QOOBIX interface shown to this client.',
     preferredOutputLanguage: 'Default report/output language',
     preferredOutputLanguageHint:
-      'Controls the language proposed for generated reports. It does not change the application interface.',
-    languageExamples: 'Examples: English, Spanish, Italian'
+      'Controls the language proposed for generated reports. It does not change the application interface.'
   },
   es: {
     applicationLanguage: 'Idioma de la aplicación',
     applicationLanguageHint: 'Controla la interfaz de QOOBIX que ve este cliente.',
     preferredOutputLanguage: 'Idioma predeterminado de informes/resultados',
     preferredOutputLanguageHint:
-      'Controla el idioma propuesto para los informes generados. No cambia la interfaz de la aplicación.',
-    languageExamples: 'Ejemplos: English, Spanish, Italian'
+      'Controla el idioma propuesto para los informes generados. No cambia la interfaz de la aplicación.'
   },
   it: {
     applicationLanguage: 'Lingua dell’applicazione',
     applicationLanguageHint: 'Controlla l’interfaccia QOOBIX mostrata a questo cliente.',
     preferredOutputLanguage: 'Lingua predefinita dei report/output',
     preferredOutputLanguageHint:
-      'Controlla la lingua proposta per i report generati. Non cambia l’interfaccia dell’applicazione.',
-    languageExamples: 'Esempi: English, Spanish, Italian'
+      'Controlla la lingua proposta per i report generati. Non cambia l’interfaccia dell’applicazione.'
   }
 };
 
-function SectionShell({
-  title,
-  description,
-  children
-}: {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
-      <div className="mb-5">
-        <h2 className="text-sm font-semibold tracking-[-0.01em] text-[var(--qoobix-text)]">
-          {title}
-        </h2>
-        {description ? (
-          <p className="mt-2 text-sm leading-6 text-[var(--qoobix-muted)]">{description}</p>
-        ) : null}
-      </div>
+const applicationLanguageOptions = [
+  { value: 'English', label: 'English' },
+  { value: 'Spanish', label: 'Spanish' },
+  { value: 'Italian', label: 'Italian' }
+];
 
+function FormGroup({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
       {children}
-    </section>
+    </div>
   );
 }
 
@@ -124,7 +110,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
 
   return (
     <form onSubmit={submitProfile} className="space-y-6">
-      <SectionShell title={t.profileForm.sector}>
+      <FormGroup>
         <InputField
           label={t.profileForm.sector}
           name="sector"
@@ -132,18 +118,18 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
           onChange={(event) => updateField('sector', event.target.value)}
           required
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.description}>
+      <FormGroup>
         <TextAreaField
           label={t.profileForm.description}
           name="description"
           value={form.description}
           onChange={(event) => updateField('description', event.target.value)}
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.website}>
+      <FormGroup>
         <InputField
           label={t.profileForm.website}
           name="website"
@@ -151,9 +137,9 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
           onChange={(event) => updateField('website', event.target.value)}
           placeholder="https://example.com"
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.productsServices}>
+      <FormGroup>
         <TextAreaField
           label={t.profileForm.productsServices}
           name="productsServices"
@@ -161,9 +147,9 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
           onChange={(event) => updateField('productsServices', event.target.value)}
           required
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.targetCountries}>
+      <FormGroup>
         <div className="grid gap-5 md:grid-cols-2">
           <TextAreaField
             label={t.profileForm.targetCountries}
@@ -182,9 +168,9 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
             onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
           />
         </div>
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.targetChannels}>
+      <FormGroup>
         <TextAreaField
           label={t.profileForm.targetChannels}
           name="targetChannels"
@@ -192,9 +178,9 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
           value={form.targetChannels}
           onChange={(event) => updateField('targetChannels', event.target.value)}
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.profileForm.knownCompetitors}>
+      <FormGroup>
         <div className="grid gap-5 md:grid-cols-2">
           <TextAreaField
             label={t.profileForm.knownCompetitors}
@@ -210,20 +196,23 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
             onChange={(event) => updateField('knownRepresentatives', event.target.value)}
           />
         </div>
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell
-        title={languageT.applicationLanguage}
-        description={languageT.applicationLanguageHint}
-      >
+      <FormGroup>
         <div className="grid gap-5 md:grid-cols-2">
-          <InputField
+          <SelectField
             label={languageT.applicationLanguage}
             name="preferredLanguage"
-            hint={languageT.languageExamples}
+            hint={languageT.applicationLanguageHint}
             value={form.preferredLanguage}
             onChange={(event) => updateField('preferredLanguage', event.target.value)}
-          />
+          >
+            {applicationLanguageOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </SelectField>
 
           <InputField
             label={languageT.preferredOutputLanguage}
@@ -233,7 +222,7 @@ export function ClientProfileForm({ client }: ClientProfileFormProps) {
             onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
           />
         </div>
-      </SectionShell>
+      </FormGroup>
 
       {message ? (
         <p className="rounded-xl border border-[var(--qoobix-border)] bg-white/56 px-4 py-3 text-sm font-semibold leading-6 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,36,26,0.035)]">
