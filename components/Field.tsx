@@ -1,4 +1,8 @@
-import type { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import type {
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+  TextareaHTMLAttributes
+} from 'react';
 
 type BaseFieldProps = {
   label: string;
@@ -14,6 +18,11 @@ type InputFieldProps = BaseFieldProps &
 type TextAreaFieldProps = BaseFieldProps &
   TextareaHTMLAttributes<HTMLTextAreaElement> & {
     rows?: number;
+  };
+
+type SelectFieldProps = BaseFieldProps &
+  SelectHTMLAttributes<HTMLSelectElement> & {
+    children: React.ReactNode;
   };
 
 const fieldShellClassName = 'block';
@@ -57,6 +66,25 @@ export function TextAreaField({
         rows={rows}
         className={`${baseFieldClassName} resize-y leading-6 ${className}`}
       />
+    </label>
+  );
+}
+
+export function SelectField({
+  label,
+  name,
+  hint,
+  className = '',
+  children,
+  ...props
+}: SelectFieldProps) {
+  return (
+    <label className={fieldShellClassName}>
+      <span className={fieldLabelClassName}>{label}</span>
+      {hint ? <span className={fieldHintClassName}>{hint}</span> : null}
+      <select {...props} name={name} className={`${selectFieldClassName} ${className}`}>
+        {children}
+      </select>
     </label>
   );
 }
