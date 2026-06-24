@@ -13,8 +13,8 @@ export function BrandHeader() {
           <Image
             src="/logo.png"
             alt="QOOBIX"
-            width={220}
-            height={220}
+            width={240}
+            height={240}
             priority
             className="h-24 w-24 object-contain sm:h-28 sm:w-28 md:h-36 md:w-36"
           />
