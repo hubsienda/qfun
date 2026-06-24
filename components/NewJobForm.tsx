@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/Button';
-import { InputField, selectFieldClassName, TextAreaField } from '@/components/Field';
+import { InputField, SelectField, TextAreaField } from '@/components/Field';
 import { getClientDictionary } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration, IntelligenceMode } from '@/lib/qoobix/types';
 
@@ -22,28 +22,11 @@ const objectiveValues = [
   'Action-priority report'
 ];
 
-function SectionShell({
-  title,
-  description,
-  children
-}: {
-  title: string;
-  description?: string;
-  children: React.ReactNode;
-}) {
+function FormGroup({ children }: { children: React.ReactNode }) {
   return (
-    <section className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
-      <div className="mb-5">
-        <h2 className="text-sm font-semibold tracking-[-0.01em] text-[var(--qoobix-text)]">
-          {title}
-        </h2>
-        {description ? (
-          <p className="mt-2 text-sm leading-6 text-[var(--qoobix-muted)]">{description}</p>
-        ) : null}
-      </div>
-
+    <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
       {children}
-    </section>
+    </div>
   );
 }
 
@@ -121,8 +104,12 @@ export function NewJobForm({ client }: NewJobFormProps) {
 
   return (
     <form onSubmit={submitJob} className="space-y-6">
-      <SectionShell title={t.newJobForm.intelligenceMode}>
-        <div className="grid gap-3 md:grid-cols-2">
+      <FormGroup>
+        <span className="text-sm font-semibold tracking-[-0.015em] text-[var(--qoobix-text)]">
+          {t.newJobForm.intelligenceMode}
+        </span>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-2">
           {(['analysis', 'discovery'] as IntelligenceMode[]).map((mode) => {
             const selected = form.intelligenceMode === mode;
 
@@ -154,9 +141,9 @@ export function NewJobForm({ client }: NewJobFormProps) {
             );
           })}
         </div>
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.newJobForm.productOrService}>
+      <FormGroup>
         <TextAreaField
           label={t.newJobForm.productOrService}
           name="productOrService"
@@ -164,48 +151,45 @@ export function NewJobForm({ client }: NewJobFormProps) {
           onChange={(event) => updateField('productOrService', event.target.value)}
           required
         />
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.newJobForm.marketQuestion}>
-        <div className="space-y-5">
-          <InputField
-            label={t.newJobForm.targetCountries}
-            name="targetCountries"
-            value={form.targetCountries}
-            onChange={(event) => updateField('targetCountries', event.target.value)}
-            required
-          />
+      <FormGroup>
+        <InputField
+          label={t.newJobForm.targetCountries}
+          name="targetCountries"
+          value={form.targetCountries}
+          onChange={(event) => updateField('targetCountries', event.target.value)}
+          required
+        />
+      </FormGroup>
 
-          <TextAreaField
-            label={t.newJobForm.marketQuestion}
-            name="marketQuestion"
-            hint={t.newJobForm.marketQuestionHint}
-            value={form.marketQuestion}
-            onChange={(event) => updateField('marketQuestion', event.target.value)}
-            required
-          />
+      <FormGroup>
+        <TextAreaField
+          label={t.newJobForm.marketQuestion}
+          name="marketQuestion"
+          hint={t.newJobForm.marketQuestionHint}
+          value={form.marketQuestion}
+          onChange={(event) => updateField('marketQuestion', event.target.value)}
+          required
+        />
+      </FormGroup>
 
-          <label className="block">
-            <span className="text-sm font-semibold tracking-[-0.015em] text-[var(--qoobix-text)]">
-              {t.newJobForm.commercialObjective}
-            </span>
-            <select
-              name="commercialObjective"
-              value={form.commercialObjective}
-              onChange={(event) => updateField('commercialObjective', event.target.value)}
-              className={selectFieldClassName}
-            >
-              {objectiveValues.map((objective) => (
-                <option key={objective} value={objective}>
-                  {t.newJobForm.objectives[objective] ?? objective}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-      </SectionShell>
+      <FormGroup>
+        <SelectField
+          label={t.newJobForm.commercialObjective}
+          name="commercialObjective"
+          value={form.commercialObjective}
+          onChange={(event) => updateField('commercialObjective', event.target.value)}
+        >
+          {objectiveValues.map((objective) => (
+            <option key={objective} value={objective}>
+              {t.newJobForm.objectives[objective] ?? objective}
+            </option>
+          ))}
+        </SelectField>
+      </FormGroup>
 
-      <SectionShell title={t.newJobForm.targetCustomerTypes}>
+      <FormGroup>
         <div className="grid gap-5 md:grid-cols-2">
           <TextAreaField
             label={t.newJobForm.targetCustomerTypes}
@@ -221,9 +205,9 @@ export function NewJobForm({ client }: NewJobFormProps) {
             onChange={(event) => updateField('targetChannels', event.target.value)}
           />
         </div>
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.newJobForm.knownCompetitors}>
+      <FormGroup>
         <div className="grid gap-5 md:grid-cols-2">
           <TextAreaField
             label={t.newJobForm.knownCompetitors}
@@ -239,16 +223,16 @@ export function NewJobForm({ client }: NewJobFormProps) {
             onChange={(event) => updateField('knownPartners', event.target.value)}
           />
         </div>
-      </SectionShell>
+      </FormGroup>
 
-      <SectionShell title={t.newJobForm.preferredOutputLanguage}>
+      <FormGroup>
         <InputField
           label={t.newJobForm.preferredOutputLanguage}
           name="preferredOutputLanguage"
           value={form.preferredOutputLanguage}
           onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
         />
-      </SectionShell>
+      </FormGroup>
 
       <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/46 p-4 text-sm leading-7 text-[var(--qoobix-muted)] shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
         {t.newJobForm.outputNotice}
