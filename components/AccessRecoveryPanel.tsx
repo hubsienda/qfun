@@ -26,15 +26,17 @@ export function AccessRecoveryPanel({
   lang = 'en'
 }: AccessRecoveryPanelProps) {
   return (
-    <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-5">
-      <h2 className="text-lg font-semibold">{labels.title}</h2>
+    <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/48 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.035)]">
+      <h2 className="text-lg font-semibold tracking-[-0.02em] text-[var(--qoobix-text)]">
+        {labels.title}
+      </h2>
 
       <p className="mt-3 leading-7 text-[var(--qoobix-muted)]">{labels.text}</p>
 
       <div className="mt-5">
         <Link
           href={`/access/recover?lang=${lang}`}
-          className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-white/70 px-4 py-2 text-sm font-semibold text-[var(--qoobix-orange)] transition hover:bg-[var(--qoobix-orange)] hover:text-white"
+          className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/64 px-4 py-2.5 text-sm font-semibold text-[var(--qoobix-orange)] shadow-[0_8px_22px_rgba(51,36,26,0.035)] transition hover:border-[var(--qoobix-orange)] hover:bg-white"
         >
           {labels.button}
         </Link>
