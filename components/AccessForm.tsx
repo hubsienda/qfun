@@ -73,7 +73,11 @@ export function AccessForm({ labels = defaultLabels }: AccessFormProps) {
         autoComplete="off"
       />
 
-      {error ? <p className="text-sm font-semibold text-[var(--qoobix-danger)]">{error}</p> : null}
+      {error ? (
+        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-800">
+          {error}
+        </p>
+      ) : null}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? labels.checking : labels.enter}
