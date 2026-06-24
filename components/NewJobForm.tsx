@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/Button';
-import { InputField, TextAreaField } from '@/components/Field';
+import { InputField, selectFieldClassName, TextAreaField } from '@/components/Field';
 import { getClientDictionary } from '@/lib/qoobix/client-i18n';
 import type { ClientConfiguration, IntelligenceMode } from '@/lib/qoobix/types';
 
@@ -21,6 +21,31 @@ const objectiveValues = [
   'Pricing/channel analysis',
   'Action-priority report'
 ];
+
+function SectionShell({
+  title,
+  description,
+  children
+}: {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-xl border border-[var(--qoobix-border)] bg-white/44 p-5 shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
+      <div className="mb-5">
+        <h2 className="text-sm font-semibold tracking-[-0.01em] text-[var(--qoobix-text)]">
+          {title}
+        </h2>
+        {description ? (
+          <p className="mt-2 text-sm leading-6 text-[var(--qoobix-muted)]">{description}</p>
+        ) : null}
+      </div>
+
+      {children}
+    </section>
+  );
+}
 
 export function NewJobForm({ client }: NewJobFormProps) {
   const t = getClientDictionary(client);
@@ -96,10 +121,8 @@ export function NewJobForm({ client }: NewJobFormProps) {
 
   return (
     <form onSubmit={submitJob} className="space-y-6">
-      <div className="rounded-lg border border-[var(--qoobix-border)] bg-white/65 p-5">
-        <span className="text-sm font-semibold">{t.newJobForm.intelligenceMode}</span>
-
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+      <SectionShell title={t.newJobForm.intelligenceMode}>
+        <div className="grid gap-3 md:grid-cols-2">
           {(['analysis', 'discovery'] as IntelligenceMode[]).map((mode) => {
             const selected = form.intelligenceMode === mode;
 
@@ -108,19 +131,19 @@ export function NewJobForm({ client }: NewJobFormProps) {
                 key={mode}
                 type="button"
                 onClick={() => updateField('intelligenceMode', mode)}
-                className={`qoobix-focus-ring rounded-lg border p-4 text-left transition ${
+                className={`qoobix-focus-ring rounded-xl border p-4 text-left shadow-[0_8px_22px_rgba(51,36,26,0.025)] transition duration-200 ${
                   selected
-                    ? 'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-sm'
-                    : 'border-[var(--qoobix-border)] bg-white/70 hover:border-[var(--qoobix-orange)]'
+                    ? 'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] text-white shadow-[0_12px_28px_rgba(232,90,42,0.18)]'
+                    : 'border-[var(--qoobix-border)] bg-white/60 hover:border-[var(--qoobix-border-strong)] hover:bg-white'
                 }`}
               >
-                <span className="block text-base font-semibold">
+                <span className="block text-base font-semibold tracking-[-0.02em]">
                   {mode === 'analysis' ? t.newJobForm.analysis : t.newJobForm.discovery}
                 </span>
 
                 <span
                   className={`mt-2 block text-sm leading-6 ${
-                    selected ? 'text-white/85' : 'text-[var(--qoobix-muted)]'
+                    selected ? 'text-white/84' : 'text-[var(--qoobix-muted)]'
                   }`}
                 >
                   {mode === 'analysis'
@@ -131,99 +154,123 @@ export function NewJobForm({ client }: NewJobFormProps) {
             );
           })}
         </div>
-      </div>
+      </SectionShell>
 
-      <TextAreaField
-        label={t.newJobForm.productOrService}
-        name="productOrService"
-        value={form.productOrService}
-        onChange={(event) => updateField('productOrService', event.target.value)}
-        required
-      />
+      <SectionShell title={t.newJobForm.productOrService}>
+        <TextAreaField
+          label={t.newJobForm.productOrService}
+          name="productOrService"
+          value={form.productOrService}
+          onChange={(event) => updateField('productOrService', event.target.value)}
+          required
+        />
+      </SectionShell>
 
-      <InputField
-        label={t.newJobForm.targetCountries}
-        name="targetCountries"
-        value={form.targetCountries}
-        onChange={(event) => updateField('targetCountries', event.target.value)}
-        required
-      />
+      <SectionShell title={t.newJobForm.marketQuestion}>
+        <div className="space-y-5">
+          <InputField
+            label={t.newJobForm.targetCountries}
+            name="targetCountries"
+            value={form.targetCountries}
+            onChange={(event) => updateField('targetCountries', event.target.value)}
+            required
+          />
 
-      <TextAreaField
-        label={t.newJobForm.marketQuestion}
-        name="marketQuestion"
-        hint={t.newJobForm.marketQuestionHint}
-        value={form.marketQuestion}
-        onChange={(event) => updateField('marketQuestion', event.target.value)}
-        required
-      />
+          <TextAreaField
+            label={t.newJobForm.marketQuestion}
+            name="marketQuestion"
+            hint={t.newJobForm.marketQuestionHint}
+            value={form.marketQuestion}
+            onChange={(event) => updateField('marketQuestion', event.target.value)}
+            required
+          />
 
-      <label className="block">
-        <span className="text-sm font-semibold">{t.newJobForm.commercialObjective}</span>
-        <select
-          name="commercialObjective"
-          value={form.commercialObjective}
-          onChange={(event) => updateField('commercialObjective', event.target.value)}
-          className="qoobix-focus-ring mt-2 w-full rounded-lg border border-[var(--qoobix-border)] bg-white/75 px-4 py-3 text-sm outline-none"
-        >
-          {objectiveValues.map((objective) => (
-            <option key={objective} value={objective}>
-              {t.newJobForm.objectives[objective] ?? objective}
-            </option>
-          ))}
-        </select>
-      </label>
+          <label className="block">
+            <span className="text-sm font-semibold tracking-[-0.015em] text-[var(--qoobix-text)]">
+              {t.newJobForm.commercialObjective}
+            </span>
+            <select
+              name="commercialObjective"
+              value={form.commercialObjective}
+              onChange={(event) => updateField('commercialObjective', event.target.value)}
+              className={selectFieldClassName}
+            >
+              {objectiveValues.map((objective) => (
+                <option key={objective} value={objective}>
+                  {t.newJobForm.objectives[objective] ?? objective}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </SectionShell>
 
-      <TextAreaField
-        label={t.newJobForm.targetCustomerTypes}
-        name="targetCustomerTypes"
-        value={form.targetCustomerTypes}
-        onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
-      />
+      <SectionShell title={t.newJobForm.targetCustomerTypes}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextAreaField
+            label={t.newJobForm.targetCustomerTypes}
+            name="targetCustomerTypes"
+            value={form.targetCustomerTypes}
+            onChange={(event) => updateField('targetCustomerTypes', event.target.value)}
+          />
 
-      <TextAreaField
-        label={t.newJobForm.targetChannels}
-        name="targetChannels"
-        value={form.targetChannels}
-        onChange={(event) => updateField('targetChannels', event.target.value)}
-      />
+          <TextAreaField
+            label={t.newJobForm.targetChannels}
+            name="targetChannels"
+            value={form.targetChannels}
+            onChange={(event) => updateField('targetChannels', event.target.value)}
+          />
+        </div>
+      </SectionShell>
 
-      <TextAreaField
-        label={t.newJobForm.knownCompetitors}
-        name="knownCompetitors"
-        value={form.knownCompetitors}
-        onChange={(event) => updateField('knownCompetitors', event.target.value)}
-      />
+      <SectionShell title={t.newJobForm.knownCompetitors}>
+        <div className="grid gap-5 md:grid-cols-2">
+          <TextAreaField
+            label={t.newJobForm.knownCompetitors}
+            name="knownCompetitors"
+            value={form.knownCompetitors}
+            onChange={(event) => updateField('knownCompetitors', event.target.value)}
+          />
 
-      <TextAreaField
-        label={t.newJobForm.knownPartners}
-        name="knownPartners"
-        value={form.knownPartners}
-        onChange={(event) => updateField('knownPartners', event.target.value)}
-      />
+          <TextAreaField
+            label={t.newJobForm.knownPartners}
+            name="knownPartners"
+            value={form.knownPartners}
+            onChange={(event) => updateField('knownPartners', event.target.value)}
+          />
+        </div>
+      </SectionShell>
 
-      <InputField
-        label={t.newJobForm.preferredOutputLanguage}
-        name="preferredOutputLanguage"
-        value={form.preferredOutputLanguage}
-        onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
-      />
+      <SectionShell title={t.newJobForm.preferredOutputLanguage}>
+        <InputField
+          label={t.newJobForm.preferredOutputLanguage}
+          name="preferredOutputLanguage"
+          value={form.preferredOutputLanguage}
+          onChange={(event) => updateField('preferredOutputLanguage', event.target.value)}
+        />
+      </SectionShell>
 
-      <div className="rounded-md border border-[var(--qoobix-border)] bg-white/65 p-4 text-sm leading-7 text-[var(--qoobix-muted)]">
+      <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/46 p-4 text-sm leading-7 text-[var(--qoobix-muted)] shadow-[0_8px_22px_rgba(51,36,26,0.03)]">
         {t.newJobForm.outputNotice}
       </div>
 
       {notice ? (
-        <p className="rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-3 text-sm font-semibold">
+        <p className="rounded-xl border border-[var(--qoobix-border)] bg-white/56 px-4 py-3 text-sm font-semibold leading-6 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,36,26,0.035)]">
           {notice}
         </p>
       ) : null}
 
-      {error ? <p className="text-sm font-semibold text-[var(--qoobix-danger)]">{error}</p> : null}
+      {error ? (
+        <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-800">
+          {error}
+        </p>
+      ) : null}
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? t.newJobForm.creatingButton : t.newJobForm.submitButton}
-      </Button>
+      <div className="pt-1">
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? t.newJobForm.creatingButton : t.newJobForm.submitButton}
+        </Button>
+      </div>
     </form>
   );
 }
