@@ -107,29 +107,37 @@ export function CookiePrivacyBanner() {
 
   return (
     <div className="fixed inset-x-3 bottom-3 z-50 md:inset-x-auto md:right-5 md:max-w-xl">
-      <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/95 p-5 shadow-2xl backdrop-blur-xl">
-        <h2 className="text-base font-semibold">{t.title}</h2>
+      <div className="rounded-xl border border-[var(--qoobix-border)] bg-white/94 p-5 shadow-[0_24px_70px_rgba(51,36,26,0.18)] backdrop-blur-2xl">
+        <h2 className="text-base font-semibold tracking-[-0.02em] text-[var(--qoobix-text)]">
+          {t.title}
+        </h2>
 
         <p className="mt-3 text-sm leading-7 text-[var(--qoobix-muted)]">{t.text}</p>
 
         <p className="mt-2 text-sm leading-7 text-[var(--qoobix-muted)]">
           {t.read}{' '}
-          <Link href="/legal/cookie-policy" className="font-semibold text-[var(--qoobix-orange)]">
+          <Link
+            href="/legal/cookie-policy"
+            className="font-semibold text-[var(--qoobix-orange)] transition hover:text-[var(--qoobix-orange-dark)]"
+          >
             {t.cookiePolicy}
           </Link>{' '}
           {t.and}{' '}
-          <Link href="/legal/privacy-policy" className="font-semibold text-[var(--qoobix-orange)]">
+          <Link
+            href="/legal/privacy-policy"
+            className="font-semibold text-[var(--qoobix-orange)] transition hover:text-[var(--qoobix-orange-dark)]"
+          >
             {t.privacyPolicy}
           </Link>
           .
         </p>
 
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
             onClick={() => saveChoice('accepted')}
             style={{ color: '#ffffff' }}
-            className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold"
+            className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-4 py-2.5 text-sm font-semibold shadow-[0_12px_28px_rgba(232,90,42,0.18)] transition hover:bg-[var(--qoobix-orange-dark)]"
           >
             {t.accept}
           </button>
@@ -137,7 +145,7 @@ export function CookiePrivacyBanner() {
           <button
             type="button"
             onClick={() => saveChoice('rejected_optional')}
-            className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/70 px-5 py-3 text-sm font-semibold"
+            className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/68 px-4 py-2.5 text-sm font-semibold shadow-[0_8px_22px_rgba(51,36,26,0.04)] transition hover:border-[var(--qoobix-border-strong)] hover:bg-white"
           >
             {t.reject}
           </button>
