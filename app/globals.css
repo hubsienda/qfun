@@ -3,24 +3,32 @@
 :root {
   --qoobix-orange: #e85a2a;
   --qoobix-orange-dark: #c94820;
-  --qoobix-orange-soft: rgba(232, 90, 42, 0.1);
-  --qoobix-bg: #f8f4ee;
-  --qoobix-bg-soft: #fffaf4;
-  --qoobix-panel: rgba(255, 255, 255, 0.78);
+  --qoobix-orange-soft: rgba(232, 90, 42, 0.075);
+
+  --qoobix-bg: #f6f1ea;
+  --qoobix-bg-soft: #fbf7f1;
+  --qoobix-surface: #fffdf9;
+
+  --qoobix-panel: rgba(255, 255, 255, 0.76);
   --qoobix-panel-strong: rgba(255, 255, 255, 0.94);
+
   --qoobix-text: #171310;
-  --qoobix-muted: #746b64;
-  --qoobix-muted-soft: #958a82;
-  --qoobix-border: rgba(23, 19, 16, 0.11);
+  --qoobix-muted: #6f665f;
+  --qoobix-muted-soft: #9a8f86;
+
+  --qoobix-border: rgba(23, 19, 16, 0.1);
   --qoobix-border-strong: rgba(23, 19, 16, 0.18);
+
   --qoobix-danger: #9f2d20;
   --qoobix-success: #1d6f4d;
   --qoobix-warning: #8a5a00;
-  --qoobix-shadow: 0 24px 80px rgba(51, 36, 26, 0.08);
-  --qoobix-shadow-strong: 0 34px 110px rgba(51, 36, 26, 0.13);
-  --qoobix-shadow-small: 0 12px 34px rgba(51, 36, 26, 0.075);
-  --qoobix-radius: 1.5rem;
-  --qoobix-radius-large: 2rem;
+
+  --qoobix-shadow: 0 18px 54px rgba(51, 36, 26, 0.07);
+  --qoobix-shadow-strong: 0 26px 80px rgba(51, 36, 26, 0.11);
+  --qoobix-shadow-small: 0 10px 28px rgba(51, 36, 26, 0.055);
+
+  --qoobix-radius: 1rem;
+  --qoobix-radius-large: 1.35rem;
 }
 
 * {
@@ -30,10 +38,9 @@
 html {
   min-height: 100%;
   background:
-    radial-gradient(circle at 8% -4%, rgba(232, 90, 42, 0.16), transparent 30rem),
-    radial-gradient(circle at 96% 8%, rgba(255, 255, 255, 0.9), transparent 28rem),
-    radial-gradient(circle at 80% 68%, rgba(232, 90, 42, 0.075), transparent 32rem),
-    linear-gradient(135deg, #fffaf4 0%, #f8f4ee 42%, #efe7dc 100%);
+    radial-gradient(circle at 12% -8%, rgba(232, 90, 42, 0.11), transparent 26rem),
+    radial-gradient(circle at 88% 6%, rgba(255, 255, 255, 0.78), transparent 30rem),
+    linear-gradient(135deg, #fbf7f1 0%, #f6f1ea 48%, #efe7dc 100%);
   color: var(--qoobix-text);
   scroll-behavior: smooth;
 }
@@ -41,6 +48,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  color: var(--qoobix-text);
   font-family:
     Inter,
     ui-sans-serif,
@@ -49,7 +57,6 @@ body {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  color: var(--qoobix-text);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
 }
@@ -61,10 +68,10 @@ body::before {
   content: "";
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(23, 19, 16, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 19, 16, 0.025) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(circle at 50% 16%, black, transparent 78%);
+    linear-gradient(rgba(23, 19, 16, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 19, 16, 0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at 50% 8%, black, transparent 72%);
 }
 
 body::after {
@@ -74,8 +81,8 @@ body::after {
   content: "";
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 28rem),
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.6), transparent 42rem);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.44), transparent 24rem),
+    radial-gradient(circle at 50% -12%, rgba(255, 255, 255, 0.55), transparent 38rem);
 }
 
 a {
@@ -106,16 +113,16 @@ select {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(23, 19, 16, 0.04);
+  background: rgba(23, 19, 16, 0.035);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(23, 19, 16, 0.18);
+  background: rgba(23, 19, 16, 0.16);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(232, 90, 42, 0.5);
+  background: rgba(232, 90, 42, 0.44);
 }
 
 .qoobix-shell {
@@ -129,22 +136,23 @@ select {
 }
 
 .qoobix-container {
-  width: min(1160px, calc(100% - 32px));
+  width: min(1140px, calc(100% - 40px));
   margin: 0 auto;
 }
 
 .qoobix-narrow {
-  width: min(800px, calc(100% - 32px));
+  width: min(800px, calc(100% - 40px));
   margin: 0 auto;
 }
 
 .qoobix-card {
   position: relative;
+  overflow: hidden;
   border: 1px solid var(--qoobix-border);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.72)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.68)),
     var(--qoobix-panel);
-  backdrop-filter: blur(22px);
+  backdrop-filter: blur(20px);
   box-shadow: var(--qoobix-shadow);
 }
 
@@ -155,8 +163,8 @@ select {
   pointer-events: none;
   border-radius: inherit;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.55), transparent 34%),
-    radial-gradient(circle at 0% 0%, rgba(232, 90, 42, 0.08), transparent 18rem);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45), transparent 38%),
+    radial-gradient(circle at 0% 0%, rgba(232, 90, 42, 0.055), transparent 18rem);
 }
 
 .qoobix-card > * {
@@ -166,16 +174,33 @@ select {
 
 .qoobix-card-strong {
   position: relative;
+  overflow: hidden;
   border: 1px solid var(--qoobix-border);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.84)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.86)),
     var(--qoobix-panel-strong);
-  backdrop-filter: blur(22px);
+  backdrop-filter: blur(20px);
   box-shadow: var(--qoobix-shadow-strong);
 }
 
+.qoobix-card-strong::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 34%),
+    radial-gradient(circle at 0% 0%, rgba(232, 90, 42, 0.065), transparent 20rem);
+}
+
+.qoobix-card-strong > * {
+  position: relative;
+  z-index: 1;
+}
+
 .qoobix-focus-ring:focus-visible {
-  outline: 3px solid rgba(232, 90, 42, 0.32);
+  outline: 3px solid rgba(232, 90, 42, 0.28);
   outline-offset: 3px;
 }
 
@@ -192,52 +217,53 @@ select {
 }
 
 .qoobix-gradient-text {
-  background: linear-gradient(135deg, #171310 0%, #5b3325 48%, var(--qoobix-orange) 100%);
+  background: linear-gradient(135deg, #171310 0%, #513126 58%, var(--qoobix-orange) 100%);
   -webkit-background-clip: text;
   color: transparent;
 }
 
 .qoobix-grid-bg {
   background-image:
-    linear-gradient(rgba(23, 19, 16, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 19, 16, 0.045) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(23, 19, 16, 0.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 19, 16, 0.032) 1px, transparent 1px);
+  background-size: 56px 56px;
   mask-image: radial-gradient(circle at center, black, transparent 74%);
 }
 
 .qoobix-orb {
   position: absolute;
-  width: 18rem;
-  height: 18rem;
+  width: 17rem;
+  height: 17rem;
   border-radius: 999px;
   background:
-    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.84), transparent 22%),
-    radial-gradient(circle at 48% 58%, rgba(232, 90, 42, 0.34), transparent 36%),
-    linear-gradient(135deg, rgba(232, 90, 42, 0.24), rgba(23, 19, 16, 0.1));
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.72), transparent 22%),
+    radial-gradient(circle at 48% 58%, rgba(232, 90, 42, 0.28), transparent 36%),
+    linear-gradient(135deg, rgba(232, 90, 42, 0.18), rgba(23, 19, 16, 0.08));
   filter: blur(0.2px);
   box-shadow:
-    inset 0 0 46px rgba(255, 255, 255, 0.62),
-    0 40px 110px rgba(232, 90, 42, 0.18);
-  opacity: 0.82;
+    inset 0 0 44px rgba(255, 255, 255, 0.58),
+    0 34px 90px rgba(232, 90, 42, 0.14);
+  opacity: 0.76;
   pointer-events: none;
 }
 
 .qoobix-kicker {
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(232, 90, 42, 0.34);
+  border: 1px solid rgba(232, 90, 42, 0.28);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.72)),
-    rgba(232, 90, 42, 0.045);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.74)),
+    rgba(232, 90, 42, 0.04);
   color: var(--qoobix-orange);
-  border-radius: 999px;
-  padding: 0.55rem 0.95rem;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.78rem;
+  font-size: 0.72rem;
+  font-weight: 760;
+  letter-spacing: 0.11em;
+  line-height: 1;
   text-transform: uppercase;
-  box-shadow: 0 12px 36px rgba(232, 90, 42, 0.08);
-  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(232, 90, 42, 0.055);
+  backdrop-filter: blur(12px);
 }
 
 .qoobix-table-scroll {
