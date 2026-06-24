@@ -31,20 +31,20 @@ const outputs = [
 export default function HomePage() {
   return (
     <div className="relative overflow-hidden">
-      <div className="qoobix-grid-bg pointer-events-none absolute inset-0 opacity-70" />
-      <div className="qoobix-orb -right-20 top-16 md:right-20 md:top-24" />
-      <div className="qoobix-orb -left-28 bottom-20 opacity-45" />
+      <div className="qoobix-grid-bg pointer-events-none absolute inset-0 opacity-55" />
+      <div className="qoobix-orb -right-24 top-14 md:right-14 md:top-24" />
+      <div className="qoobix-orb -left-28 bottom-20 opacity-35" />
 
       <section className="qoobix-container relative py-12 md:py-18 lg:py-22">
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <p className="qoobix-kicker">Private market intelligence. No dashboard obesity.</p>
+            <p className="qoobix-kicker">Private market intelligence</p>
 
             <h1
-              className="qoobix-gradient-text mt-7 max-w-3xl font-semibold tracking-tight"
+              className="qoobix-gradient-text mt-7 max-w-3xl font-semibold tracking-[-0.055em]"
               style={{
-                fontSize: 'clamp(2rem, 3vw, 2.75rem)',
-                lineHeight: 1.08
+                fontSize: 'clamp(2.25rem, 3.5vw, 3.45rem)',
+                lineHeight: 1.02
               }}
             >
               Search a market. Detect opportunity. Download the intelligence.
@@ -52,7 +52,8 @@ export default function HomePage() {
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--qoobix-muted)] md:text-xl">
               QOOBIX is provisioned market intelligence for businesses that need commercial
-              direction, not another portal where strategy goes to develop mould.
+              direction, candidate organisations for verification, and practical downloadable
+              outputs.
             </p>
 
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -60,19 +61,19 @@ export default function HomePage() {
 
               <a
                 href={serviceRequestHref}
-                className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/68 px-5 py-3 text-sm font-semibold transition hover:bg-white"
+                className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/62 px-4 py-2.5 text-sm font-semibold shadow-[0_8px_22px_rgba(51,36,26,0.04)] transition hover:border-[var(--qoobix-border-strong)] hover:bg-white"
               >
                 Request the service
               </a>
             </div>
           </div>
 
-          <div className="qoobix-card-strong rounded-[1.35rem] p-6 md:p-8">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--qoobix-orange)]">
+          <div className="qoobix-card-strong rounded-[var(--qoobix-radius-large)] p-6 md:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--qoobix-orange)]">
               Managed by Proteus
             </p>
 
-            <h2 className="mt-4 text-2xl font-semibold tracking-tight md:text-3xl">
+            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
               A private intelligence machine for commercial questions.
             </h2>
 
@@ -85,7 +86,7 @@ export default function HomePage() {
               {outputs.map((output) => (
                 <div
                   key={output}
-                  className="rounded-md border border-[var(--qoobix-border)] bg-white/62 px-4 py-3 text-sm font-semibold"
+                  className="rounded-xl border border-[var(--qoobix-border)] bg-white/50 px-4 py-3 text-sm font-semibold shadow-[0_8px_22px_rgba(51,36,26,0.03)]"
                 >
                   {output}
                 </div>
@@ -99,7 +100,7 @@ export default function HomePage() {
         <div className="grid gap-5 md:grid-cols-3">
           {principles.map((principle) => (
             <Panel key={principle.title}>
-              <h2 className="text-xl font-semibold">{principle.title}</h2>
+              <h2 className="text-xl font-semibold tracking-[-0.025em]">{principle.title}</h2>
               <p className="mt-4 leading-7 text-[var(--qoobix-muted)]">{principle.text}</p>
             </Panel>
           ))}
@@ -107,12 +108,12 @@ export default function HomePage() {
       </section>
 
       <section className="qoobix-container relative pb-24">
-        <div className="qoobix-card-strong rounded-[1.35rem] p-7 md:p-10">
+        <div className="qoobix-card-strong rounded-[var(--qoobix-radius-large)] p-7 md:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div>
               <p className="qoobix-kicker">Built for commercial questions</p>
 
-              <h2 className="mt-5 text-3xl font-semibold tracking-tight md:text-4xl">
+              <h2 className="mt-5 text-3xl font-semibold tracking-[-0.045em] md:text-4xl">
                 Ask the question that actually costs money.
               </h2>
             </div>
@@ -133,7 +134,7 @@ export default function HomePage() {
                 <a
                   href={serviceRequestHref}
                   style={{ color: '#ffffff' }}
-                  className="qoobix-focus-ring inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-5 py-3 text-sm font-semibold transition hover:bg-[var(--qoobix-orange-dark)]"
+                  className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-4 py-2.5 text-sm font-semibold shadow-[0_12px_28px_rgba(232,90,42,0.18)] transition hover:bg-[var(--qoobix-orange-dark)]"
                 >
                   Request the service →
                 </a>
