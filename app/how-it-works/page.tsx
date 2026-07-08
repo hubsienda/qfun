@@ -55,8 +55,8 @@ export default function HowItWorksPage() {
           A controlled route from market question to reviewed intelligence.
         </h1>
         <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-          QOOBIX IDAAS is not a public self-service SaaS flow. It is an operator-led intelligence
-          process designed to produce reviewed, editable outputs.
+          QOOBIX IDAAS is not a public self-service flow. It is an operator-led intelligence process
+          designed to produce reviewed, editable outputs.
         </p>
       </div>
 
@@ -78,9 +78,9 @@ export default function HowItWorksPage() {
             The job subject controls the analysis.
           </h2>
           <p className="mt-4 leading-8 text-[var(--qoobix-muted)]">
-            QOOBIX IDAAS analyses the business defined in the job, not the account owner or operator.
-            Sienda may analyse a restaurant. Naralimon may analyse a manufacturer. An Italy operator
-            may analyse a Spanish hospitality business.
+            QOOBIX IDAAS analyses the business defined in the job, not the account owner, operator
+            or partner workspace. The operator delivers the intelligence. The job defines the
+            business being analysed.
           </p>
         </Panel>
 
