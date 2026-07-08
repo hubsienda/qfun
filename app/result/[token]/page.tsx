@@ -49,8 +49,8 @@ function fileHelp(fileType: string, t: OperationalDictionary) {
 function groupReports(reports: SignedReport[]) {
   return {
     microsoft: reports.filter((report) => ['docx', 'xlsx'].includes(report.file_type)),
-    google: reports.filter((report) => ['rtf', 'csv'].includes(report.file_type)),
-    other: reports.filter((report) => !['docx', 'xlsx', 'rtf', 'csv'].includes(report.file_type))
+    editable: reports.filter((report) => ['md', 'rtf', 'csv'].includes(report.file_type)),
+    other: reports.filter((report) => !['docx', 'xlsx', 'md', 'rtf', 'csv'].includes(report.file_type))
   };
 }
 
@@ -171,7 +171,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
             </section>
           ) : null}
 
-          {groupedReports.google.length ? (
+          {groupedReports.editable.length ? (
             <section>
               <h2 className="text-xl font-semibold tracking-[-0.025em]">
                 {t.resultPage.googleUniversal}
@@ -180,7 +180,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
                 {t.resultPage.googleUniversalText}
               </p>
               <div className="mt-5 space-y-4">
-                {groupedReports.google.map((report) => (
+                {groupedReports.editable.map((report) => (
                   <ReportLink key={report.id} report={report} t={t} />
                 ))}
               </div>
