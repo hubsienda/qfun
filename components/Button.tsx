@@ -8,9 +8,9 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantClassNames: Record<ButtonVariant, string> = {
   primary:
-    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] shadow-[0_12px_28px_rgba(232,90,42,0.18)] hover:bg-[var(--qoobix-orange-dark)] hover:shadow-[0_16px_34px_rgba(232,90,42,0.22)]',
+    'border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] shadow-[0_12px_28px_rgba(0,153,255,0.18)] hover:bg-[var(--qoobix-orange-dark)] hover:shadow-[0_16px_34px_rgba(0,153,255,0.22)]',
   secondary:
-    'border-[var(--qoobix-border)] bg-white/68 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,36,26,0.045)] hover:border-[var(--qoobix-border-strong)] hover:bg-white hover:shadow-[0_12px_28px_rgba(51,36,26,0.065)]',
+    'border-[var(--qoobix-border)] bg-white/68 text-[var(--qoobix-text)] shadow-[0_8px_22px_rgba(51,51,51,0.045)] hover:border-[var(--qoobix-border-strong)] hover:bg-white hover:shadow-[0_12px_28px_rgba(51,51,51,0.065)]',
   danger:
     'border-[var(--qoobix-danger)] bg-[var(--qoobix-danger)] shadow-[0_12px_28px_rgba(159,45,32,0.16)] hover:brightness-95'
 };
