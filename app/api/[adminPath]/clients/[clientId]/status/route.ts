@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { notFound } from 'next/navigation';
 import { isValidAdminPassword } from '@/lib/auth/admin';
 import { env } from '@/lib/config';
-import { setClientActiveStatus } from '@/lib/qoobix/db';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 
 type StatusRouteProps = {
   params: Promise<{
@@ -10,6 +10,30 @@ type StatusRouteProps = {
     clientId: string;
   }>;
 };
+
+async function setClientActiveStatus(input: { clientId: string; isActive: boolean }) {
+  const supabase = createSupabaseAdminClient() as any;
+
+  const { error } = await supabase
+    .from('clients')
+    .update({
+      is_active: input.isActive
+    })
+    .eq('id', input.clientId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!input.isActive) {
+    await supabase
+      .from('access_codes')
+      .update({
+        is_active: false
+      })
+      .eq('client_id', input.clientId);
+  }
+}
 
 export async function POST(request: NextRequest, { params }: StatusRouteProps) {
   const { adminPath, clientId } = await params;
