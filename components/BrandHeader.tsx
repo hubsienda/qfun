@@ -52,7 +52,7 @@ export function BrandHeader() {
             style={{ color: '#ffffff' }}
             className="qoobix-focus-ring inline-flex min-h-10 items-center justify-center rounded-md border border-[var(--qoobix-orange)] bg-[var(--qoobix-orange)] px-4 py-2.5 text-sm font-semibold shadow-[0_12px_28px_rgba(0,153,255,0.18)] transition duration-200 hover:bg-[var(--qoobix-orange-dark)] hover:shadow-[0_16px_34px_rgba(0,153,255,0.22)]"
           >
-            Client access
+            Secure Access
           </Link>
         </div>
       </div>
