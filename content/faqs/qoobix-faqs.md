@@ -1,179 +1,122 @@
 ---
-
-title: "QOOBIX FAQs"
-product: "QOOBIX"
+title: "QOOBIX IDAAS FAQs"
+product: "QOOBIX IDAAS"
 provider: "Sienda Ltd"
-effective_date: 7 May 2026
--------------------------------
+effective_date: 8 July 2026
+---
 
-## What is QOOBIX?
+## What is QOOBIX IDAAS?
 
-QOOBIX is a private market-intelligence application provisioned for selected business clients. It helps businesses create structured commercial intelligence reports for questions such as market entry, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, positioning, and action priorities.
+QOOBIX IDAAS means Intelligence Delivered As A Service. It is a market-intelligence delivery environment used by Sienda Ltd, Naralimon s.c. and authorised operator workspaces to deliver structured market intelligence to clients.
 
-## Is QOOBIX a public SaaS platform?
+## Is QOOBIX a SaaS platform?
 
-No. QOOBIX is not a public SaaS platform with open registration. Access is provisioned manually for each client.
+No. QOOBIX IDAAS is primarily delivered as a managed intelligence service through authorised operators. It is not a public SaaS platform with open registration.
 
-## Can anyone create an account?
+## Do clients need to operate QOOBIX themselves?
 
-No. Clients cannot create their own public account. Access is created and managed by the operator.
+No. The client provides the business context and market question. The operator prepares, reviews and delivers the intelligence package.
 
-## How does a client access QOOBIX?
+## What does the client buy?
 
-A client receives a generated access code. The client uses that code to enter their private client area.
+The client buys the intelligence outcome, not access to a raw tool. The outcome may include reports, workbooks, candidate organisation tables for verification, priorities, risks, caveats and action steps.
 
-## Does QOOBIX use traditional usernames and passwords?
+## What is an operator workspace?
 
-No. QOOBIX does not use ordinary public username/password accounts at launch. It uses provisioned client access, generated access codes, client sessions, and recovery phrases.
+An operator workspace belongs to Sienda Ltd, Naralimon s.c. or another authorised operator. It controls administration, branding, users, retention, language defaults and output management.
 
-## Can the client change their access code?
+## Does the operator workspace define the market being analysed?
 
-Yes. After entering the private client area, the client can set a recovery phrase and rotate their access code.
+No. The operator workspace does not define the analysed business. Each job must define its own analysed business, sector, product or service, target geography, market question and commercial objective.
 
-## What happens if a client forgets the access code?
+## What is the analysed business?
 
-If the client has set a recovery phrase, they can use the recovery process to generate a new access code. The old code is replaced.
+The analysed business is the company, product, service, market or commercial situation being analysed in a specific job. QOOBIX IDAAS analyses the business defined in the job, not automatically the account owner or operator.
 
-## Can the operator reset access?
+## Can Sienda analyse a business that is not Sienda?
 
-Yes. The operator can issue a temporary reset access code from the hidden provisioning area.
+Yes. Sienda may analyse a restaurant, manufacturer, software company, service provider or any other permitted client business. The same logic applies to Naralimon and other authorised operators.
 
-## What information does the client enter?
+## What can QOOBIX IDAAS analyse?
 
-The client completes a business profile and creates market-intelligence requests. The profile may include sector, business description, website, products and services, target countries, customer types, target channels, known competitors, known partners or distributors, and preferred language.
+QOOBIX IDAAS can support market-entry intelligence, competitor mapping, distributor discovery, partner discovery, candidate organisation discovery for verification, channel analysis, regional prioritisation, commercial risk review, opportunity analysis and action-priority reporting.
 
-## What is a business profile used for?
+## Can QOOBIX discover competitors?
 
-The business profile gives QOOBIX the commercial context needed to generate more relevant intelligence outputs.
+Yes, where discovery is part of the job. Discovered organisations are candidates for verification, not guaranteed competitors or confirmed market facts.
 
-## What is an intelligence request?
+## Can QOOBIX discover distributors or partners?
 
-An intelligence request is a specific commercial question submitted by the client. For example, a client may ask which regions and channels should be prioritised in a target country, or which competitors and alternatives should be mapped for a product.
+Yes. It can generate candidate organisations for verification based on the job scope and target market. It does not guarantee that those organisations are suitable, interested, qualified or commercially available.
 
-## What kinds of questions can QOOBIX help with?
+## Does QOOBIX deliver leads?
 
-QOOBIX can help with market-entry analysis, distributor discovery, partner discovery, competitor mapping, regional opportunity assessment, channel prioritisation, positioning, and action-priority planning.
+No. QOOBIX IDAAS does not deliver guaranteed leads, verified prospects, confirmed distributors, approved partners or guaranteed clients. It may deliver candidate organisations for verification.
 
-## Does QOOBIX generate the report automatically?
+## What information can a candidate organisation include?
 
-Generation is manually triggered from the job page. This keeps the process controlled and avoids unnecessary automatic generation.
+A candidate organisation may include organisation name, category or type, country or region, website where available, verification URL, relevance explanation, suggested verification action, notes and candidate status.
+
+## What is the difference between Website and Verification URL?
+
+Website means the candidate organisation’s own website, where available. Verification URL means a Google Maps URL, Google Places URL, directory URL, official registry URL or other source used to verify the candidate. A Google Maps URL should not be used as a substitute for the website field.
+
+## What happens if a source provides a website?
+
+If Google Places or another discovery source provides a business website, QOOBIX must capture and export that website into the report and workbook. The website field must not be silently left blank when source data contains a website.
+
+## What if no website is available?
+
+If no website is available from the source, the output should say “Not supplied” or “Not found in source”. This should be a real absence of data, not a mapping or export failure.
+
+## What file formats can QOOBIX IDAAS deliver?
+
+QOOBIX IDAAS can deliver editable DOCX reports, XLSX workbooks, RTF reports and CSV tables.
+
+## Which outputs may be included?
+
+Outputs may include an executive decision brief, market overview, demand signals to investigate, competitor landscape, candidate organisations for verification, regional or segment priorities, channel opportunities, positioning recommendations, commercial risks and caveats, action matrix and verification workflow.
+
+## Does QOOBIX replace commercial due diligence?
+
+No. It supports commercial prioritisation but does not replace direct verification, professional judgement, legal advice, financial advice, regulatory review or technical assessment.
+
+## Does QOOBIX provide professional advice?
+
+No. QOOBIX IDAAS does not provide legal, financial, regulatory, technical, procurement, investment or professional advice.
+
+## Does QOOBIX guarantee commercial success?
+
+No. QOOBIX IDAAS does not guarantee sales, distributor interest, partner availability, market access, regulatory suitability, revenue growth, client acquisition or commercial success.
+
+## Can QOOBIX be provisioned privately?
+
+Only for selected organisations or authorised operators, subject to qualification, configuration, training and controls. A provisioned private QOOBIX environment is not the default public offer.
+
+## Who operates QOOBIX IDAAS?
+
+QOOBIX IDAAS may be operated by Sienda Ltd, Naralimon s.c. or another authorised operator workspace, depending on the delivery arrangement.
 
 ## What is Proteus?
 
-Proteus is the proprietary intelligence layer behind QOOBIX. It generates structured commercial intelligence from the client profile and the specific intelligence request.
+Proteus is the proprietary intelligence layer behind QOOBIX. It helps structure market questions, analyse commercial context and prepare intelligence outputs.
 
 ## Does QOOBIX use AI?
 
-Yes. QOOBIX uses AI-assisted analysis to generate structured market-intelligence content. The output must always be reviewed and verified before use.
-
-## Are QOOBIX reports guaranteed to be accurate?
-
-QOOBIX produces AI-assisted market intelligence, and no tool at the current state of technology — whether AI-assisted or not — can guarantee complete, current, accurate, commercially valid results without human review. For this reason, every report must be reviewed, checked, and interpreted by competent people before it is used for commercial, strategic, legal, technical, financial, procurement, or operational decisions. QOOBIX helps structure intelligence. It does not remove the need for human judgement.
-
-## Does QOOBIX replace professional advice?
-
-No. QOOBIX does not replace legal advice, financial advice, technical advice, regulatory advice, commercial due diligence, direct market validation, or professional judgement.
-
-## Does QOOBIX perform live web research?
-
-QOOBIX may use live or external discovery sources only when a specific workflow includes them, such as controlled Discovery Mode with named candidate organisations for verification. However, QOOBIX should not be treated as a live web research engine. At the current state of technology, no automated research workflow can replace human checking. All outputs, source signals, candidate organisations, links, categories, and recommendations must be verified before use.
-
-## Can QOOBIX name potential partners or competitors?
-
-Yes, where appropriate, QOOBIX may include potential partners, prospects, competitors, substitutes, or market alternatives. These must be treated as items for verification, not guaranteed facts.
-
-## What files does QOOBIX generate?
-
-QOOBIX normally generates four output files: DOCX, XLSX, RTF, and CSV.
-
-## Which file should I use with Microsoft Word?
-
-Use the DOCX report.
-
-## Which file should I use with Microsoft Excel?
-
-Use the XLSX workbook.
-
-## Which file should I use with Google Docs?
-
-Use the RTF report. Upload the RTF file to Google Drive and open it with Google Docs.
-
-## Which file should I use with Google Sheets?
-
-Use the CSV export. Import the CSV file into Google Sheets.
-
-## Why does QOOBIX provide different file formats?
-
-Different tools handle file formats differently. DOCX and XLSX are prepared for Microsoft Office. RTF and CSV are provided for Google Docs and Google Sheets workflows.
-
-## Why not use DOCX directly in Google Docs?
-
-Google Docs may not import generated DOCX files reliably. For Google Docs, the RTF version is the cleaner and more reliable option.
-
-## Why not use XLSX directly in Google Sheets?
-
-Google Sheets may not preserve all workbook formatting reliably. For Google Sheets, the CSV export is the simpler and more reliable option.
-
-## How long are generated files stored?
-
-Generated files are stored temporarily. The default retention period is 30 days, unless configured differently for a client.
-
-## Are download links permanent?
-
-No. Download links are temporary signed links. They are currently valid for up to 4 hours.
-
-## Can someone else open a signed download link?
-
-Yes. Anyone who has a valid signed download link may open it until the link expires. Clients should share downloaded files and temporary links responsibly.
-
-## Does QOOBIX keep a permanent archive of reports?
-
-No. QOOBIX is export-first. Clients should download and keep the files they need.
-
-## What happens after the retention period expires?
-
-Files may be deleted during cleanup after the retention period expires. The client is responsible for keeping copies of any files they need.
+Yes. QOOBIX IDAAS is AI-assisted and operator-reviewed market intelligence. Outputs may contain incomplete, outdated or candidate information and must be verified before use.
 
 ## Does QOOBIX act as a CRM?
 
-No. QOOBIX is not a CRM, sales automation platform, outreach tool, or permanent lead database.
+No. QOOBIX IDAAS is not a CRM, sales automation platform, outreach automation tool or permanent lead database.
 
-## Does QOOBIX store generated intelligence permanently?
+## How long are generated files stored?
 
-QOOBIX is not intended to store generated intelligence permanently as a database archive. It stores operational records and temporary generated files.
+Generated files are stored temporarily according to the configured retention period. Clients should download and keep any output they need to preserve.
 
-## Can a client access another client’s area?
+## Are download links permanent?
 
-No. Client pages and API routes check session ownership. A client should only be able to access their own environment.
+No. Download links are temporary signed links. Anyone with a valid signed link may open it until it expires, so links should be handled responsibly.
 
-## Does QOOBIX use cookies?
+## What should clients do before acting on an output?
 
-Yes. QOOBIX uses essential cookies for private access, session security, and application operation.
-
-## Does QOOBIX use advertising cookies?
-
-No advertising or behavioural tracking cookies are used at launch.
-
-## Where can I read the legal documents?
-
-The legal documents are available from the footer. They include the Terms of Service, Privacy Policy, Cookie Policy, Refund Policy, Data Sources and Report Disclaimer, AI and Automated Analysis Notice, and Acceptable Use Policy.
-
-## Who operates QOOBIX?
-
-QOOBIX is operated by Sienda Ltd.
-
-## How is payment handled?
-
-Payment is handled outside the application, usually by quotation, invoice, and bank transfer.
-
-## Can QOOBIX guarantee commercial success?
-
-No. QOOBIX does not guarantee sales, distributor interest, partner availability, market access, regulatory suitability, or commercial success.
-
-## What should clients do before acting on a QOOBIX report?
-
-Clients should verify all important information, check sources, confirm potential partners or competitors, review regulatory and technical assumptions, and use professional judgement before taking action.
-
-## What is the best way to use QOOBIX?
-
-The best way to use QOOBIX is as a structured decision-support environment.
+Clients should verify named organisations, websites, competitors, market claims, source links, regulatory assumptions and commercial recommendations before taking action.
