@@ -12,30 +12,24 @@ type GooglePlace = {
     text?: string;
   };
   formattedAddress?: string;
+  primaryType?: string;
   types?: string[];
+  websiteUri?: string;
   googleMapsUri?: string;
+  rating?: number;
+  userRatingCount?: number;
+  businessStatus?: string;
+  nationalPhoneNumber?: string;
+  internationalPhoneNumber?: string;
 };
 
 type GoogleTextSearchResponse = {
   places?: GooglePlace[];
 };
 
-type CountryDiscoveryProfile = {
-  regionCode: string;
-  languageCode: string;
-  countryNames: string[];
-  countryRejectTerms: string[];
-  priorityCities: string[];
-  partnerQueries: string[];
-  competitorQueries: string[];
-  distributorQueries: string[];
-  prospectQueries: string[];
-  genericQueries: string[];
-};
-
 type DiscoveryQuery = {
   text: string;
-  city?: string;
+  geography: string;
   category: string;
 };
 
@@ -50,335 +44,130 @@ export type DiscoveryResult = {
   notes: string[];
 };
 
+const DEFAULT_EXCLUSION_TERMS = [
+  'consulting',
+  'consultancy',
+  'consultant',
+  'business management consultant',
+  'marketing agency',
+  'internet marketing service',
+  'market research',
+  'market researcher',
+  'business intelligence',
+  'software company',
+  'software',
+  'ai company',
+  'ai consultancy',
+  'training provider',
+  'training centre',
+  'general professional service',
+  'lead generation',
+  'digital transformation'
+];
+
 function cleanText(value: string | null | undefined) {
   return value && value.trim() ? value.trim() : '';
 }
 
-function splitCountries(value: string) {
-  return value
-    .split(/[\n,]/)
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function normalise(value: string) {
-  return value
+function normalise(value: string | null | undefined) {
+  return (value ?? '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '');
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function splitList(value: string | null | undefined) {
+  return (value ?? '')
+    .split(/[;\n,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function uniqueValues(values: string[]) {
   return Array.from(new Set(values.map((value) => value.trim()).filter(Boolean)));
 }
 
-function inferDiscoveryFamily(objective: string) {
-  const lower = objective.toLowerCase();
+function inferRegionCode(value: string) {
+  const normalised = normalise(value);
 
-  if (lower.includes('competitor')) return 'competitor';
-  if (lower.includes('distributor')) return 'distributor';
-  if (lower.includes('partner')) return 'partner';
-  if (lower.includes('lead') || lower.includes('prospect')) return 'prospect';
+  if (normalised.includes('spain') || normalised.includes('espana')) return 'ES';
+  if (normalised.includes('italy') || normalised.includes('italia')) return 'IT';
+  if (normalised.includes('united kingdom') || normalised.includes('uk')) return 'GB';
+  if (normalised.includes('france')) return 'FR';
+  if (normalised.includes('germany') || normalised.includes('deutschland')) return 'DE';
+  if (normalised.includes('portugal')) return 'PT';
 
-  return 'generic';
+  return '';
+}
+
+function inferLanguageCode(value: string, outputLanguage: string) {
+  const normalisedLanguage = normalise(outputLanguage);
+  const normalisedCountry = normalise(value);
+
+  if (normalisedLanguage.includes('spanish') || normalisedLanguage.includes('espanol')) return 'es';
+  if (normalisedLanguage.includes('italian') || normalisedLanguage.includes('italiano')) return 'it';
+  if (normalisedCountry.includes('spain') || normalisedCountry.includes('espana')) return 'es';
+  if (normalisedCountry.includes('italy') || normalisedCountry.includes('italia')) return 'it';
+
+  return 'en';
 }
 
 function inferCandidateType(objective: string) {
-  const family = inferDiscoveryFamily(objective);
+  const lower = objective.toLowerCase();
 
-  if (family === 'competitor') return 'competitor_or_substitute';
-  if (family === 'distributor') return 'potential_distributor';
-  if (family === 'partner') return 'potential_partner';
-  if (family === 'prospect') return 'potential_prospect';
+  if (lower.includes('competitor')) return 'competitor_or_substitute';
+  if (lower.includes('distributor')) return 'potential_distributor';
+  if (lower.includes('partner')) return 'potential_partner';
+  if (lower.includes('lead') || lower.includes('prospect')) return 'potential_prospect';
 
   return 'candidate_organisation';
 }
 
-function getCountryProfile(targetCountry: string): CountryDiscoveryProfile {
-  const country = normalise(targetCountry);
-
-  if (country.includes('italy') || country.includes('italia')) {
-    return {
-      regionCode: 'IT',
-      languageCode: 'it',
-      countryNames: ['Italy', 'Italia'],
-      countryRejectTerms: [
-        'United States',
-        'USA',
-        'Canada',
-        'Mexico',
-        'India',
-        'Australia',
-        'United Kingdom',
-        'España',
-        'Spain',
-        'France',
-        'Germany',
-        'Deutschland',
-        'Brazil',
-        'Brasil'
-      ],
-      priorityCities: ['Milano', 'Roma', 'Torino', 'Bologna', 'Padova', 'Verona', 'Firenze'],
-      partnerQueries: [
-        'consulenza export imprese',
-        'consulenza internazionalizzazione imprese',
-        'consulenza sviluppo commerciale B2B',
-        'consulenza business development',
-        'consulenza digital transformation PMI',
-        'consulenza innovazione imprese',
-        'agenzia lead generation B2B',
-        'società consulenza strategica PMI',
-        'associazione imprese internazionalizzazione',
-        'camera di commercio servizi internazionalizzazione'
-      ],
-      competitorQueries: [
-        'società ricerche di mercato B2B',
-        'società business intelligence',
-        'consulenza market intelligence',
-        'consulenza analisi di mercato',
-        'agenzia lead generation B2B',
-        'società consulenza commerciale',
-        'software business intelligence',
-        'società consulenza export',
-        'consulenza strategica imprese',
-        'data intelligence aziende'
-      ],
-      distributorQueries: [
-        'distributori B2B',
-        'grossisti settore',
-        'rappresentanti commerciali',
-        'agenzie rappresentanza commerciale',
-        'reti vendita B2B',
-        'importatori distributori',
-        'fornitori B2B',
-        'commercializzazione prodotti aziende'
-      ],
-      prospectQueries: [
-        'aziende B2B',
-        'imprese export',
-        'PMI innovative',
-        'aziende manifatturiere export',
-        'aziende servizi B2B',
-        'società consulenza imprese'
-      ],
-      genericQueries: [
-        'consulenza imprese',
-        'servizi sviluppo commerciale aziende',
-        'consulenza strategica aziende',
-        'business development consultant',
-        'market research company'
-      ]
-    };
-  }
-
-  if (country.includes('spain') || country.includes('espana') || country.includes('españa')) {
-    return {
-      regionCode: 'ES',
-      languageCode: 'es',
-      countryNames: ['Spain', 'España'],
-      countryRejectTerms: [
-        'United States',
-        'USA',
-        'Canada',
-        'Mexico',
-        'India',
-        'Australia',
-        'United Kingdom',
-        'Italy',
-        'Italia',
-        'France',
-        'Germany'
-      ],
-      priorityCities: ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Málaga', 'Zaragoza'],
-      partnerQueries: [
-        'consultoría exportación empresas',
-        'consultoría internacionalización empresas',
-        'consultoría desarrollo comercial B2B',
-        'consultoría transformación digital pymes',
-        'agencia generación leads B2B',
-        'consultoría innovación empresas',
-        'cámara de comercio internacionalización'
-      ],
-      competitorQueries: [
-        'empresa investigación de mercados B2B',
-        'consultoría inteligencia de mercado',
-        'empresa business intelligence',
-        'consultoría análisis de mercado',
-        'agencia generación leads B2B',
-        'consultoría comercial empresas'
-      ],
-      distributorQueries: [
-        'distribuidores B2B',
-        'mayoristas sector',
-        'representantes comerciales',
-        'agencias representación comercial',
-        'importadores distribuidores'
-      ],
-      prospectQueries: [
-        'empresas B2B',
-        'empresas exportadoras',
-        'pymes innovadoras',
-        'empresas industriales exportadoras'
-      ],
-      genericQueries: [
-        'consultoría empresas',
-        'servicios desarrollo comercial empresas',
-        'consultoría estratégica empresas',
-        'business development consultant',
-        'market research company'
-      ]
-    };
-  }
-
-  if (
-    country.includes('united kingdom') ||
-    country.includes('uk') ||
-    country.includes('england') ||
-    country.includes('britain')
-  ) {
-    return {
-      regionCode: 'GB',
-      languageCode: 'en',
-      countryNames: ['United Kingdom', 'UK', 'England', 'Great Britain'],
-      countryRejectTerms: [
-        'United States',
-        'USA',
-        'Canada',
-        'Mexico',
-        'India',
-        'Australia',
-        'Italy',
-        'Italia',
-        'Spain',
-        'España',
-        'France',
-        'Germany'
-      ],
-      priorityCities: ['London', 'Manchester', 'Birmingham', 'Leeds', 'Bristol', 'Glasgow', 'Edinburgh'],
-      partnerQueries: [
-        'export consultancy businesses',
-        'internationalisation consultancy',
-        'B2B business development consultancy',
-        'digital transformation consultancy SMEs',
-        'B2B lead generation agency',
-        'innovation consultancy businesses',
-        'chamber of commerce international trade services'
-      ],
-      competitorQueries: [
-        'B2B market research company',
-        'market intelligence consultancy',
-        'business intelligence company',
-        'market analysis consultancy',
-        'B2B lead generation agency',
-        'commercial strategy consultancy'
-      ],
-      distributorQueries: [
-        'B2B distributors',
-        'sector wholesalers',
-        'commercial agents',
-        'sales representative agencies',
-        'importers distributors'
-      ],
-      prospectQueries: [
-        'B2B companies',
-        'export businesses',
-        'innovative SMEs',
-        'industrial exporters'
-      ],
-      genericQueries: [
-        'business consultancy',
-        'commercial development services',
-        'strategic consultancy',
-        'business development consultant',
-        'market research company'
-      ]
-    };
-  }
-
-  return {
-    regionCode: '',
-    languageCode: 'en',
-    countryNames: [targetCountry],
-    countryRejectTerms: [],
-    priorityCities: [],
-    partnerQueries: [
-      'export consultancy businesses',
-      'internationalisation consultancy',
-      'B2B business development consultancy',
-      'digital transformation consultancy SMEs',
-      'B2B lead generation agency',
-      'innovation consultancy businesses'
-    ],
-    competitorQueries: [
-      'B2B market research company',
-      'market intelligence consultancy',
-      'business intelligence company',
-      'market analysis consultancy',
-      'B2B lead generation agency',
-      'commercial strategy consultancy'
-    ],
-    distributorQueries: [
-      'B2B distributors',
-      'sector wholesalers',
-      'commercial agents',
-      'sales representative agencies',
-      'importers distributors'
-    ],
-    prospectQueries: [
-      'B2B companies',
-      'export businesses',
-      'innovative SMEs',
-      'industrial exporters'
-    ],
-    genericQueries: [
-      'business consultancy',
-      'commercial development services',
-      'strategic consultancy',
-      'business development consultant',
-      'market research company'
-    ]
-  };
-}
-
-function getTemplateQueries(profile: CountryDiscoveryProfile, objective: string) {
-  const family = inferDiscoveryFamily(objective);
-
-  if (family === 'competitor') return profile.competitorQueries;
-  if (family === 'distributor') return profile.distributorQueries;
-  if (family === 'partner') return profile.partnerQueries;
-  if (family === 'prospect') return profile.prospectQueries;
-
-  return profile.genericQueries;
-}
-
-function buildDiscoverySearchQueries(input: {
-  client: ClientConfiguration;
-  request: IntelligenceRequest;
-}) {
-  const { request } = input;
-  const countries = splitCountries(request.targetCountries).slice(0, 1);
+function buildDiscoverySearchQueries(request: IntelligenceRequest) {
+  const countries = splitList(request.targetCountries);
   const targetCountry = countries[0] ?? request.targetCountries;
-  const profile = getCountryProfile(targetCountry);
-  const templates = getTemplateQueries(profile, request.commercialObjective);
+  const targetGeographies = splitList(request.targetGeography).length
+    ? splitList(request.targetGeography)
+    : countries.length
+      ? countries
+      : [request.targetCountries];
+  const includeCategories = splitList(request.includeCategories).length
+    ? splitList(request.includeCategories)
+    : [request.discoveryTarget || request.productOrService].filter(Boolean);
+  const excludeCategories = uniqueValues([...splitList(request.excludeCategories), ...DEFAULT_EXCLUSION_TERMS]);
+  const regionCode = inferRegionCode(`${request.targetCountries} ${request.targetGeography}`);
+  const languageCode = inferLanguageCode(request.targetCountries, request.preferredOutputLanguage);
 
   const queries: DiscoveryQuery[] = [];
-  const cities = profile.priorityCities.length ? profile.priorityCities : [''];
 
-  for (const template of templates) {
-    for (const city of cities) {
-      const location = city ? `${city} ${targetCountry}` : targetCountry;
+  for (const category of includeCategories) {
+    for (const geography of targetGeographies) {
+      const queryText = `${category} ${geography}`.trim();
+      const normalisedQuery = normalise(queryText);
+      const blocked = excludeCategories.some((term) => normalisedQuery.includes(normalise(term)));
+
+      if (blocked) {
+        continue;
+      }
 
       queries.push({
-        text: `${template} ${location}`,
-        city: city || undefined,
-        category: template
+        text: queryText,
+        geography,
+        category
       });
 
       if (queries.length >= env.GOOGLE_PLACES_MAX_TEXT_SEARCH_CALLS) {
         return {
           queries,
-          profile,
-          targetCountry
+          targetCountry,
+          regionCode,
+          languageCode,
+          includeCategories,
+          excludeCategories,
+          targetGeographies
         };
       }
     }
@@ -386,8 +175,12 @@ function buildDiscoverySearchQueries(input: {
 
   return {
     queries,
-    profile,
-    targetCountry
+    targetCountry,
+    regionCode,
+    languageCode,
+    includeCategories,
+    excludeCategories,
+    targetGeographies
   };
 }
 
@@ -407,18 +200,19 @@ async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs: nu
 
 async function runTextSearch(input: {
   query: DiscoveryQuery;
-  profile: CountryDiscoveryProfile;
+  regionCode: string;
+  languageCode: string;
 }): Promise<GooglePlace[]> {
   const apiKey = requireServerEnv('GOOGLE_PLACES_API_KEY');
 
   const body: Record<string, unknown> = {
     textQuery: input.query.text,
     maxResultCount: 20,
-    languageCode: input.profile.languageCode
+    languageCode: input.languageCode
   };
 
-  if (input.profile.regionCode) {
-    body.regionCode = input.profile.regionCode;
+  if (input.regionCode) {
+    body.regionCode = input.regionCode;
   }
 
   const response = await fetchWithTimeout(
@@ -429,7 +223,7 @@ async function runTextSearch(input: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask':
-          'places.id,places.displayName,places.formattedAddress,places.types,places.googleMapsUri'
+          'places.id,places.displayName,places.formattedAddress,places.primaryType,places.types,places.websiteUri,places.googleMapsUri,places.rating,places.userRatingCount,places.businessStatus,places.nationalPhoneNumber,places.internationalPhoneNumber'
       },
       body: JSON.stringify(body)
     },
@@ -446,117 +240,190 @@ async function runTextSearch(input: {
   return payload.places ?? [];
 }
 
-function hasRejectGeography(input: {
-  address: string;
-  profile: CountryDiscoveryProfile;
-}) {
-  const address = normalise(input.address);
+function candidateText(place: GooglePlace, query: DiscoveryQuery) {
+  return normalise(
+    [
+      place.displayName?.text,
+      place.primaryType,
+      ...(place.types ?? []),
+      place.formattedAddress,
+      query.category,
+      query.text
+    ]
+      .filter(Boolean)
+      .join(' ')
+  );
+}
 
-  return input.profile.countryRejectTerms.some((term) => address.includes(normalise(term)));
+function hasTerm(haystack: string, terms: string[]) {
+  return terms.some((term) => {
+    const normalisedTerm = normalise(term);
+
+    return normalisedTerm.length >= 3 && haystack.includes(normalisedTerm);
+  });
 }
 
 function hasAcceptableGeography(input: {
   address: string;
-  query: DiscoveryQuery;
-  profile: CountryDiscoveryProfile;
+  targetCountry: string;
+  targetGeographies: string[];
 }) {
   const address = normalise(input.address);
 
-  if (!address) {
-    return false;
-  }
+  if (!address) return false;
 
-  const hasCountry = input.profile.countryNames.some((term) => address.includes(normalise(term)));
-  const hasQueryCity = input.query.city ? address.includes(normalise(input.query.city)) : false;
+  const countryMatch = normalise(input.targetCountry)
+    ? address.includes(normalise(input.targetCountry))
+    : false;
+  const geographyMatch = input.targetGeographies.some((geo) => address.includes(normalise(geo)));
 
-  return hasCountry || hasQueryCity;
+  return countryMatch || geographyMatch;
 }
 
-function scorePlace(input: {
+function validatePlace(input: {
   place: GooglePlace;
   query: DiscoveryQuery;
-  profile: CountryDiscoveryProfile;
+  request: IntelligenceRequest;
+  targetCountry: string;
+  includeCategories: string[];
+  excludeCategories: string[];
+  targetGeographies: string[];
 }) {
+  const text = candidateText(input.place, input.query);
   const name = cleanText(input.place.displayName?.text);
   const address = cleanText(input.place.formattedAddress);
-  const mapsLink = cleanText(input.place.googleMapsUri);
   const types = input.place.types ?? [];
+  const primaryType = input.place.primaryType ?? '';
+  const mapsLink = cleanText(input.place.googleMapsUri);
+  const website = cleanText(input.place.websiteUri);
 
   if (!name) {
-    return -100;
+    return {
+      accepted: false,
+      score: 0,
+      reason: 'Rejected: candidate name missing.',
+      matchedExclusion: 'missing name'
+    };
   }
 
-  if (address && hasRejectGeography({ address, profile: input.profile })) {
-    return -50;
+  const defaultExclusionHit = hasTerm(text, DEFAULT_EXCLUSION_TERMS);
+  const explicitExclusionHit = hasTerm(text, input.excludeCategories);
+
+  if (defaultExclusionHit || explicitExclusionHit) {
+    const matched = [...input.excludeCategories, ...DEFAULT_EXCLUSION_TERMS].find((term) =>
+      text.includes(normalise(term))
+    );
+
+    return {
+      accepted: false,
+      score: 0,
+      reason: `Rejected: matches excluded category${matched ? ` (${matched})` : ''}.`,
+      matchedExclusion: matched ?? 'excluded category'
+    };
   }
 
   let score = 0;
+  const includeMatch = hasTerm(text, input.includeCategories);
+  const targetMatch = hasTerm(text, [input.request.discoveryTarget, input.request.productOrService]);
+  const geoMatch = hasAcceptableGeography({
+    address,
+    targetCountry: input.targetCountry,
+    targetGeographies: input.targetGeographies
+  });
+  const foodPlaceBoost = ['restaurant', 'food', 'meal_takeaway', 'cafe', 'bar'].some((type) =>
+    normalise(`${primaryType} ${types.join(' ')}`).includes(type)
+  );
 
-  if (hasAcceptableGeography({ address, query: input.query, profile: input.profile })) {
-    score += 45;
+  if (includeMatch) score += 45;
+  if (targetMatch) score += 20;
+  if (geoMatch) score += 20;
+  if (foodPlaceBoost) score += 10;
+  if (website) score += 3;
+  if (mapsLink) score += 2;
+
+  if (!includeMatch && !targetMatch) {
+    return {
+      accepted: false,
+      score,
+      reason: 'Rejected: candidate does not match Discovery target or include categories.',
+      matchedExclusion: 'no include-category match'
+    };
   }
 
-  if (mapsLink) {
-    score += 12;
+  if (!geoMatch) {
+    return {
+      accepted: false,
+      score,
+      reason: 'Rejected: candidate does not match target geography.',
+      matchedExclusion: 'geography mismatch'
+    };
   }
 
-  const normalisedTypes = types.map(normalise).join(' ');
-  const normalisedQuery = normalise(input.query.category);
-
-  if (
-    normalisedTypes.includes('consult') ||
-    normalisedTypes.includes('point_of_interest') ||
-    normalisedTypes.includes('establishment')
-  ) {
-    score += 5;
+  if (score < 55) {
+    return {
+      accepted: false,
+      score,
+      reason: `Rejected: relevance score ${score} below threshold.`,
+      matchedExclusion: 'low relevance score'
+    };
   }
 
-  if (
-    normalisedQuery.includes('consulenza') ||
-    normalisedQuery.includes('consult') ||
-    normalisedQuery.includes('ricerche') ||
-    normalisedQuery.includes('market') ||
-    normalisedQuery.includes('business') ||
-    normalisedQuery.includes('lead generation')
-  ) {
-    score += 6;
-  }
-
-  return score;
+  return {
+    accepted: true,
+    score,
+    reason: `Accepted: matches Discovery target/include categories and target geography. Source query: ${input.query.text}.`,
+    matchedExclusion: null
+  };
 }
 
 function placeToCandidate(input: {
   place: GooglePlace;
   query: DiscoveryQuery;
-  profile: CountryDiscoveryProfile;
   request: IntelligenceRequest;
   score: number;
+  relevanceReason: string;
 }): ScoredCandidate | null {
-  const { place, query, request, score } = input;
+  const { place, query, request, score, relevanceReason } = input;
   const name = cleanText(place.displayName?.text);
+  const website = cleanText(place.websiteUri);
   const mapsLink = cleanText(place.googleMapsUri);
+  const businessCategories = place.types ?? [];
+  const categoryLabel = cleanText(place.primaryType) || businessCategories[0] || query.category;
 
   if (!name) {
     return null;
   }
 
-  const candidateType = inferCandidateType(request.commercialObjective);
-  const businessCategories = place.types ?? [];
-
   return {
+    candidateId: place.id || crypto.randomUUID(),
     name,
-    website: null,
+    website: website || null,
+    websiteAbsenceReason: website ? null : 'not returned by source',
     verificationUrl: mapsLink || null,
     formattedAddress: cleanText(place.formattedAddress) || null,
+    locality: query.geography || null,
+    region: cleanText(request.targetGeography) || null,
     countryOrRegion: cleanText(request.targetCountries) || null,
     placeId: cleanText(place.id) || null,
+    primaryType: cleanText(place.primaryType) || null,
     businessCategories,
-    candidateType,
+    categoryLabel,
+    candidateType: inferCandidateType(request.commercialObjective),
     source: 'google_places',
-    relevanceReason: `Identified by Google Places using the localised query: "${query.text}". Candidate score: ${score}.`,
+    sourceQuery: query.text,
+    rating: typeof place.rating === 'number' ? place.rating : null,
+    reviewCount: typeof place.userRatingCount === 'number' ? place.userRatingCount : null,
+    businessStatus: cleanText(place.businessStatus) || null,
+    phone: cleanText(place.nationalPhoneNumber || place.internationalPhoneNumber) || null,
+    relevanceStatus: 'accepted',
+    relevanceScore: score,
+    relevanceReason,
     suggestedAction:
-      'Check location, service scope, buyer fit, decision-maker route, and suitability before outreach.',
-    confidence: score >= 70 ? 'medium' : 'requires_verification',
+      'Verify website, location, offer, category fit, active status, customer segment and commercial relevance before outreach or decision-making.',
+    requiresManualReview: false,
+    rejectionReason: null,
+    exportStatus: 'included',
+    confidence: score >= 80 ? 'medium' : 'requires_verification',
     verificationStatus: 'candidate',
     score
   };
@@ -592,7 +459,7 @@ export async function runDiscovery(input: {
   client: ClientConfiguration;
   request: IntelligenceRequest;
 }): Promise<DiscoveryResult> {
-  const { client, request } = input;
+  const { request } = input;
 
   if (request.intelligenceMode !== 'discovery') {
     return {
@@ -608,50 +475,77 @@ export async function runDiscovery(input: {
     };
   }
 
-  const { queries, profile, targetCountry } = buildDiscoverySearchQueries({
-    client,
-    request
-  });
+  const {
+    queries,
+    targetCountry,
+    regionCode,
+    languageCode,
+    includeCategories,
+    excludeCategories,
+    targetGeographies
+  } = buildDiscoverySearchQueries(request);
+
+  if (!queries.length) {
+    throw new Error(
+      'Discovery cannot run because the query builder produced no safe queries. Check Discovery target, include categories, exclude categories and target geography.'
+    );
+  }
 
   const allCandidates: ScoredCandidate[] = [];
   const rejectedCandidates: string[] = [];
-  const notes: string[] = [];
+  const notes: string[] = [
+    'Discovery query builder used the analysed business/job scope only. Operator sector, website and services were not used.',
+    `Discovery target: ${request.discoveryTarget}`,
+    `Include categories: ${includeCategories.join('; ')}`,
+    `Exclude categories: ${excludeCategories.join('; ')}`,
+    `Target geography: ${targetGeographies.join('; ')}`
+  ];
 
   let textSearchCallsUsed = 0;
   let placesReturned = 0;
+  let emptyWebsiteCount = 0;
 
   for (const query of queries) {
     try {
       const places = await runTextSearch({
         query,
-        profile
+        regionCode,
+        languageCode
       });
 
       textSearchCallsUsed += 1;
       placesReturned += places.length;
 
       for (const place of places) {
-        const score = scorePlace({
+        const validation = validatePlace({
           place,
           query,
-          profile
+          request,
+          targetCountry,
+          includeCategories,
+          excludeCategories,
+          targetGeographies
         });
 
         const name = cleanText(place.displayName?.text) || 'Unnamed place';
 
-        if (score < 45) {
+        if (!validation.accepted) {
           rejectedCandidates.push(
-            `${name} rejected. Score: ${score}. Address: ${place.formattedAddress ?? 'No address'}`
+            `${name} rejected. ${validation.reason} Source category: ${place.primaryType ?? (place.types ?? []).join(', ') || 'Not supplied'}. Query: ${query.text}.`
           );
           continue;
+        }
+
+        if (!cleanText(place.websiteUri)) {
+          emptyWebsiteCount += 1;
         }
 
         const candidate = placeToCandidate({
           place,
           query,
-          profile,
           request,
-          score
+          score: validation.score,
+          relevanceReason: validation.reason
         });
 
         if (candidate) {
@@ -668,14 +562,28 @@ export async function runDiscovery(input: {
     .slice(0, 120)
     .map(removeScore);
 
-  if (!candidates.length) {
+  const rejectedRatio = placesReturned ? rejectedCandidates.length / placesReturned : 0;
+
+  if (candidates.length < 5) {
+    throw new Error(
+      'Discovery did not return enough relevant candidates matching the defined scope. The job requires revised search terms, a wider geographic radius, manual verification, or adjusted category filters.'
+    );
+  }
+
+  if (rejectedRatio > 0.3) {
     notes.push(
-      `Discovery did not produce reliable named candidate organisations for ${targetCountry}. The rejected results were mostly outside the target geography, too generic, or too weakly matched.`
+      'Discovery Scope Warning: more than 30% of discovered candidates were rejected because they did not match the Discovery target. Review Discovery target, include categories, exclude categories and target geography before client delivery.'
+    );
+  }
+
+  if (candidates.length && emptyWebsiteCount === candidates.length) {
+    notes.push(
+      'Website mapping warning: no candidate websites were captured. Check whether website fields were requested, mapped and exported correctly.'
     );
   }
 
   notes.push(
-    `Google Places returned ${placesReturned} raw result(s). ${rejectedCandidates.length} result(s) were rejected before Proteus because they failed the geography/relevance quality gate.`
+    `Google Places returned ${placesReturned} raw result(s). ${rejectedCandidates.length} result(s) were rejected before Proteus because they failed category, geography, exclusion or relevance gates.`
   );
 
   notes.push(
@@ -683,7 +591,7 @@ export async function runDiscovery(input: {
   );
 
   if (rejectedCandidates.length) {
-    notes.push(`Rejected candidate sample: ${rejectedCandidates.slice(0, 8).join(' | ')}`);
+    notes.push(`Rejected candidate sample: ${rejectedCandidates.slice(0, 12).join(' | ')}`);
   }
 
   return {
