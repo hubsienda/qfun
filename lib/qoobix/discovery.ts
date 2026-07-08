@@ -44,7 +44,7 @@ export type DiscoveryResult = {
   notes: string[];
 };
 
-const DEFAULT_EXCLUSION_TERMS = [
+const CONTAMINATION_WARNING_TERMS = [
   'consulting',
   'consultancy',
   'consultant',
@@ -64,6 +64,31 @@ const DEFAULT_EXCLUSION_TERMS = [
   'lead generation',
   'digital transformation'
 ];
+
+const GENERIC_MATCH_TOKENS = new Set([
+  'and',
+  'or',
+  'the',
+  'a',
+  'an',
+  'in',
+  'of',
+  'for',
+  'with',
+  'local',
+  'named',
+  'candidate',
+  'candidates',
+  'organisation',
+  'organisations',
+  'business',
+  'businesses',
+  'company',
+  'companies',
+  'service',
+  'services',
+  'relevant'
+]);
 
 function cleanText(value: string | null | undefined) {
   return value && value.trim() ? value.trim() : '';
@@ -137,19 +162,29 @@ function buildDiscoverySearchQueries(request: IntelligenceRequest) {
   const includeCategories = splitList(request.includeCategories).length
     ? splitList(request.includeCategories)
     : [request.discoveryTarget || request.productOrService].filter(Boolean);
-  const excludeCategories = uniqueValues([...splitList(request.excludeCategories), ...DEFAULT_EXCLUSION_TERMS]);
+  const excludeCategories = uniqueValues(splitList(request.excludeCategories));
   const regionCode = inferRegionCode(`${request.targetCountries} ${request.targetGeography}`);
   const languageCode = inferLanguageCode(request.targetCountries, request.preferredOutputLanguage);
 
   const queries: DiscoveryQuery[] = [];
+  const contaminationWarnings: string[] = [];
 
   for (const category of includeCategories) {
     for (const geography of targetGeographies) {
       const queryText = `${category} ${geography}`.trim();
       const normalisedQuery = normalise(queryText);
-      const blocked = excludeCategories.some((term) => normalisedQuery.includes(normalise(term)));
+      const explicitlyBlocked = excludeCategories.some((term) =>
+        normalisedQuery.includes(normalise(term))
+      );
+      const warningTerm = CONTAMINATION_WARNING_TERMS.find((term) =>
+        normalisedQuery.includes(normalise(term))
+      );
 
-      if (blocked) {
+      if (warningTerm) {
+        contaminationWarnings.push(`Query contains warning term "${warningTerm}": ${queryText}`);
+      }
+
+      if (explicitlyBlocked) {
         continue;
       }
 
@@ -167,7 +202,8 @@ function buildDiscoverySearchQueries(request: IntelligenceRequest) {
           languageCode,
           includeCategories,
           excludeCategories,
-          targetGeographies
+          targetGeographies,
+          contaminationWarnings
         };
       }
     }
@@ -180,7 +216,8 @@ function buildDiscoverySearchQueries(request: IntelligenceRequest) {
     languageCode,
     includeCategories,
     excludeCategories,
-    targetGeographies
+    targetGeographies,
+    contaminationWarnings
   };
 }
 
@@ -255,11 +292,38 @@ function candidateText(place: GooglePlace, query: DiscoveryQuery) {
   );
 }
 
+function meaningfulTokens(term: string) {
+  return normalise(term)
+    .split(' ')
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 3 && !GENERIC_MATCH_TOKENS.has(token));
+}
+
+function singularVariants(value: string) {
+  const normalised = normalise(value);
+  const variants = new Set([normalised]);
+
+  if (normalised.endsWith('ies')) variants.add(`${normalised.slice(0, -3)}y`);
+  if (normalised.endsWith('s')) variants.add(normalised.slice(0, -1));
+
+  return Array.from(variants).filter((variant) => variant.length >= 3);
+}
+
 function hasTerm(haystack: string, terms: string[]) {
   return terms.some((term) => {
     const normalisedTerm = normalise(term);
 
-    return normalisedTerm.length >= 3 && haystack.includes(normalisedTerm);
+    if (normalisedTerm.length < 3) return false;
+
+    if (singularVariants(normalisedTerm).some((variant) => haystack.includes(variant))) {
+      return true;
+    }
+
+    const tokens = meaningfulTokens(term);
+
+    if (!tokens.length) return false;
+
+    return tokens.every((token) => singularVariants(token).some((variant) => haystack.includes(variant)));
   });
 }
 
@@ -306,13 +370,10 @@ function validatePlace(input: {
     };
   }
 
-  const defaultExclusionHit = hasTerm(text, DEFAULT_EXCLUSION_TERMS);
   const explicitExclusionHit = hasTerm(text, input.excludeCategories);
 
-  if (defaultExclusionHit || explicitExclusionHit) {
-    const matched = [...input.excludeCategories, ...DEFAULT_EXCLUSION_TERMS].find((term) =>
-      text.includes(normalise(term))
-    );
+  if (explicitExclusionHit) {
+    const matched = input.excludeCategories.find((term) => hasTerm(text, [term]));
 
     return {
       accepted: false,
@@ -482,7 +543,8 @@ export async function runDiscovery(input: {
     languageCode,
     includeCategories,
     excludeCategories,
-    targetGeographies
+    targetGeographies,
+    contaminationWarnings
   } = buildDiscoverySearchQueries(request);
 
   if (!queries.length) {
@@ -498,7 +560,8 @@ export async function runDiscovery(input: {
     `Discovery target: ${request.discoveryTarget}`,
     `Include categories: ${includeCategories.join('; ')}`,
     `Exclude categories: ${excludeCategories.join('; ')}`,
-    `Target geography: ${targetGeographies.join('; ')}`
+    `Target geography: ${targetGeographies.join('; ')}`,
+    ...contaminationWarnings.map((warning) => `Pre-flight Discovery warning: ${warning}`)
   ];
 
   let textSearchCallsUsed = 0;
