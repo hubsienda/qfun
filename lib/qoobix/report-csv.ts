@@ -11,17 +11,26 @@ type CreateCsvExportInput = {
 };
 
 type CsvRow = {
-  section: string;
   rank: string;
-  name: string;
-  type: string;
+  section: string;
+  candidateName: string;
+  typeCategory: string;
+  townLocality: string;
   region: string;
-  status: string;
+  country: string;
   website: string;
   verificationUrl: string;
-  detail: string;
-  suggestedAction: string;
+  placeId: string;
+  rating: string;
+  reviewCount: string;
+  businessStatus: string;
+  relevanceStatus: string;
+  relevanceScore: string;
+  relevanceReason: string;
+  suggestedVerificationAction: string;
   notes: string;
+  sourceQuery: string;
+  source: string;
 };
 
 function clean(value: string | null | undefined) {
@@ -42,34 +51,52 @@ function csvEscape(value: string) {
 
 function toCsv(rows: CsvRow[]) {
   const headers = [
-    'Section',
     'Rank',
-    'Name',
-    'Type',
+    'Section',
+    'Candidate name',
+    'Type/category',
+    'Town/locality',
     'Region',
-    'Status',
+    'Country',
     'Website',
     'Verification URL',
-    'Detail',
-    'Suggested action',
-    'Notes'
+    'Place ID',
+    'Rating',
+    'Review count',
+    'Business status',
+    'Relevance status',
+    'Relevance score',
+    'Relevance reason',
+    'Suggested verification action',
+    'Notes',
+    'Source query',
+    'Source'
   ];
 
   const lines = [
     headers.map(csvEscape).join(','),
     ...rows.map((row) =>
       [
-        row.section,
         row.rank,
-        row.name,
-        row.type,
+        row.section,
+        row.candidateName,
+        row.typeCategory,
+        row.townLocality,
         row.region,
-        row.status,
+        row.country,
         row.website,
         row.verificationUrl,
-        row.detail,
-        row.suggestedAction,
-        row.notes
+        row.placeId,
+        row.rating,
+        row.reviewCount,
+        row.businessStatus,
+        row.relevanceStatus,
+        row.relevanceScore,
+        row.relevanceReason,
+        row.suggestedVerificationAction,
+        row.notes,
+        row.sourceQuery,
+        row.source
       ]
         .map((value) => csvEscape(clean(value)))
         .join(',')
@@ -79,138 +106,57 @@ function toCsv(rows: CsvRow[]) {
   return `\uFEFF${lines.join('\n')}`;
 }
 
-function textRows(section: string, items: string[]): CsvRow[] {
-  return items.map((item, index) => ({
-    section,
-    rank: String(index + 1),
-    name: '',
-    type: '',
-    region: '',
-    status: '',
-    website: '',
-    verificationUrl: '',
-    detail: item,
-    suggestedAction: 'Check before use.',
-    notes: ''
-  }));
-}
-
 export function createCsvExport(input: CreateCsvExportInput): Buffer {
-  const { client, request, intelligence } = input;
+  const { intelligence } = input;
 
-  const rows: CsvRow[] = [
-    {
-      section: 'Request summary',
-      rank: '',
-      name: client.name,
-      type: client.sector,
-      region: request.targetCountries,
-      status: '',
-      website: client.website ?? '',
-      verificationUrl: '',
-      detail: request.marketQuestion,
-      suggestedAction: request.commercialObjective,
-      notes: `Product/service: ${request.productOrService}`
-    },
-    {
-      section: 'Decision brief',
-      rank: '',
-      name: '',
-      type: '',
-      region: '',
-      status: '',
-      website: '',
-      verificationUrl: '',
-      detail: intelligence.executiveSummary,
-      suggestedAction: 'Review and check before commercial use.',
-      notes: ''
-    },
-    {
-      section: 'Client/product context',
-      rank: '',
-      name: '',
-      type: '',
-      region: '',
-      status: '',
-      website: '',
-      verificationUrl: '',
-      detail: intelligence.clientProductContext,
-      suggestedAction: 'Check against the client business profile.',
-      notes: ''
-    },
-    {
-      section: 'Target market overview',
-      rank: '',
-      name: '',
-      type: '',
-      region: '',
-      status: '',
-      website: '',
-      verificationUrl: '',
-      detail: intelligence.targetMarketOverview,
-      suggestedAction: 'Check with market evidence.',
-      notes: ''
-    },
-    ...textRows('Demand signal', intelligence.demandSignals),
-    ...textRows('Channel opportunity', intelligence.channelOpportunities),
-    ...intelligence.potentialPartnersProspects.map((item, index) => ({
-      section: 'Potential partner/prospect',
-      rank: String(index + 1),
-      name: item.name,
-      type: item.category,
-      region: item.countryOrRegion,
-      status: item.status || 'Candidate for verification',
-      website: item.website || '',
-      verificationUrl: item.verificationUrl || '',
-      detail: item.relevance,
-      suggestedAction: item.suggestedAction,
-      notes: item.notes
-    })),
-    ...intelligence.competitorRows.map((item, index) => ({
-      section: 'Competitor/alternative',
-      rank: String(index + 1),
-      name: item.name,
-      type: item.type,
-      region: item.countryOrRegion,
-      status: item.status || 'Candidate for verification',
-      website: item.website || '',
-      verificationUrl: item.verificationUrl || '',
-      detail: item.relevance,
-      suggestedAction: 'Check positioning, offer, geography, and relevance.',
-      notes: item.notes
-    })),
-    ...textRows('Competitor/substitute note', intelligence.competitorsAlternatives),
-    ...textRows('Regional priority', intelligence.regionalPriorities),
-    ...textRows('Positioning recommendation', intelligence.positioningRecommendations),
-    ...textRows('Commercial risk/caveat', intelligence.commercialRisks),
-    ...intelligence.actionPriorities.map((item, index) => ({
-      section: 'Action priority',
-      rank: String(index + 1),
-      name: '',
-      type: '',
-      region: '',
-      status: '',
-      website: '',
-      verificationUrl: '',
-      detail: item,
-      suggestedAction: 'Assign owner, deadline, and verification step.',
-      notes: ''
-    })),
-    ...intelligence.sourceNotesLimitations.map((item, index) => ({
-      section: 'Verification/source limitation',
-      rank: String(index + 1),
-      name: '',
-      type: '',
-      region: '',
-      status: '',
-      website: '',
-      verificationUrl: '',
-      detail: item,
-      suggestedAction:
-        'Check primary sources, official directories, trade bodies, buyer feedback, distributor confirmation, or direct outreach.',
-      notes: ''
-    }))
-  ];
+  const partnerRows: CsvRow[] = intelligence.potentialPartnersProspects.map((item, index) => ({
+    rank: String(index + 1),
+    section: 'Candidate organisation',
+    candidateName: item.name,
+    typeCategory: item.category,
+    townLocality: item.locality,
+    region: item.region,
+    country: item.countryOrRegion,
+    website: item.website,
+    verificationUrl: item.verificationUrl,
+    placeId: item.placeId,
+    rating: item.rating,
+    reviewCount: item.reviewCount,
+    businessStatus: item.businessStatus,
+    relevanceStatus: item.status || 'Candidate organisation for verification',
+    relevanceScore: '',
+    relevanceReason: item.relevance,
+    suggestedVerificationAction: item.suggestedAction,
+    notes: item.notes,
+    sourceQuery: item.sourceQuery,
+    source: item.source
+  }));
+
+  const competitorRows: CsvRow[] = intelligence.competitorRows.map((item, index) => ({
+    rank: String(partnerRows.length + index + 1),
+    section: 'Competitor / alternative candidate',
+    candidateName: item.name,
+    typeCategory: item.type,
+    townLocality: item.locality,
+    region: item.region,
+    country: item.countryOrRegion,
+    website: item.website,
+    verificationUrl: item.verificationUrl,
+    placeId: item.placeId,
+    rating: item.rating,
+    reviewCount: item.reviewCount,
+    businessStatus: item.businessStatus,
+    relevanceStatus: item.status || 'Candidate organisation for verification',
+    relevanceScore: '',
+    relevanceReason: item.relevance,
+    suggestedVerificationAction:
+      'Check relevance, positioning, geography, offer, website and whether this is a direct competitor, substitute or local alternative.',
+    notes: item.notes,
+    sourceQuery: item.sourceQuery,
+    source: item.source
+  }));
+
+  const rows = [...partnerRows, ...competitorRows];
 
   return Buffer.from(toCsv(rows), 'utf8');
 }
