@@ -56,8 +56,13 @@ create table if not exists public.reports (
   storage_path text,
   expires_at timestamptz,
   constraint reports_file_type_check check (
-    file_type in ('docx', 'xlsx', 'csv')
+    file_type in ('docx', 'xlsx', 'csv', 'rtf', 'md')
   )
+);
+
+alter table public.reports drop constraint if exists reports_file_type_check;
+alter table public.reports add constraint reports_file_type_check check (
+  file_type in ('docx', 'xlsx', 'csv', 'rtf', 'md')
 );
 
 create table if not exists public.job_logs (
