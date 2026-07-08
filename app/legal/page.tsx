@@ -17,52 +17,52 @@ type LegalLocale = ClientLocale;
 const legalUi = {
   en: {
     metadataTitle: 'Legal',
-    clientAccess: 'Client access',
+    secureAccess: 'Secure Access',
     backToClientArea: 'Back to client area',
     kicker: 'Legal and data notices',
-    title: 'QOOBIX legal documents.',
+    title: 'QOOBIX IDAAS legal documents.',
     intro:
-      'These documents explain the terms, privacy, cookies, AI-assisted analysis, report limitations, acceptable use, and refund position for QOOBIX.',
+      'These documents explain the terms, privacy, cookies, AI-assisted analysis, report limitations, acceptable use, and refund position for QOOBIX IDAAS.',
     languageNoticeTitle: 'English version controls.',
     languageNotice:
-      'The QOOBIX legal documents are written and maintained in English. The English version is the controlling version. Any translation, browser translation, simplified explanation, or localised wording is provided for convenience only and does not replace, modify, or override the English legal text.',
+      'The QOOBIX IDAAS legal documents are written and maintained in English. The English version is the controlling version. Any translation, browser translation, simplified explanation, or localised wording is provided for convenience only and does not replace, modify, or override the English legal text.',
     translateNotice:
       'Need this in another language? You may use your browser’s built-in translation function. Browser translations are automatic convenience translations and are not legally binding.',
-    cardTextPrefix: 'Read the current QOOBIX',
+    cardTextPrefix: 'Read the current QOOBIX IDAAS',
     readDocument: 'Read document',
     languageLinks: 'Language'
   },
   es: {
     metadataTitle: 'Legal',
-    clientAccess: 'Acceso de cliente',
+    secureAccess: 'Acceso seguro',
     backToClientArea: 'Volver al área de cliente',
     kicker: 'Avisos legales y de datos',
-    title: 'Documentos legales de QOOBIX.',
+    title: 'Documentos legales de QOOBIX IDAAS.',
     intro:
-      'Estos documentos explican los términos, privacidad, cookies, análisis asistido por IA, limitaciones de informes, uso aceptable y política de reembolsos de QOOBIX.',
+      'Estos documentos explican los términos, privacidad, cookies, análisis asistido por IA, limitaciones de informes, uso aceptable y política de reembolsos de QOOBIX IDAAS.',
     languageNoticeTitle: 'Prevalece la versión inglesa.',
     languageNotice:
-      'Los documentos legales de QOOBIX están redactados y mantenidos en inglés. La versión inglesa es la versión vinculante. Cualquier traducción, traducción del navegador, explicación simplificada o texto localizado se proporciona solo por comodidad y no sustituye, modifica ni prevalece sobre el texto legal inglés.',
+      'Los documentos legales de QOOBIX IDAAS están redactados y mantenidos en inglés. La versión inglesa es la versión vinculante. Cualquier traducción, traducción del navegador, explicación simplificada o texto localizado se proporciona solo por comodidad y no sustituye, modifica ni prevalece sobre el texto legal inglés.',
     translateNotice:
       '¿Necesita leer esta página en otro idioma? Puede utilizar la función de traducción integrada en su navegador. Las traducciones del navegador son traducciones automáticas de conveniencia y no son legalmente vinculantes.',
-    cardTextPrefix: 'Lea el documento actual de QOOBIX:',
+    cardTextPrefix: 'Lea el documento actual de QOOBIX IDAAS:',
     readDocument: 'Leer documento',
     languageLinks: 'Idioma'
   },
   it: {
     metadataTitle: 'Legale',
-    clientAccess: 'Accesso cliente',
+    secureAccess: 'Accesso sicuro',
     backToClientArea: 'Torna all’area cliente',
     kicker: 'Avvisi legali e sui dati',
-    title: 'Documenti legali QOOBIX.',
+    title: 'Documenti legali QOOBIX IDAAS.',
     intro:
-      'Questi documenti spiegano termini, privacy, cookie, analisi assistita da IA, limiti dei report, uso accettabile e posizione sui rimborsi per QOOBIX.',
+      'Questi documenti spiegano termini, privacy, cookie, analisi assistita da IA, limiti dei report, uso accettabile e posizione sui rimborsi per QOOBIX IDAAS.',
     languageNoticeTitle: 'Prevale la versione inglese.',
     languageNotice:
-      'I documenti legali QOOBIX sono redatti e mantenuti in inglese. La versione inglese è la versione vincolante. Qualsiasi traduzione, traduzione del browser, spiegazione semplificata o testo localizzato viene fornito solo per comodità e non sostituisce, modifica o prevale sul testo legale inglese.',
+      'I documenti legali QOOBIX IDAAS sono redatti e mantenuti in inglese. La versione inglese è la versione vincolante. Qualsiasi traduzione, traduzione del browser, spiegazione semplificata o testo localizzato viene fornito solo per comodità e non sostituisce, modifica o prevale sul testo legale inglese.',
     translateNotice:
       'Hai bisogno di leggere questa pagina in un’altra lingua? Puoi usare la funzione di traduzione integrata nel browser. Le traduzioni del browser sono traduzioni automatiche di cortesia e non sono legalmente vincolanti.',
-    cardTextPrefix: 'Leggi il documento QOOBIX attuale:',
+    cardTextPrefix: 'Leggi il documento QOOBIX IDAAS attuale:',
     readDocument: 'Leggi documento',
     languageLinks: 'Lingua'
   }
@@ -72,7 +72,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Legal',
-  description: 'Legal documents, policies, notices, and disclaimers for QOOBIX.'
+  description: 'Legal documents, policies, notices, and disclaimers for QOOBIX IDAAS.'
 };
 
 function normaliseLang(value?: string): LegalLocale | null {
@@ -127,7 +127,7 @@ export default async function LegalIndexPage({ searchParams }: LegalIndexPagePro
             href="/access"
             className="qoobix-focus-ring inline-flex items-center justify-center rounded-md border border-[var(--qoobix-border)] bg-white/70 px-4 py-2 text-sm font-semibold"
           >
-            {t.clientAccess}
+            {t.secureAccess}
           </Link>
         )}
 
