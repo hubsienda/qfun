@@ -11,6 +11,15 @@ export type AccessDictionary = {
     badge: string;
     title: string;
     intro: string;
+    authorisedTitle: string;
+    authorisedText: string;
+    clientsTitle: string;
+    clientsText: string;
+    requestTitle: string;
+    requestText: string;
+    requestButton: string;
+    loginButton: string;
+    loginTitle: string;
   };
   accessForm: {
     accessCode: string;
@@ -53,15 +62,27 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
       italian: 'Italiano'
     },
     accessPage: {
-      metadataTitle: 'Private Access',
-      badge: 'Private access',
-      title: 'Enter your QOOBIX access code.',
+      metadataTitle: 'Secure Access',
+      badge: 'Secure access',
+      title: 'Secure Access',
       intro:
-        'This is a provisioned intelligence system. No account carnival. No password theatre. Insert the private code supplied for your configured environment.'
+        'Access to QOOBIX IDAAS is reserved for authorised users, Sienda Ltd administrators and qualified partner workspaces approved by Sienda Ltd. QOOBIX IDAAS is not a public self-service platform. Businesses do not need platform access in order to receive an intelligence package.',
+      authorisedTitle: 'Authorised access only',
+      authorisedText:
+        'QOOBIX IDAAS access is restricted to authorised users. The access area is used to prepare, manage, review and deliver intelligence jobs.',
+      clientsTitle: 'Clients receive the intelligence package',
+      clientsText:
+        'Ordinary clients do not need to operate the platform. The client provides the business context and market question; the operator prepares the job, runs the intelligence process, reviews the output and delivers the intelligence package.',
+      requestTitle: 'Request an intelligence review',
+      requestText:
+        'If you are a business exploring a market, competitor landscape, distributor channel, partner search, expansion area or commercial opportunity, use the request route instead of trying to access the platform.',
+      requestButton: 'Request an intelligence review',
+      loginButton: 'Authorised login',
+      loginTitle: 'Authorised login'
     },
     accessForm: {
       accessCode: 'Access code',
-      rejected: 'Access rejected. Proteus remained unimpressed.',
+      rejected: 'Access rejected.',
       failed: 'Something failed while checking the access code.',
       checking: 'Checking…',
       enter: 'Enter'
@@ -69,7 +90,7 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPanel: {
       title: 'Forgot your access code?',
       text:
-        'If you created a recovery phrase, you can reset the access code yourself. No traditional login, no email/password ritual, no Sunday panic.',
+        'If you created a recovery phrase, you can reset the access code yourself. This route is for authorised users only.',
       button: 'Reset with recovery phrase',
       fallback:
         'If you have also lost the recovery phrase, contact QOOBIX support. We will verify the request manually and issue a temporary reset code.'
@@ -77,13 +98,13 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPage: {
       metadataTitle: 'Recover Access',
       badge: 'Access recovery',
-      title: 'Let Proteus generate a new access code.',
+      title: 'Generate a new authorised access code.',
       intro:
-        'Enter the private access details supplied for your QOOBIX environment. If they match, Proteus will generate a new access code and disable the old one.',
-      back: 'Back to private access'
+        'Enter the private access details supplied for your authorised QOOBIX IDAAS environment. If they match, Proteus will generate a new access code and disable the old one.',
+      back: 'Back to secure access'
     },
     recoveryForm: {
-      clientSlug: 'Client access name',
+      clientSlug: 'Access name',
       recoveryPhrase: 'Recovery phrase',
       failed: 'Access recovery failed.',
       requestFailed: 'Access recovery failed because the request could not be completed.',
@@ -102,15 +123,27 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
       italian: 'Italiano'
     },
     accessPage: {
-      metadataTitle: 'Acceso privado',
-      badge: 'Acceso privado',
-      title: 'Introduzca su código de acceso QOOBIX.',
+      metadataTitle: 'Acceso seguro',
+      badge: 'Acceso seguro',
+      title: 'Acceso seguro',
       intro:
-        'Este es un sistema de inteligencia provisionado. Sin cuentas tradicionales. Sin teatro de contraseñas. Introduzca el código privado suministrado para su entorno configurado.'
+        'El acceso a QOOBIX IDAAS está reservado a usuarios autorizados, administradores de Sienda Ltd y espacios de trabajo de partners cualificados aprobados por Sienda Ltd. QOOBIX IDAAS no es una plataforma pública de autoservicio. Las empresas no necesitan acceso a la plataforma para recibir un paquete de inteligencia.',
+      authorisedTitle: 'Solo acceso autorizado',
+      authorisedText:
+        'El acceso a QOOBIX IDAAS está restringido a usuarios autorizados. El área de acceso se utiliza para preparar, gestionar, revisar y entregar trabajos de inteligencia.',
+      clientsTitle: 'Los clientes reciben el paquete de inteligencia',
+      clientsText:
+        'Los clientes ordinarios no necesitan operar la plataforma. El cliente proporciona el contexto empresarial y la pregunta de mercado; el operador prepara el trabajo, ejecuta el proceso de inteligencia, revisa el resultado y entrega el paquete de inteligencia.',
+      requestTitle: 'Solicitar una revisión de inteligencia',
+      requestText:
+        'Si su empresa está explorando un mercado, paisaje competitivo, canal de distribución, búsqueda de partners, zona de expansión u oportunidad comercial, utilice la ruta de solicitud en lugar de intentar acceder a la plataforma.',
+      requestButton: 'Solicitar una revisión de inteligencia',
+      loginButton: 'Acceso autorizado',
+      loginTitle: 'Acceso autorizado'
     },
     accessForm: {
       accessCode: 'Código de acceso',
-      rejected: 'Acceso rechazado. Proteus no se ha dejado impresionar.',
+      rejected: 'Acceso rechazado.',
       failed: 'Algo ha fallado al comprobar el código de acceso.',
       checking: 'Comprobando…',
       enter: 'Entrar'
@@ -118,7 +151,7 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPanel: {
       title: '¿Ha olvidado su código de acceso?',
       text:
-        'Si creó una frase de recuperación, puede restablecer el código de acceso usted mismo. Sin inicio de sesión tradicional, sin ritual de email y contraseña, sin pánico de domingo.',
+        'Si creó una frase de recuperación, puede restablecer el código de acceso. Esta ruta es solo para usuarios autorizados.',
       button: 'Restablecer con frase de recuperación',
       fallback:
         'Si también ha perdido la frase de recuperación, contacte con soporte QOOBIX. Verificaremos la solicitud manualmente y emitiremos un código temporal de restablecimiento.'
@@ -126,13 +159,13 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPage: {
       metadataTitle: 'Recuperar acceso',
       badge: 'Recuperación de acceso',
-      title: 'Deje que Proteus genere un nuevo código de acceso.',
+      title: 'Generar un nuevo código de acceso autorizado.',
       intro:
-        'Introduzca los datos privados de acceso suministrados para su entorno QOOBIX. Si coinciden, Proteus generará un nuevo código de acceso y desactivará el anterior.',
-      back: 'Volver al acceso privado'
+        'Introduzca los datos privados de acceso suministrados para su entorno autorizado QOOBIX IDAAS. Si coinciden, Proteus generará un nuevo código de acceso y desactivará el anterior.',
+      back: 'Volver al acceso seguro'
     },
     recoveryForm: {
-      clientSlug: 'Nombre de acceso del cliente',
+      clientSlug: 'Nombre de acceso',
       recoveryPhrase: 'Frase de recuperación',
       failed: 'La recuperación de acceso ha fallado.',
       requestFailed: 'La recuperación de acceso ha fallado porque la petición no se ha completado.',
@@ -151,15 +184,27 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
       italian: 'Italiano'
     },
     accessPage: {
-      metadataTitle: 'Accesso privato',
-      badge: 'Accesso privato',
-      title: 'Inserisci il tuo codice di accesso QOOBIX.',
+      metadataTitle: 'Accesso sicuro',
+      badge: 'Accesso sicuro',
+      title: 'Accesso sicuro',
       intro:
-        'Questo è un sistema di intelligence provisionato. Niente account tradizionali. Niente teatro delle password. Inserisci il codice privato fornito per il tuo ambiente configurato.'
+        'L’accesso a QOOBIX IDAAS è riservato a utenti autorizzati, amministratori di Sienda Ltd e workspace di partner qualificati approvati da Sienda Ltd. QOOBIX IDAAS non è una piattaforma pubblica self-service. Le aziende non hanno bisogno di accedere alla piattaforma per ricevere un pacchetto di intelligence.',
+      authorisedTitle: 'Solo accesso autorizzato',
+      authorisedText:
+        'L’accesso a QOOBIX IDAAS è limitato agli utenti autorizzati. L’area di accesso viene utilizzata per preparare, gestire, revisionare e consegnare lavori di intelligence.',
+      clientsTitle: 'I clienti ricevono il pacchetto di intelligence',
+      clientsText:
+        'I clienti ordinari non devono usare direttamente la piattaforma. Il cliente fornisce il contesto aziendale e la domanda di mercato; l’operatore prepara il lavoro, esegue il processo di intelligence, revisiona l’output e consegna il pacchetto di intelligence.',
+      requestTitle: 'Richiedi una revisione di intelligence',
+      requestText:
+        'Se la tua azienda sta valutando un mercato, un panorama competitivo, un canale distributivo, una ricerca di partner, una zona di espansione o un’opportunità commerciale, usa il percorso di richiesta invece di provare ad accedere alla piattaforma.',
+      requestButton: 'Richiedi una revisione di intelligence',
+      loginButton: 'Accesso autorizzato',
+      loginTitle: 'Accesso autorizzato'
     },
     accessForm: {
       accessCode: 'Codice di accesso',
-      rejected: 'Accesso rifiutato. Proteus non si è lasciato impressionare.',
+      rejected: 'Accesso rifiutato.',
       failed: 'Qualcosa è andato storto durante la verifica del codice di accesso.',
       checking: 'Verifica…',
       enter: 'Entra'
@@ -167,7 +212,7 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPanel: {
       title: 'Hai dimenticato il codice di accesso?',
       text:
-        'Se hai creato una frase di recupero, puoi reimpostare il codice di accesso autonomamente. Niente login tradizionale, niente rito email/password, niente panico domenicale.',
+        'Se hai creato una frase di recupero, puoi reimpostare il codice di accesso. Questo percorso è solo per utenti autorizzati.',
       button: 'Reimposta con frase di recupero',
       fallback:
         'Se hai perso anche la frase di recupero, contatta il supporto QOOBIX. Verificheremo la richiesta manualmente ed emetteremo un codice temporaneo di reset.'
@@ -175,13 +220,13 @@ const dictionaries: Record<AccessLocale, AccessDictionary> = {
     recoveryPage: {
       metadataTitle: 'Recupera accesso',
       badge: 'Recupero accesso',
-      title: 'Lascia che Proteus generi un nuovo codice di accesso.',
+      title: 'Genera un nuovo codice di accesso autorizzato.',
       intro:
-        'Inserisci i dati di accesso privati forniti per il tuo ambiente QOOBIX. Se corrispondono, Proteus genererà un nuovo codice di accesso e disattiverà quello precedente.',
-      back: 'Torna all’accesso privato'
+        'Inserisci i dati di accesso privati forniti per il tuo ambiente autorizzato QOOBIX IDAAS. Se corrispondono, Proteus genererà un nuovo codice di accesso e disattiverà quello precedente.',
+      back: 'Torna all’accesso sicuro'
     },
     recoveryForm: {
-      clientSlug: 'Nome di accesso cliente',
+      clientSlug: 'Nome di accesso',
       recoveryPhrase: 'Frase di recupero',
       failed: 'Recupero accesso non riuscito.',
       requestFailed: 'Recupero accesso non riuscito perché la richiesta non è stata completata.',
