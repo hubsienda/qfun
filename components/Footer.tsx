@@ -35,7 +35,10 @@ export function Footer() {
           </div>
 
           <div className="md:text-right">
-            <p>Operated through authorised operator workspaces.</p>
+            <p>
+              Created and managed by Sienda Ltd. Delivered directly or through qualified partner
+              workspaces where appropriate.
+            </p>
             <p className="mt-1">Built by Sienda Ltd. Managed by Proteus.</p>
           </div>
         </div>
