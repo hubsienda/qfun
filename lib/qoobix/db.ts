@@ -19,7 +19,8 @@ import type {
   ClientConfiguration,
   DiscoveryCandidate,
   DiscoveryUsage,
-  JobStatus
+  JobStatus,
+  ReportType
 } from '@/lib/qoobix/types';
 
 type ClientRow = Database['public']['Tables']['clients']['Row'];
@@ -379,18 +380,35 @@ export async function listAdminJobs(): Promise<AdminJobSummary[]> {
   });
 }
 
-export async function setClientActiveStatus(input: {
-  clientId: string;
-  isActive: boolean;
-}): Promise<void> {
+export async function getAdminMetrics() {
   const supabase = getSupabase();
 
-  const { error } = (await supabase
-    .from('clients')
-    .update({
-      is_active: input.isActive
-    })
-    .eq('id', input.clientId)) as {
+  const [{ count: clientCount }, { count: readyJobCount }, { count: failedJobCount }] =
+    await Promise.all([
+      supabase.from('clients').select('*', { count: 'exact', head: true }),
+      supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'ready'),
+      supabase.from('jobs').select('*', { count: 'exact', head: true }).eq('status', 'failed')
+    ]);
+
+  return {
+    clientCount: clientCount ?? 0,
+    readyJobCount: readyJobCount ?? 0,
+    failedJobCount: failedJobCount ?? 0
+  };
+}
+
+export async function getAdminAccessCodes() {
+  const supabase = getSupabase();
+
+  const { data: clients } = (await supabase.from('clients').select('*')) as {
+    data: ClientRow[] | null;
+  };
+
+  const { data: accessCodes, error } = (await supabase
+    .from('access_codes')
+    .select('*')
+    .order('created_at', { ascending: false })) as {
+    data: AccessCodeRow[] | null;
     error: { message: string } | null;
   };
 
@@ -398,17 +416,34 @@ export async function setClientActiveStatus(input: {
     throw new Error(error.message);
   }
 
-  if (!input.isActive) {
-    await supabase
-      .from('access_codes')
-      .update({
-        is_active: false
-      })
-      .eq('client_id', input.clientId);
-  }
+  const clientById = new Map((clients ?? []).map((client) => [client.id, client]));
+
+  return (accessCodes ?? []).map((code) => ({
+    ...code,
+    client: clientById.get(code.client_id) ?? null
+  }));
 }
 
-export async function updateClientCommercialSettings(input: {
+export async function getAdminLogs(limit = 100) {
+  const supabase = getSupabase();
+
+  const { data, error } = (await supabase
+    .from('job_logs')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(limit)) as {
+    data: Database['public']['Tables']['job_logs']['Row'][] | null;
+    error: { message: string } | null;
+  };
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data ?? [];
+}
+
+export type CommercialSettingsInput = {
   clientId: string;
   qoobixPlan: 'analysis' | 'analysis_discovery';
   isInternalAccount: boolean;
@@ -423,7 +458,9 @@ export async function updateClientCommercialSettings(input: {
   extraDiscoveryJobCredits: number;
   extraCountryCredits: number;
   extraCandidatePackCredits: number;
-}): Promise<void> {
+};
+
+export async function updateClientCommercialSettings(input: CommercialSettingsInput) {
   const supabase = getSupabase();
 
   const { error } = (await supabase
@@ -736,6 +773,10 @@ export async function createJob(input: NewJobInput): Promise<JobRow> {
     clientSlug: input.clientSlug,
     objective: input.commercialObjective,
     intelligenceMode,
+    discoveryTarget: input.discoveryTarget,
+    targetGeography: input.targetGeography,
+    includeCategories: input.includeCategories,
+    excludeCategories: input.excludeCategories,
     plan: usage.plan,
     isInternalAccount: usage.isInternalAccount,
     licenceEndsAt: usage.licenceEndsAt,
@@ -851,7 +892,7 @@ export async function updateJobStatus(
 
 export async function addReportRecord(input: {
   jobId: string;
-  fileType: 'docx' | 'xlsx' | 'rtf' | 'csv';
+  fileType: ReportType;
   fileName: string;
   fileUrl: string;
   storagePath: string;
