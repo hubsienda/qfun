@@ -73,21 +73,55 @@ export const accessRecoverySchema = z.object({
   recoveryPhrase: recoveryPhraseSchema
 });
 
-export const newJobSchema = z.object({
-  clientId: z.string().uuid(),
-  clientSlug: z.string().min(2),
-  intelligenceMode: intelligenceModeSchema.default('analysis'),
-  productOrService: z.string().min(2),
-  targetCountries: z.string().min(2),
-  marketQuestion: z.string().min(8),
-  commercialObjective: z.string().min(2),
-  targetCustomerTypes: z.string().optional().default(''),
-  targetChannels: z.string().optional().default(''),
-  knownCompetitors: z.string().optional().default(''),
-  knownPartners: z.string().optional().default(''),
-  preferredOutputLanguage: z.string().optional().default('English'),
-  requiredOutputTypes: z.array(z.string()).default(['docx', 'xlsx', 'rtf', 'csv'])
-});
+const discoveryRequiredMessage =
+  'Discovery jobs require Discovery target, commercial objective details, include categories, exclude categories, and target geography.';
+
+export const newJobSchema = z
+  .object({
+    clientId: z.string().uuid(),
+    clientSlug: z.string().min(2),
+    intelligenceMode: intelligenceModeSchema.default('analysis'),
+    productOrService: z.string().min(2),
+    targetCountries: z.string().min(2),
+    targetGeography: z.string().optional().default(''),
+    marketQuestion: z.string().min(8),
+    commercialObjective: z.string().min(2),
+    commercialObjectiveDetails: z.string().optional().default(''),
+    discoveryTarget: z.string().optional().default(''),
+    includeCategories: z.string().optional().default(''),
+    excludeCategories: z.string().optional().default(''),
+    targetCustomerTypes: z.string().optional().default(''),
+    targetChannels: z.string().optional().default(''),
+    knownCompetitors: z.string().optional().default(''),
+    knownPartners: z.string().optional().default(''),
+    preferredOutputLanguage: z.string().optional().default('English'),
+    requiredOutputTypes: z.array(z.string()).default(['docx', 'xlsx', 'rtf', 'csv'])
+  })
+  .superRefine((data, context) => {
+    if (data.intelligenceMode !== 'discovery') {
+      return;
+    }
+
+    const requiredFields: Array<keyof typeof data> = [
+      'targetGeography',
+      'commercialObjectiveDetails',
+      'discoveryTarget',
+      'includeCategories',
+      'excludeCategories'
+    ];
+
+    for (const field of requiredFields) {
+      const value = data[field];
+
+      if (typeof value !== 'string' || value.trim().length < 8) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [field],
+          message: discoveryRequiredMessage
+        });
+      }
+    }
+  });
 
 export type AdminCreateClientInput = z.infer<typeof adminCreateClientSchema>;
 export type ClientProfileInput = z.infer<typeof clientProfileSchema>;
