@@ -23,8 +23,8 @@ type CreateDocxReportInput = {
   intelligence: GeneratedIntelligence;
 };
 
-function cleanText(value: string | null | undefined) {
-  return (value && value.trim() ? value : '—')
+function cleanText(value: string | null | undefined, fallback = '—') {
+  return (value && value.trim() ? value : fallback)
     .replace(/\bUnverified\b/g, 'Candidate for verification')
     .replace(/\bunverified\b/g, 'candidate for verification');
 }
@@ -70,6 +70,55 @@ function paragraph(text: string) {
   });
 }
 
+function labelParagraph(label: string, value: string | null | undefined) {
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: `${label}: `,
+        bold: true
+      }),
+      new TextRun(cleanText(value, label === 'Website' || label === 'Verification URL' ? 'Not supplied' : '—'))
+    ],
+    spacing: {
+      after: 110
+    }
+  });
+}
+
+function urlParagraph(label: string, value: string | null | undefined) {
+  const url = value && value.trim() ? value.trim() : '';
+
+  if (!url) {
+    return labelParagraph(label, 'Not supplied');
+  }
+
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: `${label}: `,
+        bold: true
+      }),
+      new ExternalHyperlink({
+        link: url,
+        children: [
+          new TextRun({
+            text: 'Open link',
+            style: 'Hyperlink'
+          })
+        ]
+      }),
+      new TextRun({
+        text: ` (${url})`,
+        size: 18,
+        color: '666666'
+      })
+    ],
+    spacing: {
+      after: 110
+    }
+  });
+}
+
 function smallMuted(text: string) {
   return new Paragraph({
     children: [
@@ -102,40 +151,18 @@ function bulletSection(titleText: string, items: string[]) {
   return [heading(titleText), ...(items.length ? items.map(bullet) : [paragraph('—')])];
 }
 
-function isUrl(value: string) {
-  return /^https?:\/\//i.test(value.trim());
-}
-
-function tableCell(value: string, bold = false, linkLabel = 'Open link') {
+function tableCell(value: string, bold = false) {
   const text = cleanText(value);
 
   return new TableCell({
     children: [
       new Paragraph({
-        children:
-          isUrl(text) && !bold
-            ? [
-                new ExternalHyperlink({
-                  link: text,
-                  children: [
-                    new TextRun({
-                      text: linkLabel,
-                      style: 'Hyperlink'
-                    })
-                  ]
-                }),
-                new TextRun({
-                  text: ` (${text})`,
-                  size: 18,
-                  color: '746B64'
-                })
-              ]
-            : [
-                new TextRun({
-                  text,
-                  bold
-                })
-              ],
+        children: [
+          new TextRun({
+            text,
+            bold
+          })
+        ],
         spacing: {
           after: 80
         }
@@ -159,92 +186,46 @@ function createInfoTable(rows: Array<[string, string]>) {
   });
 }
 
-function createPartnerTable(intelligence: GeneratedIntelligence) {
-  const rows = [
-    new TableRow({
-      children: [
-        'Name/category',
-        'Type',
-        'Country/region',
-        'Status',
-        'Website',
-        'Verification route',
-        'Relevance',
-        'Suggested action',
-        'Notes'
-      ].map((label) => tableCell(label, true))
-    }),
-    ...intelligence.potentialPartnersProspects.map(
-      (item) =>
-        new TableRow({
-          children: [
-            tableCell(item.name),
-            tableCell(item.category),
-            tableCell(item.countryOrRegion),
-            tableCell(item.status || 'Candidate for verification'),
-            tableCell(item.website || 'Not supplied', false, 'Open website'),
-            tableCell(item.verificationUrl || 'Not supplied', false, 'Open verification route'),
-            tableCell(item.relevance),
-            tableCell(item.suggestedAction),
-            tableCell(item.notes)
-          ]
-        })
-    )
-  ];
+function partnerCards(intelligence: GeneratedIntelligence) {
+  if (!intelligence.potentialPartnersProspects.length) {
+    return [paragraph('No structured partner/prospect candidate rows were generated.')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return intelligence.potentialPartnersProspects.flatMap((item, index) => [
+    subheading(`Candidate ${index + 1} — ${cleanText(item.name, 'Candidate organisation')}`),
+    labelParagraph('Type', item.category),
+    labelParagraph('Location', [item.locality, item.region, item.countryOrRegion].filter(Boolean).join(', ')),
+    urlParagraph('Website', item.website),
+    urlParagraph('Verification URL', item.verificationUrl),
+    labelParagraph('Relevance', item.relevance),
+    labelParagraph('Suggested verification action', item.suggestedAction),
+    labelParagraph('Notes', item.notes),
+    labelParagraph('Status', item.status || 'Candidate organisation for verification')
+  ]);
 }
 
-function createCompetitorTable(intelligence: GeneratedIntelligence) {
-  const rows = [
-    new TableRow({
-      children: [
-        'Name/category',
-        'Type',
-        'Country/region',
-        'Status',
-        'Website',
-        'Verification route',
-        'Relevance',
-        'Notes'
-      ].map((label) => tableCell(label, true))
-    }),
-    ...intelligence.competitorRows.map(
-      (item) =>
-        new TableRow({
-          children: [
-            tableCell(item.name),
-            tableCell(item.type),
-            tableCell(item.countryOrRegion),
-            tableCell(item.status || 'Candidate for verification'),
-            tableCell(item.website || 'Not supplied', false, 'Open website'),
-            tableCell(item.verificationUrl || 'Not supplied', false, 'Open verification route'),
-            tableCell(item.relevance),
-            tableCell(item.notes)
-          ]
-        })
-    )
-  ];
+function competitorCards(intelligence: GeneratedIntelligence) {
+  if (!intelligence.competitorRows.length) {
+    return [paragraph('No structured competitor/alternative candidate rows were generated.')];
+  }
 
-  return new Table({
-    width: {
-      size: 100,
-      type: WidthType.PERCENTAGE
-    },
-    rows
-  });
+  return intelligence.competitorRows.flatMap((item, index) => [
+    subheading(`Candidate ${index + 1} — ${cleanText(item.name, 'Candidate organisation')}`),
+    labelParagraph('Type', item.type),
+    labelParagraph('Location', [item.locality, item.region, item.countryOrRegion].filter(Boolean).join(', ')),
+    urlParagraph('Website', item.website),
+    urlParagraph('Verification URL', item.verificationUrl),
+    labelParagraph('Relevance', item.relevance),
+    labelParagraph('Suggested verification action', 'Check relevance, positioning, geography, offer, website, active status and whether this is a direct competitor, substitute or local alternative.'),
+    labelParagraph('Notes', item.notes),
+    labelParagraph('Status', item.status || 'Candidate organisation for verification')
+  ]);
 }
 
 function createActionTable(actions: string[]) {
   const rows = [
     new TableRow({
-      children: ['Priority', 'Action', 'Purpose', 'Verification / next evidence'].map((label) =>
+      children: ['Priority', 'Action', 'Verification / next evidence'].map((label) =>
         tableCell(label, true)
       )
     }),
@@ -254,7 +235,6 @@ function createActionTable(actions: string[]) {
           children: [
             tableCell(String(index + 1)),
             tableCell(action),
-            tableCell('Turn the intelligence into a practical commercial step.'),
             tableCell(
               'Confirm with direct source checks, market evidence, buyer/channel feedback, or internal review.'
             )
@@ -310,12 +290,12 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
       {
         properties: {},
         children: [
-          title('QOOBIX Market Intelligence Report'),
+          title('QOOBIX IDAAS Market Intelligence Report'),
 
           new Paragraph({
             children: [
               new TextRun({
-                text: 'Generated by QOOBIX · Managed by Proteus',
+                text: 'Generated by QOOBIX IDAAS · Managed by Proteus',
                 bold: true
               })
             ],
@@ -326,15 +306,18 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
           }),
 
           smallMuted(
-            'AI-assisted market intelligence. Check all outputs before commercial, legal, regulatory, technical, financial, or strategic use.'
+            'AI-assisted, operator-reviewed market intelligence. Check all outputs before commercial, legal, regulatory, technical, financial, or strategic use.'
           ),
 
           createInfoTable([
-            ['Client', client.name],
-            ['Sector', client.sector],
+            ['Operator workspace', client.name],
+            ['Operator sector', client.sector],
             ['Product/service analysed', request.productOrService],
             ['Target country/countries', request.targetCountries],
+            ['Target geography', request.targetGeography || 'Not supplied'],
             ['Commercial objective', request.commercialObjective],
+            ['Commercial objective details', request.commercialObjectiveDetails || 'Not supplied'],
+            ['Discovery target', request.discoveryTarget || 'Not supplied'],
             ['Market question', request.marketQuestion],
             ['Generated', new Date().toLocaleDateString('en-GB')],
             ['Report retention', `${client.fileRetentionDays} day(s), unless cleaned earlier after expiry`]
@@ -358,15 +341,11 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
 
           ...bulletSection('5. Channel opportunities', intelligence.channelOpportunities),
 
-          heading('6. Potential partners, prospects, or useful market entry points'),
-          intelligence.potentialPartnersProspects.length
-            ? createPartnerTable(intelligence)
-            : paragraph('No structured partner/prospect rows were generated.'),
+          heading('6. Candidate organisations for verification'),
+          ...partnerCards(intelligence),
 
           heading('7. Competitor, substitute, and alternative landscape'),
-          intelligence.competitorRows.length
-            ? createCompetitorTable(intelligence)
-            : paragraph('No structured competitor/alternative rows were generated.'),
+          ...competitorCards(intelligence),
 
           subheading('Competitor and substitute notes'),
           ...(intelligence.competitorsAlternatives.length
@@ -389,7 +368,7 @@ export async function createDocxReport(input: CreateDocxReportInput): Promise<Bu
 
           heading('Final verification notice'),
           paragraph(
-            'This report is AI-assisted and may contain incomplete, outdated, or candidate information requiring review. Named entities, market claims, competitor references, regulatory assumptions, and commercial recommendations must be checked before use. QOOBIX does not replace professional judgement, source checking, commercial due diligence, legal advice, financial advice, technical assessment, or regulatory review.'
+            'This report is AI-assisted and may contain incomplete, outdated, or candidate information requiring review. Named entities, websites, market claims, competitor references, regulatory assumptions, and commercial recommendations must be checked before use. QOOBIX IDAAS does not replace professional judgement, source checking, commercial due diligence, legal advice, financial advice, technical assessment, or regulatory review.'
           )
         ]
       }
