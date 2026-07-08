@@ -12,7 +12,7 @@ Registered Office: Third Floor, 207 Regent Street, London, W1B 3HH, United Kingd
 Privacy contact: [privacy@siendaweblines.com](mailto:privacy@siendaweblines.com)
 Support contact: [support@siendaweblines.com](mailto:support@siendaweblines.com)
 
-These documents apply to QOOBIX IDAAS, Intelligence Delivered As A Service, a market-intelligence delivery environment used by Sienda Ltd, Naralimon s.c. and authorised operator workspaces to prepare structured market intelligence for clients.
+These documents apply to QOOBIX IDAAS, Intelligence Delivered As A Service, a market-intelligence delivery environment created and managed by Sienda Ltd and delivered directly or through qualified partner workspaces where appropriate.
 
 ---
 
@@ -74,9 +74,9 @@ Some outputs may be based on AI-assisted reasoning, structured prompts, supplied
 
 ## 5.10 Operator workspace and analysed business
 
-The operator workspace does not automatically define the analysed business. Each job must define its own analysed business, sector, product or service, target geography, market question and commercial objective.
+The operator workspace does not automatically define the analysed business. Each job must define its own analysed business, sector, product or service, target geography, market question, language, discovery scope and commercial objective.
 
-QOOBIX IDAAS analyses the business defined in the job, not automatically the account owner or operator.
+QOOBIX IDAAS analyses the business defined in the job, not the account owner, operator or partner workspace.
 
 ## 5.11 Client responsibility
 
