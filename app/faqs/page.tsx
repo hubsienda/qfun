@@ -17,7 +17,7 @@ const faqUi: Record<
   ClientLocale,
   {
     metadataTitle: string;
-    clientAccess: string;
+    secureAccess: string;
     backToClientArea: string;
     languageLabel: string;
     kicker: string;
@@ -26,30 +26,30 @@ const faqUi: Record<
 > = {
   en: {
     metadataTitle: 'FAQs',
-    clientAccess: 'Client access',
+    secureAccess: 'Secure Access',
     backToClientArea: 'Back to client area',
     languageLabel: 'Language',
     kicker: 'Help and product information',
     intro:
-      'Practical answers about access, reports, file formats, verification, retention, and how QOOBIX works.'
+      'Practical answers about QOOBIX IDAAS, intelligence packages, verification, outputs, retention, and secure access.'
   },
   es: {
     metadataTitle: 'Preguntas frecuentes',
-    clientAccess: 'Acceso de cliente',
+    secureAccess: 'Acceso seguro',
     backToClientArea: 'Volver al área de cliente',
     languageLabel: 'Idioma',
     kicker: 'Ayuda e información del producto',
     intro:
-      'Respuestas prácticas sobre acceso, informes, formatos de archivo, verificación, retención y funcionamiento de QOOBIX.'
+      'Respuestas prácticas sobre QOOBIX IDAAS, paquetes de inteligencia, verificación, resultados, retención y acceso seguro.'
   },
   it: {
     metadataTitle: 'FAQ',
-    clientAccess: 'Accesso cliente',
+    secureAccess: 'Accesso sicuro',
     backToClientArea: 'Torna all’area cliente',
     languageLabel: 'Lingua',
     kicker: 'Aiuto e informazioni sul prodotto',
     intro:
-      'Risposte pratiche su accesso, report, formati di file, verifica, conservazione e funzionamento di QOOBIX.'
+      'Risposte pratiche su QOOBIX IDAAS, pacchetti di intelligence, verifica, output, conservazione e accesso sicuro.'
   }
 };
 
@@ -57,7 +57,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'FAQs',
-  description: 'Frequently asked questions about QOOBIX.'
+  description: 'Frequently asked questions about QOOBIX IDAAS.'
 };
 
 function normaliseLang(value?: string): ClientLocale | null {
@@ -112,7 +112,7 @@ export default async function FaqsPage({ searchParams }: FaqsPageProps) {
             href="/access"
             className="qoobix-focus-ring inline-flex items-center justify-center rounded-lg border border-[var(--qoobix-border)] bg-white/70 px-4 py-2 text-sm font-semibold"
           >
-            {t.clientAccess}
+            {t.secureAccess}
           </Link>
         )}
 
