@@ -84,13 +84,12 @@ export default function HomePage() {
             </p>
 
             <h2 className="mt-4 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
-              The client buys the intelligence outcome, not access to a raw tool.
+              The client buys the intelligence outcome, not access to a raw platform.
             </h2>
 
             <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-              QOOBIX IDAAS is the market-intelligence delivery environment used by Sienda Ltd,
-              Naralimon s.c. and authorised operator workspaces to prepare structured intelligence
-              packages for clients.
+              QOOBIX IDAAS is created and managed by Sienda Ltd and may be delivered directly or
+              through qualified partner workspaces where appropriate.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -192,21 +191,21 @@ export default function HomePage() {
               <p className="qoobix-kicker">Operator workspaces</p>
 
               <h2 className="mt-5 text-3xl font-semibold tracking-[-0.045em] md:text-4xl">
-                Sienda may analyse a restaurant. Naralimon may analyse a manufacturer.
+                The operator delivers the intelligence. The job defines the analysed business.
               </h2>
             </div>
 
             <div>
               <p className="leading-8 text-[var(--qoobix-muted)]">
-                An operator workspace belongs to Sienda Ltd, Naralimon s.c. or another authorised
-                operator. The operator workspace controls administration and delivery. Each job then
-                defines its own analysed business, market question, target geography and output
-                language.
+                QOOBIX IDAAS can be delivered directly by Sienda Ltd or through qualified partner
+                workspaces where appropriate. An operator workspace controls delivery, branding,
+                users, report management, retention and administration. The job defines what is
+                being analysed.
               </p>
 
               <p className="mt-5 leading-8 text-[var(--qoobix-muted)]">
-                The account owner is not automatically the organisation being analysed. The job
-                subject controls the analysis.
+                This allows QOOBIX IDAAS to support different companies, sectors, countries and
+                supported languages without confusing the operator with the business being analysed.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
