@@ -12,6 +12,7 @@ import { runDiscovery } from '@/lib/qoobix/discovery';
 import { buildMarketIntelligencePrompt } from '@/lib/qoobix/prompts';
 import { createCsvExport } from '@/lib/qoobix/report-csv';
 import { createDocxReport } from '@/lib/qoobix/report-docx';
+import { createMarkdownReport } from '@/lib/qoobix/report-md';
 import { createRtfReport } from '@/lib/qoobix/report-rtf';
 import { createXlsxWorkbook } from '@/lib/qoobix/report-xlsx';
 import { uploadGeneratedReport } from '@/lib/qoobix/storage';
@@ -83,12 +84,20 @@ function asPartnerRows(value: unknown): GeneratedIntelligence['potentialPartners
       name: cleanReportText(row.name, 'Potential partner/prospect'),
       category: cleanReportText(row.category, 'Candidate'),
       countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
+      locality: cleanReportText(row.locality, ''),
+      region: cleanReportText(row.region, ''),
+      placeId: cleanReportText(row.placeId, ''),
+      rating: cleanReportText(row.rating, ''),
+      reviewCount: cleanReportText(row.reviewCount, ''),
+      businessStatus: cleanReportText(row.businessStatus, ''),
+      sourceQuery: cleanReportText(row.sourceQuery, ''),
+      source: cleanReportText(row.source, ''),
       relevance: cleanReportText(row.relevance, 'Commercial fit to check.'),
       suggestedAction: cleanReportText(row.suggestedAction, 'Check and qualify before outreach.'),
       website: cleanReportText(row.website, ''),
       verificationUrl: cleanReportText(row.verificationUrl, ''),
-      status: cleanReportText(row.status, 'Candidate for verification'),
-      notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
+      status: cleanReportText(row.status, 'Candidate organisation for verification'),
+      notes: cleanReportText(row.notes, 'Candidate organisation for verification. Check service scope before use.')
     };
   });
 }
@@ -105,11 +114,19 @@ function asCompetitorRows(value: unknown): GeneratedIntelligence['competitorRows
       name: cleanReportText(row.name, 'Competitor/alternative'),
       type: cleanReportText(row.type, 'Candidate'),
       countryOrRegion: cleanReportText(row.countryOrRegion, 'To check'),
+      locality: cleanReportText(row.locality, ''),
+      region: cleanReportText(row.region, ''),
+      placeId: cleanReportText(row.placeId, ''),
+      rating: cleanReportText(row.rating, ''),
+      reviewCount: cleanReportText(row.reviewCount, ''),
+      businessStatus: cleanReportText(row.businessStatus, ''),
+      sourceQuery: cleanReportText(row.sourceQuery, ''),
+      source: cleanReportText(row.source, ''),
       relevance: cleanReportText(row.relevance, 'Commercial relevance to check.'),
       website: cleanReportText(row.website, ''),
       verificationUrl: cleanReportText(row.verificationUrl, ''),
-      status: cleanReportText(row.status, 'Candidate for verification'),
-      notes: cleanReportText(row.notes, 'Candidate for verification. Check service scope before use.')
+      status: cleanReportText(row.status, 'Candidate organisation for verification'),
+      notes: cleanReportText(row.notes, 'Candidate organisation for verification. Check service scope before use.')
     };
   });
 }
@@ -119,7 +136,7 @@ function createFallbackIntelligence(request: IntelligenceRequest): GeneratedInte
     executiveSummary:
       'This preliminary intelligence report was generated without a completed AI response. It preserves the requested structure and should be treated as a placeholder requiring manual review.',
     clientProductContext: request.productOrService,
-    targetMarketOverview: `Target market requested: ${request.targetCountries}.`,
+    targetMarketOverview: `Target market requested: ${request.targetCountries}. Target geography: ${request.targetGeography || 'Not specified'}.`,
     demandSignals: [
       'Review sector demand indicators before making commercial commitments.',
       'Validate regional demand using trade associations, public procurement portals, distributor catalogues, and competitor presence.'
@@ -211,7 +228,7 @@ async function generateIntelligence(input: {
       {
         role: 'system',
         content:
-          'You are Proteus for QOOBIX. Return only valid JSON. Be commercially useful, sceptical, and precise. Preserve website and verificationUrl fields exactly when supplied. Do not invent websites. Do not use the word unverified in candidate rows; use Candidate for verification.'
+          'You are Proteus for QOOBIX IDAAS. Return only valid JSON. Analyse the job subject, not the operator account. Be commercially useful, sceptical, and precise. Preserve website and verificationUrl fields exactly when supplied. Do not invent websites. Do not put Google Maps URLs in website fields. Use Candidate organisation for verification.'
       },
       {
         role: 'user',
@@ -242,37 +259,125 @@ function buildDiscoveryNoteSummary(input: {
   return notes;
 }
 
+function candidateToPartnerRow(candidate: DiscoveryCandidate): GeneratedIntelligence['potentialPartnersProspects'][number] {
+  return {
+    name: candidate.name,
+    category: candidate.categoryLabel || candidate.candidateType,
+    countryOrRegion: candidate.countryOrRegion ?? '',
+    locality: candidate.locality ?? '',
+    region: candidate.region ?? '',
+    placeId: candidate.placeId ?? '',
+    rating: candidate.rating === null ? '' : String(candidate.rating),
+    reviewCount: candidate.reviewCount === null ? '' : String(candidate.reviewCount),
+    businessStatus: candidate.businessStatus ?? '',
+    sourceQuery: candidate.sourceQuery,
+    source: candidate.source,
+    relevance: candidate.relevanceReason,
+    suggestedAction: candidate.suggestedAction,
+    website: candidate.website ?? '',
+    verificationUrl: candidate.verificationUrl ?? '',
+    status: 'Candidate organisation for verification',
+    notes: candidate.website
+      ? 'Website captured separately from verification URL. Verify before use.'
+      : `Website not supplied. Reason: ${candidate.websiteAbsenceReason ?? 'not returned by source'}.`
+  };
+}
+
+function candidateToCompetitorRow(candidate: DiscoveryCandidate): GeneratedIntelligence['competitorRows'][number] {
+  return {
+    name: candidate.name,
+    type: candidate.categoryLabel || candidate.candidateType,
+    countryOrRegion: candidate.countryOrRegion ?? '',
+    locality: candidate.locality ?? '',
+    region: candidate.region ?? '',
+    placeId: candidate.placeId ?? '',
+    rating: candidate.rating === null ? '' : String(candidate.rating),
+    reviewCount: candidate.reviewCount === null ? '' : String(candidate.reviewCount),
+    businessStatus: candidate.businessStatus ?? '',
+    sourceQuery: candidate.sourceQuery,
+    source: candidate.source,
+    relevance: candidate.relevanceReason,
+    website: candidate.website ?? '',
+    verificationUrl: candidate.verificationUrl ?? '',
+    status: 'Candidate organisation for verification',
+    notes: candidate.website
+      ? 'Website captured separately from verification URL. Verify before use.'
+      : `Website not supplied. Reason: ${candidate.websiteAbsenceReason ?? 'not returned by source'}.`
+  };
+}
+
 function mergeDiscoveryFieldsIntoIntelligence(input: {
   intelligence: GeneratedIntelligence;
   discoveryCandidates: DiscoveryCandidate[];
+  request: IntelligenceRequest;
 }) {
-  const { intelligence, discoveryCandidates } = input;
-  const candidateByName = new Map(
-    discoveryCandidates.map((candidate) => [candidate.name.toLowerCase(), candidate])
+  const { intelligence, discoveryCandidates, request } = input;
+  const acceptedCandidates = discoveryCandidates.filter(
+    (candidate) => candidate.relevanceStatus === 'accepted' && candidate.exportStatus === 'included'
   );
+  const candidateByName = new Map(
+    acceptedCandidates.map((candidate) => [candidate.name.toLowerCase(), candidate])
+  );
+  const isCompetitorJob = request.commercialObjective.toLowerCase().includes('competitor');
+  const discoveryPartnerRows = acceptedCandidates.map(candidateToPartnerRow);
+  const discoveryCompetitorRows = acceptedCandidates.map(candidateToCompetitorRow);
+
+  const partnerRows = intelligence.potentialPartnersProspects.map((row) => {
+    const candidate = candidateByName.get(row.name.toLowerCase());
+
+    return {
+      ...row,
+      website: row.website || candidate?.website || '',
+      verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
+      locality: row.locality || candidate?.locality || '',
+      region: row.region || candidate?.region || '',
+      placeId: row.placeId || candidate?.placeId || '',
+      rating: row.rating || (candidate?.rating === null || candidate?.rating === undefined ? '' : String(candidate.rating)),
+      reviewCount:
+        row.reviewCount ||
+        (candidate?.reviewCount === null || candidate?.reviewCount === undefined
+          ? ''
+          : String(candidate.reviewCount)),
+      businessStatus: row.businessStatus || candidate?.businessStatus || '',
+      sourceQuery: row.sourceQuery || candidate?.sourceQuery || '',
+      source: row.source || candidate?.source || '',
+      status: row.status || 'Candidate organisation for verification'
+    };
+  });
+
+  const competitorRows = intelligence.competitorRows.map((row) => {
+    const candidate = candidateByName.get(row.name.toLowerCase());
+
+    return {
+      ...row,
+      website: row.website || candidate?.website || '',
+      verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
+      locality: row.locality || candidate?.locality || '',
+      region: row.region || candidate?.region || '',
+      placeId: row.placeId || candidate?.placeId || '',
+      rating: row.rating || (candidate?.rating === null || candidate?.rating === undefined ? '' : String(candidate.rating)),
+      reviewCount:
+        row.reviewCount ||
+        (candidate?.reviewCount === null || candidate?.reviewCount === undefined
+          ? ''
+          : String(candidate.reviewCount)),
+      businessStatus: row.businessStatus || candidate?.businessStatus || '',
+      sourceQuery: row.sourceQuery || candidate?.sourceQuery || '',
+      source: row.source || candidate?.source || '',
+      status: row.status || 'Candidate organisation for verification'
+    };
+  });
 
   return {
     ...intelligence,
-    potentialPartnersProspects: intelligence.potentialPartnersProspects.map((row) => {
-      const candidate = candidateByName.get(row.name.toLowerCase());
-
-      return {
-        ...row,
-        website: row.website || candidate?.website || '',
-        verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
-        status: row.status || 'Candidate for verification'
-      };
-    }),
-    competitorRows: intelligence.competitorRows.map((row) => {
-      const candidate = candidateByName.get(row.name.toLowerCase());
-
-      return {
-        ...row,
-        website: row.website || candidate?.website || '',
-        verificationUrl: row.verificationUrl || candidate?.verificationUrl || '',
-        status: row.status || 'Candidate for verification'
-      };
-    })
+    potentialPartnersProspects:
+      request.intelligenceMode === 'discovery' && !isCompetitorJob
+        ? discoveryPartnerRows
+        : partnerRows,
+    competitorRows:
+      request.intelligenceMode === 'discovery' && isCompetitorJob
+        ? discoveryCompetitorRows
+        : competitorRows
   };
 }
 
@@ -338,14 +443,11 @@ export async function generateAndStoreJobOutputs(jobId: string) {
           discoveryStatus: 'failed'
         });
 
-        await addJobLog(jobId, 'warning', 'Discovery failed. Continuing with analysis output.', {
+        await addJobLog(jobId, 'error', 'Discovery failed. Export stopped.', {
           message
         });
 
-        discoveryNotes = [
-          `Discovery did not complete before candidate organisations could be supplied: ${message}`,
-          'The generated output should be treated as analysis-only unless candidate organisations appear from other supplied context.'
-        ];
+        throw new Error(message);
       }
     } else {
       await updateJobDiscoveryStatus({
@@ -368,19 +470,21 @@ export async function generateAndStoreJobOutputs(jobId: string) {
 
     const intelligence = mergeDiscoveryFieldsIntoIntelligence({
       intelligence: rawIntelligence,
-      discoveryCandidates
+      discoveryCandidates,
+      request
     });
 
     await updateJobStatus(jobId, 'generating_outputs');
-    await addJobLog(jobId, 'info', 'Generating DOCX, XLSX, RTF, and CSV outputs.');
+    await addJobLog(jobId, 'info', 'Generating DOCX, XLSX, Markdown, RTF, and CSV outputs.');
 
     const safeClientSlug = client.slug.replace(/[^a-z0-9-]/g, '-');
     const dateStamp = new Date().toISOString().slice(0, 10);
 
     const docxFileName = `${safeClientSlug}-qoobix-report-${dateStamp}.docx`;
     const xlsxFileName = `${safeClientSlug}-qoobix-workbook-${dateStamp}.xlsx`;
+    const mdFileName = `${safeClientSlug}-qoobix-report-${dateStamp}.md`;
     const rtfFileName = `${safeClientSlug}-qoobix-google-docs-report-${dateStamp}.rtf`;
-    const csvFileName = `${safeClientSlug}-qoobix-google-sheets-export-${dateStamp}.csv`;
+    const csvFileName = `${safeClientSlug}-qoobix-candidates-${dateStamp}.csv`;
 
     const docxBuffer = await createDocxReport({
       client,
@@ -389,6 +493,12 @@ export async function generateAndStoreJobOutputs(jobId: string) {
     });
 
     const xlsxBuffer = createXlsxWorkbook({
+      client,
+      request,
+      intelligence
+    });
+
+    const mdBuffer = createMarkdownReport({
       client,
       request,
       intelligence
@@ -424,6 +534,12 @@ export async function generateAndStoreJobOutputs(jobId: string) {
         contentType:
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         buffer: xlsxBuffer
+      },
+      {
+        fileType: 'md' as const,
+        fileName: mdFileName,
+        contentType: 'text/markdown; charset=utf-8',
+        buffer: mdBuffer
       },
       {
         fileType: 'rtf' as const,
