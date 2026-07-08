@@ -591,10 +591,12 @@ export async function runDiscovery(input: {
         });
 
         const name = cleanText(place.displayName?.text) || 'Unnamed place';
+        const sourceCategory =
+          place.primaryType ?? ((place.types ?? []).join(', ') || 'Not supplied');
 
         if (!validation.accepted) {
           rejectedCandidates.push(
-            `${name} rejected. ${validation.reason} Source category: ${place.primaryType ?? (place.types ?? []).join(', ') || 'Not supplied'}. Query: ${query.text}.`
+            `${name} rejected. ${validation.reason} Source category: ${sourceCategory}. Query: ${query.text}.`
           );
           continue;
         }
