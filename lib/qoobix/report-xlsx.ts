@@ -29,9 +29,8 @@ function addSheet(workbook: XLSX.WorkBook, name: string, rows: SheetRow[]) {
 
   worksheet['!cols'] = Array.from({ length: range.e.c + 1 }, (_, index) => {
     if (index === 0) return { wch: 14 };
-    if (index === 1) return { wch: 34 };
-    if (index === 2) return { wch: 34 };
-    return { wch: 46 };
+    if (index <= 5) return { wch: 28 };
+    return { wch: 44 };
   });
 
   XLSX.utils.book_append_sheet(workbook, worksheet, name.slice(0, 31));
@@ -48,13 +47,18 @@ function listRows(items: string[], label: string): SheetRow[] {
 
 function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRequest): SheetRow[] {
   return [
-    { Field: 'Client', Value: client.name },
-    { Field: 'Sector', Value: client.sector },
-    { Field: 'Website', Value: client.website ?? 'Not provided' },
+    { Field: 'Operator workspace', Value: client.name },
+    { Field: 'Operator sector', Value: client.sector },
+    { Field: 'Operator website', Value: client.website ?? 'Not provided' },
     { Field: 'Product/service analysed', Value: request.productOrService },
     { Field: 'Target countries', Value: request.targetCountries },
+    { Field: 'Target geography', Value: request.targetGeography || 'Not provided' },
     { Field: 'Market question', Value: request.marketQuestion },
     { Field: 'Commercial objective', Value: request.commercialObjective },
+    { Field: 'Commercial objective details', Value: request.commercialObjectiveDetails || 'Not provided' },
+    { Field: 'Discovery target', Value: request.discoveryTarget || 'Not provided' },
+    { Field: 'Include categories', Value: request.includeCategories || 'Not provided' },
+    { Field: 'Exclude categories', Value: request.excludeCategories || 'Not provided' },
     { Field: 'Target customer types', Value: request.targetCustomerTypes || 'Not provided' },
     { Field: 'Target channels', Value: request.targetChannels || 'Not provided' },
     { Field: 'Known competitors', Value: request.knownCompetitors || 'Not provided' },
@@ -68,7 +72,7 @@ function requestSummaryRows(client: ClientConfiguration, request: IntelligenceRe
     {
       Field: 'Verification notice',
       Value:
-        'AI-assisted output. Check all information before commercial, legal, financial, regulatory, technical, or strategic use.'
+        'AI-assisted output. Named organisations, websites and market claims require verification before commercial, legal, financial, regulatory, technical, or strategic use.'
     }
   ];
 }
@@ -87,6 +91,57 @@ function actionRows(actions: string[]): SheetRow[] {
   }));
 }
 
+function candidateRows(intelligence: GeneratedIntelligence): SheetRow[] {
+  const partnerRows = intelligence.potentialPartnersProspects.map((item, index) => ({
+    Rank: String(index + 1),
+    Section: 'Candidate organisation',
+    'Candidate name': cleanOutput(item.name),
+    'Type/category': cleanOutput(item.category),
+    'Town/locality': cleanOutput(item.locality),
+    Region: cleanOutput(item.region),
+    Country: cleanOutput(item.countryOrRegion),
+    Website: cleanOutput(item.website),
+    'Verification URL': cleanOutput(item.verificationUrl),
+    'Place ID': cleanOutput(item.placeId),
+    Rating: cleanOutput(item.rating),
+    'Review count': cleanOutput(item.reviewCount),
+    'Business status': cleanOutput(item.businessStatus),
+    'Relevance status': cleanOutput(item.status || 'Candidate organisation for verification'),
+    'Relevance score': '',
+    'Relevance reason': cleanOutput(item.relevance),
+    'Suggested verification action': cleanOutput(item.suggestedAction),
+    Notes: cleanOutput(item.notes),
+    'Source query': cleanOutput(item.sourceQuery),
+    Source: cleanOutput(item.source)
+  }));
+
+  const competitorRows = intelligence.competitorRows.map((item, index) => ({
+    Rank: String(partnerRows.length + index + 1),
+    Section: 'Competitor / alternative candidate',
+    'Candidate name': cleanOutput(item.name),
+    'Type/category': cleanOutput(item.type),
+    'Town/locality': cleanOutput(item.locality),
+    Region: cleanOutput(item.region),
+    Country: cleanOutput(item.countryOrRegion),
+    Website: cleanOutput(item.website),
+    'Verification URL': cleanOutput(item.verificationUrl),
+    'Place ID': cleanOutput(item.placeId),
+    Rating: cleanOutput(item.rating),
+    'Review count': cleanOutput(item.reviewCount),
+    'Business status': cleanOutput(item.businessStatus),
+    'Relevance status': cleanOutput(item.status || 'Candidate organisation for verification'),
+    'Relevance score': '',
+    'Relevance reason': cleanOutput(item.relevance),
+    'Suggested verification action':
+      'Check relevance, positioning, geography, offer, website and whether this is a direct competitor, substitute or local alternative.',
+    Notes: cleanOutput(item.notes),
+    'Source query': cleanOutput(item.sourceQuery),
+    Source: cleanOutput(item.source)
+  }));
+
+  return [...partnerRows, ...competitorRows];
+}
+
 function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
   const sourceRows = intelligence.sourceNotesLimitations.map((note, index) => ({
     Rank: String(index + 1),
@@ -100,30 +155,18 @@ function verificationRows(intelligence: GeneratedIntelligence): SheetRow[] {
     Notes: ''
   }));
 
-  const partnerRows = intelligence.potentialPartnersProspects.slice(0, 20).map((item, index) => ({
+  const candidateVerificationRows = candidateRows(intelligence).map((row, index) => ({
     Rank: String(sourceRows.length + index + 1),
-    'Verification item': cleanOutput(item.name),
-    Category: cleanOutput(item.category),
-    'Suggested verification action': cleanOutput(item.suggestedAction),
-    Status: cleanOutput(item.status || 'Candidate for verification'),
-    Website: item.website || '',
-    'Verification URL': item.verificationUrl || '',
-    Notes: cleanOutput(item.notes)
+    'Verification item': row['Candidate name'],
+    Category: row['Type/category'],
+    'Suggested verification action': row['Suggested verification action'],
+    Status: row['Relevance status'],
+    Website: row.Website,
+    'Verification URL': row['Verification URL'],
+    Notes: row.Notes
   }));
 
-  const competitorRows = intelligence.competitorRows.slice(0, 20).map((item, index) => ({
-    Rank: String(sourceRows.length + partnerRows.length + index + 1),
-    'Verification item': cleanOutput(item.name),
-    Category: cleanOutput(item.type),
-    'Suggested verification action':
-      'Check relevance, positioning, geography, offer, and whether this is a direct competitor, substitute, or status-quo alternative.',
-    Status: cleanOutput(item.status || 'Candidate for verification'),
-    Website: item.website || '',
-    'Verification URL': item.verificationUrl || '',
-    Notes: cleanOutput(item.notes)
-  }));
-
-  return [...sourceRows, ...partnerRows, ...competitorRows];
+  return [...sourceRows, ...candidateVerificationRows];
 }
 
 export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
@@ -147,41 +190,8 @@ export function createXlsxWorkbook(input: CreateXlsxWorkbookInput): Buffer {
     }
   ]);
 
+  addSheet(workbook, 'Candidate data', candidateRows(intelligence));
   addSheet(workbook, 'Regional priorities', listRows(intelligence.regionalPriorities, 'Priority'));
-
-  addSheet(
-    workbook,
-    'Potential partners',
-    intelligence.potentialPartnersProspects.map((item, index) => ({
-      Rank: String(index + 1),
-      'Name or category': cleanOutput(item.name),
-      Type: cleanOutput(item.category),
-      'Country or region': cleanOutput(item.countryOrRegion),
-      Status: cleanOutput(item.status || 'Candidate for verification'),
-      Website: item.website || '',
-      'Verification URL': item.verificationUrl || '',
-      Relevance: cleanOutput(item.relevance),
-      'Suggested action': cleanOutput(item.suggestedAction),
-      Notes: cleanOutput(item.notes)
-    }))
-  );
-
-  addSheet(
-    workbook,
-    'Competitors alternatives',
-    intelligence.competitorRows.map((item, index) => ({
-      Rank: String(index + 1),
-      'Name or category': cleanOutput(item.name),
-      Type: cleanOutput(item.type),
-      'Country or region': cleanOutput(item.countryOrRegion),
-      Status: cleanOutput(item.status || 'Candidate for verification'),
-      Website: item.website || '',
-      'Verification URL': item.verificationUrl || '',
-      Relevance: cleanOutput(item.relevance),
-      Notes: cleanOutput(item.notes)
-    }))
-  );
-
   addSheet(workbook, 'Demand signals', listRows(intelligence.demandSignals, 'Signal'));
   addSheet(workbook, 'Channel opportunities', listRows(intelligence.channelOpportunities, 'Opportunity'));
   addSheet(workbook, 'Positioning', listRows(intelligence.positioningRecommendations, 'Recommendation'));
