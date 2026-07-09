@@ -7,7 +7,7 @@ import { Panel } from '@/components/Panel';
 import { getClientSessionSlug } from '@/lib/auth/client-session';
 import { getResultByToken } from '@/lib/qoobix/db';
 import { getOperationalDictionary, type OperationalDictionary } from '@/lib/qoobix/client-operational-i18n';
-import { createSignedReportLinks } from '@/lib/qoobix/storage';
+import { createSignedReportLinks, deduplicateReportRows } from '@/lib/qoobix/storage';
 
 type ResultPageProps = {
   params: Promise<{
@@ -47,10 +47,14 @@ function fileHelp(fileType: string, t: OperationalDictionary) {
 }
 
 function groupReports(reports: SignedReport[]) {
+  const uniqueReports = deduplicateReportRows(reports);
+
   return {
-    microsoft: reports.filter((report) => ['docx', 'xlsx'].includes(report.file_type)),
-    editable: reports.filter((report) => ['md', 'rtf', 'csv'].includes(report.file_type)),
-    other: reports.filter((report) => !['docx', 'xlsx', 'md', 'rtf', 'csv'].includes(report.file_type))
+    microsoft: uniqueReports.filter((report) => ['docx', 'xlsx'].includes(report.file_type)),
+    editable: uniqueReports.filter((report) => ['md', 'rtf', 'csv', 'tsv'].includes(report.file_type)),
+    other: uniqueReports.filter(
+      (report) => !['docx', 'xlsx', 'md', 'rtf', 'csv', 'tsv'].includes(report.file_type)
+    )
   };
 }
 
@@ -65,10 +69,19 @@ function BackLink({ href, label }: { href: string; label: string }) {
   );
 }
 
+function reportHref(report: SignedReport) {
+  if (report.file_type === 'md') {
+    return `/api/reports/${report.id}/download`;
+  }
+
+  return report.downloadUrl;
+}
+
 function ReportLink({ report, t }: { report: SignedReport; t: OperationalDictionary }) {
   return (
     <a
-      href={report.downloadUrl}
+      href={reportHref(report)}
+      download={report.file_type === 'md' ? report.file_name : undefined}
       className="qoobix-focus-ring group flex flex-col gap-4 rounded-xl border border-[var(--qoobix-border)] bg-white/50 px-5 py-4 text-sm shadow-[0_8px_22px_rgba(51,36,26,0.035)] transition hover:border-[var(--qoobix-border-strong)] hover:bg-white hover:shadow-[0_12px_30px_rgba(51,36,26,0.055)] sm:flex-row sm:items-center sm:justify-between"
     >
       <span className="min-w-0">
@@ -117,7 +130,8 @@ export default async function ResultPage({ params }: ResultPageProps) {
   }
 
   const t = getOperationalDictionary(result.client);
-  const signedReports = await createSignedReportLinks(result.reports);
+  const uniqueReports = deduplicateReportRows(result.reports);
+  const signedReports = await createSignedReportLinks(uniqueReports);
   const groupedReports = groupReports(signedReports);
 
   return (
@@ -165,7 +179,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               </p>
               <div className="mt-5 space-y-4">
                 {groupedReports.microsoft.map((report) => (
-                  <ReportLink key={report.id} report={report} t={t} />
+                  <ReportLink key={`${report.job_id}-${report.file_type}-${report.file_name}`} report={report} t={t} />
                 ))}
               </div>
             </section>
@@ -181,7 +195,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               </p>
               <div className="mt-5 space-y-4">
                 {groupedReports.editable.map((report) => (
-                  <ReportLink key={report.id} report={report} t={t} />
+                  <ReportLink key={`${report.job_id}-${report.file_type}-${report.file_name}`} report={report} t={t} />
                 ))}
               </div>
             </section>
@@ -194,7 +208,7 @@ export default async function ResultPage({ params }: ResultPageProps) {
               </h2>
               <div className="mt-5 space-y-4">
                 {groupedReports.other.map((report) => (
-                  <ReportLink key={report.id} report={report} t={t} />
+                  <ReportLink key={`${report.job_id}-${report.file_type}-${report.file_name}`} report={report} t={t} />
                 ))}
               </div>
             </section>
