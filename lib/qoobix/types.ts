@@ -20,7 +20,7 @@ export type IntelligenceMode = 'analysis' | 'discovery';
 
 export type QOOBIXPlan = 'analysis' | 'analysis_discovery';
 
-export type ReportType = 'docx' | 'xlsx' | 'rtf' | 'csv' | 'md';
+export type ReportType = 'docx' | 'xlsx' | 'rtf' | 'csv' | 'md' | 'tsv';
 
 export type ClientConfiguration = {
   id: string;
